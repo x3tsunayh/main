@@ -800,13 +800,67 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 |Priority |As a ... |I want to ... |So that I can...
 |`* * *` |new user |see usage instructions |refer to instructions when I forget how to use the App
 
-|`* * *` |user |add a new person |
+|`* * *` |traveler |add a new person |keep all my important contacts in case of an emergency
 
-|`* * *` |user |delete a person |remove entries that I no longer need
+|`* * *` |traveler |edit a person details| so that it is up-to-date
 
-|`* * *` |user |find a person by name |locate details of persons without having to go through the entire list
+|`* * *` |traveler |find a person by name | locate details of persons without having to go through the entire list
 
-|`* *` |user |hide <<private-contact-detail,private contact details>> by default |minimize chance of someone else seeing them by accident
+|`* * *` |traveler |find a person by tag |  locate details of tags without having to go through the entire list
+
+|`* * *` |businessman |find a person by company |locate details of companies without having to go through the entire list
+
+|`* * *` |traveler |delete a person |remove entries that I no longer need
+
+|`* * *` |traveler |sort persons by name |easily view the details
+
+|`* * *` |traveler |sort persons by tag |easily view the details
+
+|`* * *` |traveler |add event to my calender|receive a reminder on those dates (eg. Birthdays, Meetings)
+
+|`* * *` |traveler |edit event |so that it is up-to-date
+
+|`* * *` |traveler |receive email notification |get reminded before the event is about to occur
+
+|`* * *` |traveler |receive in-app notification |get reminder before the event is about to occur
+
+|`* * *` |traveler and businessman|can convert from one currency to another | calculate the amount needed to exchange
+
+|`* * *` |traveler |add a post |to record my journey and reference back to it in future
+
+|`* * *` |traveler |edit a post |makes changes or add more information
+
+|`* * *` |traveler |list all the post |to view all the post that are posted
+
+|`* * *` |traveler |find the post by title| locate details of tags without having to go through the entire list
+
+|`* * *` |traveler and businessman |suggest possible words to type in the input |aid with the search
+
+|`* * *` |traveler and businessman |add new information to my user profile |
+
+|`* * *` |traveler and businessman |edit my user profile |it is up-to-date
+
+|`* * *` |traveler and businessman |add new item into the to-do list |to keep track what I need to do
+
+|`* * *` |traveler and businessman |list of items in to-do list | to keep track what I need to do
+
+|`* * *` |traveler and businessman |remove item from to-do list |
+
+|`* * *` |traveler and businessman |convert a sentence or word from one language to another |understand both language at the same time
+
+|`* *` |traveler and businessman |subscribe to event |get more information about the event
+
+|`* *` |traveler and businessman |subscribe to mailing list |
+
+|`* *` |businessman |convert from one timezone to another |know the working hours of a person in a different time zone to facilitate business communication
+
+|`* *` |traveler |display a motivational code |keeps motivated and going
+
+|`* *` |traveler and businessman |hide <<private-contact-detail,private contact details>> by default |minimize chance of someone else seeing them by accident
+
+|`* *` |traveler and businessman|export data |to keep it as backup
+
+|`* *` |traveler and businessman |import data |
 
 |`*` |user with many persons in the address book |sort persons by name |locate a person easily
 |=======================================================================
