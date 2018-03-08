@@ -806,6 +806,32 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *` |user |find a person by name |locate details of persons without having to go through the entire list
 
+|`* * *` |user |find a person by tag |locate details of tags without having to go through the entire list
+
+|`* * *` |user |find a person by company |locate details of companies without having to go through the entire list
+
+|`* * *` |user |list all the post |
+
+|`* * *` |user |list the post by date |
+
+|`* * *` |user |convert from one currency to another |
+
+|`* * *` |user |add a post |to record my daily activities
+
+|`* * *` |user |edit a post |after I have posted it so that I can make changes or add more new things
+
+|`* * *` |user |view a post |after I have posted it
+
+|`* * *` |user |convert a sentence or word from one language to another |
+
+|`* * *` |user |delete a person |remove entries that I no longer need
+
+|`* * *` |user |convert from one currency to another |
+
+|`* * *` |user |add a post |to record my daily activities
+
+|`* * *` |user |edit a post |after I have posted it so that I can make changes or add more new things
+
 |`* *` |user |hide <<private-contact-detail,private contact details>> by default |minimize chance of someone else seeing them by accident
 
 |`*` |user with many persons in the address book |sort persons by name |locate a person easily
