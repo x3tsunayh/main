@@ -11,9 +11,9 @@ public class ExportCommand extends UndoableCommand {
     public static final String COMMAND_ALIAS = "exp";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Exports current data into defined file path. "
-            + "Parameters: FILEPATH (must end with an extension of .xml)\\n"
+            + "Parameters: FILEPATH (must end with an extension of .xml)\n"
             + "Example: " + COMMAND_WORD + " "
-            + COMMAND_WORD + " C:\\\\Users\\\\John Doe\\\\Documents\\\\addressbook.xml\\n";
+            + " C:\\Users\\John Doe\\Documents\\addressbook.xml\n";
 
     public static final String MESSAGE_EXPORT_SUCCESS = "Addressbook data exported to: %1$s";
     public static final String MESSAGE_NOT_XML_FILE = "Filepath does not lead to an XML file.";
