@@ -24,7 +24,7 @@ image::lejolly.jpg[width="150", align="left"]
 {empty}[https://github.com/jill858[github]] [<<jill858#, portfolio>>]
 
 Role: Developer +
-Responsibilities: Model + Documentation 
+Responsibilities: Model + Documentation
 
 '''
 
