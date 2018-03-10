@@ -1,62 +1,41 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+
+import java.io.IOException;
 
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.person.Person;
-import seedu.address.model.person.exceptions.DuplicatePersonException;
 
 /**
- * Adds a person to the address book.
+ * Exports the address book to a user-defined location {@code filePath}
  */
 public class ExportCommand extends UndoableCommand {
 
-    public static final String COMMAND_WORD = "add";
-    public static final String COMMAND_ALIAS = "a";
+    public static final String COMMAND_WORD = "export";
+    public static final String COMMAND_ALIAS = "exp";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a person to the address book. "
-            + "Parameters: "
-            + PREFIX_NAME + "NAME "
-            + PREFIX_PHONE + "PHONE "
-            + PREFIX_EMAIL + "EMAIL "
-            + PREFIX_ADDRESS + "ADDRESS "
-            + "[" + PREFIX_TAG + "TAG]...\n"
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Exports current data into defined file path. "
+            + "Parameters: FILEPATH (must end with an extension of .xml)\\n"
             + "Example: " + COMMAND_WORD + " "
-            + PREFIX_NAME + "John Doe "
-            + PREFIX_PHONE + "98765432 "
-            + PREFIX_EMAIL + "johnd@example.com "
-            + PREFIX_ADDRESS + "311, Clementi Ave 2, #02-25 "
-            + PREFIX_TAG + "friends "
-            + PREFIX_TAG + "owesMoney";
+            + COMMAND_WORD + " C:\\\\Users\\\\John Doe\\\\Documents\\\\addressbook.xml\\n";
 
-    public static final String MESSAGE_SUCCESS = "New person added: %1$s";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book";
+    public static final String MESSAGE_EXPORT_SUCCESS = "Addressbook data exported to: %1$s";
+    public static final String MESSAGE_NOT_XML_FILE = "Filepath does not lead to an XML file.";
+    public static final String MESSAGE_ERROR = "Addressbook data not exported successfully.";
 
-    private final Person toAdd;
+    private final String filePath;
 
     /**
      * Creates an AddCommand to add the specified {@code Person}
      */
-    public ExportCommand(Person person) {
-        requireNonNull(person);
-        toAdd = person;
+    public ExportCommand(String filePath) {
+        this.filePath = filePath;
     }
 
     @Override
     public CommandResult executeUndoableCommand() throws CommandException {
-        requireNonNull(model);
-        try {
-            model.addPerson(toAdd);
-            return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
-        } catch (DuplicatePersonException e) {
-            throw new CommandException(MESSAGE_DUPLICATE_PERSON);
-        }
-
+        model.exportAddressBook(filePath);
+        return new CommandResult(String.format(MESSAGE_EXPORT_SUCCESS, filePath));
     }
 
 
