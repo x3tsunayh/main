@@ -40,7 +40,12 @@ public interface AddressBookStorage {
     /**
      * @see #saveAddressBook(ReadOnlyAddressBook)
      */
-    void saveAddressBook(ReadOnlyAddressBook addressBook, String filePath) throws IOException, InvalidFileException;
+    void saveAddressBook(ReadOnlyAddressBook addressBook, String filePath) throws IOException;
+
+    /**
+     * @see #saveAddressBook(ReadOnlyAddressBook) but for exporting purpose
+     */
+    void exportAddressBook(ReadOnlyAddressBook addressBook, String filePath) throws IOException, InvalidFileException;
 
     /**
      * Backups the given {@link ReadOnlyAddressBook} to the storage.

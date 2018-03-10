@@ -102,7 +102,8 @@ public class XmlAddressBookStorageTest {
     @Test
     public void saveAddressBook_nullAddressBook_throwsNullPointerException() throws InvalidFileException {
         thrown.expect(NullPointerException.class);
-        saveAddressBook(null, "SomeFile.xml");
+        saveAddressBook(null,
+                "SomeFile.xml");
     }
 
     /**
@@ -113,8 +114,6 @@ public class XmlAddressBookStorageTest {
             new XmlAddressBookStorage(filePath).saveAddressBook(addressBook, addToTestDataPathIfNotNull(filePath));
         } catch (IOException ioe) {
             throw new AssertionError("There should not be an error writing to the file.", ioe);
-        } catch (InvalidFileException e) {
-            throw new InvalidFileException();
         }
     }
 

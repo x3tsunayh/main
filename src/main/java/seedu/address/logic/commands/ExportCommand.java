@@ -45,7 +45,7 @@ public class ExportCommand extends UndoableCommand {
     @Override
     public CommandResult executeUndoableCommand() throws CommandException {
         try {
-            storage.saveAddressBook(model.getAddressBook(), filePath);
+            storage.exportAddressBook(model.getAddressBook(), filePath);
         } catch (IOException e) {
             throw new CommandException(MESSAGE_ERROR);
         } catch (InvalidFileException e) {

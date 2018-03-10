@@ -68,15 +68,25 @@ public class StorageManager extends ComponentManager implements Storage {
     }
 
     @Override
-    public void saveAddressBook(ReadOnlyAddressBook addressBook) throws IOException, InvalidFileException {
+    public void saveAddressBook(ReadOnlyAddressBook addressBook) throws IOException {
         saveAddressBook(addressBook, addressBookStorage.getAddressBookFilePath());
     }
 
     @Override
+    public void exportAddressBook(ReadOnlyAddressBook addressBook) throws IOException, InvalidFileException {
+        exportAddressBook(addressBook, addressBookStorage.getAddressBookFilePath());
+    }
+
+    @Override
     public void saveAddressBook(ReadOnlyAddressBook addressBook, String filePath)
-            throws IOException, InvalidFileException {
+            throws IOException {
         logger.fine("Attempting to write to data file: " + filePath);
         addressBookStorage.saveAddressBook(addressBook, filePath);
+    }
+
+    @Override
+    public void exportAddressBook(ReadOnlyAddressBook addressBook, String filePath) throws IOException, InvalidFileException {
+
     }
 
     @Override
@@ -93,8 +103,6 @@ public class StorageManager extends ComponentManager implements Storage {
             saveAddressBook(event.data);
         } catch (IOException e) {
             raise(new DataSavingExceptionEvent(e));
-        } catch (InvalidFileException e) {
-            throw new InvalidFileException();
         }
 
     }

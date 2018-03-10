@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
 import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -30,12 +31,21 @@ public class LogicManagerTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
-    private XmlAddressBookStorage addressBookStorage = new XmlAddressBookStorage(getFilePath("ab.xml"));
-    private JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(getFilePath("prefs.json"));
+    private XmlAddressBookStorage addressBookStorage;
+    private JsonUserPrefsStorage userPrefsStorage;
+    private Model model;
+    private Storage storage;
+    private Logic logic;
 
-    private Model model = new ModelManager();
-    private Storage storage = new StorageManager(addressBookStorage, userPrefsStorage);
-    private Logic logic = new LogicManager(model, storage);
+    @Before
+    public void setUp() {
+        addressBookStorage = new XmlAddressBookStorage(getFilePath("ab.xml"));
+        userPrefsStorage = new JsonUserPrefsStorage(getFilePath("prefs.json"));
+
+        model = new ModelManager();
+        storage = new StorageManager(addressBookStorage, userPrefsStorage);
+        logic = new LogicManager(model, storage);
+    }
 
     private String getFilePath(String fileName) {
         return testFolder.getRoot().getPath() + fileName;
