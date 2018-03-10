@@ -1,9 +1,5 @@
 package seedu.address.logic.commands;
 
-import static java.util.Objects.requireNonNull;
-
-import java.io.IOException;
-
 import seedu.address.logic.commands.exceptions.CommandException;
 
 /**
@@ -26,7 +22,7 @@ public class ExportCommand extends UndoableCommand {
     private final String filePath;
 
     /**
-     * Creates an AddCommand to add the specified {@code Person}
+     * Creates an ExportCommand to add the specified {@code String}
      */
     public ExportCommand(String filePath) {
         this.filePath = filePath;
