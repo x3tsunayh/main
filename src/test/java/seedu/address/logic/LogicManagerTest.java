@@ -30,12 +30,12 @@ public class LogicManagerTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
-    XmlAddressBookStorage addressBookStorage = new XmlAddressBookStorage(getFilePath("ab.xml"));
-    JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(getFilePath("prefs.json"));
+    private XmlAddressBookStorage addressBookStorage = new XmlAddressBookStorage(getFilePath("ab.xml"));
+    private JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(getFilePath("prefs.json"));
 
-    Model model = new ModelManager();
-    Storage storage = new StorageManager(addressBookStorage, userPrefsStorage);
-    Logic logic = new LogicManager(model, storage);
+    private Model model = new ModelManager();
+    private Storage storage = new StorageManager(addressBookStorage, userPrefsStorage);
+    private Logic logic = new LogicManager(model, storage);
 
     private String getFilePath(String fileName) {
         return testFolder.getRoot().getPath() + fileName;

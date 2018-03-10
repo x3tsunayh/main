@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
 import guitests.guihandles.CommandBoxHandle;
 import javafx.scene.input.KeyCode;
-import org.junit.rules.TemporaryFolder;
 import seedu.address.logic.Logic;
 import seedu.address.logic.LogicManager;
 import seedu.address.logic.commands.ListCommand;
@@ -22,6 +22,8 @@ import seedu.address.storage.StorageManager;
 import seedu.address.storage.XmlAddressBookStorage;
 
 public class CommandBoxTest extends GuiUnitTest {
+    @Rule
+    public TemporaryFolder testFolder = new TemporaryFolder();
 
     private static final String COMMAND_THAT_SUCCEEDS = ListCommand.COMMAND_WORD;
     private static final String COMMAND_THAT_FAILS = "invalid command";
@@ -30,9 +32,6 @@ public class CommandBoxTest extends GuiUnitTest {
     private ArrayList<String> errorStyleOfCommandBox;
 
     private CommandBoxHandle commandBoxHandle;
-
-    @Rule
-    public TemporaryFolder testFolder = new TemporaryFolder();
 
     @Before
     public void setUp() {
