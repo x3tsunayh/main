@@ -22,6 +22,9 @@ import seedu.address.storage.StorageManager;
 import seedu.address.storage.XmlAddressBookStorage;
 
 public class CommandBoxTest extends GuiUnitTest {
+    private static final String COMMAND_THAT_SUCCEEDS = ListCommand.COMMAND_WORD;
+    private static final String COMMAND_THAT_FAILS = "invalid command";
+
     @Rule
     public TemporaryFolder testFolder = new TemporaryFolder();
 
@@ -29,9 +32,6 @@ public class CommandBoxTest extends GuiUnitTest {
     private ArrayList<String> errorStyleOfCommandBox;
 
     private CommandBoxHandle commandBoxHandle;
-
-    private static final String COMMAND_THAT_SUCCEEDS = ListCommand.COMMAND_WORD;
-    private static final String COMMAND_THAT_FAILS = "invalid command";
 
     @Before
     public void setUp() {
