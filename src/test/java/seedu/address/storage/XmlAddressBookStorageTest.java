@@ -15,6 +15,7 @@ import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
 
 import seedu.address.commons.exceptions.DataConversionException;
+import seedu.address.commons.exceptions.InvalidFileException;
 import seedu.address.commons.util.FileUtil;
 import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
@@ -99,15 +100,16 @@ public class XmlAddressBookStorageTest {
     }
 
     @Test
-    public void saveAddressBook_nullAddressBook_throwsNullPointerException() {
+    public void saveAddressBook_nullAddressBook_throwsNullPointerException() throws InvalidFileException {
         thrown.expect(NullPointerException.class);
-        saveAddressBook(null, "SomeFile.xml");
+        saveAddressBook(null,
+                "SomeFile.xml");
     }
 
     /**
      * Saves {@code addressBook} at the specified {@code filePath}.
      */
-    private void saveAddressBook(ReadOnlyAddressBook addressBook, String filePath) {
+    private void saveAddressBook(ReadOnlyAddressBook addressBook, String filePath) throws InvalidFileException {
         try {
             new XmlAddressBookStorage(filePath).saveAddressBook(addressBook, addToTestDataPathIfNotNull(filePath));
         } catch (IOException ioe) {
@@ -116,7 +118,7 @@ public class XmlAddressBookStorageTest {
     }
 
     @Test
-    public void saveAddressBook_nullFilePath_throwsNullPointerException() throws IOException {
+    public void saveAddressBook_nullFilePath_throwsNullPointerException() throws IOException, InvalidFileException {
         thrown.expect(NullPointerException.class);
         saveAddressBook(new AddressBook(), null);
     }

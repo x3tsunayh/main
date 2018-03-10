@@ -5,6 +5,7 @@ import seedu.address.logic.CommandHistory;
 import seedu.address.logic.UndoRedoStack;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.storage.Storage;
 
 /**
  * Represents a command with hidden internal logic and the ability to be executed.
@@ -39,5 +40,8 @@ public abstract class Command {
      */
     public void setData(Model model, CommandHistory history, UndoRedoStack undoRedoStack) {
         this.model = model;
+    }
+
+    public void setStorage(Storage storage) {
     }
 }

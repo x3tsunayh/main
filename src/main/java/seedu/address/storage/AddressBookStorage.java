@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 import seedu.address.commons.exceptions.DataConversionException;
+import seedu.address.commons.exceptions.InvalidFileException;
 import seedu.address.model.ReadOnlyAddressBook;
 
 /**
@@ -34,7 +35,7 @@ public interface AddressBookStorage {
      * @param addressBook cannot be null.
      * @throws IOException if there was any problem writing to the file.
      */
-    void saveAddressBook(ReadOnlyAddressBook addressBook) throws IOException;
+    void saveAddressBook(ReadOnlyAddressBook addressBook) throws IOException, InvalidFileException;
 
     /**
      * @see #saveAddressBook(ReadOnlyAddressBook)
@@ -42,10 +43,15 @@ public interface AddressBookStorage {
     void saveAddressBook(ReadOnlyAddressBook addressBook, String filePath) throws IOException;
 
     /**
+     * @see #saveAddressBook(ReadOnlyAddressBook) but for exporting purpose
+     */
+    void exportAddressBook(ReadOnlyAddressBook addressBook, String filePath) throws IOException, InvalidFileException;
+
+    /**
      * Backups the given {@link ReadOnlyAddressBook} to the storage.
      * @param addressBook cannot be null.
      * @throws IOException if there was any problem backing up the file.
      */
-    void backupAddressBook(ReadOnlyAddressBook addressBook) throws IOException;
+    void backupAddressBook(ReadOnlyAddressBook addressBook) throws IOException, InvalidFileException;
 
 }

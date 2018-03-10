@@ -1,6 +1,7 @@
 package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -10,6 +11,7 @@ import java.util.Set;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.StringUtil;
+import seedu.address.logic.commands.ExportCommand;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
@@ -164,5 +166,18 @@ public class ParserUtil {
             tagSet.add(parseTag(tagName));
         }
         return tagSet;
+    }
+
+    /**
+     * Checks if {@code String args} is empty or valid.
+     */
+    public static String parseFilePath(String args) throws IllegalValueException {
+        requireNonNull(args);
+        String filePath = args.trim();
+
+        if (filePath.isEmpty()) {
+            throw new IllegalValueException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ExportCommand.MESSAGE_USAGE));
+        }
+        return filePath;
     }
 }
