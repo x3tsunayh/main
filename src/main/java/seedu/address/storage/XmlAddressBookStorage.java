@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.commons.exceptions.InvalidFileException;
 import seedu.address.commons.util.FileUtil;
 import seedu.address.model.ReadOnlyAddressBook;
 
@@ -62,7 +63,7 @@ public class XmlAddressBookStorage implements AddressBookStorage {
     }
 
     @Override
-    public void saveAddressBook(ReadOnlyAddressBook addressBook) throws IOException {
+    public void saveAddressBook(ReadOnlyAddressBook addressBook) throws IOException, InvalidFileException {
         saveAddressBook(addressBook, filePath);
     }
 
@@ -70,9 +71,13 @@ public class XmlAddressBookStorage implements AddressBookStorage {
      * Similar to {@link #saveAddressBook(ReadOnlyAddressBook)}
      * @param filePath location of the data. Cannot be null
      */
-    public void saveAddressBook(ReadOnlyAddressBook addressBook, String filePath) throws IOException {
+    public void saveAddressBook(ReadOnlyAddressBook addressBook, String filePath) throws IOException, InvalidFileException {
         requireNonNull(addressBook);
         requireNonNull(filePath);
+
+        if (!FileUtil.isValidXmlFile(filePath)) {
+            throw new InvalidFileException();
+        }
 
         File file = new File(filePath);
         FileUtil.createIfMissing(file);
@@ -80,7 +85,7 @@ public class XmlAddressBookStorage implements AddressBookStorage {
     }
 
     @Override
-    public void backupAddressBook(ReadOnlyAddressBook addressBook) throws IOException {
+    public void backupAddressBook(ReadOnlyAddressBook addressBook) throws IOException, InvalidFileException {
         saveAddressBook(addressBook, filePath + "-backup");
     }
 

@@ -6,6 +6,9 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.ExportCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
+/**
+ * Parses input arguments and creates a new ExportCommand object
+ */
 public class ExportCommandParser {
 
     /**

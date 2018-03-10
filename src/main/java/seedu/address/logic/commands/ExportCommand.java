@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import java.io.IOException;
 
+import seedu.address.commons.exceptions.InvalidFileException;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.storage.Storage;
 
@@ -41,14 +42,14 @@ public class ExportCommand extends UndoableCommand {
         this.storage = storage;
     }
 
-
-
     @Override
     public CommandResult executeUndoableCommand() throws CommandException {
         try {
             storage.saveAddressBook(model.getAddressBook(), filePath);
         } catch (IOException e) {
             throw new CommandException(MESSAGE_ERROR);
+        } catch (InvalidFileException e) {
+            throw new CommandException(MESSAGE_NOT_XML_FILE);
         }
         return new CommandResult(String.format(MESSAGE_EXPORT_SUCCESS, filePath));
     }
