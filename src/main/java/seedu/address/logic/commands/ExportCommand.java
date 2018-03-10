@@ -1,6 +1,9 @@
 package seedu.address.logic.commands;
 
+import java.io.IOException;
+
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.storage.Storage;
 
 /**
  * Exports the address book to a user-defined location {@code filePath}
@@ -19,6 +22,7 @@ public class ExportCommand extends UndoableCommand {
     public static final String MESSAGE_NOT_XML_FILE = "Filepath does not lead to an XML file.";
     public static final String MESSAGE_ERROR = "Addressbook data not exported successfully.";
 
+    private Storage storage;
     private final String filePath;
 
     /**
@@ -28,9 +32,24 @@ public class ExportCommand extends UndoableCommand {
         this.filePath = filePath;
     }
 
+    /**
+     *
+     * @param storage
+     */
+    @Override
+    public void setStorage(Storage storage) {
+        this.storage = storage;
+    }
+
+
+
     @Override
     public CommandResult executeUndoableCommand() throws CommandException {
-        model.exportAddressBook(filePath);
+        try {
+            storage.saveAddressBook(model.getAddressBook(), filePath);
+        } catch (IOException e) {
+            throw new CommandException(MESSAGE_ERROR);
+        }
         return new CommandResult(String.format(MESSAGE_EXPORT_SUCCESS, filePath));
     }
 

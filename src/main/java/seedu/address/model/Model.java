@@ -46,5 +46,4 @@ public interface Model {
      */
     void updateFilteredPersonList(Predicate<Person> predicate);
 
-    void exportAddressBook(String filePath) throws CommandException;
 }

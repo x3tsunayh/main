@@ -18,7 +18,6 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
-import seedu.address.storage.Storage;
 import seedu.address.storage.StorageManager;
 
 /**
@@ -101,15 +100,6 @@ public class ModelManager extends ComponentManager implements Model {
     public void updateFilteredPersonList(Predicate<Person> predicate) {
         requireNonNull(predicate);
         filteredPersons.setPredicate(predicate);
-    }
-
-    @Override
-    public void exportAddressBook(String filePath) throws CommandException {
-        try {
-            StorageManager.addressBookStorage.saveAddressBook(getAddressBook(), filePath);
-        } catch (IOException e) {
-            throw new CommandException(MESSAGE_ERROR);
-        }
     }
 
     @Override
