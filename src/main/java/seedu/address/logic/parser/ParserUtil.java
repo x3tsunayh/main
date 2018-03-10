@@ -168,6 +168,9 @@ public class ParserUtil {
         return tagSet;
     }
 
+    /**
+     * Checks if {@code String args} is empty or valid.
+     */
     public static String parseFilePath(String args) throws IllegalValueException {
         requireNonNull(args);
         String filePath = args.trim();
