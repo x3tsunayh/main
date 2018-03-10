@@ -858,9 +858,9 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* *` |traveler and businessman |hide <<private-contact-detail,private contact details>> by default |minimize chance of someone else seeing them by accident
 
-|`* *` |traveler and businessman|export data |to keep it as backup
+|`* *` |careful businessman|export data |to keep an emergency backup
 
-|`* *` |traveler and businessman |import data |
+|`* *` |impatient businessman |import data | to port over different devices easily
 
 |`*` |user with many persons in the address book |sort persons by name |locate a person easily
 |=======================================================================
