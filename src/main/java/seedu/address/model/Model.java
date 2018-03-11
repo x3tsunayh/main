@@ -45,4 +45,9 @@ public interface Model {
      */
     void updateFilteredPersonList(Predicate<Person> predicate);
 
+    /**
+     * Sorts the person list alphabetically by name
+     */
+    void sortPersons();
+
 }
