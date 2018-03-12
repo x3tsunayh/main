@@ -1,19 +1,19 @@
 package seedu.address.model;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+
+import java.util.List;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
 import seedu.address.testutil.TypicalPersons;
-
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 public class UniquePersonListTest {
     @Rule
@@ -35,7 +35,8 @@ public class UniquePersonListTest {
 
         // Setup expected result
         List<Person> personList = TypicalPersons.getTypicalPersons();
-        personList.sort((person1, person2) -> person1.getName().toString().compareToIgnoreCase(person2.getName().toString()));
+        personList.sort((person1, person2) -> person1.getName().toString()
+                .compareToIgnoreCase(person2.getName().toString()));
         ObservableList<Person> expectedPersonList = FXCollections.observableList(personList);
 
         assertEquals(actualPersonList, expectedPersonList);
@@ -50,7 +51,8 @@ public class UniquePersonListTest {
 
         // Setup expected result
         List<Person> personList = TypicalPersons.getTypicalPersons();
-        personList.sort((person1, person2) -> person2.getName().toString().compareToIgnoreCase(person1.getName().toString()));
+        personList.sort((person1, person2) -> person2.getName().toString()
+                .compareToIgnoreCase(person1.getName().toString()));
         ObservableList<Person> expectedPersonList = FXCollections.observableList(personList);
 
         assertNotEquals(actualPersonList, expectedPersonList);
