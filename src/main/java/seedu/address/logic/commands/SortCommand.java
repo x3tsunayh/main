@@ -1,7 +1,5 @@
 package seedu.address.logic.commands;
 
-import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
-
 /**
  * Sorts alphabetically by name and lists all persons in the address book to the user.
  */
