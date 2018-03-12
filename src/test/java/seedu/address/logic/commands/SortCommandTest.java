@@ -17,12 +17,12 @@ public class SortCommandTest {
     private Model model;
     private Model expectedModel;
     private SortCommand sortCommand;
-    
+
     @Before
     public void setUp() throws Exception {
         model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
-        
+
         sortCommand = new SortCommand();
         sortCommand.setData(model, new CommandHistory(), new UndoRedoStack());
     }
@@ -32,7 +32,7 @@ public class SortCommandTest {
         model.sortPersons();
         assertCommandSuccess(sortCommand, model, sortCommand.MESSAGE_SUCCESS, expectedModel);
     }
-    
+
     @Test
     public void execute_nonEmptyListIsSorted_success() {
         model.sortPersons();

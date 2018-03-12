@@ -25,29 +25,29 @@ public class UniquePersonListTest {
         thrown.expect(UnsupportedOperationException.class);
         uniquePersonList.asObservableList().remove(0);
     }
-    
+
     @Test
     public void sort_ascendingOrder_success() {
         // Setup actual result
         AddressBook addressBook = TypicalPersons.getTypicalAddressBook();
         addressBook.sortPersons();
         ObservableList<Person> actualPersonList = addressBook.getPersonList();
-        
+
         // Setup expected result
         List<Person> personList = TypicalPersons.getTypicalPersons();
         personList.sort((person1, person2) -> person1.getName().toString().compareToIgnoreCase(person2.getName().toString()));
         ObservableList<Person> expectedPersonList = FXCollections.observableList(personList);
-        
+
         assertEquals(actualPersonList, expectedPersonList);
     }
-    
+
     @Test
     public void sort_descendingOrder_fail() {
         // Setup actual result
         AddressBook addressBook = TypicalPersons.getTypicalAddressBook();
         addressBook.sortPersons();
         ObservableList<Person> actualPersonList = addressBook.getPersonList();
-        
+
         // Setup expected result
         List<Person> personList = TypicalPersons.getTypicalPersons();
         personList.sort((person1, person2) -> person2.getName().toString().compareToIgnoreCase(person1.getName().toString()));

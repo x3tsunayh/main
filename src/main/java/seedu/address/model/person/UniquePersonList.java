@@ -87,7 +87,7 @@ public class UniquePersonList implements Iterable<Person> {
     public void sort() {
         internalList.sort((person1, person2) -> person1.getName().toString().compareToIgnoreCase(person2.getName().toString()));
     }
-    
+
     public void setPersons(UniquePersonList replacement) {
         this.internalList.setAll(replacement.internalList);
     }
