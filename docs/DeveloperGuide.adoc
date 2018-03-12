@@ -358,6 +358,35 @@ image::UndoRedoActivityDiagram.png[width="650"]
 ** Cons: Requires dealing with commands that have already been undone: We must remember to skip these commands. Violates Single Responsibility Principle and Separation of Concerns as `HistoryManager` now needs to do two * different things.
 // end::undoredo[]
 
+// tag::sort[]
+=== Sort feature
+==== Current Implementation
+
+The sort mechanism sorts the persons list alphabetically by name. It currently supports sorting in ascending order.
+
+The internal details of the sort mechanism is handled by the `sort` method in `UniquePersonList` class. The sort mechanism is implemented using a custom comparator in JavaFX ObservableList `sort` method.
+
+The following sequence diagram shows how the sort operation works.
+
+image::SortingSequenceDiagram.png[width="800"]
+
+. The user executes the `sort` command.
+. The `AddressBookParser` class parses the command and create a new `SortCommand` class.
+. The `sort` command is executed and handled by the `ModelManager` class.
+. The sorted list is returned and displayed to the user.
+
+==== Design Considerations
+
+===== Aspect: Implementation of `SortCommand`
+
+* **Alternative 1 (current choice):** Sort persons by name
+** Pros: Easy to implement and does not need to make changes for every newly added field
+** Cons: Lack flexibility in sorting by other fields
+* **Alternative 2:** Sort persons by other fields of a person's contact such as email
+** Pros: Allows flexibility in sorting
+** Cons: Might be more difficult to implement as changes need to be made for every newly added field
+// end::sort[]
+
 // tag::dataencryption[]
 === [Proposed] Data Encryption
 
@@ -922,6 +951,24 @@ Use case ends.
 +
 [none]
 ** 1b1. XML file is exported to Addressbook's main folder.
++
+Use case ends.
+
+[discrete]
+=== Use case: Sort all persons by name
+
+*MSS*
+
+1.  User requests to sort all persons in AddressBook
+2.  AddressBook sorts the list of persons alphabetically by name in ascending order
+3.  AddressBook shows a list of sorted persons
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The list is empty.
 +
 Use case ends.
 
