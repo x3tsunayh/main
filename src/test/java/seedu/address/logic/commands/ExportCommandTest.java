@@ -1,7 +1,8 @@
 package seedu.address.logic.commands;
 
-import static java.lang.Compiler.command;
-import static org.junit.Assert.*;
+import static junit.framework.TestCase.fail;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.io.File;
@@ -11,6 +12,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+
 import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.commons.exceptions.ExistingFileException;
 import seedu.address.commons.exceptions.InvalidFileException;
@@ -66,7 +68,7 @@ public class ExportCommandTest {
         String filePath = getFilePath("existingXmlFile.xml");
         ExportCommand command = prepareCommand(filePath);
         try {
-            storage.exportAddressBook(model.getAddressBook(),"existingXmlFile.xml" );
+            storage.exportAddressBook(model.getAddressBook(), "existingXmlFile.xml");
         } catch (ExistingFileException e) {
             //do nothing if correct exception is thrown
         } catch (IOException | InvalidFileException e) {
@@ -80,6 +82,9 @@ public class ExportCommandTest {
         return testFolder.getRoot().getPath() + fileName;
     }
 
+    /**
+     * Returns an {@code ExportCommand} with parameter {@String filePath}
+     */
     private ExportCommand prepareCommand(String filePath) {
         ExportCommand exportCommand = new ExportCommand(filePath);
         exportCommand.setData(model, new CommandHistory(), new UndoRedoStack());
@@ -87,6 +92,12 @@ public class ExportCommandTest {
         return exportCommand;
     }
 
+    /**
+     * Asserts that {@code command} is successfully executed, and<br>
+     *     - the command feedback is equal to {@code expectedMessage}<br>
+     *     - the {@code FilteredList<Person>} is equal to {@code expectedList}<br>
+     *     - the {@code AddressBook} in model remains the same after executing the {@code command}
+     */
     private void assertCommandSuccess(ExportCommand command, String expectedMessage, String filePath) {
         try {
             CommandResult result = command.execute();
@@ -97,6 +108,10 @@ public class ExportCommandTest {
         }
     }
 
+    /**
+     * Asserts that {@code command} is executed, but<br>
+     *     - the correct CommandException is thrown<br>
+     */
     public void assertCommandFailure(ExportCommand command, String expectedMessage, String filePath) {
         try {
             command.execute();
