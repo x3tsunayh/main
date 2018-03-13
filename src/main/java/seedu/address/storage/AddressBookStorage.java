@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 import seedu.address.commons.exceptions.DataConversionException;
+import seedu.address.commons.exceptions.ExistingFileException;
 import seedu.address.commons.exceptions.InvalidFileException;
 import seedu.address.model.ReadOnlyAddressBook;
 
@@ -45,7 +46,7 @@ public interface AddressBookStorage {
     /**
      * @see #saveAddressBook(ReadOnlyAddressBook) but for exporting purpose
      */
-    void exportAddressBook(ReadOnlyAddressBook addressBook, String filePath) throws IOException, InvalidFileException;
+    void exportAddressBook(ReadOnlyAddressBook addressBook, String filePath) throws IOException, InvalidFileException, ExistingFileException;
 
     /**
      * Backups the given {@link ReadOnlyAddressBook} to the storage.

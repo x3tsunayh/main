@@ -11,6 +11,7 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
 import seedu.address.commons.events.storage.DataSavingExceptionEvent;
 import seedu.address.commons.exceptions.DataConversionException;
+import seedu.address.commons.exceptions.ExistingFileException;
 import seedu.address.commons.exceptions.InvalidFileException;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.UserPrefs;
@@ -80,13 +81,15 @@ public class StorageManager extends ComponentManager implements Storage {
     }
 
     @Override
-    public void exportAddressBook(ReadOnlyAddressBook addressBook) throws IOException, InvalidFileException {
+    public void exportAddressBook(ReadOnlyAddressBook addressBook)
+            throws IOException, InvalidFileException, ExistingFileException {
         exportAddressBook(addressBook, addressBookStorage.getAddressBookFilePath());
     }
 
     @Override
-    public void exportAddressBook(ReadOnlyAddressBook addressBook, String filePath) {
-
+    public void exportAddressBook(ReadOnlyAddressBook addressBook, String filePath)
+            throws IOException, InvalidFileException, ExistingFileException {
+        addressBookStorage.exportAddressBook(addressBook, filePath);
     }
 
     @Override
