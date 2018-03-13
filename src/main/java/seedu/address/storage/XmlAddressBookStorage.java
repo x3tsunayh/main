@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.exceptions.DataConversionException;
+import seedu.address.commons.exceptions.ExistingFileException;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.exceptions.InvalidFileException;
 import seedu.address.commons.util.FileUtil;
@@ -85,7 +86,7 @@ public class XmlAddressBookStorage implements AddressBookStorage {
      * @param filePath location of the data. Cannot be null
      */
     public void exportAddressBook(ReadOnlyAddressBook addressBook, String filePath)
-            throws IOException, InvalidFileException {
+            throws IOException, InvalidFileException, ExistingFileException {
         requireNonNull(addressBook);
         requireNonNull(filePath);
 
@@ -94,6 +95,11 @@ public class XmlAddressBookStorage implements AddressBookStorage {
         }
 
         File file = new File(filePath);
+
+        if (FileUtil.isFileExists(file)) {
+            throw new ExistingFileException();
+        }
+
         FileUtil.createIfMissing(file);
         XmlFileStorage.saveDataToFile(file, new XmlSerializableAddressBook(addressBook));
     }

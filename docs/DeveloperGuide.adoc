@@ -1,4 +1,4 @@
-= AddressBook Level 4 - Developer Guide
+= BizConnect Journal - Developer Guide
 :toc:
 :toc-title:
 :toc-placement: preamble
@@ -951,6 +951,20 @@ Use case ends.
 +
 [none]
 ** 1b1. XML file is exported to Addressbook's main folder.
++
+Use case ends.
+
+* 1c. Filepaths are not created yet.
++
+[none]
+** 1c1. Creates necessary folders and files as indicated in the export filepath.
++
+Use case ends.
+
+* 1d. A file with the same name exists.
++
+[none]
+** 1d1. AddressBook warns the user with an error message.
 +
 Use case ends.
 

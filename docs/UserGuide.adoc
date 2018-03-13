@@ -123,6 +123,26 @@ Returns `john` and `John Doe`
 * `find Betsy Tim John` +
 Returns any person having names `Betsy`, `Tim`, or `John`
 
+=== Exporting addressbook data: `export`
+
+Exports addressbook data into an XML file. +
+Format: `export FILEPATH [MORE_KEYWORDS]`
+
+****
+* Addressbook creates XML file if valid filepath and filename is given.
+* If filename already exists, a warning message is displayed.
+* If file extension is not .xml, a warning message is displayed.
+* If filepath not given, XML file is auto-created under main folder.
+* If filepath is invalid, Addressbook creates folders to support the filepath defined by the user.
+****
+
+Examples:
+
+* `export C:\Users\John Doe\Documents\addressbook.xml` +
+Creates XML file in the user-defined filepath
+* `exp addressbook.xml` +
+Creates XML file in the main folder of the Addressbook
+
 === Deleting a person : `delete`
 
 Deletes the specified person from the address book. +
