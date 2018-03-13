@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import java.io.IOException;
 
+import seedu.address.commons.exceptions.ExistingFileException;
 import seedu.address.commons.exceptions.InvalidFileException;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.storage.Storage;
@@ -22,6 +23,7 @@ public class ExportCommand extends UndoableCommand {
     public static final String MESSAGE_EXPORT_SUCCESS = "Addressbook data exported to: %1$s";
     public static final String MESSAGE_NOT_XML_FILE = "Filepath does not lead to an XML file.";
     public static final String MESSAGE_ERROR = "Addressbook data not exported successfully.";
+    public static final String MESSAGE_EXISTING_XML = "XML file name already exists. Choose a different name.";
 
     private Storage storage;
     private final String filePath;
@@ -50,6 +52,8 @@ public class ExportCommand extends UndoableCommand {
             throw new CommandException(MESSAGE_ERROR);
         } catch (InvalidFileException e) {
             throw new CommandException(MESSAGE_NOT_XML_FILE);
+        } catch (ExistingFileException e) {
+            throw new CommandException(MESSAGE_EXISTING_XML);
         }
         return new CommandResult(String.format(MESSAGE_EXPORT_SUCCESS, filePath));
     }
