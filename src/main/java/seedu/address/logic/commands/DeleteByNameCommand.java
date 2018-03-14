@@ -41,7 +41,9 @@ public class DeleteByNameCommand extends UndoableCommand {
 
 
 
-    public DeleteByNameCommand(Name inputName) { this.inputName = inputName; }
+    public DeleteByNameCommand(Name inputName) {
+        this.inputName = inputName;
+    }
 
     @Override
     public CommandResult executeUndoableCommand() throws CommandException {
