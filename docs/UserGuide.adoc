@@ -171,9 +171,9 @@ Format: `delete NAME`
 ****
 * Deletes the person at the specified `NAME`.
 * The index refers to the name of the contact shown in the most recent listing.
-* NAME is not case sensitive. 
+* NAME is not case sensitive.
 * However, it must exatly match the name of the contact to be deleted.
-* If there are more than one contacts with the same name, use delete command instead. 
+* If there are more than one contacts with the same name, use delete command instead.
 ****
 
 Examples:
