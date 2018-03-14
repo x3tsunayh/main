@@ -1,17 +1,11 @@
 package seedu.address.logic.commands;
 
-import static java.util.Objects.requireNonNull;
-
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import seedu.address.commons.core.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.Model;
 import seedu.address.model.person.Name;
-import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 
@@ -41,7 +35,8 @@ public class DeleteByNameCommand extends UndoableCommand {
 
 
     private Name inputName;
-    private List<Person> allPersons, personsWithMatchingName;
+    private List<Person> allPersons;
+    private List <Person> personsWithMatchingName;
     private Person personToBeDeleted;
 
 
@@ -54,9 +49,7 @@ public class DeleteByNameCommand extends UndoableCommand {
 
         if (personsWithMatchingName.size() == 0) {
             throw new CommandException(MESSAGE_NAME_NOT_FOUND);
-        }
-
-        else if (personsWithMatchingName.size() > 1) {
+        } else if (personsWithMatchingName.size() > 1) {
             throw new CommandException(MESSAGE_MULTIPLE_SAME_NAME);
         }
 
