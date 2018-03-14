@@ -94,5 +94,4 @@ public class DeleteByNameCommand extends UndoableCommand {
         }
         return false;
     }
-    
 }
