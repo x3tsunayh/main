@@ -42,6 +42,7 @@ public class DeleteByNameCommand extends UndoableCommand {
 
 
     public DeleteByNameCommand(Name inputName) {
+
         this.inputName = inputName;
     }
 
