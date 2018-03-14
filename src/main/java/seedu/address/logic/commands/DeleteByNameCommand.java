@@ -83,6 +83,16 @@ public class DeleteByNameCommand extends UndoableCommand {
 
     }
 
+    @Override
+    public boolean equals(Object other) {
 
-
+        if (other == this) {
+            return true;
+        } else if (other instanceof DeleteByNameCommand) {
+            Name otherName = ((DeleteByNameCommand) other).inputName;
+            return otherName.equals(this.inputName);
+        }
+        return false;
+    }
+    
 }
