@@ -15,9 +15,9 @@ import seedu.address.logic.UndoRedoStack;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.testutil.PersonBuilder;
-import seedu.address.model.person.Name;
 
 public class DeleteByNameCommandTest {
 
@@ -25,6 +25,7 @@ public class DeleteByNameCommandTest {
 
     @Test
     public void execute_validNameUnfilteredList_success() throws Exception {
+
         Person personToDelete = ALICE;
         DeleteByNameCommand deleteByNameCommand = prepareCommand(ALICE.getName());
 
@@ -38,6 +39,7 @@ public class DeleteByNameCommandTest {
 
     @Test
     public void execute_invalidNameUnfilteredList_throwsCommandException() throws Exception {
+
         Name randomName = new Name("Random Random Random 242neklw");
         DeleteByNameCommand deleteByNameCommand = prepareCommand(randomName);
 
@@ -47,11 +49,12 @@ public class DeleteByNameCommandTest {
 
     @Test
     public void execute_invalidPartialName_throwsCommandException() {
-       String aliceFirstName = "pauline";
 
-       DeleteByNameCommand deleteByNameCommand = prepareCommand(new Name(aliceFirstName));
+        String aliceFirstName = "pauline";
 
-       assertCommandFailure(deleteByNameCommand, model, DeleteByNameCommand.MESSAGE_NAME_NOT_FOUND);
+        DeleteByNameCommand deleteByNameCommand = prepareCommand(new Name(aliceFirstName));
+
+        assertCommandFailure(deleteByNameCommand, model, DeleteByNameCommand.MESSAGE_NAME_NOT_FOUND);
 
     }
 
