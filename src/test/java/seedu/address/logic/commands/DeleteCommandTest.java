@@ -91,6 +91,7 @@ public class DeleteCommandTest {
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
 
         // delete -> first person deleted
+
         deleteCommand.execute();
         undoRedoStack.push(deleteCommand);
 
