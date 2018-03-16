@@ -37,17 +37,10 @@ public class DeleteByNameCommandParserTest {
         Name nonAlphabatical = new Name("123");
         assertParseSuccess(parser, "123", new DeleteByNameCommand(nonAlphabatical));
 
-        //Non case sensitive input
-        assertParseSuccess(parser, "AMY bEe", expected);
-
     }
 
     @Test
     public void parse_invalidArgs_throwsParseException() {
-
-        //blank input
-        assertParseFailure(parser, "",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteByNameCommand.MESSAGE_USAGE));
 
         //whitespaces as input
         assertParseFailure(parser, "              ",
