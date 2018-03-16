@@ -42,6 +42,9 @@ public class DeleteByNameCommandParserTest {
     @Test
     public void parse_invalidArgs_throwsParseException() {
 
+        //blank input
+        assertParseFailure(parser, "",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteByNameCommand.MESSAGE_USAGE));
         //whitespaces as input
         assertParseFailure(parser, "              ",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteByNameCommand.MESSAGE_USAGE));
