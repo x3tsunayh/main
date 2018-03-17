@@ -5,6 +5,9 @@ import javax.xml.bind.annotation.XmlValue;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.category.TaskCategory;
 
+/**
+ * JAXB-friendly version of the Task Category.
+ */
 public class XmlAdaptedTaskCategory {
 
     @XmlValue

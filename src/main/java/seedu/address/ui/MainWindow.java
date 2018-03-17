@@ -193,7 +193,9 @@ public class MainWindow extends UiPart<Stage> {
         return this.personListPanel;
     }
 
-    public TaskListPanel getTaskListPanel() { return this.taskListPanel; }
+    public TaskListPanel getTaskListPanel() {
+        return this.taskListPanel;
+    }
 
     void releaseResources() {
         browserPanel.freeResources();
