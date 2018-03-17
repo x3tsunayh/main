@@ -2,10 +2,14 @@ package seedu.address.ui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.Picture;
+
 
 /**
  * An UI component that displays information of a {@code Person}.
@@ -38,6 +42,8 @@ public class PersonCard extends UiPart<Region> {
     private Label email;
     @FXML
     private FlowPane tags;
+    @FXML
+    private ImageView imageView;
 
     public PersonCard(Person person, int displayedIndex) {
         super(FXML);
@@ -48,6 +54,19 @@ public class PersonCard extends UiPart<Region> {
         address.setText(person.getAddress().value);
         email.setText(person.getEmail().value);
         person.getTags().forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
+        initProfilePic(person);
+    }
+
+
+    public void initProfilePic(Person person) {
+
+        //String filePath = person.getPicture().getPath();
+       // if (filePath == null) {
+        Image x = new Image((getClass().getResource("images/default.png")).toExternalForm());
+        if (x==null) System.out.println("NULLLLLLLLLL");
+            imageView.setImage(x);
+       // }
+      //  imageView.setImage(new Image(filePath, 12, 12, true, false));
     }
 
     @Override

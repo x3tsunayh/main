@@ -15,15 +15,16 @@ import seedu.address.commons.exceptions.IllegalValueException;
 
 public class Picture {
 
-    public static final String DEFAULT_PATH = "ProfilePic/nophoto.png";
+    public static final String DEFAULT_PATH = "images/default.png";
     public static final String  MESSAGE_PICTURE_CONSTRAINTS =
             "Filepath must be valid, and point to an image file"; //size
     public static final String PICTURE_VALIDATION_REGEX = "[^\\s].*";
 
-    String path;
+    private String path;
 
     public Picture() {
         this.path = DEFAULT_PATH;
+        System.out.println("SDsDS:  " +path);
     }
 
     public Picture(String path, String newPictureName) {
@@ -31,12 +32,14 @@ public class Picture {
         requireNonNull(path);
         checkArgument(isValidPath(path), MESSAGE_PICTURE_CONSTRAINTS);
         this.path = createNewPicture(path, newPictureName);
+        System.out.println("SDsDS:  " +path);
 
     }
 
     public boolean isValidPath(String path) {
 
         if (!path.matches(PICTURE_VALIDATION_REGEX)) {
+            System.out.println("DfDFDFDFDFD");
             return false;
         }
         return isValidPicture(path);
@@ -71,5 +74,9 @@ public class Picture {
         }
 
         return dst;
+    }
+
+    public String getPath() {
+        return this.path;
     }
 }
