@@ -27,6 +27,17 @@ public class Person {
     /**
      * Every field must be present and not null.
      */
+    public Person(Name name, Phone phone, Email email, Address address, Picture pic, Set<Tag> tags) {
+        requireAllNonNull(name, phone, email, address, tags);
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.address = address;
+        this.picture = pic;
+        System.out.println("Hello" + picture.getPath());
+        // protect internal tags from changes in the arg list
+        this.tags = new UniqueTagList(tags);
+    }
     public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
         requireAllNonNull(name, phone, email, address, tags);
         this.name = name;
@@ -37,7 +48,6 @@ public class Person {
         // protect internal tags from changes in the arg list
         this.tags = new UniqueTagList(tags);
     }
-
     public Name getName() {
         return name;
     }

@@ -62,11 +62,13 @@ public class PersonCard extends UiPart<Region> {
 
         //String filePath = person.getPicture().getPath();
        // if (filePath == null) {
-        Image x = new Image((getClass().getResource("images/default.png")).toExternalForm());
+        /*System.out.println((getClass().getClassLoader().getResource("images/default.png")).toExternalForm());
+        Image x = new Image((getClass().getClassLoader().getResource("images/default.png")).toExternalForm());
         if (x==null) System.out.println("NULLLLLLLLLL");
-            imageView.setImage(x);
+            imageView.setImage(x);*/
        // }
       //  imageView.setImage(new Image(filePath, 12, 12, true, false));
+        imageView = new ImageView((getClass().getClassLoader().getResource("images/default.png")).toExternalForm());
     }
 
     @Override
@@ -87,3 +89,5 @@ public class PersonCard extends UiPart<Region> {
                 && person.equals(card.person);
     }
 }
+
+
