@@ -19,12 +19,13 @@ public class Picture {
     public static final String  MESSAGE_PICTURE_CONSTRAINTS =
             "Filepath must be valid, and point to an image file"; //size
     public static final String PICTURE_VALIDATION_REGEX = "[^\\s].*";
-
+    public static final String PICTURE_DIRECTORY = "ProfilePic/";
     private String path;
 
     public Picture() {
         this.path = DEFAULT_PATH;
-        System.out.println("SDsDS:  " +path);
+        createNewPicture (DEFAULT_PATH, "xas");
+        System.out.println("Created new pic");
     }
 
     public Picture(String path, String newPictureName) {
@@ -32,14 +33,12 @@ public class Picture {
         requireNonNull(path);
         checkArgument(isValidPath(path), MESSAGE_PICTURE_CONSTRAINTS);
         this.path = createNewPicture(path, newPictureName);
-        System.out.println("SDsDS:  " +path);
 
     }
 
     public boolean isValidPath(String path) {
 
         if (!path.matches(PICTURE_VALIDATION_REGEX)) {
-            System.out.println("DfDFDFDFDFD");
             return false;
         }
         return isValidPicture(path);
@@ -65,12 +64,13 @@ public class Picture {
 
             bf = ImageIO.read(f);
 
-            dst = "resources/ProfilePic/"+newPictureName+".jpg";
+            dst = PICTURE_DIRECTORY +newPictureName+".png";
             f = new File(dst);
 
-            ImageIO.write(bf, "jpg", f);
+            ImageIO.write(bf, "png", f);
         } catch (Exception e) {
             dst = DEFAULT_PATH;
+            System.out.println(e.getMessage());
         }
 
         return dst;

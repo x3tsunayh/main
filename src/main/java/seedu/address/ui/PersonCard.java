@@ -45,6 +45,7 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private ImageView imageView;
 
+    //TODO: Handle long names (Wrapping around long names waste space)
     public PersonCard(Person person, int displayedIndex) {
         super(FXML);
         this.person = person;
@@ -61,16 +62,6 @@ public class PersonCard extends UiPart<Region> {
 
     public void initProfilePic(Person person) {
 
-        //String filePath = person.getPicture().getPath();
-       // if (filePath == null) {
-        /*System.out.println((getClass().getClassLoader().getResource("images/default.png")).toExternalForm());
-        Image x = new Image((getClass().getClassLoader().getResource("images/default.png")).toExternalForm());
-        if (x==null) System.out.println("NULLLLLLLLLL");
-            imageView.setImage(x);*/
-       // }
-      //  imageView.setImage(new Image(filePath, 12, 12, true, false));
-        //imageView = new ImageView((getClass().getClassLoader().getResource("images/default.png")).toExternalForm());
-        //System.out.println(imageView);
         String url = person.getPicture().getPath();
         try {
             imageView.setImage(new Image(url, 128, 128, true, false));
