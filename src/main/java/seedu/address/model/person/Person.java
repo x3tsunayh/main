@@ -1,6 +1,7 @@
 package seedu.address.model.person;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+import seedu.address.commons.exceptions.IllegalValueException;
 
 import java.util.Collections;
 import java.util.Objects;
@@ -72,6 +73,18 @@ public class Person {
         int hash = this.hashCode();
         String filename = String.valueOf(hash);
         this.picture = new Picture(path, filename);
+    }
+
+    public void setPicture(String path) throws IllegalValueException {
+
+        Picture oldPic = this.picture;
+        try {
+            int fileName = this.hashCode();
+            this.picture = new Picture(path, String.valueOf(fileName));
+        } catch (Exception e) {
+            this.picture = oldPic; //reset picture back to default
+            throw new IllegalValueException(Picture.MESSAGE_PICTURE_CONSTRAINTS);
+        }
     }
 
     /**

@@ -12,10 +12,12 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.commands.ExportCommand;
+import seedu.address.logic.commands.AddPictureCommand;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Picture;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -179,5 +181,21 @@ public class ParserUtil {
             throw new IllegalValueException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ExportCommand.MESSAGE_USAGE));
         }
         return filePath;
+    }
+
+    /**
+     * Checks if (@code String args) is a valid image filename or directory leading to a image file
+     */
+
+    public static String parseImageFilename(String args) throws IllegalValueException {
+        requireNonNull(args);
+        String file = args.trim();
+
+        if (file.isEmpty() || !Picture.isValidPicture(file)) {
+            throw new IllegalValueException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    AddPictureCommand.MESSAGE_USAGE));
+        }
+
+        return file;
     }
 }

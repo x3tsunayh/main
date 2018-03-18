@@ -19,13 +19,12 @@ public class Picture {
     public static final String  MESSAGE_PICTURE_CONSTRAINTS =
             "Filepath must be valid, and point to an image file"; //size
     public static final String PICTURE_VALIDATION_REGEX = "[^\\s].*";
-    public static final String PICTURE_DIRECTORY = "ProfilePic/";
+    public final String PICTURE_DIRECTORY  = "src/main/resources/ProfilePic";
+    public final String MESSAGE_USAGE = "dummy";
     private String path;
 
     public Picture() {
         this.path = DEFAULT_PATH;
-        createNewPicture (DEFAULT_PATH, "xas");
-        System.out.println("Created new pic");
     }
 
     public Picture(String path, String newPictureName) {
@@ -44,7 +43,7 @@ public class Picture {
         return isValidPicture(path);
     }
 
-    public boolean isValidPicture(String path) {
+    public static boolean isValidPicture(String path) {
 
         File f = new File(path);
         String mimetype= new MimetypesFileTypeMap().getContentType(f);
@@ -57,19 +56,21 @@ public class Picture {
         int height = 12;
         BufferedImage bf = null;
         File f = null;
-        String dst;
+        String dst = PICTURE_DIRECTORY +"/"+newPictureName+".png";
         try{
-            f = new File(path);
-            bf = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-
+            f = new File("F://a.jpg");
             bf = ImageIO.read(f);
 
-            dst = PICTURE_DIRECTORY +newPictureName+".png";
-            f = new File(dst);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
+        try {
+            dst = PICTURE_DIRECTORY +"/"+newPictureName+".png";
+            new File (PICTURE_DIRECTORY, newPictureName+".png");
+            f = new File(dst);
             ImageIO.write(bf, "png", f);
         } catch (Exception e) {
-            dst = DEFAULT_PATH;
             System.out.println(e.getMessage());
         }
 
