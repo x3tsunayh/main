@@ -17,7 +17,7 @@ import seedu.address.model.person.Picture;
 public class PersonCard extends UiPart<Region> {
 
     private static final String FXML = "PersonListCard.fxml";
-
+    private static final String BROKEN_IMAGE_URL = "images/imageFail.png";
     /**
      * Note: Certain keywords such as "location" and "resources" are reserved keywords in JavaFX.
      * As a consequence, UI elements' variable names cannot be set to such keywords
@@ -68,7 +68,14 @@ public class PersonCard extends UiPart<Region> {
             imageView.setImage(x);*/
        // }
       //  imageView.setImage(new Image(filePath, 12, 12, true, false));
-        imageView = new ImageView((getClass().getClassLoader().getResource("images/default.png")).toExternalForm());
+        //imageView = new ImageView((getClass().getClassLoader().getResource("images/default.png")).toExternalForm());
+        //System.out.println(imageView);
+        String url = person.getPicture().getPath();
+        try {
+            imageView.setImage(new Image(url, 128, 128, true, false));
+        } catch (Exception e) {
+            imageView.setImage(new Image(BROKEN_IMAGE_URL, 128, 128, true, false));
+        }
     }
 
     @Override
