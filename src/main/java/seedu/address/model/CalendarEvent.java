@@ -32,6 +32,7 @@ public interface CalendarEvent {
         } else if (other != null) {
             return false;
         } else {
+
             return other.getTitle().equals(this.getTitle())
                     && other.getDescription().equals(this.getDescription())
                     && other.getLocation().equals(this.getLocation())
