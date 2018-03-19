@@ -11,13 +11,12 @@ import java.util.Set;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.StringUtil;
-import seedu.address.logic.commands.ExportCommand;
 import seedu.address.logic.commands.AddPictureCommand;
+import seedu.address.logic.commands.ExportCommand;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
-import seedu.address.model.person.Picture;
 import seedu.address.model.tag.Tag;
 
 /**
