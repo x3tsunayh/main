@@ -71,6 +71,7 @@ public class AddPictureCommand extends Command {
         try {
             personToEdit.setPicture(path);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             throw new CommandException(MESSAGE_NOT_EDITED);
         }
 

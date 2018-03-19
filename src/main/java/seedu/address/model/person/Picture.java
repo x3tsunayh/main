@@ -3,6 +3,7 @@ package seedu.address.model.person;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -20,7 +21,7 @@ public class Picture {
     public static final String  MESSAGE_PICTURE_CONSTRAINTS =
             "Filepath must be valid, and point to an image file"; //size
     public static final String PICTURE_VALIDATION_REGEX = "[^\\s].*";
-    public final String PICTURE_DIRECTORY  = "src/main/resources/ProfilePic/";
+    public final String PICTURE_DIRECTORY  = "ProfilePic/";
     public final String MESSAGE_USAGE = "dummy";
     private String path;
 
@@ -43,7 +44,7 @@ public class Picture {
         }
         this.path = "ProfilePicture/" + newPictureName + "." + extension;
 
-        createNewPicture(path, this.path);
+        createNewPicture(path, newPictureName + "." + extension);
 
     }
 
@@ -62,45 +63,17 @@ public class Picture {
         String type = mimetype.split("/")[0];
         return type.equals("image");
     }
-/*
-    public String createNewPicture (String path, String newPictureName) {
-        int width = 12;
-        int height = 12;
-        BufferedImage bf = null;
-        File f = null;
-        String dst = "ProfilePics" +"/"+newPictureName+".png";
-        try{
-            f = new File(path);
-            bf = ImageIO.read(f);
 
-        } catch (Exception e) {
-            System.out.println("READERROR: " + e.getMessage());
-        }
-
-        try {
-            dst = "ProfilePic/" +newPictureName+".png";
-            System.out.println(dst);
-            new File ("src/main/resources/ProfilePic/", newPictureName+".png");
-            f = new File("src/main/resources/ProfilePic/", newPictureName+".png");
-            ImageIO.write(bf, "png", f);
-            dst = "ProfilePic/" +newPictureName+".png";
-            System.out.println(f.getPath());
-        } catch (Exception e) {
-            System.out.println("WRITE ERROR: "+e.getMessage());
-        }
-
-        return dst;
-    } */
-
-    public void createNewPicture(String source, String dst) {
+    public void createNewPicture(String source, String dstFilename) {
 
         File src = new File(source);
-        File dest = new File(dst);
+        System.out.println("aa");
+        File dest = new File("ProfilePic/"+dstFilename);
 
+        System.out.println("bb");
         try {
-            Files.copy(src.toPath(), dest.toPath());
+            Files.copy(src.toPath(), dest.toPath(), REPLACE_EXISTING);
         } catch (Exception e) {
-            System.out.println(src.toPath());
             System.out.println(e.getMessage());
         }
     }
