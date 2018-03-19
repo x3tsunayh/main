@@ -192,6 +192,7 @@ public class ParserUtil {
         String file = args.trim();
 
         if (file.isEmpty() || !Picture.isValidPicture(file)) {
+            if (file.isEmpty()) System.out.println("EMPTY");
             throw new IllegalValueException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                     AddPictureCommand.MESSAGE_USAGE));
         }

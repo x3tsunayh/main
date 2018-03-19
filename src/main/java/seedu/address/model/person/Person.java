@@ -35,7 +35,6 @@ public class Person {
         this.email = email;
         this.address = address;
         this.picture = pic;
-        System.out.println("Hello" + picture.getPath());
         // protect internal tags from changes in the arg list
         this.tags = new UniqueTagList(tags);
     }

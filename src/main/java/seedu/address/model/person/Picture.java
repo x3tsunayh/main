@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
 import javax.activation.MimetypesFileTypeMap;
 import javax.imageio.ImageIO;
 
@@ -19,7 +20,7 @@ public class Picture {
     public static final String  MESSAGE_PICTURE_CONSTRAINTS =
             "Filepath must be valid, and point to an image file"; //size
     public static final String PICTURE_VALIDATION_REGEX = "[^\\s].*";
-    public final String PICTURE_DIRECTORY  = "src/main/resources/ProfilePic";
+    public final String PICTURE_DIRECTORY  = "src/main/resources/ProfilePic/";
     public final String MESSAGE_USAGE = "dummy";
     private String path;
 
@@ -27,11 +28,22 @@ public class Picture {
         this.path = DEFAULT_PATH;
     }
 
+    public Picture(String path) {
+        this.path = path;
+    }
     public Picture(String path, String newPictureName) {
 
         requireNonNull(path);
         checkArgument(isValidPath(path), MESSAGE_PICTURE_CONSTRAINTS);
-        this.path = createNewPicture(path, newPictureName);
+        String extension = "";
+
+        int i = path.lastIndexOf('.');
+        if (i > 0) {
+            extension = path.substring(i+1);
+        }
+        this.path = "ProfilePicture/" + newPictureName + "." + extension;
+
+        createNewPicture(path, this.path);
 
     }
 
@@ -50,31 +62,47 @@ public class Picture {
         String type = mimetype.split("/")[0];
         return type.equals("image");
     }
-
+/*
     public String createNewPicture (String path, String newPictureName) {
         int width = 12;
         int height = 12;
         BufferedImage bf = null;
         File f = null;
-        String dst = PICTURE_DIRECTORY +"/"+newPictureName+".png";
+        String dst = "ProfilePics" +"/"+newPictureName+".png";
         try{
-            f = new File("F://a.jpg");
+            f = new File(path);
             bf = ImageIO.read(f);
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("READERROR: " + e.getMessage());
         }
 
         try {
-            dst = PICTURE_DIRECTORY +"/"+newPictureName+".png";
-            new File (PICTURE_DIRECTORY, newPictureName+".png");
-            f = new File(dst);
+            dst = "ProfilePic/" +newPictureName+".png";
+            System.out.println(dst);
+            new File ("src/main/resources/ProfilePic/", newPictureName+".png");
+            f = new File("src/main/resources/ProfilePic/", newPictureName+".png");
             ImageIO.write(bf, "png", f);
+            dst = "ProfilePic/" +newPictureName+".png";
+            System.out.println(f.getPath());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("WRITE ERROR: "+e.getMessage());
         }
 
         return dst;
+    } */
+
+    public void createNewPicture(String source, String dst) {
+
+        File src = new File(source);
+        File dest = new File(dst);
+
+        try {
+            Files.copy(src.toPath(), dest.toPath());
+        } catch (Exception e) {
+            System.out.println(src.toPath());
+            System.out.println(e.getMessage());
+        }
     }
 
     public String getPath() {

@@ -56,10 +56,9 @@ public class AddPictureCommandParser implements Parser<AddPictureCommand> {
             return new AddPictureCommand(index, path);
         } catch (IllegalValueException ive) {
             ive.printStackTrace();
-            //throw new ParseException(
-                    //String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddPictureCommand.MESSAGE_USAGE));
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddPictureCommand.MESSAGE_USAGE));
         }
-        return null;
     }
 
 }

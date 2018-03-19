@@ -1,5 +1,6 @@
 package seedu.address.ui;
 
+import java.net.URL;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -59,13 +60,18 @@ public class PersonCard extends UiPart<Region> {
         initProfilePic(person);
     }
 
+    //private static final String BROKEN_IMAGE_URL = "images/imageFail.png";
 
     public void initProfilePic(Person person) {
 
-        String url = person.getPicture().getPath();
+        //String url = person.getPicture().getPath();
+
         try {
+            String url = person.getPicture().getPath();
+            System.out.println(url);
             imageView.setImage(new Image(url, 128, 128, true, false));
         } catch (Exception e) {
+            e.printStackTrace();
             imageView.setImage(new Image(BROKEN_IMAGE_URL, 128, 128, true, false));
         }
     }
