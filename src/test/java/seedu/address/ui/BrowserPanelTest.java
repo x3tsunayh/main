@@ -2,6 +2,7 @@ package seedu.address.ui;
 
 import static seedu.address.testutil.TypicalPersons.ALICE;
 
+
 import org.junit.Before;
 
 import guitests.guihandles.BrowserPanelHandle;
