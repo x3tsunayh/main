@@ -1,27 +1,15 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
-
-import java.util.Set;
-import java.util.stream.Stream;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.AddPictureCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.person.Address;
-import seedu.address.model.person.Email;
-import seedu.address.model.person.Name;
-import seedu.address.model.person.Person;
-import seedu.address.model.person.Picture;
-import seedu.address.model.person.Phone;
-import seedu.address.model.tag.Tag;
 
+/**
+ * Parses input arguments and creates a new AddPictureCommand object
+ */
 public class AddPictureCommandParser implements Parser<AddPictureCommand> {
 
     private String path;
@@ -37,8 +25,6 @@ public class AddPictureCommandParser implements Parser<AddPictureCommand> {
         String[] splitted = args.trim().split("\\s+");
 
         if (splitted.length != 2) {
-            System.out.println(args);
-            for (String i : splitted) System.out.println(i);
             throw new ParseException(
                     String.format("Need exactly 2 args"));
         }

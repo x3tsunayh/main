@@ -47,7 +47,7 @@ public class XmlAdaptedPerson {
     /**
      * Constructs an {@code XmlAdaptedPerson} with the given person details.
      */
-    /*
+
     public XmlAdaptedPerson(String name, String phone, String email, String address, List<XmlAdaptedTag> tagged) {
         this.name = name;
         this.phone = phone;
@@ -57,7 +57,7 @@ public class XmlAdaptedPerson {
             this.tagged = new ArrayList<>(tagged);
         }
     }
-    public XmlAdaptedPerson(String name, String phone, String email, String address, Picture picture,
+    public XmlAdaptedPerson(String name, String phone, String email, String address, String picture,
                             List<XmlAdaptedTag> tagged) {
         this.name = name;
         this.phone = phone;
@@ -67,7 +67,7 @@ public class XmlAdaptedPerson {
             this.tagged = new ArrayList<>(tagged);
         }
         this.picture = picture;
-    } */
+    }
 
     /**
      * Converts a given Person into this class for JAXB use.
