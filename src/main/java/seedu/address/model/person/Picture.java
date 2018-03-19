@@ -1,37 +1,48 @@
 package seedu.address.model.person;
 
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
-import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Files;
 import javax.activation.MimetypesFileTypeMap;
-import javax.imageio.ImageIO;
 
-import seedu.address.commons.exceptions.IllegalValueException;
-
+/**
+ * Represents a Picture in the address book.
+ * Guarantees: details are present and not null, field values are validated, immutable.
+ */
 public class Picture {
 
     public static final String DEFAULT_PATH = "images/default.png";
     public static final String  MESSAGE_PICTURE_CONSTRAINTS =
             "Filepath must be valid, and point to an image file"; //size
     public static final String PICTURE_VALIDATION_REGEX = "[^\\s].*";
-    public final String PICTURE_DIRECTORY  = "ProfilePic/";
-    public final String MESSAGE_USAGE = "dummy";
+    public static final String PICTURE_DIRECTORY  = "ProfilePic/";
+    public static final String MESSAGE_USAGE = "dummy";
+
     private String path;
 
+    /**
+     * Default initializer, uses default picture
+     */
     public Picture() {
         this.path = DEFAULT_PATH;
     }
 
+    /**
+     * initializer if path pointing to pic is specified
+     * @param path
+     */
     public Picture(String path) {
         this.path = path;
     }
+
+    /**
+     * initializer if path, and image name of new picture is specified
+     * @param path
+     * @param newPictureName
+     */
     public Picture(String path, String newPictureName) {
 
         requireNonNull(path);
@@ -40,7 +51,7 @@ public class Picture {
 
         int i = path.lastIndexOf('.');
         if (i > 0) {
-            extension = path.substring(i+1);
+            extension = path.substring(i + 1);
         }
         this.path = "ProfilePicture/" + newPictureName + "." + extension;
 
@@ -48,6 +59,11 @@ public class Picture {
 
     }
 
+    /**
+     * Check if path is valid
+     * @param path
+     * @return
+     */
     public boolean isValidPath(String path) {
 
         if (!path.matches(PICTURE_VALIDATION_REGEX)) {
@@ -68,7 +84,7 @@ public class Picture {
 
         File src = new File(source);
         System.out.println("aa");
-        File dest = new File("ProfilePic/"+dstFilename);
+        File dest = new File("ProfilePic/" + dstFilename);
 
         System.out.println("bb");
         try {

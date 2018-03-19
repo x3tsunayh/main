@@ -6,10 +6,10 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 
+import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 
-import seedu.address.commons.exceptions.IllegalValueException;
 
 /**
  * Represents a Person in the address book.
