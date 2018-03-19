@@ -9,7 +9,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class TaskCategory {
 
-    public static final String MESSAGE_TASK_CATEGORY_CONSTRAINTS = "Task category names should be aphanumeric";
+    public static final String MESSAGE_TASK_CATEGORY_CONSTRAINTS = "Task category names should be alphanumeric";
     public static final String TASK_CATEGORY_VALIDATION_REGEX = "\\p{Alnum}+";
 
     public final String taskCategoryName;

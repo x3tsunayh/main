@@ -94,12 +94,9 @@ public class AddressBook implements ReadOnlyAddressBook {
 
         try {
             setPersons(syncedPersonList);
+            setTasks(syncedTaskList);
         } catch (DuplicatePersonException e) {
             throw new AssertionError("AddressBooks should not have duplicate persons");
-        }
-
-        try {
-            setTasks(syncedTaskList);
         } catch (DuplicateTaskException e) {
             throw new AssertionError("AddressBooks should not have duplicate tasks");
         }
