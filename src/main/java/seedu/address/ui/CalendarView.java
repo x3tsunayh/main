@@ -116,7 +116,7 @@ public class CalendarView {
 
                 if (checkEventDay(e, dayValue)
                         && checkEventMonth(e, monthValue) && checkEventYear(e, yearValue)) {
-                     eventExist = true;
+                    eventExist = true;
                 }
 
             }
@@ -194,8 +194,7 @@ public class CalendarView {
     private boolean checkEventDay(CalendarEvent event, String dayValue) {
         if (dayValue.length() == 1) {
             return event.getDatetime().substring(0, 2).equals("0" + dayValue);
-        }
-        else {
+        } else {
             return event.getDatetime().substring(0, 2).equals(dayValue);
         }
     }
@@ -209,8 +208,7 @@ public class CalendarView {
     private boolean checkEventMonth(CalendarEvent event, String monthValue) {
         if (monthValue.length() == 1) {
             return event.getDatetime().substring(3, 5).equals("0" + monthValue);
-        }
-        else {
+        } else {
             return event.getDatetime().substring(3, 5).equals(monthValue);
         }
     }
