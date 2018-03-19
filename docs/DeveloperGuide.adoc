@@ -12,7 +12,7 @@ ifdef::env-github[]
 endif::[]
 :repoURL: https://github.com/CS2103JAN2018-T15-B4/main
 
-By: `Team SE-EDU`      Since: `Jun 2016`      Licence: `MIT`
+By: `Team T15-B4`      Since: `Jun 2016`      Licence: `MIT`
 
 == Setting up
 
@@ -811,13 +811,60 @@ See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-
 
 *Target user profile*:
 
+Our Address Book aims to target busy businessmen who have to travel frequently on business trips and meetings,
+but also loves to travel. The Address Book will allow the businessmen to manage their large number of contacts and
+note down the tasks to be done, as well as a calendar for them to record important events and check their schedule.
+
 * has a need to manage a significant number of contacts
 * prefer desktop apps over other types
 * can type fast
 * prefers typing over mouse input
 * is reasonably comfortable using CLI apps
 
-*Value proposition*: manage contacts faster than a typical mouse/GUI driven app
+*Value proposition*:
+
+* manage contacts faster than a typical mouse/GUI driven app
+* manage contacts, tasks and events from one place
+
+*Feature contribution*:
+
+* Chan Yin Xin
+
+Major: Implement task/to-do list feature to facilitate task management
+
+Every task will have a priority level and status, allowing the easy tracking of tasks.
+
+Minor: Sort contacts by name
+
+This enables easy viewing of multiple contacts that span across different alphabets that are in sequential order. For example, looking for contacts starting with NTU, then NUS.
+
+
+* Lee De Zhang
+
+Major: Profile picture feature
+
+As the businessman meet a lot of people, the profile picture allows them to recognise a contact more easily.
+
+Minor: Delete contacts by name
+
+It is more convenient to delete the contacts by name when there are a lot of contacts.
+
+
+* Tan Yong He
+
+Major: Calendar view feature to check summarised schedule for the month.
+
+Minor: Export and Import features for address book portability to google contacts.
+
+
+* Jillian Wee
+
+Major: Currency converter feature to convert from one currency to another easily.
+
+Minor: Search by name
+
+This is not limited to full word but also partial word, so that the businessman can easily find and retrieve
+a contact's details.
 
 [appendix]
 == User Stories
@@ -839,11 +886,11 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *` |businessman |find a person by company |locate details of companies without having to go through the entire list
 
-|`* * *` |business with constantly changing networks |delete a person |remove entries that I no longer need
+|`* * *` |businessman with constantly changing networks |delete a person |remove entries that I no longer need
 
-|`* * *` |business with many contacts |sort persons by name |easily view the details
+|`* * *` |businessman with many contacts |sort persons by name |easily view the details of people in sequential order
 
-|`* * *` |business with many contacts |sort persons by tag |easily view the details
+|`* * *` |businessman with many contacts |sort persons by tag |easily view the details of persons with tag of interest
 
 |`* * *` |traveler |add event to my calender|receive a reminder on those dates (eg. Birthdays, Meetings)
 
@@ -869,17 +916,17 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *` |traveler and businessman |edit my user profile |it is kept up-to-date
 
-|`* * *` |traveler and businessman |add new item into the to-do list |to keep track what I need to do
+|`* * *` |traveler and businessman |add new item into the to-do list | keep track what I need to do
 
-|`* * *` |traveler and businessman |list of items in to-do list | to keep track what I need to do
+|`* * *` |traveler and businessman |list of items in to-do list | keep track what I need to do
 
-|`* * *` |traveler and businessman |remove item from to-do list |
+|`* * *` |traveler and businessman |remove item from to-do list | remove completed tasks
 
 |`* * *` |traveler and businessman |convert a sentence or word from one language to another |understand both language at the same time
 
 |`* *` |traveler and businessman |subscribe to event |get more information about the event
 
-|`* *` |traveler and businessman |subscribe to mailing list |
+|`* *` |traveler and businessman |subscribe to mailing list | receive the latest events of interest
 
 |`* *` |businessman |convert from one timezone to another |know the working hours of a person in a different time zone to facilitate business communication
 
@@ -891,7 +938,6 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* *` |impatient businessman |import data | to port over different devices easily
 
-|`*` |user with many persons in the address book |sort persons by name |locate a person easily
 |=======================================================================
 
 _{More to be added}_
