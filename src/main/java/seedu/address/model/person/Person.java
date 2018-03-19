@@ -1,7 +1,6 @@
 package seedu.address.model.person;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
-import seedu.address.commons.exceptions.IllegalValueException;
 
 import java.util.Collections;
 import java.util.Objects;
@@ -9,6 +8,8 @@ import java.util.Set;
 
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
+
+import seedu.address.commons.exceptions.IllegalValueException;
 
 /**
  * Represents a Person in the address book.
@@ -68,12 +69,19 @@ public class Person {
         return picture;
     }
 
+    /**
+     * Update contact picture to that located in path
+     * @param path
+     */
     public void updatePicture(String path) {
         int hash = this.hashCode();
         String filename = String.valueOf(hash);
         this.picture = new Picture(path, filename);
     }
 
+    /**
+     * Set profile picture to that in path
+     */
     public void setPicture(String path) throws IllegalValueException {
 
         Picture oldPic = this.picture;
