@@ -1,14 +1,7 @@
 package seedu.address.ui;
 
-import static seedu.address.testutil.TypicalPersons.ALICE;
-
-
-import org.junit.Before;
-
-import guitests.guihandles.BrowserPanelHandle;
-import seedu.address.commons.events.ui.PersonPanelSelectionChangedEvent;
-
 public class BrowserPanelTest extends GuiUnitTest {
+    /*
     private PersonPanelSelectionChangedEvent selectionChangedEventStub;
 
     private BrowserPanel browserPanel;
@@ -23,7 +16,7 @@ public class BrowserPanelTest extends GuiUnitTest {
 
         browserPanelHandle = new BrowserPanelHandle(browserPanel.getRoot());
     }
-    /*
+
     @Test
     public void display() throws Exception {
         // default web page
