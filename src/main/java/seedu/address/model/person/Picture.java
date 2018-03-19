@@ -72,14 +72,24 @@ public class Picture {
         return isValidPicture(path);
     }
 
+    /**
+     * Checks if the image pointed to by the path is indeed a valid image
+     * @param path
+     * @return
+     */
     public static boolean isValidPicture(String path) {
 
         File f = new File(path);
-        String mimetype= new MimetypesFileTypeMap().getContentType(f);
+        String mimetype = new MimetypesFileTypeMap().getContentType(f);
         String type = mimetype.split("/")[0];
         return type.equals("image");
     }
 
+    /**
+     * copies the file from (@code source) to the profile pic folder
+     * @param source
+     * @param dstFilename
+     */
     public void createNewPicture(String source, String dstFilename) {
 
         File src = new File(source);

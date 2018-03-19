@@ -1,7 +1,7 @@
 package seedu.address.ui;
 
-import java.net.URL;
 import javafx.fxml.FXML;
+
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -9,7 +9,6 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import seedu.address.model.person.Person;
-import seedu.address.model.person.Picture;
 
 
 /**
@@ -60,11 +59,12 @@ public class PersonCard extends UiPart<Region> {
         initProfilePic(person);
     }
 
-    //private static final String BROKEN_IMAGE_URL = "images/imageFail.png";
-
+    /**
+     * initialize javafx imageview to profile pic of (@code person)
+     * @param person
+     */
     public void initProfilePic(Person person) {
 
-        //String url = person.getPicture().getPath();
 
         try {
             String url = person.getPicture().getPath();
