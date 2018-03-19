@@ -16,14 +16,16 @@ import seedu.address.testutil.TypicalAddressBook;
 
 public class XmlSerializableAddressBookTest {
 
-    private static final String TEST_DATA_FOLDER = FileUtil.getPath("src/test/data/XmlSerializableAddressBookTest/");
+    private static final String TEST_DATA_FOLDER =
+            FileUtil.getPath("src/test/data/XmlSerializableAddressBookTest/");
     private static final File TYPICAL_ADDRESS_BOOK_FILE = new File(TEST_DATA_FOLDER + "typicalAddressBook.xml");
     //private static final File TYPICAL_PERSONS_FILE = new File(TEST_DATA_FOLDER + "typicalPersonsAddressBook.xml");
     //private static final File TYPICAL_TASKS_FILE = new File(TEST_DATA_FOLDER  + "typicalTasksAddressBook.xml");
     private static final File INVALID_PERSON_FILE = new File(TEST_DATA_FOLDER + "invalidPersonAddressBook.xml");
     private static final File INVALID_TAG_FILE = new File(TEST_DATA_FOLDER + "invalidTagAddressBook.xml");
     private static final File INVALID_TASK_FILE = new File(TEST_DATA_FOLDER + "invalidTaskAddressBook.xml");
-    private static final File INVALID_TASK_CATEGORY_FILE = new File(TEST_DATA_FOLDER + "invalidTaskCategoryAddressBook.xml");
+    private static final File INVALID_TASK_CATEGORY_FILE =
+            new File(TEST_DATA_FOLDER + "invalidTaskCategoryAddressBook.xml");
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();

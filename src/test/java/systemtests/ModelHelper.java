@@ -35,7 +35,8 @@ public class ModelHelper {
      * Updates {@code model}'s task filtered list to display only {@code toDisplay}
      */
     public static void setTaskFilteredList(Model mode, List<Task> toDisplay) {
-        Optional<Predicate<Task>> predicate = toDisplay.stream().map(ModelHelper::getTaskPredicateMatching).reduce(Predicate::or);
+        Optional<Predicate<Task>> predicate = toDisplay.stream().map(ModelHelper::getTaskPredicateMatching)
+                .reduce(Predicate::or);
     }
 
     /**

@@ -94,7 +94,7 @@ public class TaskBuilder {
 
     /**
      * Parses the {@code taskCategories} into a {@code Set<TaskCategory>} and
-     * set it to the {@ Task} that we are building.
+     * set it to the {@code Task} that we are building.
      */
     public TaskBuilder withTaskCategories(String ... taskCategories) {
         this.taskCategories = SampleDataUtil.getTaskCategorySet(taskCategories);
