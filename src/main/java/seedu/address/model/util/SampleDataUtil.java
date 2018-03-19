@@ -50,18 +50,18 @@ public class SampleDataUtil {
 
     public static Task[] getSampleTasks() {
         return new Task[] {
-                new Task(new TaskName("Task XYZ"), new TaskPriority("Medium"),
-                        new TaskDescription("Task description XYZ"),
-                        new TaskDueDate("2018-04-28"), new TaskStatus("Undone"),
-                        getTaskCategorySet("Work")),
-                new Task(new TaskName("Essay research"), new TaskPriority("Low"),
-                        new TaskDescription("Google for interesting points on essay topic"),
-                        new TaskDueDate("2018-05-29"), new TaskStatus("Undone"),
-                        getTaskCategorySet("Personal")),
-                new Task(new TaskName("Formulate meeting agenda"), new TaskPriority("High"),
-                        new TaskDescription("(1) Analyse the project requirements (2) Record meeting agenda"),
-                        new TaskDueDate("2018-04-20"), new TaskStatus("Undone"),
-                        getTaskCategorySet("Meeting"))
+            new Task(new TaskName("Task XYZ"), new TaskPriority("Medium"),
+                new TaskDescription("Task description XYZ"),
+                new TaskDueDate("2018-04-28"), new TaskStatus("Undone"),
+                getTaskCategorySet("Work")),
+            new Task(new TaskName("Essay research"), new TaskPriority("Low"),
+                new TaskDescription("Google for interesting points on essay topic"),
+                new TaskDueDate("2018-05-29"), new TaskStatus("Undone"),
+                getTaskCategorySet("Personal")),
+            new Task(new TaskName("Formulate meeting agenda"), new TaskPriority("High"),
+                new TaskDescription("(1) Analyse the project requirements (2) Record meeting agenda"),
+                new TaskDueDate("2018-04-20"), new TaskStatus("Undone"),
+                getTaskCategorySet("Meeting"))
         };
     }
 
