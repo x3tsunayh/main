@@ -36,6 +36,7 @@ public class LogicManagerTest {
     private Model model;
     private Storage storage;
     private Logic logic;
+    private UserPrefs userPrefs;
 
     @Before
     public void setUp() {
@@ -44,7 +45,7 @@ public class LogicManagerTest {
 
         model = new ModelManager();
         storage = new StorageManager(addressBookStorage, userPrefsStorage);
-        logic = new LogicManager(model, storage);
+        logic = new LogicManager(model, storage, userPrefs);
     }
 
     private String getFilePath(String fileName) {
