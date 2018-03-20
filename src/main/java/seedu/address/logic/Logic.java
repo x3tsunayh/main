@@ -4,8 +4,13 @@ import javafx.collections.ObservableList;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.CalendarEvent;
 import seedu.address.model.person.Person;
+<<<<<<< HEAD
 import seedu.address.model.task.Task;
+=======
+import seedu.address.ui.CalendarView;
+>>>>>>> 9cddf0343a5e7cbe5f941aa1014656a642972479
 
 /**
  * API of the Logic component
@@ -28,4 +33,8 @@ public interface Logic {
 
     /** Returns the list of input entered by the user, encapsulated in a {@code ListElementPointer} object */
     ListElementPointer getHistorySnapshot();
+
+    void setCalendarView(CalendarView calendarView);
+
+    ObservableList<CalendarEvent> getFilteredEventList();
 }

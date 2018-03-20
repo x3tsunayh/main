@@ -30,6 +30,8 @@ public interface Model {
     /** Adds the given person */
     void addPerson(Person person) throws DuplicatePersonException;
 
+
+
     /**
      * Replaces the given person {@code target} with {@code editedPerson}.
      *
