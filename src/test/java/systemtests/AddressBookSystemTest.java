@@ -26,12 +26,9 @@ import guitests.guihandles.MainWindowHandle;
 import guitests.guihandles.PersonListPanelHandle;
 import guitests.guihandles.ResultDisplayHandle;
 import guitests.guihandles.StatusBarFooterHandle;
-<<<<<<< HEAD
 import guitests.guihandles.TaskListPanelHandle;
 
 import seedu.address.MainApp;
-=======
->>>>>>> 9cddf0343a5e7cbe5f941aa1014656a642972479
 import seedu.address.TestApp;
 import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.core.index.Index;
@@ -285,13 +282,9 @@ public abstract class AddressBookSystemTest {
             assertEquals("", getCommandBox().getInput());
             assertEquals("", getResultDisplay().getText());
             assertListMatching(getPersonListPanel(), getModel().getFilteredPersonList());
-<<<<<<< HEAD
             assertTaskListMatching(getTaskListPanel(), getModel().getFilteredTaskList());
-            assertEquals(MainApp.class.getResource(FXML_FILE_FOLDER + DEFAULT_PAGE), getBrowserPanel().getLoadedUrl());
-=======
             //assertEquals(MainApp.class.getResource(FXML_FILE_FOLDER + DEFAULT_PAGE),
             // getBrowserPanel().getLoadedUrl());
->>>>>>> 9cddf0343a5e7cbe5f941aa1014656a642972479
             assertEquals("./" + testApp.getStorageSaveLocation(), getStatusBarFooter().getSaveLocation());
             assertEquals(SYNC_STATUS_INITIAL, getStatusBarFooter().getSyncStatus());
         } catch (Exception e) {
