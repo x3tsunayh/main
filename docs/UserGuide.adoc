@@ -123,6 +123,22 @@ Returns `john` and `John Doe`
 * `find Betsy Tim John` +
 Returns any person having names `Betsy`, `Tim`, or `John`
 
+=== Converting from one currency to another: `convert`
+
+Convert any amount in terms of SGD to USD +
+Format: `convert [VALUE]`
+
+****
+* Comma is use as a thousand separtor and to 2 decimal places, eg 1,000.00
+****
+
+Examples:
+
+* `convert 1` +
+Returns `USD 0.76`
+* `convert 5000` +
+Returns `USD 3,800.00`
+
 === Exporting addressbook data: `export`
 
 Exports addressbook data into an XML file. +
@@ -302,6 +318,8 @@ e.g. `delete John Appleseed`
 e.g. `edit 2 n/James Lee e/jameslee@example.com`
 * *Find* : `find KEYWORD [MORE_KEYWORDS]` +
 e.g. `find James Jake`
+* *Convert* : `convert VALUE` +
+e.g. `convert 1`
 * *List* : `list`
 * *Help* : `help`
 * *Select* : `select INDEX` +
