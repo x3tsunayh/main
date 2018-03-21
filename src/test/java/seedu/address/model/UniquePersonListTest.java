@@ -13,6 +13,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
+import seedu.address.testutil.TypicalAddressBook;
 import seedu.address.testutil.TypicalPersons;
 
 public class UniquePersonListTest {
@@ -29,7 +30,7 @@ public class UniquePersonListTest {
     @Test
     public void sort_ascendingOrder_success() {
         // Setup actual result
-        AddressBook addressBook = TypicalPersons.getTypicalAddressBook();
+        AddressBook addressBook = TypicalAddressBook.getTypicalAddressBook();
         addressBook.sortPersons();
         ObservableList<Person> actualPersonList = addressBook.getPersonList();
 
@@ -45,7 +46,7 @@ public class UniquePersonListTest {
     @Test
     public void sort_descendingOrder_fail() {
         // Setup actual result
-        AddressBook addressBook = TypicalPersons.getTypicalAddressBook();
+        AddressBook addressBook = TypicalAddressBook.getTypicalAddressBook();
         addressBook.sortPersons();
         ObservableList<Person> actualPersonList = addressBook.getPersonList();
 

@@ -9,10 +9,15 @@ import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.AddressBookParser;
+import seedu.address.logic.parser.CalendarViewStateParser;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.CalendarEvent;
 import seedu.address.model.Model;
+import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
+import seedu.address.model.task.Task;
 import seedu.address.storage.Storage;
+import seedu.address.ui.CalendarView;
 
 /**
  * The main LogicManager of the app.
@@ -25,9 +30,14 @@ public class LogicManager extends ComponentManager implements Logic {
     private final AddressBookParser addressBookParser;
     private final UndoRedoStack undoRedoStack;
     private final Storage storage;
+    private final UserPrefs userPrefs;
 
-    public LogicManager(Model model , Storage storage) {
+    private CalendarViewStateParser calendarViewStateParser;
+    private CalendarView calendarView;
+
+    public LogicManager(Model model, Storage storage, UserPrefs userprefs) {
         this.model = model;
+        this.userPrefs = userprefs;
         history = new CommandHistory();
         addressBookParser = new AddressBookParser();
         undoRedoStack = new UndoRedoStack();
@@ -43,6 +53,12 @@ public class LogicManager extends ComponentManager implements Logic {
             command.setStorage(storage);
             CommandResult result = command.execute();
             undoRedoStack.push(command);
+
+            //Updates the View state of the Calendar
+            if (calendarViewStateParser != null) {
+                calendarViewStateParser.updateViewState(commandText);
+            }
+
             return result;
         } finally {
             history.add(commandText);
@@ -55,7 +71,22 @@ public class LogicManager extends ComponentManager implements Logic {
     }
 
     @Override
+    public ObservableList<Task> getFilteredTaskList() {
+        return model.getFilteredTaskList();
+    }
+
+    @Override
     public ListElementPointer getHistorySnapshot() {
         return new ListElementPointer(history.getHistory());
+    }
+
+    @Override
+    public void setCalendarView(CalendarView calendarView) {
+        this.calendarViewStateParser = new CalendarViewStateParser(this.userPrefs, this.model, calendarView);
+    }
+
+    @Override
+    public ObservableList<CalendarEvent> getFilteredEventList() {
+        return null;
     }
 }

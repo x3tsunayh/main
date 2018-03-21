@@ -54,17 +54,20 @@
             <StackPane fx:id="personListPanelPlaceholder" VBox.vgrow="ALWAYS"/>
           </VBox>
 
-          <StackPane fx:id="browserPlaceholder" prefWidth="340" >
+          <VBox fx:id="calendarPane" minWidth="320" prefWidth="320" SplitPane.resizableWithParent="false">
             <padding>
-              <Insets top="10" right="10" bottom="10" left="10" />
+              <Insets top="-300" right="10" bottom="10" left="10" />
             </padding>
-          </StackPane>
+            <StackPane fx:id="calendarViewPanelPlaceholder" VBox.vgrow="ALWAYS"/>
+          </VBox>
 
           <VBox fx:id="taskList" minWidth="320" prefWidth="320" SplitPane.resizableWithParent="false">
               <padding>
                   <Insets top="10" right="10" bottom="10" left="10" />
               </padding>
+              <StackPane fx:id="taskListPanelPlaceholder" VBox.vgrow="ALWAYS"/>
           </VBox>
+
         </SplitPane>
 
         <StackPane fx:id="statusbarPlaceholder" VBox.vgrow="NEVER" />

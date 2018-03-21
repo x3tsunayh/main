@@ -205,7 +205,7 @@ The `Model`,
 
 * stores a `UserPref` object that represents the user's preferences.
 * stores the Address Book data.
-* exposes an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
+* exposes an unmodifiable `ObservableList<Person>` and an unmodifiable `ObservableList<Task>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * does not depend on any of the other three components.
 
 [[Design-Storage]]
@@ -916,11 +916,13 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *` |traveler and businessman |edit my user profile |it is kept up-to-date
 
-|`* * *` |traveler and businessman |add new item into the to-do list | keep track what I need to do
+|`* * *` |traveler and businessman |add a new task |to keep track what I need to do
 
-|`* * *` |traveler and businessman |list of items in to-do list | keep track what I need to do
+|`* * *` |traveler and businessman |list all tasks | to view my current tasks
 
-|`* * *` |traveler and businessman |remove item from to-do list | remove completed tasks
+|`* * *` |traveler and businessman |delete a task | remove completed tasks
+
+|`* * *` |traveler and businessman |sort all tasks by priority  | easily view all the tasks by importance.
 
 |`* * *` |traveler and businessman |convert a sentence or word from one language to another |understand both language at the same time
 
