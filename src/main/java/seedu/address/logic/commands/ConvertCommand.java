@@ -19,7 +19,7 @@ public class ConvertCommand extends Command {
 
     private final double value;
 
-    public ConvertCommand(double value){
+    public ConvertCommand(double value) {
         this.value = value;
     }
 
@@ -31,8 +31,12 @@ public class ConvertCommand extends Command {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         ConvertCommand that = (ConvertCommand) o;
         return Double.compare(that.value, value) == 0;
     }
