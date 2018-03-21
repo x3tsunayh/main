@@ -414,6 +414,32 @@ We are using `java.util.logging` package for logging. The `LogsCenter` class is 
 
 Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: `config.json`).
 
+===Import/Export feature (since v1.1)
+==== Current Implementation
+Right now, only Export functionality is implemented.
+It makes use of `ExportCommand` which extends `UndoableCommand`.
+When the Export functionality is called on the `AddressBookParser`, it parses the given input as a FILEPATH using `ExportCommandParser` which eventually creates the `ExportCommand` instance.
+The `ModelManager` then invokes methods involving `Storage` under the `Model` instance in order to store the data into a user-defined location. If such a location was not well-defined, then the XML file exported will be directly saved in your local repository's main folder.
+The 'StorageManager' will then call the `exportAddressBook` method under `XmlAddressBookStorage` to store the data as an XML file into a user-defined location.
+
+==== Design Considerations
+
+===== Aspect: Usages of Exported Data
+
+* **Alternative 1:** Allows option of exporting data into either CSV or XML files.
+** Pros: Allows greater flexibility as CSV files can be catered to importing of contacts into Google Contacts.
+** Cons: Need to manually cater to popular file formats and this may require constant maintenance on the developers' end.
+* **Alternative 2 (current choice):** Only allows exporting of data as XML files.
+** Pros: Simplified export into a file that is readable and understandable by humans, is completely compatible with Java and 100% portable.
+** Cons: Users may not know the benefits or uses of an XML file.
+
+===Calendar View feature (since v1.2)
+==== Current Implementation
+Right now, the Calendar can be viewed on the homepage of BizConnect Journal as a summarized list of events on different days of a specified month.
+
+==== To Be Updated
+Enables event-related functionalities in Calendar.
+
 == Documentation
 
 We use asciidoc for writing documentation.
