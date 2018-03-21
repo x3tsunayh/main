@@ -1,4 +1,4 @@
-= AddressBook Level 4 - User Guide
+= BizConnect Journal - User Guide
 :toc:
 :toc-title:
 :toc-placement: preamble
@@ -13,11 +13,11 @@ ifdef::env-github[]
 endif::[]
 :repoURL: https://github.com/CS2103JAN2018-T15-B4/main
 
-By: `Team SE-EDU`      Since: `Jun 2016`      Licence: `MIT`
+By: `CS2103JAN2018 T15-B4`      Since: `Jan 2018`      Licence: `MIT`
 
 == Introduction
 
-AddressBook Level 4 (AB4) is for those who *prefer to use a desktop app for managing contacts*. More importantly, AB4 is *optimized for those who prefer to work with a Command Line Interface* (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, AB4 can get your contact management tasks done faster than traditional GUI apps. Interested? Jump to the <<Quick Start>> to get started. Enjoy!
+BizConnect Journal is catered towards businessmen users and travelers who *prefer to use a desktop app for managing contacts*. More importantly, BCJ is *optimized for those who prefer to work with a Command Line Interface* (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, BCJ can get your contact management tasks done faster than traditional GUI apps. Interested? Jump to the <<Quick Start>> to get started. Enjoy!
 
 == Quick Start
 
@@ -318,6 +318,8 @@ e.g. `delete John Appleseed`
 e.g. `edit 2 n/James Lee e/jameslee@example.com`
 * *Find* : `find KEYWORD [MORE_KEYWORDS]` +
 e.g. `find James Jake`
+* *Export* : `export FILEPATH` +
+e.g. `exports data into XML file in user-defined filepath`
 * *Convert* : `convert VALUE` +
 e.g. `convert 1`
 * *List* : `list`
