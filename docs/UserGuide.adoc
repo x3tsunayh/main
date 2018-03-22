@@ -300,6 +300,30 @@ There is no need to save manually.
 _{explain how the user can enable/disable data encryption}_
 // end::dataencryption[]
 
+// tag::CurrencyConverter[]
+=== Currency converter feature to convert from one currency to another easily. `[coming in v1.3]`
+
+_{explain how the user can convert currencies}_
+// end::CurrencyConverter[]
+
+// tag::DisplayPicture[]
+=== As the businessman meet a lot of people, the profile picture allows them to recognise a contact more easily. `[coming in v1.3]`
+
+_{explain how the user can make use of the display picture feature}_
+// end::DisplayPicture[]
+
+// tag::CalendarView[]
+=== Calendar view feature to check summarised schedule for the month `[coming in v1.3]`
+
+_{explain how the user can use the calendar}_
+// end::CalendarView[]
+
+// tag::ToDoList[]
+=== Task/to-do list feature to facilitate task management `[coming in v1.3]`
+
+_{explain how the user can use the to-do-list}_
+// end::ToDoList[]
+
 == FAQ
 
 *Q*: How do I transfer my data to another Computer? +
