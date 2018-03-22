@@ -123,22 +123,6 @@ Returns `john` and `John Doe`
 * `find Betsy Tim John` +
 Returns any person having names `Betsy`, `Tim`, or `John`
 
-=== Converting from one currency to another: `convert`
-
-Convert any amount in terms of SGD to USD +
-Format: `convert [VALUE]`
-
-****
-* Comma is use as a thousand separtor and to 2 decimal places, eg 1,000.00
-****
-
-Examples:
-
-* `convert 1` +
-Returns `USD 0.76`
-* `convert 5000` +
-Returns `USD 3,800.00`
-
 === Exporting addressbook data: `export`
 
 Exports addressbook data into an XML file. +
@@ -300,29 +284,125 @@ There is no need to save manually.
 _{explain how the user can enable/disable data encryption}_
 // end::dataencryption[]
 
-// tag::CurrencyConverter[]
-=== Currency converter feature to convert from one currency to another easily. `[coming in v1.3]`
+// tag::AddTask[]
+=== Adding a task: `task-add` `[coming in v2.0]`
 
-_{explain how the user can convert currencies}_
-// end::CurrencyConverter[]
+Adds a task to the address book. +
+Format: `task-add n/NAME p/PRIORITY d/DESCRIPTION dd/DUE_DATE s/STATUS [c/CATEGORY]...`
+
+[TIP]
+A task can have any number of categories (including 0)
+
+Examples:
+
+* `task-add n/Task 1 p/Medium d/Description for task 1 dd/2018-05-10 s/Undone`
+* `task-add n/Agenda for meeting p/High d/Discuss proposal details dd/2018-04-29 s/Undone c/Meeting`
+// end::AddTask[]
+
+// tag::ListTask[]
+=== Listing all tasks: `task-list` `[coming in v2.0]`
+
+Shows a list of all tasks in the address book. +
+Format: `task-list`
+// end::ListTask[]
+
+// tag::SortTask[]
+=== Sorting all tasks by priority: `task-sort` `[coming in v2.0]`
+
+Sorts all tasks in the address book by priority (i.e. High, Medium, Low) in decreasing order of importance
+and list them. +
+Format: `task-sort`
+// end::SortTask[]
+
+// tag::DeleteTask[]
+=== Deleting a task: `task-delete` `[coming in v2.0]`
+
+Deletes the specified task from the address book. +
+Format: `delete INDEX`
+
+****
+* Deletes the task at the specified `INDEX`.
+
+* The index refers to the index number shown in the most recent listing.
+* The index *must be a positive integer* 1, 2, 3, ...
+****
+
+Examples:
+
+* `task-list` +
+`delete 2` +
+Deletes the 2nd task in the address book.
+// end::DeleteTask[]
+
+// tag::ConvertCurrency[]
+=== Converting from one currency to another: `convert` `[coming in v2.0]`
+
+Convert any amount in terms of SGD to USD +
+Format: `convert [VALUE]`
+
+****
+* Comma is use as a thousand separtor and to 2 decimal places, eg 1,000.00
+****
+
+Examples:
+
+* `convert 1` +
+Returns `USD 0.76`
+* `convert 5000` +
+Returns `USD 3,800.00`
+// end::ConvertCurrency[]
+
+// tag::FindByTag[]
+=== Locating persons by tag: `find -t` `[coming in v2.0]`
+
+Finds persons whose names contain any of the given keywords. +
+Format: `find -t KEYWORD [MORE_KEYWORDS]`
+
+****
+* The search is case insensitive. e.g `hans` will match `Hans`
+* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
+* Only the tag is searched.
+* Partial words will be matched e.g. `Han` will match `Hans`
+* Persons matching at least one keyword will be returned (i.e. `OR` search). e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+****
+
+Examples:
+
+* `find -t friends` +
+Returns `john` and `John Doe`
+* `find -t f` +
+Returns any person having tags `family` or `friends`
+// end::FindByTag[]
+
+// tag::FindByTag[]
+=== Locating persons by phone: `find -p` `[coming in v2.0]`
+
+Finds persons whose names contain any of the given value. +
+Format: `find -p VALUE`
+
+****
+* Only the phone is searched.
+* Partial numbers will be matched e.g. `984` will match `98450293`
+* Persons matching at least one phone will be returned (i.e. `OR` search).
+****
+
+Examples:
+
+* `find -p 982039` +
+Returns any person having phone `98203910` or `98203950`
+// end::FindByTag[]
 
 // tag::DisplayPicture[]
-=== As the businessman meet a lot of people, the profile picture allows them to recognise a contact more easily. `[coming in v1.3]`
+=== Profile picture feature `[coming in v2.0]`
 
 _{explain how the user can make use of the display picture feature}_
 // end::DisplayPicture[]
 
 // tag::CalendarView[]
-=== Calendar view feature to check summarised schedule for the month `[coming in v1.3]`
+=== Calendar view feature to check summarised schedule for the month `[coming in v2.0]`
 
 _{explain how the user can use the calendar}_
 // end::CalendarView[]
-
-// tag::ToDoList[]
-=== Task/to-do list feature to facilitate task management `[coming in v1.3]`
-
-_{explain how the user can use the to-do-list}_
-// end::ToDoList[]
 
 == FAQ
 
