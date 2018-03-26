@@ -124,12 +124,12 @@ public class SampleDataUtil {
 
     public static Event[] getSampleEvents() {
         return new Event[]{
-                new Event(new String("Clique Gathering"), new String("Night out with friends"),
-                    new String("Tampines Hub"), new String("13-10-2017 1700")),
-                new Event(new String("School Hall Concert"), new String("Friend performing"),
-                    new String("UCC"), new String("26-10-2017 1800")),
-                new Event(new String("Halloween Party"), new String("Halloween Event"),
-                    new String("Andy's House"), new String("31-10-2017 2000"))
+            new Event(new String("Clique Gathering"), new String("Night out with friends"),
+                new String("Tampines Hub"), new String("13-10-2017 1700")),
+            new Event(new String("School Hall Concert"), new String("Friend performing"),
+                new String("UCC"), new String("26-10-2017 1800")),
+            new Event(new String("Halloween Party"), new String("Halloween Event"),
+                new String("Andy's House"), new String("31-10-2017 2000"))
         };
     }
 }
