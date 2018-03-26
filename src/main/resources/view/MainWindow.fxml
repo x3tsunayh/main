@@ -55,12 +55,12 @@
             <StackPane fx:id="personListPanelPlaceholder" VBox.vgrow="ALWAYS"/>
           </VBox>
 
-          <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="150.0" prefWidth="150.0">
-            <VBox fx:id="calendarPanel" minWidth="550" prefWidth="550" SplitPane.resizableWithParent="true">
+          <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="400.0" prefWidth="150.0">
+            <VBox fx:id="calendarPanel" minWidth="550" prefWidth="550" minHeight="400" SplitPane.resizableWithParent="true">
               <padding>
                 <Insets top="10" right="10" bottom="10" left="10" />
               </padding>
-              <StackPane fx:id="calendarViewPanelPlaceholder" VBox.vgrow="ALWAYS"/>
+              <StackPane fx:id="calendarViewPanelPlaceholder" VBox.vgrow="NEVER"/>
             </VBox>
             <VBox fx:id="eventListView" minWidth="550" prefWidth="550" minHeight="450" SplitPane.resizableWithParent="true">
               <padding>
@@ -70,7 +70,7 @@
             </VBox>
           </SplitPane>
 
-          <VBox fx:id="taskList" minWidth="450" prefWidth="450" SplitPane.resizableWithParent="false">
+          <VBox fx:id="taskList" minWidth="550" prefWidth="550" SplitPane.resizableWithParent="false">
               <padding>
                   <Insets top="10" right="10" bottom="10" left="10" />
               </padding>
