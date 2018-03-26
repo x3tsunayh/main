@@ -3,8 +3,6 @@ package seedu.address.model.task;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
-import java.time.LocalDate;
-
 /**
  * Represents a Task's due date in the address book.
  * Guarantees: immutable; is valid as declared in {@link #isValidTaskDueDate(String)}

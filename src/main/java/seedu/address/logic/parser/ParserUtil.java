@@ -276,8 +276,8 @@ public class ParserUtil {
     public static Optional<TaskDescription> parseTaskDescription(Optional<String> taskDescription)
             throws IllegalValueException {
         requireNonNull(taskDescription);
-        return taskDescription.isPresent() ?
-                Optional.of(parseTaskDescription(taskDescription.get())) : Optional.empty();
+        return taskDescription.isPresent()
+                ? Optional.of(parseTaskDescription(taskDescription.get())) : Optional.empty();
     }
 
     /**
