@@ -1,8 +1,14 @@
 package seedu.address.model;
 
+import java.util.List;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
+import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.event.CalendarEvent;
+import seedu.address.model.event.Event;
+import seedu.address.model.event.ReadOnlyEventBook;
+import seedu.address.model.event.TitleContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
@@ -16,6 +22,7 @@ import seedu.address.model.task.exceptions.TaskNotFoundException;
 public interface Model {
     /** {@code Predicate} that always evaluate to true */
     Predicate<Person> PREDICATE_SHOW_ALL_PERSONS = unused -> true;
+    Predicate<CalendarEvent> PREDICATE_SHOW_ALL_EVENTS = unused -> true;
     Predicate<Task> PREDICATE_SHOW_ALL_TASKS = unused -> true;
 
     /** Clears existing backing model and replaces with the provided new data. */
@@ -23,6 +30,9 @@ public interface Model {
 
     /** Returns the AddressBook */
     ReadOnlyAddressBook getAddressBook();
+
+    /** Returns the Eventbook */
+    ReadOnlyEventBook getEventBook();
 
     /** Deletes the given person. */
     void deletePerson(Person target) throws PersonNotFoundException;
@@ -85,4 +95,16 @@ public interface Model {
      */
     void updateFilteredTaskList(Predicate<Task> predicate);
 
+    void addEvent(CalendarEvent toAdd) throws CommandException;
+
+    void deleteEvent(CalendarEvent eventToDelete) throws CommandException;
+
+    ObservableList<CalendarEvent> getFilteredEventList();
+
+    /**
+     * Updates the filter of the filtered event list to filter by the given {@code predicate}.
+     *
+     * @throws NullPointerException if {@code predicate} is null.
+     */
+    void updateFilteredEventList(Predicate<CalendarEvent> predicate);
 }

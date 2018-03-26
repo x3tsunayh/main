@@ -7,16 +7,19 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import seedu.address.logic.commands.AddCommand;
+import seedu.address.logic.commands.AddEventCommand;
 import seedu.address.logic.commands.AddPictureCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.ConvertCommand;
 import seedu.address.logic.commands.DeleteByNameCommand;
 import seedu.address.logic.commands.DeleteCommand;
+import seedu.address.logic.commands.DeleteEventCommand;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.ExportCommand;
 import seedu.address.logic.commands.FindCommand;
+import seedu.address.logic.commands.FindEventCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.HistoryCommand;
 import seedu.address.logic.commands.ListCommand;
@@ -116,7 +119,16 @@ public class AddressBookParser {
         case ConvertCommand.COMMAND_ALIAS:
             return new ConvertCommandParser().parse(arguments);
 
-        case AddPictureCommand.COMMAND_WORD:
+        case AddEventCommand.COMMAND_WORD:
+            return new AddEventCommandParser().parse(arguments);
+
+        case DeleteEventCommand.COMMAND_WORD:
+            return new DeleteEventCommandParser().parse(arguments);
+
+        case FindEventCommand.COMMAND_WORD:
+            return new FindEventCommandParser().parse(arguments);
+
+            case AddPictureCommand.COMMAND_WORD:
             return new AddPictureCommandParser().parse(arguments);
 
         default:

@@ -12,6 +12,10 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
+import seedu.address.commons.events.model.EventBookChangedEvent;
+import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.event.CalendarEvent;
+import seedu.address.model.event.ReadOnlyEventBook;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
@@ -27,25 +31,29 @@ public class ModelManager extends ComponentManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
     private final AddressBook addressBook;
+    private final EventBook eventBook;
+    private final FilteredList<CalendarEvent> filteredEvents;
     private final FilteredList<Person> filteredPersons;
     private final FilteredList<Task> filteredTasks;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
      */
-    public ModelManager(ReadOnlyAddressBook addressBook, UserPrefs userPrefs) {
+    public ModelManager(ReadOnlyAddressBook addressBook, ReadOnlyEventBook eventBook, UserPrefs userPrefs) {
         super();
         requireAllNonNull(addressBook, userPrefs);
 
         logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
 
         this.addressBook = new AddressBook(addressBook);
+        this.eventBook = new EventBook(eventBook);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
+        filteredEvents = new FilteredList<>(this.eventBook.getEventList());
         filteredTasks = new FilteredList<>(this.addressBook.getTaskList());
     }
 
     public ModelManager() {
-        this(new AddressBook(), new UserPrefs());
+        this(new AddressBook(), new EventBook(), new UserPrefs());
     }
 
     @Override
@@ -57,6 +65,11 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public ReadOnlyAddressBook getAddressBook() {
         return addressBook;
+    }
+
+    @Override
+    public ReadOnlyEventBook getEventBook() {
+        return eventBook;
     }
 
     /** Raises an event to indicate the model has changed */
@@ -136,6 +149,17 @@ public class ModelManager extends ComponentManager implements Model {
         filteredPersons.setPredicate(predicate);
     }
 
+    //=========== Filtered Event List Accessors =============================================================
+    @Override
+    public ObservableList<CalendarEvent> getFilteredEventList() {
+        return FXCollections.unmodifiableObservableList(filteredEvents);
+    }
+
+    public void updateFilteredEventList(Predicate<CalendarEvent> predicate) {
+        requireNonNull(predicate);
+        filteredEvents.setPredicate(predicate);
+    }
+
     @Override
     public ObservableList<Task> getFilteredTaskList() {
         return FXCollections.unmodifiableObservableList(filteredTasks);
@@ -145,6 +169,23 @@ public class ModelManager extends ComponentManager implements Model {
     public void updateFilteredTaskList(Predicate<Task> predicate) {
         requireNonNull(predicate);
         filteredTasks.setPredicate(predicate);
+    }
+
+    @Override
+    public void addEvent(CalendarEvent eventToAdd) throws CommandException {
+        eventBook.addEvent(eventToAdd);
+        updateFilteredEventList(PREDICATE_SHOW_ALL_EVENTS);
+        indicateEventBookChanged();
+    }
+
+    private void indicateEventBookChanged() {
+        raise(new EventBookChangedEvent(eventBook));
+    }
+
+    @Override
+    public void deleteEvent(CalendarEvent eventToDelete) throws CommandException {
+        eventBook.removeEvent(eventToDelete);
+        indicateEventBookChanged();
     }
 
     @Override
