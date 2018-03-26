@@ -23,6 +23,7 @@ public class Picture {
     public static final String APPDATA_DIR = defaultDirectory();
     public static final String FOLDER = APPDATA_DIR + "/AddressBook";
     public static final String MESSAGE_USAGE = "dummy";
+    private static final String URL_PREFIX = "file:/";
 
     private String path;
 
@@ -131,7 +132,7 @@ public class Picture {
         System.out.println("bb");
         try {
             Files.copy(src.toPath(), dest.toPath() , REPLACE_EXISTING);
-            this.path = dest.toPath().toString();
+            this.path = URL_PREFIX + dest.toPath().toString();
         } catch (Exception e) {
             System.out.println("ERROR COPYING: " + e.getMessage());
         }

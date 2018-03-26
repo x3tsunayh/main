@@ -8,6 +8,8 @@ import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.exceptions.DuplicatePersonException;
+import seedu.address.model.person.exceptions.PersonNotFoundException;
 
 /**
  * Adds a profile picture to a person in the address book
@@ -19,6 +21,7 @@ public class AddPictureCommand extends Command {
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Profile Picture for Person: %1$s";
     public static final String MESSAGE_NOT_EDITED = "A valid file must be provided.";
     public static final String MESSAGE_USAGE = "dummy";
+    public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
 
     private final Index index;
     private final String path;
@@ -47,13 +50,21 @@ public class AddPictureCommand extends Command {
         }
 
         personToEdit = lastShownList.get(personIndex);
-
+        Person editedPerson = new Person(personToEdit);
 
         try {
-            personToEdit.setPicture(path);
+            editedPerson.setPicture(path);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             throw new CommandException(MESSAGE_NOT_EDITED);
+        }
+
+        try {
+            model.updatePerson(personToEdit, editedPerson);
+        } catch (DuplicatePersonException dpe) {
+            throw new CommandException(MESSAGE_DUPLICATE_PERSON);
+        } catch (PersonNotFoundException pnfe) {
+            throw new AssertionError("The target person cannot be missing");
         }
 
 

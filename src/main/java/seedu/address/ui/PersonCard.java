@@ -1,6 +1,5 @@
 package seedu.address.ui;
 
-import java.nio.file.Paths;
 
 import javafx.fxml.FXML;
 
@@ -20,7 +19,6 @@ public class PersonCard extends UiPart<Region> {
 
     private static final String FXML = "PersonListCard.fxml";
     private static final String BROKEN_IMAGE_URL = "images/imageFail.png";
-    private static final String URL_PREFIX = "file:/"
     /**
      * Note: Certain keywords such as "location" and "resources" are reserved keywords in JavaFX.
      * As a consequence, UI elements' variable names cannot be set to such keywords
@@ -70,7 +68,7 @@ public class PersonCard extends UiPart<Region> {
 
 
         try {
-            String url = "file:\\"+person.getPicture().getPath();
+            String url = person.getPicture().getPath();
             System.out.println(url);
             imageView.setImage(new Image(url, 128, 128, true, false));
         } catch (Exception e) {

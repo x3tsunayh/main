@@ -49,6 +49,16 @@ public class Person {
         // protect internal tags from changes in the arg list
         this.tags = new UniqueTagList(tags);
     }
+
+    public Person(Person p) {
+        this.name = p.getName();
+        this.phone = p.getPhone();
+        this.email = p.getEmail();
+        this.address = p.getAddress();
+        this.picture = p.getPicture();
+        this.tags = p.getUniqueTagList();
+    }
+
     public Name getName() {
         return name;
     }
@@ -69,6 +79,7 @@ public class Person {
         return picture;
     }
 
+    public UniqueTagList getUniqueTagList() { return tags; }
     /**
      * Update contact picture to that located in path
      * @param path
@@ -93,6 +104,9 @@ public class Person {
             throw new IllegalValueException(Picture.MESSAGE_PICTURE_CONSTRAINTS);
         }
     }
+
+
+
 
     /**
      * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
