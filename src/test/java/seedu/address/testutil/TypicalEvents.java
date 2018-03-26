@@ -7,7 +7,6 @@ import java.util.List;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.EventBook;
 import seedu.address.model.event.CalendarEvent;
-import seedu.address.model.event.ReadOnlyEventBook;
 
 /**
  * A utility class containing a list of {@code Event} objects to be used in tests.
