@@ -20,7 +20,7 @@ public class TypicalTasks {
     public static final Task TASKTWO = new TaskBuilder().withTaskName("Task 2")
             .withTaskPriority("High")
             .withTaskDescription("Agenda for task 2")
-            .withTaskDueDate("2018-03-27")
+            .withTaskDueDate("2018-03-28")
             .withTaskStatus("Undone")
             .withTaskCategories("Personal").build();
     public static final Task TASKTHREE = new TaskBuilder().withTaskName("Task 3")
