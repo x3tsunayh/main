@@ -155,6 +155,7 @@ public class ModelManager extends ComponentManager implements Model {
         return FXCollections.unmodifiableObservableList(filteredEvents);
     }
 
+    @Override
     public void updateFilteredEventList(Predicate<CalendarEvent> predicate) {
         requireNonNull(predicate);
         filteredEvents.setPredicate(predicate);

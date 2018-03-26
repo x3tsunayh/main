@@ -11,8 +11,8 @@ import javafx.beans.property.ObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.model.event.ReadOnlyEventBook;
 import seedu.address.model.event.CalendarEvent;
+import seedu.address.model.event.ReadOnlyEventBook;
 /**
  * An Immutable AddressBook that is serializable to XML format
  */

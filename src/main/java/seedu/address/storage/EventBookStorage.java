@@ -35,7 +35,8 @@ public interface EventBookStorage {
     /**
      * @see #getEventBookFilePath()
      */
-    Optional<ReadOnlyEventBook> readEventBook(String filePath) throws DataConversionException, IOException, JAXBException;
+    Optional<ReadOnlyEventBook> readEventBook(String filePath)
+            throws DataConversionException, IOException, JAXBException;
 
     /**
      * Saves the given {@link ReadOnlyEventBook} to the storage.

@@ -7,8 +7,6 @@ import javax.xml.bind.JAXBException;
 
 import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.commons.util.XmlUtil;
-import seedu.address.logic.commands.Command;
-import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.event.ReadOnlyEventBook;
 
 /**
@@ -51,6 +49,9 @@ public class XmlFileStorage {
         }
     }
 
+    /**
+     * Loads the given eventbook data from the specified file.
+     */
     public static ReadOnlyEventBook loadEventDataFromSaveFile(File file)
             throws FileNotFoundException, JAXBException {
 

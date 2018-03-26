@@ -64,11 +64,6 @@ public class StorageManager extends ComponentManager implements Storage {
     }
 
     @Override
-    public Optional<ReadOnlyEventBook> readEventBook() throws DataConversionException, IOException {
-        return Optional.empty();
-    }
-
-    @Override
     public Optional<ReadOnlyAddressBook> readAddressBook(String filePath) throws DataConversionException, IOException {
         logger.fine("Attempting to read data from file: " + filePath);
         return addressBookStorage.readAddressBook(filePath);
@@ -84,6 +79,11 @@ public class StorageManager extends ComponentManager implements Storage {
             throws IOException {
         logger.fine("Attempting to write to data file: " + filePath);
         addressBookStorage.saveAddressBook(addressBook, filePath);
+    }
+
+    @Override
+    public Optional<ReadOnlyEventBook> readEventBook() throws DataConversionException, IOException {
+        return Optional.empty();
     }
 
     @Override

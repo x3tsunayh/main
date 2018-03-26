@@ -13,8 +13,6 @@ import org.fxmisc.easybind.EasyBind;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import seedu.address.commons.util.CollectionUtil;
-import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.exceptions.CommandException;
 
 /**
@@ -125,20 +123,20 @@ public class EventList implements Iterable<Event> {
         };
 
         switch (parameter) {
-            case "TITLE":
-                internalList.sort(orderByTitle);
-                break;
+        case "TITLE":
+            internalList.sort(orderByTitle);
+            break;
 
-            case "LOCATION":
-                internalList.sort(orderByLocation);
-                break;
+        case "LOCATION":
+            internalList.sort(orderByLocation);
+            break;
 
-            case "DATETIME":
-                internalList.sort(orderByDatetime);
-                break;
+        case "DATETIME":
+            internalList.sort(orderByDatetime);
+            break;
 
-            default:
-                throw new CommandException("");
+        default:
+            throw new CommandException("");
         }
 
 

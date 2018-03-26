@@ -128,7 +128,7 @@ public class AddressBookParser {
         case FindEventCommand.COMMAND_WORD:
             return new FindEventCommandParser().parse(arguments);
 
-            case AddPictureCommand.COMMAND_WORD:
+        case AddPictureCommand.COMMAND_WORD:
             return new AddPictureCommandParser().parse(arguments);
 
         default:
