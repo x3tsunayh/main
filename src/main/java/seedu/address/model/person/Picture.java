@@ -5,6 +5,8 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
 import java.io.File;
+import java.net.URI;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import javax.activation.MimetypesFileTypeMap;
 
@@ -15,10 +17,11 @@ import javax.activation.MimetypesFileTypeMap;
 public class Picture {
 
     public static final String DEFAULT_PATH = "images/default.png";
-    public static final String  MESSAGE_PICTURE_CONSTRAINTS =
+    public static final String MESSAGE_PICTURE_CONSTRAINTS =
             "Filepath must be valid, and point to an image file"; //size
     public static final String PICTURE_VALIDATION_REGEX = "[^\\s].*";
-    public static final String PICTURE_DIRECTORY  = "ProfilePic/";
+    public static final String APPDATA_DIR = defaultDirectory();
+    public static final String FOLDER = APPDATA_DIR + "/AddressBook";
     public static final String MESSAGE_USAGE = "dummy";
 
     private String path;
@@ -27,19 +30,23 @@ public class Picture {
      * Default initializer, uses default picture
      */
     public Picture() {
+        //APPDATA_DIR = defaultDirectory();
         this.path = DEFAULT_PATH;
     }
 
     /**
      * initializer if path pointing to pic is specified
+     *
      * @param path
      */
     public Picture(String path) {
+       //APPDATA_DIR = defaultDirectory();
         this.path = path;
     }
 
     /**
      * initializer if path, and image name of new picture is specified
+     *
      * @param path
      * @param newPictureName
      */
@@ -61,6 +68,7 @@ public class Picture {
 
     /**
      * Check if path is valid
+     *
      * @param path
      * @return
      */
@@ -74,6 +82,7 @@ public class Picture {
 
     /**
      * Checks if the image pointed to by the path is indeed a valid image
+     *
      * @param path
      * @return
      */
@@ -87,24 +96,68 @@ public class Picture {
 
     /**
      * copies the file from (@code source) to the profile pic folder
+     *
      * @param source
      * @param dstFilename
      */
     public void createNewPicture(String source, String dstFilename) {
 
-        File src = new File(source);
-        System.out.println("aa");
-        File dest = new File("ProfilePic/" + dstFilename);
+        File folder = new File(FOLDER);
 
-        System.out.println("bb");
+        if (!folder.exists()) {
+
+            if (!folder.mkdir()) {
+                System.out.println("FAILED TO MAKE FOLDER");
+            }
+        }
+        File src = null;
+
         try {
-            Files.copy(src.toPath(), dest.toPath(), REPLACE_EXISTING);
+            src = new File(source);
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        }
+
+        System.out.println("aa");
+        File dest = new File(FOLDER + "//" + dstFilename);
+        System.out.println(dest.getPath());
+        if (!dest.exists()) {
+            try {
+                dest.createNewFile();
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        System.out.println("bb");
+        try {
+            Files.copy(src.toPath(), dest.toPath() , REPLACE_EXISTING);
+            this.path = dest.toPath().toString();
+        } catch (Exception e) {
+            System.out.println("ERROR COPYING: " + e.getMessage());
         }
     }
 
     public String getPath() {
         return this.path;
     }
+
+    /**
+     * Determines the User OS and output the appropriate folder to store profile pic
+     *
+     * @return
+     */
+    private static String defaultDirectory() {
+        String OS = System.getProperty("os.name").toUpperCase();
+        if (OS.contains("WIN")) {
+            return System.getenv("APPDATA");
+        } else if (OS.contains("MAC")) {
+            return System.getProperty("user.home") + "/Library/Application "
+                    + "Support";
+        } else if (OS.contains("NUX")) {
+            return System.getProperty("user.home");
+        }
+        return System.getProperty("user.dir");
+    }
+
+
 }
