@@ -22,6 +22,7 @@ import seedu.address.model.Model;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
+import seedu.address.model.task.Task;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 
 /**
@@ -99,6 +100,7 @@ public class CommandTestUtil {
         // only do so by copying its components.
         AddressBook expectedAddressBook = new AddressBook(actualModel.getAddressBook());
         List<Person> expectedFilteredList = new ArrayList<>(actualModel.getFilteredPersonList());
+        List<Task> expectedFilteredTaskList = new ArrayList<>(actualModel.getFilteredTaskList());
 
         try {
             command.execute();
@@ -107,6 +109,7 @@ public class CommandTestUtil {
             assertEquals(expectedMessage, e.getMessage());
             assertEquals(expectedAddressBook, actualModel.getAddressBook());
             assertEquals(expectedFilteredList, actualModel.getFilteredPersonList());
+            assertEquals(expectedFilteredTaskList, actualModel.getFilteredTaskList());
         }
     }
 
