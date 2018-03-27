@@ -14,7 +14,7 @@ public class CalendarViewPanel extends UiPart<Region> {
     private static final String FXML = "CalendarView.fxml";
 
     @FXML
-    private Pane calendarPane;
+    private Pane calendarPanel;
 
     private CalendarView calendarView;
     private Logic logic;
@@ -27,7 +27,7 @@ public class CalendarViewPanel extends UiPart<Region> {
 
     private void setConnections() {
         calendarView = new CalendarView(logic, logic.getFilteredEventList(), YearMonth.now());
-        calendarPane.getChildren().add(calendarView.getView());
+        calendarPanel.getChildren().add(calendarView.getView());
     }
 
     public CalendarView getCalendarPane() {

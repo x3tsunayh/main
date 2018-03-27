@@ -10,6 +10,7 @@ import seedu.address.commons.exceptions.ExistingFileException;
 import seedu.address.commons.exceptions.InvalidFileException;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.event.ReadOnlyEventBook;
 
 /**
  * API of the Storage component
@@ -27,6 +28,8 @@ public interface Storage extends AddressBookStorage, UserPrefsStorage {
 
     @Override
     Optional<ReadOnlyAddressBook> readAddressBook() throws DataConversionException, IOException;
+
+    Optional<ReadOnlyEventBook> readEventBook() throws DataConversionException, IOException;
 
     @Override
     void saveAddressBook(ReadOnlyAddressBook addressBook) throws IOException;

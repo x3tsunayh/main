@@ -3,9 +3,13 @@ package seedu.address.model.util;
 import java.util.HashSet;
 import java.util.Set;
 
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
+import seedu.address.model.EventBook;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.category.TaskCategory;
+import seedu.address.model.event.Event;
+import seedu.address.model.event.ReadOnlyEventBook;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
@@ -82,6 +86,18 @@ public class SampleDataUtil {
         }
     }
 
+    public static ReadOnlyEventBook getSampleEventBook() {
+        try {
+            EventBook sampleEb = new EventBook();
+            for (Event sampleEvent : getSampleEvents()) {
+                sampleEb.addEvent(sampleEvent);
+            }
+            return sampleEb;
+        } catch (CommandException e) {
+            throw new AssertionError("sample data cannot contain duplicate events", e);
+        }
+    }
+
     /**
      * Returns a tag set containing the list of strings given.
      */
@@ -106,4 +122,14 @@ public class SampleDataUtil {
         return taskCategories;
     }
 
+    public static Event[] getSampleEvents() {
+        return new Event[]{
+            new Event(new String("Clique Gathering"), new String("Night out with friends"),
+                new String("Tampines Hub"), new String("13-10-2017 1700")),
+            new Event(new String("School Hall Concert"), new String("Friend performing"),
+                new String("UCC"), new String("26-10-2017 1800")),
+            new Event(new String("Halloween Party"), new String("Halloween Event"),
+                new String("Andy's House"), new String("31-10-2017 2000"))
+        };
+    }
 }

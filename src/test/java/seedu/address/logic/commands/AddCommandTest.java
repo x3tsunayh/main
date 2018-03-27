@@ -21,6 +21,8 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.event.CalendarEvent;
+import seedu.address.model.event.ReadOnlyEventBook;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
@@ -116,6 +118,11 @@ public class AddCommandTest {
         }
 
         @Override
+        public ReadOnlyEventBook getEventBook() {
+            return null;
+        }
+
+        @Override
         public void deletePerson(Person target) throws PersonNotFoundException {
             fail("This method should not be called.");
         }
@@ -171,6 +178,26 @@ public class AddCommandTest {
         @Override
         public void updateFilteredTaskList(Predicate<Task> predicate) {
             fail("This method should not be called.");
+        }
+
+        @Override
+        public void addEvent(CalendarEvent toAdd) throws CommandException {
+
+        }
+
+        @Override
+        public void deleteEvent(CalendarEvent eventToDelete) throws CommandException {
+
+        }
+
+        @Override
+        public ObservableList<CalendarEvent> getFilteredEventList() {
+            return null;
+        }
+
+        @Override
+        public void updateFilteredEventList(Predicate<CalendarEvent> predicate) {
+
         }
     }
 
