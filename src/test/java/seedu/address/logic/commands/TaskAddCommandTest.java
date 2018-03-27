@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.testutil.TypicalAddressBook.getTypicalAddressBook;
+import static seedu.address.testutil.TypicalEvents.getTypicalEventBook;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -27,14 +28,14 @@ public class TaskAddCommandTest {
 
     @Before
     public void setUp() {
-        model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
     }
 
     @Test
     public void execute_newTask_success() throws Exception {
         Task validTask = new TaskBuilder().build();
 
-        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+        Model expectedModel = new ModelManager(model.getAddressBook(), getTypicalEventBook(), new UserPrefs());
         expectedModel.addTask(validTask);
 
         assertCommandSuccess(prepareCommand(validTask, model), model,

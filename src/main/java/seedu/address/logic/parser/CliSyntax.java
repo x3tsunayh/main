@@ -12,12 +12,10 @@ public class CliSyntax {
     public static final Prefix PREFIX_ADDRESS = new Prefix("a/");
     public static final Prefix PREFIX_TAG = new Prefix("t/");
 
-<<<<<<< HEAD
     public static final Prefix PREFIX_EVENT_TITLE = new Prefix("et/");
     public static final Prefix PREFIX_EVENT_DESCRIPTION = new Prefix("ed/");
     public static final Prefix PREFIX_EVENT_LOCATION = new Prefix("el/");
     public static final Prefix PREFIX_EVENT_DATETIME = new Prefix("edt/");
-=======
 
     public static final Prefix PREFIX_TITLE = new Prefix("et/");
     public static final Prefix PREFIX_DESCRIPTION = new Prefix("ed/");
@@ -30,6 +28,5 @@ public class CliSyntax {
     public static final Prefix PREFIX_TASK_DUE_DATE = new Prefix("dd/");
     public static final Prefix PREFIX_TASK_STATUS = new Prefix("s/");
     public static final Prefix PREFIX_TASK_CATEGORY = new Prefix("c/");
->>>>>>> 564d8d772691828fe4588070edd34d8b0a66da7a
 
 }
