@@ -29,6 +29,7 @@ import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.SortCommand;
 import seedu.address.logic.commands.TaskAddCommand;
+import seedu.address.logic.commands.TaskListCommand;
 import seedu.address.logic.commands.UndoCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
@@ -158,5 +159,11 @@ public class AddressBookParserTest {
         Task task = new TaskBuilder().build();
         TaskAddCommand command = (TaskAddCommand) parser.parseCommand(TaskUtil.getTaskAddCommand(task));
         assertEquals(new TaskAddCommand(task), command);
+    }
+
+    @Test
+    public void parseCommand_taskList() throws Exception {
+        assertTrue(parser.parseCommand(TaskListCommand.COMMAND_WORD) instanceof TaskListCommand);
+        assertTrue(parser.parseCommand(TaskListCommand.COMMAND_WORD + " 5") instanceof TaskListCommand);
     }
 }

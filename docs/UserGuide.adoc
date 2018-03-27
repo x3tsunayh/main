@@ -300,7 +300,7 @@ Examples:
 // end::AddTask[]
 
 // tag::ListTask[]
-=== Listing all tasks: `task-list` `[coming in v2.0]`
+=== Listing all tasks: `task-list` `[since v1.3]`
 
 Shows a list of all tasks in the address book. +
 Format: `task-list`
@@ -435,3 +435,4 @@ e.g.`select 2`
 * *Redo* : `redo`
 * *Sort all persons* : `sort`
 * *Add a task* : `task-add`
+* *List tasks* : `task-list`
