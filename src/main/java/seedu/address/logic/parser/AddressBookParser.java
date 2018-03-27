@@ -26,11 +26,8 @@ import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.SortCommand;
-<<<<<<< HEAD
-import seedu.address.logic.commands.TaskListCommand;
-=======
 import seedu.address.logic.commands.TaskAddCommand;
->>>>>>> 202f4c1cb089209f33e101236c6c9fbd9d9dc50c
+import seedu.address.logic.commands.TaskListCommand;
 import seedu.address.logic.commands.UndoCommand;
 
 import seedu.address.logic.parser.exceptions.ParseException;
