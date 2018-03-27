@@ -408,6 +408,22 @@ image::TaskAddSequenceDiagram.png[width="800"]
 . The task is added to the list of tasks in Address Book and displayed to the user.
 // end::task-add[]
 
+// tag::task-list[]
+=== List tasks feature
+==== Current Implementation
+
+The list task feature allows user to display all the tasks in the Address Book.
+
+The following sequence diagram shows how the add feature operation works.
+
+image::TaskListSequenceDiagram.png[width="800"]
+
+. The user executes the `task-list` command.
+. The `AddressBookParser` class parses the command creates a new `TaskListCommand` class.
+. The `task-list` command is executed and handled by the `ModelManager` class.
+. The list is returned and displayed to the user.
+// end::task-list[]
+
 // tag::dataencryption[]
 === [Proposed] Data Encryption
 
