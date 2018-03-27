@@ -1064,6 +1064,23 @@ Use case ends.
 +
 Use case ends.
 
+[discrete]
+=== Use case: List all tasks
+
+*MSS*
+
+1.  User requests to list tasks
+2.  AddressBook shows a list of tasks
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The list is empty.
++
+Use case ends.
+
 _{More to be added}_
 
 [appendix]
