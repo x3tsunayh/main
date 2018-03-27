@@ -16,7 +16,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Logic;
-import seedu.address.model.CalendarEvent;
+import seedu.address.model.event.CalendarEvent;
 
 /**
  * WORK IN PROGRESS FOR EVENTS AND LOGGING
@@ -40,7 +40,7 @@ public class CalendarView {
 
         // Creates the calendar grid pane
         GridPane calendar = new GridPane();
-        calendar.setPrefSize(600, 400);
+        calendar.setPrefSize(450, 300);
 
         // Create rows and columns of anchor panes for calendar
         calendarMonthSetup(calendar);
@@ -50,7 +50,7 @@ public class CalendarView {
             new Text("Wednesday"), new Text("Thursday"),
             new Text("Friday"), new Text("Saturday")};
         GridPane dayLabels = new GridPane();
-        dayLabels.setPrefWidth(600);
+        dayLabels.setPrefWidth(450);
         Integer col = 0;
 
         for (Text day : days) {
@@ -67,9 +67,9 @@ public class CalendarView {
         calendarTitle.setFill(Color.WHITE);
 
         // Buttons to navigate through months
-        Button previousMonth = new Button("<");
+        Button previousMonth = new Button("< Previous");
         previousMonth.setOnAction(e -> previousMonth());
-        Button nextMonth = new Button(">");
+        Button nextMonth = new Button("Next >");
         nextMonth.setOnAction(e -> nextMonth());
         HBox titleBar = new HBox(previousMonth, calendarTitle, nextMonth);
         HBox.setMargin(calendarTitle, new Insets(0, 20, 0, 20));
@@ -148,7 +148,7 @@ public class CalendarView {
             for (int j = 0; j < 7; j++) {
                 AnchorPaneNode ap = new AnchorPaneNode();
                 ap.getStyleClass().add("anchor");
-                ap.setPrefSize(200, 200);
+                ap.setPrefSize(100, 100);
                 calendar.add(ap, j, i);
                 calendarMonth.add(ap);
             }

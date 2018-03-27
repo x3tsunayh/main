@@ -2,9 +2,9 @@
 
 <?import javafx.scene.layout.*?>
 
-<Pane fx:id="calendarPane" maxHeight="-Infinity"
+<Pane fx:id="calendarPanel" maxHeight="-Infinity"
       maxWidth="-Infinity" minHeight="-Infinity"
-      minWidth="-Infinity" prefHeight="447.0"
-      prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60"
+      minWidth="-Infinity" prefHeight="550.0"
+      prefWidth="550.0" xmlns="http://javafx.com/javafx/8.0.60"
       xmlns:fx="http://javafx.com/fxml/1"
 />

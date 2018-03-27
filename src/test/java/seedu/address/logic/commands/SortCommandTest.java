@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.testutil.TypicalAddressBook.getTypicalAddressBook;
+import static seedu.address.testutil.TypicalEvents.getTypicalEventBook;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,8 +21,8 @@ public class SortCommandTest {
 
     @Before
     public void setUp() throws Exception {
-        model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
-        expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+        model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
+        expectedModel = new ModelManager(model.getAddressBook(), getTypicalEventBook(), new UserPrefs());
 
         sortCommand = new SortCommand();
         sortCommand.setData(model, new CommandHistory(), new UndoRedoStack());

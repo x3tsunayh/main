@@ -4,6 +4,7 @@ import static junit.framework.TestCase.fail;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static seedu.address.testutil.TypicalAddressBook.getTypicalAddressBook;
+import static seedu.address.testutil.TypicalEvents.getTypicalEventBook;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,7 +43,7 @@ public class ExportCommandTest {
         AddressBookStorage addressBookStorage = new XmlAddressBookStorage(getFilePath("addressbook.xml"));
         UserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(getFilePath("preferences.json"));
         storage = new StorageManager(addressBookStorage, userPrefsStorage);
-        model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
     }
 
     @Test

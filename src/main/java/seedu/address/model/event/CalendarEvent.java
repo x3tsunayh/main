@@ -1,4 +1,4 @@
-package seedu.address.model;
+package seedu.address.model.event;
 
 import javafx.beans.property.ObjectProperty;
 
