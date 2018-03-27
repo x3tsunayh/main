@@ -1,10 +1,10 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_DATETIME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_LOCATION;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TITLE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EVENT_DATETIME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EVENT_DESCRIPTION;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EVENT_LOCATION;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EVENT_TITLE;
 
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.event.CalendarEvent;
@@ -19,15 +19,15 @@ public class AddEventCommand extends UndoableCommand {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a event to the event book. "
             + "Parameters: "
-            + PREFIX_TITLE + "NAME "
-            + PREFIX_DESCRIPTION + "DESCRIPTION "
-            + PREFIX_LOCATION + "LOCATION "
-            + PREFIX_DATETIME + "DATETIME\n"
+            + PREFIX_EVENT_TITLE + "NAME "
+            + PREFIX_EVENT_DESCRIPTION + "DESCRIPTION "
+            + PREFIX_EVENT_LOCATION + "LOCATION "
+            + PREFIX_EVENT_DATETIME + "DATETIME\n"
             + "Example: " + COMMAND_WORD + " "
-            + PREFIX_TITLE + "Halloween Horror Night "
-            + PREFIX_DESCRIPTION + "Horrifying night "
-            + PREFIX_LOCATION + "Universal Studio "
-            + PREFIX_DATETIME + "13-10-2017 2359";
+            + PREFIX_EVENT_TITLE + "Halloween Horror Night "
+            + PREFIX_EVENT_DESCRIPTION + "Horrifying night "
+            + PREFIX_EVENT_LOCATION + "Universal Studio "
+            + PREFIX_EVENT_DATETIME + "13-10-2017 2359";
 
     public static final String MESSAGE_SUCCESS = "New event added: %1$s";
     public static final String MESSAGE_DUPLICATE_EVENT = "This event already exists in the event book";

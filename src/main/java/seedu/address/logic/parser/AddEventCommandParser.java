@@ -1,10 +1,10 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_DATETIME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_LOCATION;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TITLE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EVENT_DATETIME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EVENT_DESCRIPTION;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EVENT_LOCATION;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EVENT_TITLE;
 
 import java.util.stream.Stream;
 
@@ -35,16 +35,16 @@ public class AddEventCommandParser implements Parser<AddEventCommand> {
     @Override
     public AddEventCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_TITLE, PREFIX_DESCRIPTION, PREFIX_LOCATION, PREFIX_DATETIME);
+                ArgumentTokenizer.tokenize(args, PREFIX_EVENT_TITLE, PREFIX_EVENT_DESCRIPTION, PREFIX_EVENT_LOCATION, PREFIX_EVENT_DATETIME);
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_TITLE, PREFIX_DESCRIPTION, PREFIX_LOCATION, PREFIX_DATETIME)) {
+        if (!arePrefixesPresent(argMultimap, PREFIX_EVENT_TITLE, PREFIX_EVENT_DESCRIPTION, PREFIX_EVENT_LOCATION, PREFIX_EVENT_DATETIME)) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddEventCommand.MESSAGE_USAGE));
         }
 
-        String title = argMultimap.getValue(PREFIX_TITLE).get();
-        String description = argMultimap.getValue(PREFIX_DESCRIPTION).get();
-        String location = argMultimap.getValue(PREFIX_LOCATION).get();
-        String datetime = argMultimap.getValue(PREFIX_DATETIME).get();
+        String title = argMultimap.getValue(PREFIX_EVENT_TITLE).get();
+        String description = argMultimap.getValue(PREFIX_EVENT_DESCRIPTION).get();
+        String location = argMultimap.getValue(PREFIX_EVENT_LOCATION).get();
+        String datetime = argMultimap.getValue(PREFIX_EVENT_DATETIME).get();
 
         CalendarEvent event = new Event(title, description, location, datetime);
 
