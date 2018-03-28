@@ -24,8 +24,6 @@ public class AddPictureCommandParser implements Parser<AddPictureCommand> {
 
         String[] splitted = args.trim().split("\\s+");
 
-        for (String s : splitted) System.out.println(s);
-
         if (splitted.length != 2) {
             throw new ParseException(
                     String.format("Need exactly 2 args"));

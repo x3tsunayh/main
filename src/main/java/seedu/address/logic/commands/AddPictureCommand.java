@@ -19,9 +19,12 @@ public class AddPictureCommand extends Command {
 
     public static final String COMMAND_WORD = "addpicture";
 
-    public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Profile Picture for Person: %1$s";
+    public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Picture for Person: %1$s";
     public static final String MESSAGE_NOT_EDITED = "A valid file must be provided.";
-    public static final String MESSAGE_USAGE = "dummy";
+    public static final String MESSAGE_USAGE = COMMAND_WORD
+            + ": Edits the picture of the person identified by the index number used in the last person listing.\n"
+            + "Parameters: INDEX (must be a positive integer) FILEPATH (path to a valid image file)\n"
+            + "Example: " + COMMAND_WORD + " 1 C://Pictures/johnPicture.jpg";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
 
     private final Index index;
@@ -56,16 +59,12 @@ public class AddPictureCommand extends Command {
 
         try {
             editedPerson.setPicture(path);
-            System.out.println("KSDS "+editedPerson.getPicture().getPath());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             throw new CommandException(MESSAGE_NOT_EDITED);
         }
 
         try {
-            System.out.println("KSfdsfDS "+editedPerson.getPicture().getPath());
             model.updatePerson(personToEdit, editedPerson);
-            System.out.println("KSfdsfsdfsdfsdfdsDS "+personToEdit.getPicture().getPath());
         } catch (DuplicatePersonException dpe) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         } catch (PersonNotFoundException pnfe) {

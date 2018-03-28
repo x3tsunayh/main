@@ -5,8 +5,6 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
 import java.io.File;
-import java.net.URI;
-import java.net.URLEncoder;
 import java.nio.file.Files;
 import javax.activation.MimetypesFileTypeMap;
 
@@ -41,7 +39,6 @@ public class Picture {
      * @param path
      */
     public Picture(String path) {
-       //APPDATA_DIR = defaultDirectory();
         this.path = path;
     }
 
@@ -148,13 +145,13 @@ public class Picture {
      * @return
      */
     private static String defaultDirectory() {
-        String OS = System.getProperty("os.name").toUpperCase();
-        if (OS.contains("WIN")) {
+        String os = System.getProperty("os.name").toUpperCase();
+        if (os.contains("WIN")) {
             return System.getenv("APPDATA");
-        } else if (OS.contains("MAC")) {
+        } else if (os.contains("MAC")) {
             return System.getProperty("user.home") + "/Library/Application "
                     + "Support";
-        } else if (OS.contains("NUX")) {
+        } else if (os.contains("NUX")) {
             return System.getProperty("user.home");
         }
         return System.getProperty("user.dir");
