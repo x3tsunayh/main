@@ -126,7 +126,7 @@ public class Picture {
                 System.out.println(e.getMessage());
             }
         }
-        System.out.println("bb");
+        
         try {
             Files.copy(src.toPath(), dest.toPath() , REPLACE_EXISTING);
             this.path = URL_PREFIX + dest.toPath().toString();
