@@ -44,7 +44,9 @@ public interface AddressBookStorage {
     void saveAddressBook(ReadOnlyAddressBook addressBook, String filePath) throws IOException;
 
     /**
-     * @see #saveAddressBook(ReadOnlyAddressBook) but for exporting purpose
+     * Saves the given {@link ReadOnlyAddressBook} to given filepath.
+     * @param addressBook cannot be null.
+     * @throws IOException if there was any problem writing to the file.
      */
     void exportAddressBook(ReadOnlyAddressBook addressBook, String filePath)
             throws IOException, InvalidFileException, ExistingFileException;

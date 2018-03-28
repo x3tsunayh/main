@@ -16,6 +16,7 @@ import seedu.address.logic.LogicManager;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
+import seedu.address.model.UserPrefs;
 import seedu.address.storage.JsonUserPrefsStorage;
 import seedu.address.storage.Storage;
 import seedu.address.storage.StorageManager;
@@ -30,6 +31,7 @@ public class CommandBoxTest extends GuiUnitTest {
 
     private ArrayList<String> defaultStyleOfCommandBox;
     private ArrayList<String> errorStyleOfCommandBox;
+    private UserPrefs userPrefs;
 
     private CommandBoxHandle commandBoxHandle;
 
@@ -40,7 +42,7 @@ public class CommandBoxTest extends GuiUnitTest {
 
         Model model = new ModelManager();
         Storage storage = new StorageManager(addressBookStorage, userPrefsStorage);
-        Logic logic = new LogicManager(model, storage);
+        Logic logic = new LogicManager(model, storage, userPrefs);
 
         CommandBox commandBox = new CommandBox(logic);
         commandBoxHandle = new CommandBoxHandle(getChildNode(commandBox.getRoot(),

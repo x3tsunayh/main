@@ -2,10 +2,12 @@ package seedu.address.storage;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static seedu.address.testutil.TypicalAddressBook.getTypicalAddressBook;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.HOON;
 import static seedu.address.testutil.TypicalPersons.IDA;
-import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
+import static seedu.address.testutil.TypicalTasks.TASKFOUR;
+import static seedu.address.testutil.TypicalTasks.TASKONE;
 
 import java.io.IOException;
 
@@ -68,6 +70,12 @@ public class XmlAddressBookStorageTest {
     }
 
     @Test
+    public void readAddressBook_invalidTaskAddressBook_throwDataConversionException() throws Exception {
+        thrown.expect(DataConversionException.class);
+        readAddressBook("invalidTaskAddressBook.xml");
+    }
+
+    @Test
     public void readAddressBook_invalidAndValidPersonAddressBook_throwDataConversionException() throws Exception {
         thrown.expect(DataConversionException.class);
         readAddressBook("invalidAndValidPersonAddressBook.xml");
@@ -84,9 +92,16 @@ public class XmlAddressBookStorageTest {
         ReadOnlyAddressBook readBack = xmlAddressBookStorage.readAddressBook(filePath).get();
         assertEquals(original, new AddressBook(readBack));
 
-        //Modify data, overwrite exiting file, and read back
+        //Modify person data, overwrite exiting file, and read back
         original.addPerson(HOON);
         original.removePerson(ALICE);
+        xmlAddressBookStorage.saveAddressBook(original, filePath);
+        readBack = xmlAddressBookStorage.readAddressBook(filePath).get();
+        assertEquals(original, new AddressBook(readBack));
+
+        //Modify tast data, overwrite exiting file, and read back
+        original.addTask(TASKFOUR);
+        original.removeTask(TASKONE);
         xmlAddressBookStorage.saveAddressBook(original, filePath);
         readBack = xmlAddressBookStorage.readAddressBook(filePath).get();
         assertEquals(original, new AddressBook(readBack));
