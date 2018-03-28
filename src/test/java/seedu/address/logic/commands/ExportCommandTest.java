@@ -8,7 +8,6 @@ import static seedu.address.testutil.TypicalEvents.getTypicalEventBook;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.jar.JarException;
 
 import javax.xml.bind.JAXBException;
 

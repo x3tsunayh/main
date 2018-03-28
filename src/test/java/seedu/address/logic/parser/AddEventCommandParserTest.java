@@ -1,7 +1,23 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.commands.CommandTestUtil.*;
+import static seedu.address.logic.commands.CommandTestUtil.DATETIME_DESC_CHRISTMAS;
+import static seedu.address.logic.commands.CommandTestUtil.DATETIME_DESC_CNY;
+import static seedu.address.logic.commands.CommandTestUtil.DESCRIPTION_DESC_CHRISTMAS;
+import static seedu.address.logic.commands.CommandTestUtil.DESCRIPTION_DESC_CNY;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_DATETIME_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.LOCATION_DESC_CHRISTMAS;
+import static seedu.address.logic.commands.CommandTestUtil.LOCATION_DESC_CNY;
+import static seedu.address.logic.commands.CommandTestUtil.TITLE_DESC_CHRISTMAS;
+import static seedu.address.logic.commands.CommandTestUtil.TITLE_DESC_CNY;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_DATETIME_CHRISTMAS;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_DATETIME_CNY;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_DESCRIPTION_CHRISTMAS;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_DESCRIPTION_CNY;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_LOCATION_CHRISTMAS;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_LOCATION_CNY;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_TITLE_CHRISTMAS;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_TITLE_CNY;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 

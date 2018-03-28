@@ -5,7 +5,7 @@ import java.util.function.Predicate;
 
 import seedu.address.commons.util.StringUtil;
 
-//@@author kaiyu92
+//@@author x3tsunayh
 
 /**
  * Tests that a {@code ReadOnlyEvent}'s {@code Title} matches any of the keywords given.
@@ -45,7 +45,7 @@ public class TitleContainsKeywordsPredicate implements Predicate<CalendarEvent> 
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof TitleContainsKeywordsPredicate // instanceof handles nulls
-                && this.keywords.equals(((TitleContainsKeywordsPredicate) other).keywords)); // state check
+                || (other instanceof TitleContainsKeywordsPredicate
+                && this.keywords.equals(((TitleContainsKeywordsPredicate) other).keywords));
     }
 }

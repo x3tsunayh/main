@@ -8,9 +8,11 @@ import java.util.Objects;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
+//@@author x3tsunayh
+
 /**
- * Represents a Event in the event book.
- * Guarantees: details are present and not null, field values are validated.
+ * Represents an Event in the event book.
+ * Makes sure all fields are filled and not null.
  */
 public class Event implements CalendarEvent {
 
@@ -31,7 +33,8 @@ public class Event implements CalendarEvent {
     }
 
     /**
-     * Creates a copy of the given ReadOnlyEvent.
+     * Creates a copy of the given CalendarEvent.
+     * This prevents the original version from being changed unknowingly.
      */
     public Event(CalendarEvent source) {
         this(source.getTitle(), source.getDescription(), source.getLocation(), source.getDatetime());
@@ -96,13 +99,12 @@ public class Event implements CalendarEvent {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof CalendarEvent // instanceof handles nulls
+                || (other instanceof CalendarEvent
                 && this.isSameStateAs((CalendarEvent) other));
     }
 
     @Override
     public int hashCode() {
-        // use this method for custom fields hashing instead of implementing your own
         return Objects.hash(title, description, location, datetime);
     }
 

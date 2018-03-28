@@ -10,10 +10,8 @@ import javafx.collections.ObservableList;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.event.CalendarEvent;
 import seedu.address.model.event.Event;
-import seedu.address.model.event.EventList;
 import seedu.address.model.event.ReadOnlyEventBook;
-
-//@@author kaiyu92
+import seedu.address.model.event.UniqueEventList;
 
 /**
  * Wraps all data at the event-book level
@@ -21,7 +19,7 @@ import seedu.address.model.event.ReadOnlyEventBook;
  */
 public class EventBook implements ReadOnlyEventBook {
 
-    private final EventList events;
+    private final UniqueEventList events;
 
     /*
      * The 'unusual' code block below is an non-static initialization block, sometimes used to avoid duplication
@@ -32,7 +30,7 @@ public class EventBook implements ReadOnlyEventBook {
      */
 
     {
-        events = new EventList();
+        events = new UniqueEventList();
     }
 
     public EventBook() {

@@ -2,8 +2,10 @@ package seedu.address.model.event;
 
 import javafx.beans.property.ObjectProperty;
 
+//@@author x3tsunayh
+
 /**
- *
+ * Interface for Events related to Calendar View feature.
  */
 public interface CalendarEvent {
     ObjectProperty<String> titleProperty();
@@ -23,7 +25,7 @@ public interface CalendarEvent {
     Datetime getDatetime();
 
     /**
-     * Checks if @param other is the same state as this.
+     * Checks if @param other is of the same state as this.
      */
     default boolean isSameStateAs(CalendarEvent other) {
         return other == this // short circuit if same object

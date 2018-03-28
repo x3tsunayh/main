@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.function.Predicate;
 
 import org.junit.Rule;
@@ -14,15 +15,12 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import javafx.collections.ObservableList;
-import seedu.address.commons.core.Config;
 import seedu.address.logic.CommandHistory;
-import seedu.address.logic.Logic;
 import seedu.address.logic.UndoRedoStack;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
-import seedu.address.model.UserPrefs;
 import seedu.address.model.event.CalendarEvent;
 import seedu.address.model.event.Event;
 import seedu.address.model.event.ReadOnlyEventBook;
@@ -33,6 +31,8 @@ import seedu.address.model.task.Task;
 import seedu.address.model.task.exceptions.DuplicateTaskException;
 import seedu.address.model.task.exceptions.TaskNotFoundException;
 import seedu.address.testutil.EventBuilder;
+
+//@@author x3tsunayh
 
 public class AddEventCommandTest {
 
@@ -53,6 +53,7 @@ public class AddEventCommandTest {
         CommandResult commandResult = getAddEventCommandForEvent(validEvent, modelStub).execute();
 
         assertEquals(String.format(AddEventCommand.MESSAGE_SUCCESS, validEvent), commandResult.feedbackToUser);
+        assertEquals(Arrays.asList(validEvent), modelStub.eventsAdded);
     }
 
     @Test
@@ -81,9 +82,6 @@ public class AddEventCommandTest {
      */
     private AddEventCommand getAddEventCommandForEvent(Event event, Model model) {
         AddEventCommand command = new AddEventCommand(event);
-        UserPrefs userPrefs = new UserPrefs();
-        Config config = new Config();
-        Logic logic = null;
         command.setData(model, new CommandHistory(), new UndoRedoStack());
         return command;
     }
@@ -119,8 +117,7 @@ public class AddEventCommandTest {
         }
 
         @Override
-        public void updatePerson(Person target, Person editedPerson)
-                throws DuplicatePersonException {
+        public void updatePerson(Person target, Person editedPerson) {
             fail("This method should not be called.");
         }
 

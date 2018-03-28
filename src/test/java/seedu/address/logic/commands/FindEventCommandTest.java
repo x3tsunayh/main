@@ -2,7 +2,6 @@ package seedu.address.logic.commands;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertFalse;
-import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static seedu.address.commons.core.Messages.MESSAGE_EVENTS_LISTED_OVERVIEW;
 import static seedu.address.testutil.TypicalAddressBook.getTypicalAddressBook;
@@ -25,6 +24,8 @@ import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.event.CalendarEvent;
 import seedu.address.model.event.TitleContainsKeywordsPredicate;
+
+//@@author x3tsunayh
 
 /**
  * Contains integration tests (interaction with the Model) for {@code FindEventCommand}.
@@ -84,18 +85,13 @@ public class FindEventCommandTest {
         return command;
     }
 
-    /**
-     * Asserts that {@code command} is successfully executed, and<br>
-     * - the command feedback is equal to {@code expectedMessage}<br>
-     * - the {@code FilteredList<ReadOnlyEvent>} is equal to {@code expectedList}<br>
-     * - the {@code EventBook} in model remains the same after executing the {@code command}
-     */
     private void assertCommandSuccess(FindEventCommand command, String expectedMessage,
                                       List<CalendarEvent> expectedList) {
         EventBook expectedEventBook = new EventBook(model.getEventBook());
         CommandResult commandResult = command.execute();
 
         assertEquals(expectedMessage, commandResult.feedbackToUser);
+        assertEquals(expectedList, model.getFilteredEventList());
         assertEquals(expectedEventBook.toString(), model.getEventBook().toString());
     }
 }

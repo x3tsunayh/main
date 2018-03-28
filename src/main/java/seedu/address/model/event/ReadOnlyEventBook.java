@@ -4,6 +4,8 @@ import java.util.List;
 
 import javafx.beans.property.ObjectProperty;
 
+//@@author x3tsunayh
+
 /**
  * A read-only immutable interface for a event in the eventbook.
  * Implementations should guarantee: details are present and not null, field values are validated.

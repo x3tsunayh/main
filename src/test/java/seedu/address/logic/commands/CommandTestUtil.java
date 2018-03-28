@@ -3,7 +3,21 @@ package seedu.address.logic.commands;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static seedu.address.logic.parser.CliSyntax.*;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EVENT_DATETIME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EVENT_DESCRIPTION;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EVENT_LOCATION;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EVENT_TITLE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TASK_CATEGORY;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TASK_DESCRIPTION;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TASK_DUE_DATE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TASK_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TASK_PRIORITY;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TASK_STATUS;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -66,7 +80,8 @@ public class CommandTestUtil {
     public static final String TITLE_DESC_CNY = " " + PREFIX_EVENT_TITLE + VALID_TITLE_CNY;
     public static final String TITLE_DESC_CHRISTMAS = " " + PREFIX_EVENT_TITLE + VALID_TITLE_CHRISTMAS;
     public static final String DESCRIPTION_DESC_CNY = " " + PREFIX_EVENT_DESCRIPTION + VALID_DESCRIPTION_CNY;
-    public static final String DESCRIPTION_DESC_CHRISTMAS = " " + PREFIX_EVENT_DESCRIPTION + VALID_DESCRIPTION_CHRISTMAS;
+    public static final String DESCRIPTION_DESC_CHRISTMAS = " " +
+            PREFIX_EVENT_DESCRIPTION + VALID_DESCRIPTION_CHRISTMAS;
     public static final String LOCATION_DESC_CNY = " " + PREFIX_EVENT_LOCATION + VALID_LOCATION_CNY;
     public static final String LOCATION_DESC_CHRISTMAS = " " + PREFIX_EVENT_LOCATION + VALID_LOCATION_CHRISTMAS;
     public static final String DATETIME_DESC_CNY = " " + PREFIX_EVENT_DATETIME + VALID_DATETIME_CNY;

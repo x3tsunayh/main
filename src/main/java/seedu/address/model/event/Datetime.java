@@ -4,10 +4,11 @@ import static java.util.Objects.requireNonNull;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 
+//@@author x3tsunayh
+
 /**
- * Represents a Event's Datetime in the event book.
- * Ensures valid Datetime input as declared in {@link #isValidDatetime(String)}
- * This helps in future implementations involving NLP, etc.
+ * Represents an Event's Datetime in the event book.
+ * Ensures valid Datetime input and aids future implementations involving NLP, etc.
  */
 public class Datetime {
 
@@ -51,14 +52,14 @@ public class Datetime {
             int hour = Integer.parseInt(test.substring(11, 13));
             int min = Integer.parseInt(test.substring(13, 15));
 
-            //Check Time Validation
+            //Time Validation
             if (0 <= hour && hour <= 23) {
                 if (0 <= min && min <= 59) {
                     validTime = true;
                 }
             }
 
-            //Check Date Validation
+            //Date Validation
             if (day >= 1) {
                 // For months with 30 days.
                 if ((month == 4
@@ -89,7 +90,7 @@ public class Datetime {
                         }
                     }
                 }
-            } //else date is not valid
+            }
         } catch (NumberFormatException e) {
             return false;
         }
@@ -104,8 +105,8 @@ public class Datetime {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof Datetime // instanceof handles nulls
-                && this.value.equals(((Datetime) other).value)); // state check
+                || (other instanceof Datetime
+                && this.value.equals(((Datetime) other).value));
     }
 
     @Override

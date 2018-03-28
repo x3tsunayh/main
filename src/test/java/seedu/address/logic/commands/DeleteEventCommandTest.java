@@ -11,7 +11,6 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
-import seedu.address.commons.core.Config;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.CommandHistory;
@@ -21,6 +20,8 @@ import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.event.CalendarEvent;
 import seedu.address.model.event.TitleContainsKeywordsPredicate;
+
+//@@author x3tsunayh
 
 /**
  * Contains integration tests (interaction with the Model) and unit tests for {@code DeleteEventCommand}.
@@ -56,7 +57,7 @@ public class DeleteEventCommandTest {
     public void execute_validIndexFilteredList_success() throws Exception {
         CalendarEvent event = model.getEventBook().getEventList().get(0);
         model.updateFilteredEventList(new TitleContainsKeywordsPredicate(Arrays.asList(event.getTitle())));
-        // ensures only one event is in the filtered event list
+        // checks if filtered event list only has one event here
         assert model.getFilteredEventList().size() == 1;
 
         CalendarEvent eventToDelete = model.getFilteredEventList().get(Index.fromOneBased(1).getZeroBased());
@@ -77,7 +78,7 @@ public class DeleteEventCommandTest {
     public void execute_invalidIndexFilteredList_failure() {
         CalendarEvent event = model.getEventBook().getEventList().get(0);
         model.updateFilteredEventList(new TitleContainsKeywordsPredicate(Arrays.asList(event.getTitle())));
-        // ensures only one event is in the filtered event list
+        // checks if filtered event list only has one event here
         assert model.getFilteredEventList().size() == 1;
 
         Index outOfBoundIndex = Index.fromOneBased(2);
