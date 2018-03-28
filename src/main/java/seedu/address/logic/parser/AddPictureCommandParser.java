@@ -25,15 +25,14 @@ public class AddPictureCommandParser implements Parser<AddPictureCommand> {
         String[] splitted = args.trim().split("\\s+");
 
         if (splitted.length != 2) {
-            throw new ParseException(
-                    String.format("Need exactly 2 args"));
+            throw new ParseException(AddPictureCommand.MESSAGE_USAGE);
         }
 
         try {
             index = ParserUtil.parseIndex(splitted[0]);
-        } catch (Exception e) {
+        } catch (IllegalValueException e) {
             throw new ParseException(
-                    String.format("Invalid index"));
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddPictureCommand.MESSAGE_USAGE));
         }
         path = splitted[1];
 

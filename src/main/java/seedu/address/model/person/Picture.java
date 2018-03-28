@@ -16,11 +16,10 @@ public class Picture {
 
     public static final String DEFAULT_PATH = "images/default.png";
     public static final String MESSAGE_PICTURE_CONSTRAINTS =
-            "Filepath must be valid, and point to an image file"; //size
+            "Filepath must be valid, and point to an image file";
     public static final String PICTURE_VALIDATION_REGEX = "[^\\s].*";
     public static final String APPDATA_DIR = defaultDirectory();
     public static final String FOLDER = APPDATA_DIR + "/AddressBook";
-    public static final String MESSAGE_USAGE = "dummy";
     private static final String URL_PREFIX = "file:/";
 
     private String path;
@@ -29,7 +28,7 @@ public class Picture {
      * Default initializer, uses default picture
      */
     public Picture() {
-        //APPDATA_DIR = defaultDirectory();
+
         this.path = DEFAULT_PATH;
     }
 
@@ -58,7 +57,7 @@ public class Picture {
         if (i > 0) {
             extension = path.substring(i + 1);
         }
-        this.path = "ProfilePicture/" + newPictureName + "." + extension;
+        this.path = FOLDER + "//"  + newPictureName + "." + extension;
 
         createNewPicture(path, newPictureName + "." + extension);
 
@@ -108,6 +107,7 @@ public class Picture {
                 System.out.println("FAILED TO MAKE FOLDER");
             }
         }
+
         File src = null;
 
         try {
@@ -116,9 +116,10 @@ public class Picture {
             System.out.println(e.getMessage());
         }
 
-        System.out.println("aa");
+
         File dest = new File(FOLDER + "//" + dstFilename);
         System.out.println(dest.getPath());
+
         if (!dest.exists()) {
             try {
                 dest.createNewFile();
@@ -126,12 +127,12 @@ public class Picture {
                 System.out.println(e.getMessage());
             }
         }
-        System.out.println("bb");
+
         try {
             Files.copy(src.toPath(), dest.toPath() , REPLACE_EXISTING);
             this.path = URL_PREFIX + dest.toPath().toString();
         } catch (Exception e) {
-            System.out.println("ERROR COPYING: " + e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
