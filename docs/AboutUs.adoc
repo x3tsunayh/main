@@ -31,7 +31,7 @@ image::x3tsunayh.jpg[width="100", align="left"]
 '''
 
 === Jillian Wee
-image::lejolly.jpg[width="100", align="left"]
+image::nodp.jpg[width="100", align="left"]
 {empty}[https://github.com/jill858[github]] [<<jill858#, portfolio>>]
 
 * Components in charge of: Model
@@ -60,7 +60,7 @@ image::dezhanglee.jpg[width="100", align="left"]
 '''
 
 === Chan Yin Xin
-image::m133225.jpg[width="100", align="left"]
+image::nodp.jpg[width="100", align="left"]
 {empty}[https://github.com/cyx28[github]] [<<CYX28#, portfolio>>]
 
 * Components in charge of: UI

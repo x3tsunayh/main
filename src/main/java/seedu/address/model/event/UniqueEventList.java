@@ -15,15 +15,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.logic.commands.exceptions.CommandException;
 
+//@@author x3tsunayh
+
 /**
  * A list of events that enforces uniqueness between its elements and does not allow nulls.
- * <p>
+ *
  * Supports a minimal set of list operations.
  */
-public class EventList implements Iterable<Event> {
+public class UniqueEventList implements Iterable<Event> {
 
     private final ObservableList<Event> internalList = FXCollections.observableArrayList();
-    // used by asObservableList()
+
     private final ObservableList<CalendarEvent> mappedList = EasyBind.map(internalList, (event) -> event);
 
     /**
@@ -35,7 +37,7 @@ public class EventList implements Iterable<Event> {
     }
 
     /**
-     * Adds a event to the list.
+     * Adds an event to the list.
      */
     public void add(CalendarEvent toAdd) throws CommandException {
         requireNonNull(toAdd);
@@ -78,12 +80,12 @@ public class EventList implements Iterable<Event> {
         return eventFoundAndDeleted;
     }
 
-    public void setEvents(EventList replacement) {
+    public void setEvents(UniqueEventList replacement) {
         this.internalList.setAll(replacement.internalList);
     }
 
     public void setEvents(List<? extends CalendarEvent> events) throws CommandException {
-        final EventList replacement = new EventList();
+        final UniqueEventList replacement = new UniqueEventList();
         for (final CalendarEvent event : events) {
             replacement.add(new Event(event));
         }
@@ -98,7 +100,7 @@ public class EventList implements Iterable<Event> {
     }
 
     /**
-     * Order the list.
+     * Orders the list.
      */
     public void orderBy(String parameter) throws CommandException {
         requireNonNull(parameter);
@@ -110,8 +112,8 @@ public class EventList implements Iterable<Event> {
 
             SimpleDateFormat formatDate = new SimpleDateFormat("dd-MM-yyyy hhmm");
             try {
-                Date datetime1 = formatDate.parse(a.getDatetime());
-                Date datetime2 = formatDate.parse(b.getDatetime());
+                Date datetime1 = formatDate.parse(a.getDatetime().value);
+                Date datetime2 = formatDate.parse(b.getDatetime().value);
 
                 return datetime2.compareTo(datetime1);
 
@@ -155,7 +157,7 @@ public class EventList implements Iterable<Event> {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof EventList // instanceof handles nulls
-                && this.internalList.equals(((EventList) other).internalList));
+                || (other instanceof UniqueEventList
+                && this.internalList.equals(((UniqueEventList) other).internalList));
     }
 }

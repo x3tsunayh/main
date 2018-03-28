@@ -193,9 +193,9 @@ public class CalendarView {
      */
     private boolean checkEventDay(CalendarEvent event, String dayValue) {
         if (dayValue.length() == 1) {
-            return event.getDatetime().substring(0, 2).equals("0" + dayValue);
+            return event.getDatetime().value.substring(0, 2).equals("0" + dayValue);
         } else {
-            return event.getDatetime().substring(0, 2).equals(dayValue);
+            return event.getDatetime().value.substring(0, 2).equals(dayValue);
         }
     }
 
@@ -207,9 +207,9 @@ public class CalendarView {
      */
     private boolean checkEventMonth(CalendarEvent event, String monthValue) {
         if (monthValue.length() == 1) {
-            return event.getDatetime().substring(3, 5).equals("0" + monthValue);
+            return event.getDatetime().value.substring(3, 5).equals("0" + monthValue);
         } else {
-            return event.getDatetime().substring(3, 5).equals(monthValue);
+            return event.getDatetime().value.substring(3, 5).equals(monthValue);
         }
     }
 
@@ -220,7 +220,7 @@ public class CalendarView {
      * @return
      */
     private boolean checkEventYear(CalendarEvent event, String yearValue) {
-        return event.getDatetime().substring(6, 10).equals(yearValue);
+        return event.getDatetime().value.substring(6, 10).equals(yearValue);
     }
 
     private String getFormatDate(String day, String month, String year) {

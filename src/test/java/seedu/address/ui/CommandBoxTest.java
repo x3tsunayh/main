@@ -21,6 +21,7 @@ import seedu.address.storage.JsonUserPrefsStorage;
 import seedu.address.storage.Storage;
 import seedu.address.storage.StorageManager;
 import seedu.address.storage.XmlAddressBookStorage;
+import seedu.address.storage.XmlEventBookStorage;
 
 public class CommandBoxTest extends GuiUnitTest {
     private static final String COMMAND_THAT_SUCCEEDS = ListCommand.COMMAND_WORD;
@@ -38,10 +39,11 @@ public class CommandBoxTest extends GuiUnitTest {
     @Before
     public void setUp() {
         XmlAddressBookStorage addressBookStorage = new XmlAddressBookStorage(getFilePath("ab.xml"));
+        XmlEventBookStorage eventBookStorage = new XmlEventBookStorage(getFilePath("eb.xml"));
         JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(getFilePath("prefs.json"));
 
         Model model = new ModelManager();
-        Storage storage = new StorageManager(addressBookStorage, userPrefsStorage);
+        Storage storage = new StorageManager(addressBookStorage, eventBookStorage, userPrefsStorage);
         Logic logic = new LogicManager(model, storage, userPrefs);
 
         CommandBox commandBox = new CommandBox(logic);

@@ -3,6 +3,8 @@ package seedu.address.storage;
 import java.io.IOException;
 import java.util.Optional;
 
+import javax.xml.bind.JAXBException;
+
 import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.commons.exceptions.ExistingFileException;
 import seedu.address.commons.exceptions.InvalidFileException;
@@ -29,7 +31,8 @@ public interface AddressBookStorage {
     /**
      * @see #getAddressBookFilePath()
      */
-    Optional<ReadOnlyAddressBook> readAddressBook(String filePath) throws DataConversionException, IOException;
+    Optional<ReadOnlyAddressBook> readAddressBook(String filePath)
+            throws DataConversionException, IOException, JAXBException;
 
     /**
      * Saves the given {@link ReadOnlyAddressBook} to the storage.

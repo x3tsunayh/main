@@ -3,11 +3,13 @@ package seedu.address.model.util;
 import java.util.HashSet;
 import java.util.Set;
 
+import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.EventBook;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.category.TaskCategory;
+import seedu.address.model.event.Datetime;
 import seedu.address.model.event.Event;
 import seedu.address.model.event.ReadOnlyEventBook;
 import seedu.address.model.person.Address;
@@ -95,6 +97,8 @@ public class SampleDataUtil {
             return sampleEb;
         } catch (CommandException e) {
             throw new AssertionError("sample data cannot contain duplicate events", e);
+        } catch (IllegalValueException e) {
+            throw new AssertionError("Invalid input given!");
         }
     }
 
@@ -122,14 +126,14 @@ public class SampleDataUtil {
         return taskCategories;
     }
 
-    public static Event[] getSampleEvents() {
+    public static Event[] getSampleEvents() throws IllegalValueException {
         return new Event[]{
             new Event(new String("Clique Gathering"), new String("Night out with friends"),
-                new String("Tampines Hub"), new String("13-10-2017 1700")),
+                new String("Tampines Hub"), new Datetime("13-10-2017 1700")),
             new Event(new String("School Hall Concert"), new String("Friend performing"),
-                new String("UCC"), new String("26-10-2017 1800")),
+                new String("UCC"), new Datetime("26-10-2017 1800")),
             new Event(new String("Halloween Party"), new String("Halloween Event"),
-                new String("Andy's House"), new String("31-10-2017 2000"))
+                new String("Andy's House"), new Datetime("31-10-2017 2000"))
         };
     }
 }

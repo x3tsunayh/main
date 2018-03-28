@@ -1,9 +1,13 @@
 package seedu.address.storage;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Optional;
 
+import javax.xml.parsers.ParserConfigurationException;
+
 import seedu.address.commons.events.model.AddressBookChangedEvent;
+import seedu.address.commons.events.model.EventBookChangedEvent;
 import seedu.address.commons.events.storage.DataSavingExceptionEvent;
 import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.commons.exceptions.ExistingFileException;
@@ -15,7 +19,7 @@ import seedu.address.model.event.ReadOnlyEventBook;
 /**
  * API of the Storage component
  */
-public interface Storage extends AddressBookStorage, UserPrefsStorage {
+public interface Storage extends AddressBookStorage, EventBookStorage, UserPrefsStorage {
 
     @Override
     Optional<UserPrefs> readUserPrefs() throws DataConversionException, IOException;
@@ -29,8 +33,6 @@ public interface Storage extends AddressBookStorage, UserPrefsStorage {
     @Override
     Optional<ReadOnlyAddressBook> readAddressBook() throws DataConversionException, IOException;
 
-    Optional<ReadOnlyEventBook> readEventBook() throws DataConversionException, IOException;
-
     @Override
     void saveAddressBook(ReadOnlyAddressBook addressBook) throws IOException;
 
@@ -43,4 +45,23 @@ public interface Storage extends AddressBookStorage, UserPrefsStorage {
      * Raises {@link DataSavingExceptionEvent} if there was an error during saving.
      */
     void handleAddressBookChangedEvent(AddressBookChangedEvent abce) throws InvalidFileException;
+
+    @Override
+    String getEventBookFilePath();
+
+    @Override
+    Optional<ReadOnlyEventBook> readEventBook() throws DataConversionException, IOException;
+
+    @Override
+    void saveEventBook(ReadOnlyEventBook eventBook) throws IOException;
+
+    @Override
+    void exportEventBook() throws FileNotFoundException, ParserConfigurationException, IOException;
+
+    /**
+     * Saves the current version of the Event Book to the hard disk.
+     * Creates the data file if it is missing.
+     * Raises {@link DataSavingExceptionEvent} if there was an error during saving.
+     */
+    void handleEventBookChangedEvent(EventBookChangedEvent event);
 }

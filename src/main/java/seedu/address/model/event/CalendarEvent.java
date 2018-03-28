@@ -2,8 +2,10 @@ package seedu.address.model.event;
 
 import javafx.beans.property.ObjectProperty;
 
+//@@author x3tsunayh
+
 /**
- *
+ * Interface for Events related to Calendar View feature.
  */
 public interface CalendarEvent {
     ObjectProperty<String> titleProperty();
@@ -18,25 +20,34 @@ public interface CalendarEvent {
 
     String getLocation();
 
-    ObjectProperty<String> datetimeProperty();
+    ObjectProperty<Datetime> datetimeProperty();
 
-    String getDatetime();
+    Datetime getDatetime();
 
     /**
-     * Checks if @param other
-     * @return
+     * Checks if @param other is of the same state as this.
      */
     default boolean isSameStateAs(CalendarEvent other) {
-        if (this == null) {
-            return true;
-        } else if (other != null) {
-            return false;
-        } else {
+        return other == this // short circuit if same object
+                || (other != null
+                && other.getTitle().equals(this.getTitle())
+                && other.getDescription().equals(this.getDescription())
+                && other.getLocation().equals(this.getLocation())
+                && other.getDatetime().equals(this.getDatetime()));
+    }
 
-            return other.getTitle().equals(this.getTitle())
-                    && other.getDescription().equals(this.getDescription())
-                    && other.getLocation().equals(this.getLocation())
-                    && other.getDatetime().equals(this.getDatetime());
-        }
+    /**
+     * Formats the person as text, showing all contact details.
+     */
+    default String getAsText() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(getTitle())
+                .append(" Description: ")
+                .append(getDescription())
+                .append(" Location: ")
+                .append(getLocation())
+                .append(" Datetime: ")
+                .append(getDatetime());
+        return builder.toString();
     }
 }
