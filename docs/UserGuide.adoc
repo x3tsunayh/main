@@ -434,5 +434,6 @@ e.g.`select 2`
 * *Undo* : `undo`
 * *Redo* : `redo`
 * *Sort all persons* : `sort`
-* *Add a task* : `task-add`
+* *Add a task* : `task-add n/NAME p/PRIORITY d/DESCRIPTION dd/DUE_DATE s/STATUS [c/CATEGORY]...` +
+e.g. `task-add n/Task 1 p/Medium d/Description for task 1 dd/2018-05-10 s/Undone`
 * *List tasks* : `task-list`

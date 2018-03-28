@@ -369,7 +369,7 @@ The sort mechanism is implemented using a custom comparator in JavaFX Observable
 
 The following sequence diagram shows how the sort operation works.
 
-image::SortingSequenceDiagram.png[width="800"]
+image::SortingSequenceDiagram.PNG[width="800"]
 
 . The user executes the `sort` command.
 . The `AddressBookParser` class parses the command and create a new `SortCommand` class.
@@ -399,7 +399,7 @@ All of the fields are compulsory except category.
 
 The following sequence diagram shows how the add feature operation works.
 
-image::TaskAddSequenceDiagram.png[width="800"]
+image::TaskAddSequenceDiagram.PNG[width="800"]
 
 . The user executes the `task-add` command.
 . The `AddressBookParser` class creates a new `TaskAddCommandParser` class to parse the command.
@@ -416,7 +416,7 @@ The list task feature allows user to display all the tasks in the Address Book.
 
 The following sequence diagram shows how the add feature operation works.
 
-image::TaskListSequenceDiagram.png[width="800"]
+image::TaskListSequenceDiagram.PNG[width="800"]
 
 . The user executes the `task-list` command.
 . The `AddressBookParser` class parses the command creates a new `TaskListCommand` class.
