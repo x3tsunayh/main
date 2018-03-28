@@ -63,18 +63,18 @@ public class CommandTestUtil {
     public static final String VALID_DATETIME_CNY = "15-02-2018 1000";
     public static final String VALID_DATETIME_CHRISTMAS = "24-12-2018 1830";
 
-    public static final String TITLE_DESC_CNY = " " + PREFIX_TITLE + VALID_TITLE_CNY;
-    public static final String TITLE_DESC_CHRISTMAS = " " + PREFIX_TITLE + VALID_TITLE_CHRISTMAS;
-    public static final String DESCRIPTION_DESC_CNY = " " + PREFIX_DESCRIPTION + VALID_DESCRIPTION_CNY;
-    public static final String DESCRIPTION_DESC_CHRISTMAS = " " + PREFIX_DESCRIPTION + VALID_DESCRIPTION_CHRISTMAS;
-    public static final String LOCATION_DESC_CNY = " " + PREFIX_LOCATION + VALID_LOCATION_CNY;
-    public static final String LOCATION_DESC_CHRISTMAS = " " + PREFIX_LOCATION + VALID_LOCATION_CHRISTMAS;
-    public static final String DATETIME_DESC_CNY = " " + PREFIX_DATETIME + VALID_DATETIME_CNY;
-    public static final String DATETIME_DESC_CHRISTMAS = " " + PREFIX_DATETIME + VALID_DATETIME_CHRISTMAS;
+    public static final String TITLE_DESC_CNY = " " + PREFIX_EVENT_TITLE + VALID_TITLE_CNY;
+    public static final String TITLE_DESC_CHRISTMAS = " " + PREFIX_EVENT_TITLE + VALID_TITLE_CHRISTMAS;
+    public static final String DESCRIPTION_DESC_CNY = " " + PREFIX_EVENT_DESCRIPTION + VALID_DESCRIPTION_CNY;
+    public static final String DESCRIPTION_DESC_CHRISTMAS = " " + PREFIX_EVENT_DESCRIPTION + VALID_DESCRIPTION_CHRISTMAS;
+    public static final String LOCATION_DESC_CNY = " " + PREFIX_EVENT_LOCATION + VALID_LOCATION_CNY;
+    public static final String LOCATION_DESC_CHRISTMAS = " " + PREFIX_EVENT_LOCATION + VALID_LOCATION_CHRISTMAS;
+    public static final String DATETIME_DESC_CNY = " " + PREFIX_EVENT_DATETIME + VALID_DATETIME_CNY;
+    public static final String DATETIME_DESC_CHRISTMAS = " " + PREFIX_EVENT_DATETIME + VALID_DATETIME_CHRISTMAS;
 
     // '~' not allowed at the start of field input
     public static final String INVALID_DATETIME_DESC = " "
-            + PREFIX_DATETIME + "32-12-2018 2359"; //There is no 32 in the date
+            + PREFIX_EVENT_DATETIME + "32-12-2018 2359"; //There is no 32 in the date
 
     public static final String VALID_TASK_NAME_TASKFIRST = "First task";
     public static final String VALID_TASK_NAME_TASKSECOND = "Second task";

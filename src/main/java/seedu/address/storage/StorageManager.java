@@ -1,6 +1,5 @@
 package seedu.address.storage;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -10,7 +9,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
 import com.google.common.eventbus.Subscribe;
-import org.xml.sax.SAXException;
+
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
@@ -22,7 +21,6 @@ import seedu.address.commons.exceptions.InvalidFileException;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.event.ReadOnlyEventBook;
-
 
 /**
  * Manages storage of AddressBook data in local storage.
@@ -115,7 +113,7 @@ public class StorageManager extends ComponentManager implements Storage {
 
     @Override
     @Subscribe
-    public void handleAddressBookChangedEvent(AddressBookChangedEvent event) throws InvalidFileException {
+    public void handleAddressBookChangedEvent(AddressBookChangedEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event, "Local data changed, saving to file"));
         try {
             saveAddressBook(event.data);
@@ -148,10 +146,10 @@ public class StorageManager extends ComponentManager implements Storage {
     }
 
     @Override
-    public void exportEventBook() throws FileNotFoundException, ParserConfigurationException, IOException {
+    public void exportEventBook() throws ParserConfigurationException, IOException {
         try {
             eventBookStorage.exportEventBook();
-        } catch (SAXException | TransformerException e) {
+        } catch (TransformerException e) {
             throw new AssertionError("Not supposed to have errors!");
         }
     }
