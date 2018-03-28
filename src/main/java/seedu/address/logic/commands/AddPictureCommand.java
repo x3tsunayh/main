@@ -27,6 +27,7 @@ public class AddPictureCommand extends Command {
     private final String path;
 
     private Person personToEdit;
+    private Person editedPerson;
 
     public AddPictureCommand(Index index, String path) {
 
@@ -50,16 +51,18 @@ public class AddPictureCommand extends Command {
         }
 
         personToEdit = lastShownList.get(personIndex);
-        Person editedPerson = new Person(personToEdit);
+        editedPerson = new Person(personToEdit);
 
         try {
             editedPerson.setPicture(path);
+            System.out.println("KSDS "+editedPerson.getPicture().getPath());
         } catch (Exception e) {
             System.out.println(e.getMessage());
             throw new CommandException(MESSAGE_NOT_EDITED);
         }
 
         try {
+            System.out.println("KSfdsfDS "+editedPerson.getPicture().getPath());
             model.updatePerson(personToEdit, editedPerson);
         } catch (DuplicatePersonException dpe) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
