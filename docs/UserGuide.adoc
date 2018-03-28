@@ -87,7 +87,7 @@ Examples:
 
 * `edit 1 C://pictures/janeDoe.jpg` +
 Edits the profile picture of the 1st person to be the picture at C://pictures/janeDoe.jpg 
- 
+
 === Listing all persons : `list`
 
 Shows a list of all persons in the address book. +
