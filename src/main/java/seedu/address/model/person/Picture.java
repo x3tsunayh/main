@@ -115,8 +115,7 @@ public class Picture {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
-        System.out.println("aa");
+        
         File dest = new File(FOLDER + "//" + dstFilename);
         System.out.println(dest.getPath());
         if (!dest.exists()) {
