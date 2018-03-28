@@ -1,7 +1,5 @@
 package seedu.address.logic.commands;
 
-import java.util.Objects;
-
 import seedu.address.model.Currency;
 
 /**
@@ -63,10 +61,5 @@ public class ConvertCommand extends Command {
         }
         ConvertCommand that = (ConvertCommand) o;
         return Double.compare(that.value, value) == 0;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(value);
     }
 }

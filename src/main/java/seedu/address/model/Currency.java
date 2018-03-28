@@ -106,9 +106,5 @@ public class Currency {
 
         default: return 1;
         }
-
-
     }
-
-
 }

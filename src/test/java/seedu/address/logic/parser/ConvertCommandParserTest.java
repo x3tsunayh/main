@@ -53,7 +53,5 @@ public class ConvertCommandParserTest {
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConvertCommand.MESSAGE_USAGE));
         assertParseFailure(parser, "5 5 5",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConvertCommand.MESSAGE_USAGE));
-
-
     }
 }
