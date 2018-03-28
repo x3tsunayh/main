@@ -9,14 +9,14 @@ import org.junit.Test;
 public class ConvertCommandTest {
     @Test
     public void equals() {
-        ConvertCommand convertFirstCommand = new ConvertCommand(1);
-        ConvertCommand convertSecondCommand = new ConvertCommand(2);
+        ConvertCommand convertFirstCommand = new ConvertCommand("SGD", "USD", 0.76);
+        ConvertCommand convertSecondCommand = new ConvertCommand("USD", "SGD", 1.31);
 
         // same object -> returns true
         assertTrue(convertFirstCommand.equals(convertFirstCommand));
 
         // same values -> returns true
-        ConvertCommand convertFirstCommandCopy = new ConvertCommand(1);
+        ConvertCommand convertFirstCommandCopy = new ConvertCommand("SGD", "USD", 0.76);
         assertTrue(convertFirstCommand.equals(convertFirstCommandCopy));
 
         // different types -> returns false
@@ -30,9 +30,9 @@ public class ConvertCommandTest {
     }
 
     @Test
-    public void execute_doubleArgument_validInput() {
-        String expectedMessage = String.format(ConvertCommand.MESSAGE_COMPLETE, 1.00, 0.76);
-        ConvertCommand command = new ConvertCommand(1);
+    public void execute_convertCurrency_validInput() {
+        String expectedMessage = String.format(ConvertCommand.MESSAGE_COMPLETE, "SGD", 1.00, "USD", 0.76);
+        ConvertCommand command = new ConvertCommand("SGD", "USD", 1.00);
         assertCommandResult(command, expectedMessage);
     }
 
