@@ -47,11 +47,16 @@
 <li><a href="#undo-redo-feature">3.1. Undo/Redo feature</a></li>
 <li><a href="#sort-feature">3.2. Sort feature</a></li>
 <li><a href="#add-task-feature">3.3. Add Task feature</a></li>
-<li><a href="#proposed-data-encryption">3.4. [Proposed] Data Encryption</a></li>
-<li><a href="#logging">3.5. Logging</a></li>
-<li><a href="#Implementation-Configuration">3.6. Configuration</a></li>
-<li><a href="#import-export-feature-since-v1-1">3.7. Import/Export feature (since v1.1)</a></li>
-<li><a href="#calendar-view-feature-since-v1-2">3.8. Calendar View feature (since v1.2)</a></li>
+<li><a href="#list-tasks-feature">3.4. List tasks feature</a></li>
+<li><a href="#convert-currency-feature">3.5. Convert currency feature</a></li>
+<li><a href="#proposed-data-encryption">3.6. [Proposed] Data Encryption</a></li>
+<li><a href="#logging">3.7. Logging</a></li>
+<li><a href="#Implementation-Configuration">3.8. Configuration</a></li>
+<li><a href="#import-export-feature-since-v1-1">3.9. Import/Export feature (since v1.1)</a></li>
+<li><a href="#calendar-view-feature-since-v1-2">3.10. Calendar View feature (since v1.2)</a></li>
+<li><a href="#add-event-feature">3.11. Add Event feature</a></li>
+<li><a href="#delete-event-feature">3.12. Delete Event feature</a></li>
+<li><a href="#profile-picture-feature-since-v1-3">3.13. Profile Picture feature (since v1.3)</a></li>
 </ul>
 </li>
 <li><a href="#documentation">4. Documentation</a>
@@ -888,7 +893,7 @@ The sort mechanism is implemented using a custom comparator in JavaFX Observable
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/SortingSequenceDiagram.png" alt="SortingSequenceDiagram" width="800">
+<img src="images/SortingSequenceDiagram.PNG" alt="SortingSequenceDiagram" width="800">
 </div>
 </div>
 <div class="olist arabic">
@@ -961,7 +966,7 @@ All of the fields are compulsory except category.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/TaskAddSequenceDiagram.png" alt="TaskAddSequenceDiagram" width="800">
+<img src="images/TaskAddSequenceDiagram.PNG" alt="TaskAddSequenceDiagram" width="800">
 </div>
 </div>
 <div class="olist arabic">
@@ -986,20 +991,86 @@ All of the fields are compulsory except category.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="proposed-data-encryption"><a class="link" href="#proposed-data-encryption">3.4. [Proposed] Data Encryption</a></h3>
+<h3 id="list-tasks-feature"><a class="link" href="#list-tasks-feature">3.4. List tasks feature</a></h3>
+<div class="sect3">
+<h4 id="current-implementation-4"><a class="link" href="#current-implementation-4">3.4.1. Current Implementation</a></h4>
+<div class="paragraph">
+<p>The list task feature allows user to display all the tasks in the Address Book.</p>
+</div>
+<div class="paragraph">
+<p>The following sequence diagram shows how the add feature operation works.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/TaskListSequenceDiagram.PNG" alt="TaskListSequenceDiagram" width="800">
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The user executes the <code>task-list</code> command.</p>
+</li>
+<li>
+<p>The <code>AddressBookParser</code> class parses the command creates a new <code>TaskListCommand</code> class.</p>
+</li>
+<li>
+<p>The <code>task-list</code> command is executed and handled by the <code>ModelManager</code> class.</p>
+</li>
+<li>
+<p>The list is returned and displayed to the user.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="convert-currency-feature"><a class="link" href="#convert-currency-feature">3.5. Convert currency feature</a></h3>
+<div class="sect3">
+<h4 id="current-implementation-5"><a class="link" href="#current-implementation-5">3.5.1. Current Implementation</a></h4>
+<div class="paragraph">
+<p>The convert currency feature allows user to convert from one currency to another.</p>
+</div>
+<div class="paragraph">
+<p>The following sequence diagram shows how the converting of currency feature operation works.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/ConvertCurrencySequenceDiagram.png" alt="ConvertCurrencySequenceDiagram" width="800">
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The user executes the <code>convert</code> command.</p>
+</li>
+<li>
+<p>The <code>AddressBookParser</code> class parses the command creates a new <code>ConvertCommand</code> class.</p>
+</li>
+<li>
+<p>The <code>convert</code> command is executed and assisted by the <code>Currency</code> class.</p>
+</li>
+<li>
+<p>The converted value is returned and displayed to the user.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="proposed-data-encryption"><a class="link" href="#proposed-data-encryption">3.6. [Proposed] Data Encryption</a></h3>
 <div class="paragraph">
 <p><em>{Explain here how the data encryption feature will be implemented}</em></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="logging"><a class="link" href="#logging">3.5. Logging</a></h3>
+<h3 id="logging"><a class="link" href="#logging">3.7. Logging</a></h3>
 <div class="paragraph">
 <p>We are using <code>java.util.logging</code> package for logging. The <code>LogsCenter</code> class is used to manage the logging levels and logging destinations.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>The logging level can be controlled using the <code>logLevel</code> setting in the configuration file (See <a href="#Implementation-Configuration">Section 3.6, &#8220;Configuration&#8221;</a>)</p>
+<p>The logging level can be controlled using the <code>logLevel</code> setting in the configuration file (See <a href="#Implementation-Configuration">Section 3.8, &#8220;Configuration&#8221;</a>)</p>
 </li>
 <li>
 <p>The <code>Logger</code> for a class can be obtained using <code>LogsCenter.getLogger(Class)</code> which will log messages according to the specified logging level</p>
@@ -1030,15 +1101,15 @@ All of the fields are compulsory except category.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="Implementation-Configuration"><a class="link" href="#Implementation-Configuration">3.6. Configuration</a></h3>
+<h3 id="Implementation-Configuration"><a class="link" href="#Implementation-Configuration">3.8. Configuration</a></h3>
 <div class="paragraph">
 <p>Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: <code>config.json</code>).</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="import-export-feature-since-v1-1"><a class="link" href="#import-export-feature-since-v1-1">3.7. Import/Export feature (since v1.1)</a></h3>
+<h3 id="import-export-feature-since-v1-1"><a class="link" href="#import-export-feature-since-v1-1">3.9. Import/Export feature (since v1.1)</a></h3>
 <div class="sect3">
-<h4 id="current-implementation-4"><a class="link" href="#current-implementation-4">3.7.1. Current Implementation</a></h4>
+<h4 id="current-implementation-6"><a class="link" href="#current-implementation-6">3.9.1. Current Implementation</a></h4>
 <div class="paragraph">
 <p>Right now, only Export functionality is implemented.
 It makes use of <code>ExportCommand</code> which extends <code>UndoableCommand</code>.
@@ -1053,7 +1124,7 @@ The 'StorageManager' will then call the <code>exportAddressBook</code> method un
 </div>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-3"><a class="link" href="#design-considerations-3">3.7.2. Design Considerations</a></h4>
+<h4 id="design-considerations-3"><a class="link" href="#design-considerations-3">3.9.2. Design Considerations</a></h4>
 <div class="sect4">
 <h5 id="aspect-usages-of-exported-data"><a class="link" href="#aspect-usages-of-exported-data">Aspect: Usages of Exported Data</a></h5>
 <div class="ulist">
@@ -1090,17 +1161,104 @@ The 'StorageManager' will then call the <code>exportAddressBook</code> method un
 </div>
 </div>
 <div class="sect2">
-<h3 id="calendar-view-feature-since-v1-2"><a class="link" href="#calendar-view-feature-since-v1-2">3.8. Calendar View feature (since v1.2)</a></h3>
+<h3 id="calendar-view-feature-since-v1-2"><a class="link" href="#calendar-view-feature-since-v1-2">3.10. Calendar View feature (since v1.2)</a></h3>
 <div class="sect3">
-<h4 id="current-implementation-5"><a class="link" href="#current-implementation-5">3.8.1. Current Implementation</a></h4>
+<h4 id="current-implementation-7"><a class="link" href="#current-implementation-7">3.10.1. Current Implementation</a></h4>
 <div class="paragraph">
 <p>Right now, the Calendar can be viewed on the homepage of BizConnect Journal as a summarized list of events on different days of a specified month.</p>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="add-event-feature"><a class="link" href="#add-event-feature">3.11. Add Event feature</a></h3>
 <div class="sect3">
-<h4 id="to-be-updated"><a class="link" href="#to-be-updated">3.8.2. To Be Updated</a></h4>
+<h4 id="current-implementation-8"><a class="link" href="#current-implementation-8">3.11.1. Current Implementation</a></h4>
 <div class="paragraph">
-<p>Enables event-related functionalities in Calendar.</p>
+<p>The add event feature allows the user to add a new event into the Event Book.
+The event details required: Title, Description, Location, Datetime.
+All of the fields are compulsory, although the user can simply fill in a dummy detail.</p>
+</div>
+<div class="paragraph">
+<p>The following sequence diagram shows how the add event feature works.</p>
+</div>
+<div class="paragraph">
+<p>Diagram and steps to be included in future.
+Pros, Cons, and Reasons to be added in future.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="delete-event-feature"><a class="link" href="#delete-event-feature">3.12. Delete Event feature</a></h3>
+<div class="sect3">
+<h4 id="current-implementation-9"><a class="link" href="#current-implementation-9">3.12.1. Current Implementation</a></h4>
+<div class="paragraph">
+<p>The delete event feature allows user to delete an event in the Event Book by specifying the index of the displayed Event List.
+Allows easy deletion of an unwanted event according to the event index listed on the Event List in the app.</p>
+</div>
+<div class="paragraph">
+<p>Diagram and steps to be included in future.
+Pros, Cons, and Reasons to be added in future.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="profile-picture-feature-since-v1-3"><a class="link" href="#profile-picture-feature-since-v1-3">3.13. Profile Picture feature (since v1.3)</a></h3>
+<div class="sect3">
+<h4 id="current-implementation-10"><a class="link" href="#current-implementation-10">3.13.1. Current Implementation</a></h4>
+<div class="paragraph">
+<p>Right now, a contact&#8217;s Profile Picture can be viewed at the right side of the contact&#8217;s profile card.</p>
+</div>
+<div class="paragraph">
+<p>The following sequence diagram shows how the <code>addpicture</code> command works</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/AddPictureSequenceDiagram.png" alt="AddPictureSequenceDiagram" width="800">
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The user executes the <code>addpicture INDEX FILENAME</code> command, with parameters <code>INDEX</code> and <code>FILENAME</code></p>
+</li>
+<li>
+<p>The <code>AddressBookParser</code> class parses the command and create a new <code>AddPictureCommand</code> class.</p>
+</li>
+<li>
+<p>The <code>AddPicture</code> command is executed and handled by the <code>ModelManager</code> class.</p>
+</li>
+<li>
+<p>A new <code>Picture</code> object is created, containing the image referenced by <code>FILENAME</code>.</p>
+</li>
+<li>
+<p>The new <code>Picture</code> is attached to the <code>Person</code> at <code>INDEX</code></p>
+</li>
+<li>
+<p>The new picture is displayed</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="design-considerations-4"><a class="link" href="#design-considerations-4">3.13.2. Design Considerations</a></h4>
+<div class="paragraph">
+<p><strong>Aspect:</strong> Storage of images of profile pictures<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Chosen Implementation:</strong><br>
+Store the images in a local folder. For Windows, it will be in the AppData folder, for Mac/Linux, in the home folder.<br>
+<strong>Pros:</strong><br>
+After a profile picture is set, it will continue showing even if the image source is deleted<br>
+<strong>Cons:</strong><br>
+Extra space to store the pictures, some images may be too large and use a lot of memory.<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Alternative:</strong><br>
+Not store the images<br>
+<strong>Pros:</strong><br>
+No space requirement to store the images locally<br>
+<strong>Cons:</strong><br>
+Need to ensure that the image is not deleted, or it won&#8217;t display.<br></p>
 </div>
 </div>
 </div>
@@ -2619,10 +2777,40 @@ a contact&#8217;s details.</p>
 <li>
 <p>2a1. AddressBook shows an error message.</p>
 <div class="paragraph">
-<p>Use case ends.</p>
+<p>Use case resumes at step 2.</p>
 </div>
 </li>
 </ul>
+</div>
+</li>
+</ul>
+</div>
+<h3 id="use-case-list-all-tasks" class="discrete">Use case: List all tasks</h3>
+<div class="paragraph">
+<p><strong>MSS</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>User requests to list tasks</p>
+</li>
+<li>
+<p>AddressBook shows a list of tasks</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Extensions</strong></p>
+</div>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>2a. The list is empty.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
 </div>
 </li>
 </ul>
@@ -2820,7 +3008,7 @@ Expected: Similar to previous.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-03-27 07:12:46 UTC
+Last updated 2018-03-28 20:12:41 UTC
 </div>
 </div>
 </body>
