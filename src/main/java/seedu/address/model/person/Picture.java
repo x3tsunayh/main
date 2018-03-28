@@ -115,12 +115,8 @@ public class Picture {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-<<<<<<< HEAD
 
 
-=======
-        
->>>>>>> 4de4d097d113bdb447e57cc9f8dcf73abf6a10c9
         File dest = new File(FOLDER + "//" + dstFilename);
         System.out.println(dest.getPath());
 
@@ -131,11 +127,7 @@ public class Picture {
                 System.out.println(e.getMessage());
             }
         }
-<<<<<<< HEAD
 
-=======
-        
->>>>>>> 4de4d097d113bdb447e57cc9f8dcf73abf6a10c9
         try {
             Files.copy(src.toPath(), dest.toPath() , REPLACE_EXISTING);
             this.path = URL_PREFIX + dest.toPath().toString();
