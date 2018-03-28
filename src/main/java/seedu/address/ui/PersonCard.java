@@ -68,7 +68,6 @@ public class PersonCard extends UiPart<Region> {
 
         try {
             String url = person.getPicture().getPath();
-            System.out.println(url);
             imageView.setImage(new Image(url, 128, 128, true, false));
         } catch (Exception e) {
             e.printStackTrace();
