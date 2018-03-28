@@ -75,7 +75,9 @@ public class Person {
         return picture;
     }
 
-    public UniqueTagList getUniqueTagList() { return tags; }
+    public UniqueTagList getUniqueTagList() {
+        return tags;
+    }
     /**
      * Update contact picture to that located in path
      * @param path
