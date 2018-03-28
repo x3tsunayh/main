@@ -424,6 +424,20 @@ image::TaskListSequenceDiagram.PNG[width="800"]
 . The list is returned and displayed to the user.
 // end::task-list[]
 
+=== Convert currency feature
+==== Current Implementation
+
+The convert currency feature allows user to convert from one currency to another.
+
+The following sequence diagram shows how the converting of currency feature operation works.
+
+image::ConvertCurrencySequenceDiagram.png[width="800"]
+
+. The user executes the `convert` command.
+. The `AddressBookParser` class parses the command creates a new `ConvertCommand` class.
+. The `convert` command is executed and assisted by the `Currency` class.
+. The converted value is returned and displayed to the user.
+
 // tag::dataencryption[]
 === [Proposed] Data Encryption
 
