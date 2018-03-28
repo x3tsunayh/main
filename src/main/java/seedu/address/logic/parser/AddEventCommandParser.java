@@ -48,7 +48,7 @@ public class AddEventCommandParser implements Parser<AddEventCommand> {
         String title = argMultimap.getValue(PREFIX_EVENT_TITLE).get();
         String description = argMultimap.getValue(PREFIX_EVENT_DESCRIPTION).get();
         String location = argMultimap.getValue(PREFIX_EVENT_LOCATION).get();
-        Datetime datetime = ParserUtil.parseDatetime(argMultimap.getValue(PREFIX_DATETIME)).get();;
+        Datetime datetime = ParserUtil.parseDatetime(argMultimap.getValue(PREFIX_EVENT_DATETIME)).get();
 
         CalendarEvent event = new Event(title, description, location, datetime);
 
