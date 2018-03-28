@@ -1,6 +1,8 @@
 package seedu.address.testutil;
 
+import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.event.CalendarEvent;
+import seedu.address.model.event.Datetime;
 import seedu.address.model.event.Event;
 
 /**
@@ -16,11 +18,15 @@ public class EventBuilder {
     private Event event;
 
     public EventBuilder() {
-        String defaultTitle = new String(DEFAULT_TITLE);
-        String defaultDescription = new String(DEFAULT_DESCRIPTION);
-        String defaultLocation = new String(DEFAULT_LOCATION);
-        String defaultDatetime = new String(DEFAULT_DATETIME);
-        this.event = new Event(defaultTitle, defaultDescription, defaultLocation, defaultDatetime);
+        try {
+            String defaultTitle = new String(DEFAULT_TITLE);
+            String defaultDescription = new String(DEFAULT_DESCRIPTION);
+            String defaultLocation = new String(DEFAULT_LOCATION);
+            Datetime defaultDatetime = new Datetime(DEFAULT_DATETIME);
+            this.event = new Event(defaultTitle, defaultDescription, defaultLocation, defaultDatetime);
+        } catch (IllegalValueException e) {
+            throw new AssertionError("Incorrect input given!");
+        }
     }
 
     /**
@@ -58,7 +64,11 @@ public class EventBuilder {
      * Sets the {@code datetime} of the {@code Event} that we are building.
      */
     public EventBuilder withDatetime(String datetime) {
-        this.event.setDatetime(new String(datetime));
+        try {
+            this.event.setDatetime(new Datetime(datetime));
+        } catch (IllegalValueException e) {
+            throw new AssertionError("Incorrect input given!");
+        }
         return this;
     }
 

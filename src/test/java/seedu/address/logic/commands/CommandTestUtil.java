@@ -3,17 +3,7 @@ package seedu.address.logic.commands;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TASK_CATEGORY;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TASK_DESCRIPTION;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TASK_DUE_DATE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TASK_NAME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TASK_PRIORITY;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TASK_STATUS;
+import static seedu.address.logic.parser.CliSyntax.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -63,6 +53,28 @@ public class CommandTestUtil {
     public static final String INVALID_EMAIL_DESC = " " + PREFIX_EMAIL + "bob!yahoo"; // missing '@' symbol
     public static final String INVALID_ADDRESS_DESC = " " + PREFIX_ADDRESS; // empty string not allowed for addresses
     public static final String INVALID_TAG_DESC = " " + PREFIX_TAG + "hubby*"; // '*' not allowed in tags
+
+    public static final String VALID_TITLE_CNY = "CNY Celebration 2018";
+    public static final String VALID_TITLE_CHRISTMAS = "Christmas Celebration 2018";
+    public static final String VALID_DESCRIPTION_CNY = "CNY Celebration at FOS";
+    public static final String VALID_DESCRIPTION_CHRISTMAS = "Christmas Party at SOC";
+    public static final String VALID_LOCATION_CNY = "NUS S16 Level 3";
+    public static final String VALID_LOCATION_CHRISTMAS = "NUS COM1";
+    public static final String VALID_DATETIME_CNY = "15-02-2018 1000";
+    public static final String VALID_DATETIME_CHRISTMAS = "24-12-2018 1830";
+
+    public static final String TITLE_DESC_CNY = " " + PREFIX_TITLE + VALID_TITLE_CNY;
+    public static final String TITLE_DESC_CHRISTMAS = " " + PREFIX_TITLE + VALID_TITLE_CHRISTMAS;
+    public static final String DESCRIPTION_DESC_CNY = " " + PREFIX_DESCRIPTION + VALID_DESCRIPTION_CNY;
+    public static final String DESCRIPTION_DESC_CHRISTMAS = " " + PREFIX_DESCRIPTION + VALID_DESCRIPTION_CHRISTMAS;
+    public static final String LOCATION_DESC_CNY = " " + PREFIX_LOCATION + VALID_LOCATION_CNY;
+    public static final String LOCATION_DESC_CHRISTMAS = " " + PREFIX_LOCATION + VALID_LOCATION_CHRISTMAS;
+    public static final String DATETIME_DESC_CNY = " " + PREFIX_DATETIME + VALID_DATETIME_CNY;
+    public static final String DATETIME_DESC_CHRISTMAS = " " + PREFIX_DATETIME + VALID_DATETIME_CHRISTMAS;
+
+    // '~' not allowed at the start of field input
+    public static final String INVALID_DATETIME_DESC = " "
+            + PREFIX_DATETIME + "32-12-2018 2359"; //There is no 32 in the date
 
     public static final String VALID_TASK_NAME_TASKFIRST = "First task";
     public static final String VALID_TASK_NAME_TASKSECOND = "Second task";

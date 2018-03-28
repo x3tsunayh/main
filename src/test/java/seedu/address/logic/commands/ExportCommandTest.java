@@ -8,6 +8,9 @@ import static seedu.address.testutil.TypicalEvents.getTypicalEventBook;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.jar.JarException;
+
+import javax.xml.bind.JAXBException;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -30,6 +33,7 @@ import seedu.address.storage.Storage;
 import seedu.address.storage.StorageManager;
 import seedu.address.storage.UserPrefsStorage;
 import seedu.address.storage.XmlAddressBookStorage;
+import seedu.address.storage.XmlEventBookStorage;
 
 public class ExportCommandTest {
     @Rule
@@ -41,8 +45,10 @@ public class ExportCommandTest {
     @Before
     public void setUp() {
         AddressBookStorage addressBookStorage = new XmlAddressBookStorage(getFilePath("addressbook.xml"));
+        XmlEventBookStorage eventBookStorage = new XmlEventBookStorage(getFilePath("eb.xml"));
         UserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(getFilePath("preferences.json"));
-        storage = new StorageManager(addressBookStorage, userPrefsStorage);
+
+        storage = new StorageManager(addressBookStorage, eventBookStorage,userPrefsStorage);
         model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
     }
 
@@ -104,7 +110,7 @@ public class ExportCommandTest {
             CommandResult result = command.execute();
             assertEquals(expectedMessage, result.feedbackToUser);
             assertEquals(model.getAddressBook(), new AddressBook(storage.readAddressBook(filePath).get()));
-        } catch (CommandException | DataConversionException | IOException e) {
+        } catch (CommandException | DataConversionException | IOException | JAXBException e) {
             throw new AssertionError("Export Command is not working as expected.", e);
         }
     }
