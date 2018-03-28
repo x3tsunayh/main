@@ -4,9 +4,8 @@ import javax.xml.bind.annotation.XmlElement;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.event.CalendarEvent;
+import seedu.address.model.event.Datetime;
 import seedu.address.model.event.Event;
-
-//@@author kaiyu92
 
 /**
  * JAXB-friendly version of the Event.
@@ -33,7 +32,7 @@ public class XmlAdaptedEvent {
         title = source.getTitle();
         description = source.getDescription();
         location = source.getLocation();
-        datetime = source.getDatetime();
+        datetime = source.getDatetime().value;
     }
 
     /**
@@ -45,7 +44,7 @@ public class XmlAdaptedEvent {
         final String title = new String(this.title);
         final String description = new String(this.description);
         final String location = new String(this.location);
-        final String datetime = new String(this.datetime);
+        final Datetime datetime = new Datetime(this.datetime);
         return new Event(title, description, location, datetime);
     }
 }

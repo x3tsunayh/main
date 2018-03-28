@@ -32,10 +32,8 @@ public class XmlEventBookStorage implements EventBookStorage {
     private String header;
 
 
-    public XmlEventBookStorage(String filePath, String exportedPath, String header) {
+    public XmlEventBookStorage(String filePath) {
         this.filePath = filePath;
-        this.exportedPath = exportedPath;
-        this.header = header;
     }
 
     @Override
