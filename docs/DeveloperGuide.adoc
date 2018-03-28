@@ -486,6 +486,17 @@ Enables event-related functionalities in Calendar.
 ==== Current Implementation
 Right now, a contact's Profile Picture can be viewed at the right side of the contact's profile card.
 
+The following sequence diagram shows how the `addpicture` command works
+
+image::AddPictureSequenceDiagram.png[width="800"]
+
+. The user executes the `addpicture INDEX FILENAME` command, with parameters `INDEX` and `FILENAME`
+. The `AddressBookParser` class parses the command and create a new `AddPictureCommand` class.
+. The `AddPicture` command is executed and handled by the `ModelManager` class.
+. A new `Picture` object is created, containing the image referenced by `FILENAME`.
+. The new `Picture` is attached to the `Person` at `INDEX`
+. The new picture is displayed
+
 ==== Design Considerations
 
 **Aspect:** Storage of images of profile pictures +
