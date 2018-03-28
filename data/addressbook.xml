@@ -94,6 +94,22 @@
         <taskStatus>Undone</taskStatus>
         <categorised>Personal</categorised>
     </tasks>
+    <tasks>
+        <taskName>Agenda for meetinggg</taskName>
+        <taskPriority>High</taskPriority>
+        <taskDescription>Discuss proposal details</taskDescription>
+        <taskDueDate>2018-04-29</taskDueDate>
+        <taskStatus>Undone</taskStatus>
+        <categorised>Meeting</categorised>
+    </tasks>
+    <tasks>
+        <taskName>Agenda for mee444ting</taskName>
+        <taskPriority>High</taskPriority>
+        <taskDescription>Discuss proposal details</taskDescription>
+        <taskDueDate>2018-04-29</taskDueDate>
+        <taskStatus>Undone</taskStatus>
+        <categorised>Meeting</categorised>
+    </tasks>
     <taskCategories>Personal</taskCategories>
     <taskCategories>Meeting</taskCategories>
     <taskCategories>Work</taskCategories>

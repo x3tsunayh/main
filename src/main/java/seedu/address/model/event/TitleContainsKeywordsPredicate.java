@@ -31,7 +31,7 @@ public class TitleContainsKeywordsPredicate implements Predicate<CalendarEvent> 
 
         if (predicateType.equals("edt")) {
             return keywords.stream()
-                    .anyMatch(keyword -> StringUtil.containsWordIgnoreCase(event.getDatetime(), keyword));
+                    .anyMatch(keyword -> StringUtil.containsWordIgnoreCase(event.getDatetime().value, keyword));
         }
 
         if (predicateType.equals("ed")) {

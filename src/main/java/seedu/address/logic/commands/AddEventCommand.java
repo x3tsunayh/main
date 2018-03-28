@@ -17,7 +17,7 @@ public class AddEventCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "addevent";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a event to the event book. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds an event to the event book. "
             + "Parameters: "
             + PREFIX_EVENT_TITLE + "NAME "
             + PREFIX_EVENT_DESCRIPTION + "DESCRIPTION "
@@ -37,12 +37,9 @@ public class AddEventCommand extends UndoableCommand {
     /**
      * Creates an AddEventCommand to add the specified {@code ReadOnlyEvent}
      */
-    public AddEventCommand(CalendarEvent event) {
+    public AddEventCommand(CalendarEvent event)  {
+        requireNonNull(event);
         toAdd = new Event(event);
-    }
-
-    public static String getCommandWord() {
-        return COMMAND_WORD;
     }
 
     @Override

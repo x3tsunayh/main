@@ -14,6 +14,7 @@ import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.commands.AddPictureCommand;
 import seedu.address.logic.commands.ExportCommand;
 import seedu.address.model.category.TaskCategory;
+import seedu.address.model.event.Datetime;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
@@ -358,4 +359,12 @@ public class ParserUtil {
         return taskCategorySet;
     }
 
+    /**
+     * Parses a {@code Optional<String> datetime} into an {@code Optional<Datetime>} if {@code datetime} is present.
+     * See header comment of this class regarding the use of {@code Optional} parameters.
+     */
+    public static Optional<Datetime> parseDatetime(Optional<String> datetime) throws IllegalValueException {
+        requireNonNull(datetime);
+        return datetime.isPresent() ? Optional.of(new Datetime(datetime.get())) : Optional.empty();
+    }
 }

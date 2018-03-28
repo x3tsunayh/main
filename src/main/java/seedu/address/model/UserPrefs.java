@@ -12,6 +12,8 @@ public class UserPrefs {
     private GuiSettings guiSettings;
     private String addressBookFilePath = "data/addressbook.xml";
     private String addressBookName = "MyAddressBook";
+    private String eventBookFilePath = "data/eventbook.xml";
+    private String eventBookName = "MyEventBook";
 
     public UserPrefs() {
         this.setGuiSettings(500, 500, 0, 0);
@@ -43,6 +45,23 @@ public class UserPrefs {
 
     public void setAddressBookName(String addressBookName) {
         this.addressBookName = addressBookName;
+    }
+
+
+    public String getEventBookFilePath() {
+        return eventBookFilePath;
+    }
+
+    public void setEventBookFilePath(String eventBookFilePath) {
+        this.eventBookFilePath = eventBookFilePath;
+    }
+
+    public String getEventBookName() {
+        return eventBookName;
+    }
+
+    public void setEventBookName(String addressBookName) {
+        this.eventBookName = eventBookName;
     }
 
     @Override

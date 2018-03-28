@@ -110,8 +110,8 @@ public class EventList implements Iterable<Event> {
 
             SimpleDateFormat formatDate = new SimpleDateFormat("dd-MM-yyyy hhmm");
             try {
-                Date datetime1 = formatDate.parse(a.getDatetime());
-                Date datetime2 = formatDate.parse(b.getDatetime());
+                Date datetime1 = formatDate.parse(a.getDatetime().value);
+                Date datetime2 = formatDate.parse(b.getDatetime().value);
 
                 return datetime2.compareTo(datetime1);
 

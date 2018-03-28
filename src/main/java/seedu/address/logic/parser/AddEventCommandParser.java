@@ -1,16 +1,15 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_EVENT_DATETIME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_EVENT_DESCRIPTION;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_EVENT_LOCATION;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_EVENT_TITLE;
+import static seedu.address.logic.parser.CliSyntax.*;
 
 import java.util.stream.Stream;
 
+import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.AddEventCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.event.CalendarEvent;
+import seedu.address.model.event.Datetime;
 import seedu.address.model.event.Event;
 
 /**
@@ -33,7 +32,7 @@ public class AddEventCommandParser implements Parser<AddEventCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     @Override
-    public AddEventCommand parse(String args) throws ParseException {
+    public AddEventCommand parse(String args) throws IllegalValueException {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args,
                         PREFIX_EVENT_TITLE, PREFIX_EVENT_DESCRIPTION, PREFIX_EVENT_LOCATION, PREFIX_EVENT_DATETIME);
@@ -46,7 +45,7 @@ public class AddEventCommandParser implements Parser<AddEventCommand> {
         String title = argMultimap.getValue(PREFIX_EVENT_TITLE).get();
         String description = argMultimap.getValue(PREFIX_EVENT_DESCRIPTION).get();
         String location = argMultimap.getValue(PREFIX_EVENT_LOCATION).get();
-        String datetime = argMultimap.getValue(PREFIX_EVENT_DATETIME).get();
+        Datetime datetime = ParserUtil.parseDatetime(argMultimap.getValue(PREFIX_DATETIME)).get();;
 
         CalendarEvent event = new Event(title, description, location, datetime);
 

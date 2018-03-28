@@ -17,12 +17,12 @@ public class Event implements CalendarEvent {
     private ObjectProperty<String> title;
     private ObjectProperty<String> description;
     private ObjectProperty<String> location;
-    private ObjectProperty<String> datetime;
+    private ObjectProperty<Datetime> datetime;
 
     /**
      * Every field must be present and not null.
      */
-    public Event(String title, String description, String location, String datetime) {
+    public Event(String title, String description, String location, Datetime datetime) {
         requireAllNonNull(title, description, location, datetime);
         this.title = new SimpleObjectProperty<>(title);
         this.description = new SimpleObjectProperty<>(description);
@@ -80,16 +80,16 @@ public class Event implements CalendarEvent {
     }
 
     @Override
-    public ObjectProperty<String> datetimeProperty() {
+    public ObjectProperty<Datetime> datetimeProperty() {
         return datetime;
     }
 
     @Override
-    public String getDatetime() {
+    public Datetime getDatetime() {
         return datetime.get();
     }
 
-    public void setDatetime(String datetime) {
+    public void setDatetime(Datetime datetime) {
         this.datetime.set(requireNonNull(datetime));
     }
 
@@ -108,6 +108,6 @@ public class Event implements CalendarEvent {
 
     @Override
     public String toString() {
-        return "";
+        return getAsText();
     }
 }
