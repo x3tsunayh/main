@@ -4,6 +4,7 @@ import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT
 
 import seedu.address.logic.commands.ConvertCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.Currency;
 
 /**
  * Parses input arguments and creates a new ConvertCommand object
@@ -17,11 +18,46 @@ public class ConvertCommandParser implements Parser<ConvertCommand> {
      */
     public ConvertCommand parse(String args) throws ParseException {
         String trimmedArgs = args.trim();
-        try {
-            return new ConvertCommand(Double.parseDouble(trimmedArgs));
-        } catch (NumberFormatException nfe) {
+        double value;
+        String fromCurrencyCode;
+        String toCurrencyCode;
+
+        if (trimmedArgs.isEmpty()) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConvertCommand.MESSAGE_USAGE));
         }
+
+        String[] currencyKeywords = trimmedArgs.split("\\s+");
+
+        try {
+            if (currencyKeywords.length == 2) {
+                //converting base rate
+                value = 1;
+                fromCurrencyCode = currencyKeywords[0].toUpperCase();
+                toCurrencyCode = currencyKeywords[1].toUpperCase();
+            } else {
+                //converting some value
+                value = Double.parseDouble(currencyKeywords[0]);
+                fromCurrencyCode = currencyKeywords[1].toUpperCase();
+                toCurrencyCode = currencyKeywords[2].toUpperCase();
+            }
+        } catch (NumberFormatException nfe) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConvertCommand.MESSAGE_USAGE));
+        } catch (ArrayIndexOutOfBoundsException aie) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConvertCommand.MESSAGE_USAGE));
+        }
+
+        boolean isValidFromCurrencyCode = new Currency().containsCurrencyCode(fromCurrencyCode);
+        boolean isValidToCurrencyCode = new Currency().containsCurrencyCode(toCurrencyCode);
+
+        if (isValidFromCurrencyCode && isValidToCurrencyCode) {
+            return new ConvertCommand(fromCurrencyCode, toCurrencyCode, value);
+        } else {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConvertCommand.MESSAGE_USAGE));
+        }
+
     }
 }
