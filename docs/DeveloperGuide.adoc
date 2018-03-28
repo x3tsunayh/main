@@ -492,8 +492,32 @@ image::ExportingSequenceDiagram.png[width="800"]
 ==== Current Implementation
 Right now, the Calendar can be viewed on the homepage of BizConnect Journal as a summarized list of events on different days of a specified month.
 
-==== To Be Updated
-Enables event-related functionalities in Calendar.
+// tag::addevent[] @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+=== Add Event feature
+==== Current Implementation
+
+The add event feature allows the user to add a new event into the Event Book.
+The event details required: Title, Description, Location, Datetime.
+All of the fields are compulsory, although the user can simply fill in a dummy detail.
+
+The following sequence diagram shows how the add event feature works.
+
+Diagram and steps to be included in future.
+Pros, Cons, and Reasons to be added in future.
+
+// end::addevent[] 
+
+// tag::deleteevent[] @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+=== Delete Event feature
+==== Current Implementation
+
+The delete event feature allows user to delete an event in the Event Book by specifying the index of the displayed Event List.
+Allows easy deletion of an unwanted event according to the event index listed on the Event List in the app.
+
+Diagram and steps to be included in future.
+Pros, Cons, and Reasons to be added in future.
+
+// end::deleteevent[] 
 
 === Profile Picture feature (since v1.3)
 

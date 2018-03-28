@@ -182,7 +182,6 @@ Returns `USD 94.50`
 Returns `MYR 2.96 ` +
 Get the rate of MYR given one unit of SGD
 
-
 === Exporting addressbook data: `export`
 
 Exports addressbook data into an XML file. +
@@ -202,6 +201,37 @@ Examples:
 Creates XML file in the user-defined filepath
 * `exp addressbook.xml` +
 Creates XML file in the main folder of the Addressbook
+
+=== Adding an event: `addevent`
+
+Adds an event into event book. +
+Format: `et/NAME ed/DESCRIPTION el/LOCATION edt/DATETIME`
+
+****
+* Adds an event if all fields have correct inputs.
+* If there is an empty field, event is not added.
+* If datetime field is detected to be incorrect, no event is added.
+****
+
+Examples:
+
+* `addevent et/Christmas Party ed/Celebrating Christmas 2018 el/Samuel's House edt/25-12-2018 1830` +
+Creates an event with the corresponding details and adds it into the event book; displays it on event list.
+
+=== Deleting an event: `deleteevent`
+
+Deletes an event in the event book. +
+Format: `deleteevent INDEX`
+
+****
+* Deletes an event if given index is valid.
+* Does not delete event is given index is invalid.
+****
+
+Examples:
+
+* `deleteevent 2` +
+Deletes the second event on the displayed event list.
 
 === Deleting a person: `delete`
 
@@ -476,6 +506,12 @@ e.g.`select 2`
 * *Undo* : `undo`
 * *Redo* : `redo`
 * *Sort all persons* : `sort`
+* *Add an event* : `addevent et/TITLE ed/DESCRIPTION el/LOCATION edt/DATETIME` +
+e.g. `addevent et/Christmas Party ed/Celebrating Christmas 2018 el/Samuel's House edt/25-12-2018 1830`
+* *Delete an event* : `deleteevent INDEX` +
+e.g. `deleteevent 2`
+* *Find an event* : `find KEYWORD [MORE_KEYWORDS]` +
+e.g. `find Christmas CNY Halloween`
 * *Add a task* : `task-add n/NAME p/PRIORITY d/DESCRIPTION dd/DUE_DATE s/STATUS [c/CATEGORY]...` +
 e.g. `task-add n/Task 1 p/Medium d/Description for task 1 dd/2018-05-10 s/Undone`
 * *List tasks* : `task-list`
