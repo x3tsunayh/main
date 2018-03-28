@@ -138,6 +138,51 @@ Returns `john` and `John Doe`
 * `find Betsy Tim John` +
 Returns any person having names `Betsy`, `Tim`, or `John`
 
+=== Converting from one currency to another: `convert`
+
+Convert any amount in terms of SGD to USD +
+Format: `convert [VALUE] [CURRENCY_CODE] [CURRENCY_CODE]`
+
+****
+* Comma is use as a thousand separtor and to 2 decimal places, eg 1,000.00
+* 17 currencies available to be converted from one to another
+* List of currency codes available (according to ISO 4217):
+
+  AUD - Australian dollar
+  CAD - Canadian dollar
+  CHF - Swiss franc
+  CNY - Renminbi (Chinese) yuan
+  GBP - Pound sterling
+  HKD - Hong Kong dollar
+  ILS - Israeli new shekel
+  INR - Indian rupee
+  JPY - Japanese yen
+  MYR - Malaysian ringgit
+  NZD - New Zealand dollar
+  PHP - Philippine piso
+  SEK - Swedish krona/kronor
+  SGD - Singapore dollar
+  THB - Thai baht
+  TWD - New Taiwan dollar
+  USD - United States dollar
+
+****
+
+Examples:
+
+
+* `convert 1 SGD MYR` +
+Converts 1 SGD into MYR +
+Returns `MYR 2.96` +
+
+* `convert 10000 JPY USD` +
+Converts 10,000 JPY to USD +
+Returns `USD 94.50`
+* `convert SGD MYR` +
+Returns `MYR 2.96 ` +
+Get the rate of MYR given one unit of SGD
+
+
 === Exporting addressbook data: `export`
 
 Exports addressbook data into an XML file. +
@@ -348,24 +393,6 @@ Examples:
 `delete 2` +
 Deletes the 2nd task in the address book.
 // end::DeleteTask[]
-
-// tag::ConvertCurrency[]
-=== Converting from one currency to another: `convert` `[coming in v2.0]`
-
-Convert any amount in terms of SGD to USD +
-Format: `convert [VALUE]`
-
-****
-* Comma is use as a thousand separtor and to 2 decimal places, eg 1,000.00
-****
-
-Examples:
-
-* `convert 1` +
-Returns `USD 0.76`
-* `convert 5000` +
-Returns `USD 3,800.00`
-// end::ConvertCurrency[]
 
 // tag::FindByTag[]
 === Locating persons by tag: `find -t` `[coming in v2.0]`

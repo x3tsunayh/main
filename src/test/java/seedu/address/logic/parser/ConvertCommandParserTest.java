@@ -14,11 +14,44 @@ public class ConvertCommandParserTest {
 
     @Test
     public void parse_validArgs_returnsConvertCommand() {
-        assertParseSuccess(parser, "1", new ConvertCommand(1));
+        //standard arguement
+        assertParseSuccess(parser, "1 SGD USD", new ConvertCommand("SGD", "USD", 1));
+
+        //retrieving base rate
+        assertParseSuccess(parser, "SGD USD", new ConvertCommand("SGD", "USD", 1));
     }
 
     @Test
-    public void parse_invalidArgs_throwsParseException() {
-        assertParseFailure(parser, "a", String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConvertCommand.MESSAGE_USAGE));
+    public void parse_emptyArg_throwsParseException() {
+        assertParseFailure(parser, "  ", String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConvertCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_invalidCurrencyCode_throwsParseException() {
+        //invalid currency code
+        assertParseFailure(parser, "SGD US",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConvertCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, "SG USD",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConvertCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, "SG US",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConvertCommand.MESSAGE_USAGE));
+
+        //invalid number of parameter
+        assertParseFailure(parser, "SGD",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConvertCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, "5",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConvertCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, "5 SGD",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConvertCommand.MESSAGE_USAGE));
+
+        //invalid value
+        assertParseFailure(parser, "SGD SGD USD",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConvertCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, "SGD 5 USD",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConvertCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, "SGD SGD 5",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConvertCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, "5 5 5",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConvertCommand.MESSAGE_USAGE));
     }
 }
