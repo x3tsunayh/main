@@ -47,7 +47,7 @@ public class XmlAdaptedPerson {
     /**
      * Constructs an {@code XmlAdaptedPerson} with the given person details.
      */
-
+/*
     public XmlAdaptedPerson(String name, String phone, String email, String address, List<XmlAdaptedTag> tagged) {
         this.name = name;
         this.phone = phone;
@@ -56,7 +56,7 @@ public class XmlAdaptedPerson {
         if (tagged != null) {
             this.tagged = new ArrayList<>(tagged);
         }
-    }
+    }*/
     public XmlAdaptedPerson(String name, String phone, String email, String address, String picture,
                             List<XmlAdaptedTag> tagged) {
         this.name = name;
@@ -129,6 +129,7 @@ public class XmlAdaptedPerson {
         }
         final Address address = new Address(this.address);
         final Picture pic = new Picture(this.picture);
+        System.out.println(pic.getPath());
         final Set<Tag> tags = new HashSet<>(personTags);
         return new Person(name, phone, email, address, pic, tags);
     }
