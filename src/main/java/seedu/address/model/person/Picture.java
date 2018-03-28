@@ -118,7 +118,6 @@ public class Picture {
 
 
         File dest = new File(FOLDER + "//" + dstFilename);
-        System.out.println(dest.getPath());
 
         if (!dest.exists()) {
             try {

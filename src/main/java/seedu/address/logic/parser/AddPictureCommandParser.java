@@ -26,14 +26,14 @@ public class AddPictureCommandParser implements Parser<AddPictureCommand> {
 
         if (splitted.length != 2) {
             throw new ParseException(
-                    String.format("Need exactly 2 args"));
+                    AddPictureCommand.MESSAGE_USAGE);
         }
 
         try {
             index = ParserUtil.parseIndex(splitted[0]);
         } catch (Exception e) {
             throw new ParseException(
-                    String.format("Invalid index"));
+                    AddPictureCommand.MESSAGE_USAGE);
         }
         path = splitted[1];
 
@@ -41,7 +41,6 @@ public class AddPictureCommandParser implements Parser<AddPictureCommand> {
             path = ParserUtil.parseImageFilename(path);
             return new AddPictureCommand(index, path);
         } catch (IllegalValueException ive) {
-            ive.printStackTrace();
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddPictureCommand.MESSAGE_USAGE));
         }

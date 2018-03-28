@@ -136,7 +136,7 @@ public class XmlAdaptedPerson {
             pic = new Picture(this.picture);
         }
 
-        System.out.println(pic.getPath());
+
         final Set<Tag> tags = new HashSet<>(personTags);
         return new Person(name, phone, email, address, pic, tags);
     }
