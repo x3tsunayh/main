@@ -86,7 +86,7 @@ Format: `addpicture INDEX FILENAME`
 Examples:
 
 * `edit 1 C://pictures/janeDoe.jpg` +
-Edits the profile picture of the 1st person to be the picture at C://pictures/janeDoe.jpg 
+Edits the profile picture of the 1st person to be the picture at C://pictures/janeDoe.jpg
 
 === Listing all persons : `list`
 
