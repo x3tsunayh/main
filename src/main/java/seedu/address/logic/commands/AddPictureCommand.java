@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ import seedu.address.model.person.exceptions.PersonNotFoundException;
 /**
  * Adds a profile picture to a person in the address book
  */
-public class AddPictureCommand extends Command {
+public class AddPictureCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "addpicture";
 
@@ -40,7 +41,7 @@ public class AddPictureCommand extends Command {
     }
 
     @Override
-    public CommandResult execute() throws CommandException {
+    public CommandResult executeUndoableCommand() throws CommandException {
 
         List<Person> lastShownList = model.getFilteredPersonList();
 
@@ -64,13 +65,14 @@ public class AddPictureCommand extends Command {
         try {
             System.out.println("KSfdsfDS "+editedPerson.getPicture().getPath());
             model.updatePerson(personToEdit, editedPerson);
+            System.out.println("KSfdsfsdfsdfsdfdsDS "+personToEdit.getPicture().getPath());
         } catch (DuplicatePersonException dpe) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         } catch (PersonNotFoundException pnfe) {
             throw new AssertionError("The target person cannot be missing");
         }
 
-
+        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, index.getOneBased()));
     }
 

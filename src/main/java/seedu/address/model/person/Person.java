@@ -50,13 +50,9 @@ public class Person {
         this.tags = new UniqueTagList(tags);
     }
 
-    public Person(Person p) {
-        this.name = p.getName();
-        this.phone = p.getPhone();
-        this.email = p.getEmail();
-        this.address = p.getAddress();
-        this.picture = p.getPicture();
-        this.tags = p.getUniqueTagList();
+    public Person(Person source) {
+        this(source.getName(), source.getPhone(), source.getEmail(), source.getAddress(), source.getPicture(),
+                source.getTags());
     }
 
     public Name getName() {
