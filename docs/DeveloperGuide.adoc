@@ -505,7 +505,7 @@ The following sequence diagram shows how the add event feature works.
 Diagram and steps to be included in future.
 Pros, Cons, and Reasons to be added in future.
 
-// end::addevent[] 
+// end::addevent[]
 
 // tag::deleteevent[] @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 === Delete Event feature
@@ -517,7 +517,7 @@ Allows easy deletion of an unwanted event according to the event index listed on
 Diagram and steps to be included in future.
 Pros, Cons, and Reasons to be added in future.
 
-// end::deleteevent[] 
+// end::deleteevent[]
 
 === Profile Picture feature (since v1.3)
 
