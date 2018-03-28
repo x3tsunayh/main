@@ -15,7 +15,7 @@ import seedu.address.model.person.exceptions.PersonNotFoundException;
 /**
  * Adds a profile picture to a person in the address book
  */
-public class AddPictureCommand extends UndoableCommand {
+public class AddPictureCommand extends Command {
 
     public static final String COMMAND_WORD = "addpicture";
 
@@ -41,7 +41,7 @@ public class AddPictureCommand extends UndoableCommand {
     }
 
     @Override
-    public CommandResult executeUndoableCommand() throws CommandException {
+    public CommandResult execute() throws CommandException {
 
         List<Person> lastShownList = model.getFilteredPersonList();
 
