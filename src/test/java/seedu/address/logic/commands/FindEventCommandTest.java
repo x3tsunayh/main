@@ -85,6 +85,12 @@ public class FindEventCommandTest {
         return command;
     }
 
+    /**
+     * Asserts that {@code command} is successfully executed, and<br>
+     *     - the command feedback is equal to {@code expectedMessage}<br>
+     *     - the {@code FilteredList<Event>} is equal to {@code expectedList}<br>
+     *     - the {@code EventBook} in model remains the same after executing the {@code command}
+     */
     private void assertCommandSuccess(FindEventCommand command, String expectedMessage,
                                       List<CalendarEvent> expectedList) {
         EventBook expectedEventBook = new EventBook(model.getEventBook());

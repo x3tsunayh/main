@@ -47,7 +47,7 @@ public class ExportCommandTest {
         XmlEventBookStorage eventBookStorage = new XmlEventBookStorage(getFilePath("eb.xml"));
         UserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(getFilePath("preferences.json"));
 
-        storage = new StorageManager(addressBookStorage, eventBookStorage,userPrefsStorage);
+        storage = new StorageManager(addressBookStorage, eventBookStorage, userPrefsStorage);
         model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
     }
 

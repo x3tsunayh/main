@@ -492,7 +492,7 @@ image::ExportingSequenceDiagram.png[width="800"]
 ==== Current Implementation
 Right now, the Calendar can be viewed on the homepage of BizConnect Journal as a summarized list of events on different days of a specified month.
 
-// tag::addevent[] @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+// tag::addevent[]
 === Add Event feature
 ==== Current Implementation
 
@@ -507,7 +507,7 @@ Pros, Cons, and Reasons to be added in future.
 
 // end::addevent[]
 
-// tag::deleteevent[] @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+// tag::deleteevent[]
 === Delete Event feature
 ==== Current Implementation
 
