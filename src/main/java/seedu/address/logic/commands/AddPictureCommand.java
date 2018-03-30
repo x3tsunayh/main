@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_FILEPATH;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.List;
@@ -23,8 +24,10 @@ public class AddPictureCommand extends Command {
     public static final String MESSAGE_NOT_EDITED = "A valid file must be provided.";
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Edits the picture of the person identified by the index number used in the last person listing.\n"
-            + "Parameters: INDEX (must be a positive integer) FILEPATH (path to a valid image file)\n"
-            + "Example: " + COMMAND_WORD + " 1 C://Pictures/johnPicture.jpg";
+            + "Parameters: INDEX (must be a positive integer) " + PREFIX_FILEPATH
+            + "FILEPATH (path to a valid image file)\n"
+            + "Example: " + COMMAND_WORD + " 1 " +
+            PREFIX_FILEPATH + "C://Pictures/johnPicture.jpg";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
 
     private final Index index;
