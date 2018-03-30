@@ -26,8 +26,8 @@ public class AddPictureCommand extends Command {
             + ": Edits the picture of the person identified by the index number used in the last person listing.\n"
             + "Parameters: INDEX (must be a positive integer) " + PREFIX_FILEPATH
             + "FILEPATH (path to a valid image file)\n"
-            + "Example: " + COMMAND_WORD + " 1 " +
-            PREFIX_FILEPATH + "C://Pictures/johnPicture.jpg";
+            + "Example: " + COMMAND_WORD + " 1 "
+            + PREFIX_FILEPATH + "C://Pictures/johnPicture.jpg";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
 
     private final Index index;
