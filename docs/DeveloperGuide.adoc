@@ -528,7 +528,7 @@ The following sequence diagram shows how the `addpicture` command works
 
 image::AddPictureSequenceDiagram.png[width="800"]
 
-. The user executes the `addpicture INDEX FILENAME` command, with parameters `INDEX` and `FILENAME`
+. The user executes the `addpicture INDEX f\FILENAME` command, with parameters `INDEX` and `FILENAME`
 . The `AddressBookParser` class parses the command and create a new `AddPictureCommand` class.
 . The `AddPicture` command is executed and handled by the `ModelManager` class.
 . A new `Picture` object is created, containing the image referenced by `FILENAME`.

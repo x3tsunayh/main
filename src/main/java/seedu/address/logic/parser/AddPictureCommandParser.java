@@ -1,6 +1,8 @@
 package seedu.address.logic.parser;
 
+import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_FILEPATH;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.exceptions.IllegalValueException;
@@ -21,29 +23,24 @@ public class AddPictureCommandParser implements Parser<AddPictureCommand> {
      */
     public AddPictureCommand parse(String args) throws ParseException {
 
+        requireNonNull(args);
+        ArgumentMultimap argMultimap =
+                ArgumentTokenizer.tokenize(args, PREFIX_FILEPATH);
 
-        String[] splitted = args.trim().split("\\s+");
-
-        if (splitted.length != 2) {
-            throw new ParseException(
-                    AddPictureCommand.MESSAGE_USAGE);
+        try {
+            index = ParserUtil.parseIndex(argMultimap.getPreamble());
+        } catch (IllegalValueException ive) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddPictureCommand.MESSAGE_USAGE));
         }
 
         try {
-            index = ParserUtil.parseIndex(splitted[0]);
-        } catch (Exception e) {
-            throw new ParseException(
-                    AddPictureCommand.MESSAGE_USAGE);
-        }
-        path = splitted[1];
-
-        try {
-            path = ParserUtil.parseImageFilename(path);
-            return new AddPictureCommand(index, path);
+            path = ParserUtil.parseFilePath(argMultimap.getValue(PREFIX_FILEPATH).get());
         } catch (IllegalValueException ive) {
             throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddPictureCommand.MESSAGE_USAGE));
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddPictureCommand.MESSAGE_USAGE));
         }
+
+        return new AddPictureCommand(index, path);
     }
 
 }
