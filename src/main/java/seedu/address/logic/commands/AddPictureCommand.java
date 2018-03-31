@@ -63,7 +63,7 @@ public class AddPictureCommand extends Command {
         try {
             editedPerson.setPicture(path);
         } catch (Exception e) {
-            throw new CommandException(MESSAGE_NOT_EDITED);
+            throw new CommandException(e.getMessage());
         }
 
         try {
