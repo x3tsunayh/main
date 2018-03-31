@@ -8,6 +8,7 @@ import java.io.File;
 import java.nio.file.Files;
 import javax.imageio.ImageIO;
 
+//@@author dezhanglee
 /**
  * Represents a Picture in the address book.
  * Guarantees: details are present and not null, field values are validated, immutable.
@@ -175,14 +176,14 @@ public class Picture {
     public String getPath() {
         return this.path;
     }
-
+	
     /**
      * Determines the User OS and output the appropriate folder to store profile pic
      *
      * @return
      */
-    private static String defaultDirectory() {
-        String os = System.getProperty("os.name").toUpperCase();
+    private static String getDefaultDirectory() {
+        String os = System.getProperty("os.name").toLowerCase();
         if (os.contains("WIN")) {
             return System.getenv("APPDATA");
         } else if (os.contains("MAC")) {
