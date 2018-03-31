@@ -1,13 +1,12 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_PIC_DESC_IMAGE_GREATER_THAN_5MB;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_PIC_DESC_NONIMAGE;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_PIC_DESC_NONIMAGE_WITH_IMAGE_FILETYPE;
 import static seedu.address.logic.commands.CommandTestUtil.PICTURE_DESC_LOCAL_IMAGE;
 import static seedu.address.logic.commands.CommandTestUtil.PICTURE_DESC_LOCAL_IMAGE_5MB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_LOCAL_IMAGE_JPG;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_PIC_DESC_IMAGE_GREATER_THAN_5MB;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_FILEPATH;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
@@ -16,7 +15,6 @@ import org.junit.Test;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.AddPictureCommand;
-import seedu.address.model.person.Picture;
 
 public class AddPictureCommandParserTest {
 

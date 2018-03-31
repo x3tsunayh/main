@@ -6,7 +6,6 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 
 import java.io.File;
 import java.nio.file.Files;
-import javax.activation.MimetypesFileTypeMap;
 import javax.imageio.ImageIO;
 
 /**

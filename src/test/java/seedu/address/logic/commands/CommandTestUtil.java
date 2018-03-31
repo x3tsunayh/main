@@ -67,12 +67,12 @@ public class CommandTestUtil {
     public static final String PICTURE_DESC_LOCAL_IMAGE = " " + PREFIX_FILEPATH + VALID_LOCAL_IMAGE_JPG;
     public static final String PICTURE_DESC_LOCAL_IMAGE_5MB = " " + PREFIX_FILEPATH + VALID_LOCAL_IMAGE_5MB;
 
-    public static final String INVALID_LOCAL_FILE_NONIMAGE
-            = "src/test/resources/PictureTest/nonImageFile.txt";
-    public static final String INVALID_LOCAL_FILE_NONIMAGE_WITH_IMAGE_FILETYPE
-            = "src/test/resources/PictureTest/nonImageFileWithJpgPrefix.jpg";
-    public static final String VALID_LOCAL_IMAGE_BIGGER_THAN_5MB
-            = "src/test/resources/PictureTest/5.6mbTestJpg.jpg";
+    public static final String INVALID_LOCAL_FILE_NONIMAGE =
+            "src/test/resources/PictureTest/nonImageFile.txt";
+    public static final String INVALID_LOCAL_FILE_NONIMAGE_WITH_IMAGE_FILETYPE =
+            "src/test/resources/PictureTest/nonImageFileWithJpgPrefix.jpg";
+    public static final String VALID_LOCAL_IMAGE_BIGGER_THAN_5MB =
+            "src/test/resources/PictureTest/5.6mbTestJpg.jpg";
 
     public static final String INVALID_NAME_DESC = " " + PREFIX_NAME + "James&"; // '&' not allowed in names
     public static final String INVALID_PHONE_DESC = " " + PREFIX_PHONE + "911a"; // 'a' not allowed in phones
