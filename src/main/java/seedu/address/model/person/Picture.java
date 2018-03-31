@@ -43,13 +43,12 @@ public class Picture {
     public Picture(String path) {
 
         requireNonNull(path);
-        String path1 = path;
-        //if the file:/ prefix exists, drop it
+        String pathFilter = path;
+        //if the file:/ prefix exists, drop it as isValidPath does not accept the prefix
         if (path.substring(0, 6).equals(URL_PREFIX)) {
-            path1 = path.substring(6);
-            System.out.println(path);
+            pathFilter = path.substring(6);
         }
-        checkArgument(isValidPath(path1), MESSAGE_PICTURE_CONSTRAINTS);
+        checkArgument(isValidPath(pathFilter), MESSAGE_PICTURE_CONSTRAINTS);
         this.path = path;
     }
 
