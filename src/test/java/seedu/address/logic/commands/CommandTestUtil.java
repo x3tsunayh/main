@@ -9,6 +9,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_EVENT_DATETIME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EVENT_DESCRIPTION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EVENT_LOCATION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EVENT_TITLE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_FILEPATH;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
@@ -50,6 +51,8 @@ public class CommandTestUtil {
     public static final String VALID_ADDRESS_BOB = "Block 123, Bobby Street 3";
     public static final String VALID_TAG_HUSBAND = "husband";
     public static final String VALID_TAG_FRIEND = "friend";
+    public static final String VALID_LOCAL_IMAGE_JPG = "src/test/resources/PictureTest/yonghe.jpg";
+    public static final String VALID_LOCAL_IMAGE_5MB = "src/test/resources/PictureTest/5mbTestJpg.jpg";
 
     public static final String NAME_DESC_AMY = " " + PREFIX_NAME + VALID_NAME_AMY;
     public static final String NAME_DESC_BOB = " " + PREFIX_NAME + VALID_NAME_BOB;
@@ -61,12 +64,27 @@ public class CommandTestUtil {
     public static final String ADDRESS_DESC_BOB = " " + PREFIX_ADDRESS + VALID_ADDRESS_BOB;
     public static final String TAG_DESC_FRIEND = " " + PREFIX_TAG + VALID_TAG_FRIEND;
     public static final String TAG_DESC_HUSBAND = " " + PREFIX_TAG + VALID_TAG_HUSBAND;
+    public static final String PICTURE_DESC_LOCAL_IMAGE = " " + PREFIX_FILEPATH + VALID_LOCAL_IMAGE_JPG;
+    public static final String PICTURE_DESC_LOCAL_IMAGE_5MB = " " + PREFIX_FILEPATH + VALID_LOCAL_IMAGE_5MB;
+
+    public static final String INVALID_LOCAL_FILE_NONIMAGE
+            = "src/test/resources/PictureTest/nonImageFile.txt";
+    public static final String INVALID_LOCAL_FILE_NONIMAGE_WITH_IMAGE_FILETYPE
+            = "src/test/resources/PictureTest/nonImageFileWithJpgPrefix.jpg";
+    public static final String VALID_LOCAL_IMAGE_BIGGER_THAN_5MB
+            = "src/test/resources/PictureTest/5.6mbTestJpg.jpg";
 
     public static final String INVALID_NAME_DESC = " " + PREFIX_NAME + "James&"; // '&' not allowed in names
     public static final String INVALID_PHONE_DESC = " " + PREFIX_PHONE + "911a"; // 'a' not allowed in phones
     public static final String INVALID_EMAIL_DESC = " " + PREFIX_EMAIL + "bob!yahoo"; // missing '@' symbol
     public static final String INVALID_ADDRESS_DESC = " " + PREFIX_ADDRESS; // empty string not allowed for addresses
     public static final String INVALID_TAG_DESC = " " + PREFIX_TAG + "hubby*"; // '*' not allowed in tags
+
+    public static final String INVALID_PIC_DESC_NONIMAGE = " " + PREFIX_FILEPATH + INVALID_LOCAL_FILE_NONIMAGE;
+    public static final String INVALID_PIC_DESC_NONIMAGE_WITH_IMAGE_FILETYPE = " " + PREFIX_FILEPATH
+            + INVALID_LOCAL_FILE_NONIMAGE_WITH_IMAGE_FILETYPE;
+    public static final String INVALID_PIC_DESC_IMAGE_GREATER_THAN_5MB = " " + PREFIX_FILEPATH
+            + VALID_LOCAL_IMAGE_BIGGER_THAN_5MB;
 
     public static final String VALID_TITLE_CNY = "CNY Celebration 2018";
     public static final String VALID_TITLE_CHRISTMAS = "Christmas Celebration 2018";

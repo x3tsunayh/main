@@ -19,7 +19,7 @@ public class PictureTest {
             = "src/test/resources/PictureTest/5.6mbTestJpg.jpg";
 
     public static final String INVALID_LOCAL_FILE_NONIMAGE
-            = "src/test/resources/PictureTest/nonImageFile.jpg";
+            = "src/test/resources/PictureTest/nonImageFile.txt";
     public static final String INVALID_LOCAL_FILE_NONIMAGE_WITH_IMAGE_FILETYPE
             = "src/test/resources/PictureTest/nonImageFileWithJpgPrefix.jpg";
     @Test
