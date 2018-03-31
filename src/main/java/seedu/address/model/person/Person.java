@@ -9,6 +9,7 @@ import java.util.Set;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
+import seedu.address.model.tag.UniqueTagList.DuplicateTagException;
 
 
 /**
@@ -103,8 +104,19 @@ public class Person {
         }
     }
 
+    //@@author dezhanglee
+    /**
+     * Adds tags from {@code toAdd} to existing Person tag list, throws exception if there are duplicate tags
+     * @param toAdd
+     * @throws DuplicateTagException
+     */
+    public void addTags(Set<Tag> toAdd) throws DuplicateTagException {
 
-
+        for (Tag t : toAdd) {
+            this.tags.add(t);
+        }
+    }
+    //@@author
 
     /**
      * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
