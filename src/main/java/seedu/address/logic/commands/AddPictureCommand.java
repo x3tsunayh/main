@@ -8,8 +8,10 @@ import java.util.List;
 
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
+import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.Picture;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 
@@ -62,8 +64,8 @@ public class AddPictureCommand extends Command {
 
         try {
             editedPerson.setPicture(path);
-        } catch (Exception e) {
-            throw new CommandException(e.getMessage());
+        } catch (IllegalValueException e) {
+            throw new CommandException(Picture.MESSAGE_PICTURE_CONSTRAINTS);
         }
 
         try {

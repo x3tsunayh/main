@@ -53,6 +53,7 @@ public class CommandTestUtil {
     public static final String VALID_TAG_FRIEND = "friend";
     public static final String VALID_LOCAL_IMAGE_JPG = "src/test/resources/PictureTest/yonghe.jpg";
     public static final String VALID_LOCAL_IMAGE_5MB = "src/test/resources/PictureTest/5mbTestJpg.jpg";
+    public static final String VALID_LOCAL_IMAGE_PNG = "src/main/resources/images/help_icon.png";
 
     public static final String NAME_DESC_AMY = " " + PREFIX_NAME + VALID_NAME_AMY;
     public static final String NAME_DESC_BOB = " " + PREFIX_NAME + VALID_NAME_BOB;

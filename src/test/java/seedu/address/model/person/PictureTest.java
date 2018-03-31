@@ -2,25 +2,17 @@ package seedu.address.model.person;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_LOCAL_FILE_NONIMAGE;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_LOCAL_FILE_NONIMAGE_WITH_IMAGE_FILETYPE;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_LOCAL_IMAGE_BIGGER_THAN_5MB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_LOCAL_IMAGE_JPG;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_LOCAL_IMAGE_PNG;
 
 import org.junit.Test;
 
 import seedu.address.testutil.Assert;
 
-
-
 public class PictureTest {
-
-    public static final String VALID_LOCAL_IMAGE_PNG = "src/main/resources/images/help_icon.png";
-    public static final String VALID_LOCAL_IMAGE_JPG = "src/test/resources/PictureTest/yonghe.jpg";
-    public static final String VALID_LOCAL_IMAGE_5MB = "src/test/resources/PictureTest/5mbTestJpg.jpg";
-    public static final String VALID_LOCAL_IMAGE_BIGGER_THAN_5MB =
-            "src/test/resources/PictureTest/5.6mbTestJpg.jpg";
-
-    public static final String INVALID_LOCAL_FILE_NONIMAGE =
-            "src/test/resources/PictureTest/nonImageFile.txt";
-    public static final String INVALID_LOCAL_FILE_NONIMAGE_WITH_IMAGE_FILETYPE =
-            "src/test/resources/PictureTest/nonImageFileWithJpgPrefix.jpg";
 
     @Test
     public void constructor_null_throwsNullPointerException() {
