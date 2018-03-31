@@ -51,7 +51,6 @@ public class PictureTest {
         // valid name
         assertTrue(Picture.isValidPath(VALID_LOCAL_IMAGE_PNG)); // valid png file
         assertTrue(Picture.isValidPath(VALID_LOCAL_IMAGE_JPG)); // valid png file
-        assertTrue(Picture.isValidPath(VALID_LOCAL_IMAGE_5MB)); // valid jpg around 5mb (test size restriction)
     }
 
 }
