@@ -36,7 +36,8 @@ public class AddPictureCommandParser implements Parser<AddPictureCommand> {
         try {
             path = ParserUtil.parseFilePath(argMultimap.getValue(PREFIX_FILEPATH).get());
         } catch (IllegalValueException ive) {
-            throw new ParseException(ive.getMessage(), ive);
+            throw new ParseException(
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddPictureCommand.MESSAGE_USAGE));
         }
 
         return new AddPictureCommand(index, path);
