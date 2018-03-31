@@ -58,8 +58,8 @@ public class XmlAdaptedPerson {
         }
         this.picture = null;
     }
-	//@@author dezhanglee
-	/**
+    //@@author dezhanglee
+    /**
      * Constructs an {@code XmlAdaptedPerson} with an additional Picture parameter
      */
     public XmlAdaptedPerson(String name, String phone, String email, String address, String picture,
@@ -73,7 +73,7 @@ public class XmlAdaptedPerson {
         }
         this.picture = picture;
     }
-	//@@author 
+    //@@author
 
     /**
      * Converts a given Person into this class for JAXB use.

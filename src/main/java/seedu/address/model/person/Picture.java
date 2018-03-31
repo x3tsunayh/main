@@ -20,7 +20,7 @@ public class Picture {
             "Filepath must be valid, point to an image file, and is less than 10MB in size";
     public static final String PICTURE_VALIDATION_REGEX_EXT = "([a-zA-Z]:)?(\\\\[a-zA-Z0-9._-]+)+\\\\?";
     public static final String PICTURE_VALIDATION_REGEX_INT = "[^\\s].*";
-    public static final String APPDATA_DIR = defaultDirectory();
+    public static final String APPDATA_DIR = getDefaultDirectory();
     public static final String FOLDER = APPDATA_DIR + "/AddressBook";
     private static final String URL_PREFIX = "file:/";
 
@@ -176,7 +176,7 @@ public class Picture {
     public String getPath() {
         return this.path;
     }
-	
+
     /**
      * Determines the User OS and output the appropriate folder to store profile pic
      *

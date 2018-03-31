@@ -58,7 +58,7 @@ public class PersonCard extends UiPart<Region> {
         person.getTags().forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
         initProfilePic(person);
     }
-	//@@author dezhanglee
+    //@@author dezhanglee
     /**
      * initialize javafx imageview to profile pic of (@code person)
      * @param person
@@ -74,7 +74,7 @@ public class PersonCard extends UiPart<Region> {
             imageView.setImage(new Image(BROKEN_IMAGE_URL, 128, 128, true, false));
         }
     }
-	//@@author 
+    //@@author
 
     @Override
     public boolean equals(Object other) {
