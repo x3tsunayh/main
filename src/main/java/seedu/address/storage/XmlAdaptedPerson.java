@@ -133,6 +133,7 @@ public class XmlAdaptedPerson {
 
         Picture pic = new Picture();
         if (this.picture != null) {
+            System.out.println(this.picture);
             pic = new Picture(this.picture);
         }
 

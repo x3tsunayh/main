@@ -6,7 +6,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 
 import java.io.File;
 import java.nio.file.Files;
-import javax.activation.MimetypesFileTypeMap;
+import javax.imageio.ImageIO;
 
 /**
  * Represents a Picture in the address book.
@@ -16,11 +16,14 @@ public class Picture {
 
     public static final String DEFAULT_PATH = "images/default.png";
     public static final String MESSAGE_PICTURE_CONSTRAINTS =
-            "Filepath must be valid, and point to an image file";
-    public static final String PICTURE_VALIDATION_REGEX = "[^\\s].*";
+            "Filepath must be valid, point to an image file, and is less than 10MB in size";
+    public static final String PICTURE_VALIDATION_REGEX_EXT = "([a-zA-Z]:)?(\\\\[a-zA-Z0-9._-]+)+\\\\?";
+    public static final String PICTURE_VALIDATION_REGEX_INT = "[^\\s].*";
     public static final String APPDATA_DIR = defaultDirectory();
     public static final String FOLDER = APPDATA_DIR + "/AddressBook";
     private static final String URL_PREFIX = "file:/";
+
+    private static final int FIVE_MB_IN_BYTES = 5242880;
 
     private String path;
 
@@ -33,11 +36,19 @@ public class Picture {
     }
 
     /**
-     * initializer if path pointing to pic is specified
+     * initializer if path pointing to pic is specified. For now, only called by XmlAdaptedPerson class
      *
      * @param path
      */
     public Picture(String path) {
+
+        requireNonNull(path);
+        String pathFilter = path;
+        //if the file:/ prefix exists, drop it as isValidPath does not accept the prefix
+        if (path.substring(0, 6).equals(URL_PREFIX)) {
+            pathFilter = path.substring(6);
+        }
+        checkArgument(isValidPath(pathFilter), MESSAGE_PICTURE_CONSTRAINTS);
         this.path = path;
     }
 
@@ -69,12 +80,19 @@ public class Picture {
      * @param path
      * @return
      */
-    public boolean isValidPath(String path) {
+    public static boolean isValidPath(String path) {
 
-        if (!path.matches(PICTURE_VALIDATION_REGEX)) {
-            return false;
+        if (path.equals(DEFAULT_PATH)) {
+            return true;
         }
-        return isValidPicture(path);
+
+        boolean isValidExternalPath = path.matches(PICTURE_VALIDATION_REGEX_EXT);
+        boolean isValidInternalPath = path.matches(PICTURE_VALIDATION_REGEX_INT);
+
+        if (isValidExternalPath || isValidInternalPath) {
+            return isValidPicture(path);
+        }
+        return false;
     }
 
     /**
@@ -86,9 +104,28 @@ public class Picture {
     public static boolean isValidPicture(String path) {
 
         File f = new File(path);
-        String mimetype = new MimetypesFileTypeMap().getContentType(f);
-        String type = mimetype.split("/")[0];
-        return type.equals("image");
+
+        try {
+            if (ImageIO.read(f) == null) {
+                return false;
+            }
+        } catch (Exception e) { //cannot read image properly
+            return false;
+        }
+
+        return isValidSize(path);
+    }
+    /**
+     * Check if image is greater than allowed size
+     *
+     * @param path
+     * @return
+     */
+    public static boolean isValidSize(String path) {
+
+        File f = new File(path);
+
+        return (f.length() <= FIVE_MB_IN_BYTES);
     }
 
     /**
