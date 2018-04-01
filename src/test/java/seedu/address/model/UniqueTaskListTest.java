@@ -30,7 +30,7 @@ public class UniqueTaskListTest {
     }
 
     @Test
-    public void sortByPriority_ascendingOrder_success() {
+    public void sortByPriority_decreasingOrder_success() {
         // Setup actual result
         AddressBook addressBook = TypicalAddressBook.getTypicalAddressBook();
         addressBook.sortTasksByPriority();
@@ -51,7 +51,7 @@ public class UniqueTaskListTest {
     }
 
     @Test
-    public void sort_descendingOrder_fail() {
+    public void sortByPriority_ascendingOrder_fail() {
         // Setup actual result
         AddressBook addressBook = TypicalAddressBook.getTypicalAddressBook();
         addressBook.sortTasksByPriority();

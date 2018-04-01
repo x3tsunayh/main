@@ -83,7 +83,7 @@ public class UniqueTaskList implements Iterable<Task> {
     }
 
     /**
-     * Sorts the task list based on priority from high to low importance
+     * Sorts the task list by priority from high to low importance
      */
     public void sortByPriority() {
         // Sorts based on high to low priority

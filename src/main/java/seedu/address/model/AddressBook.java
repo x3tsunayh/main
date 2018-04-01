@@ -259,7 +259,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     /**
-     * Sorts the task list based on priority from high to low importance
+     * Sorts the task list by priority from high to low importance
      */
     public void sortTasksByPriority() {
         tasks.sortByPriority();

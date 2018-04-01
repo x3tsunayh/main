@@ -68,7 +68,7 @@ public interface Model {
     void addTask(Task task) throws DuplicateTaskException;
 
     /**
-     * Sorts the task list based on priority from high to low importance
+     * Sorts the task list by priority from high to low importance
      */
     void sortTasksByPriority();
 
