@@ -14,7 +14,7 @@ import javafx.beans.property.SimpleObjectProperty;
  * Represents an Event in the event book.
  * Makes sure all fields are filled and not null.
  */
-public class Event implements CalendarEvent {
+public class Event implements ReadOnlyEvent {
 
     private ObjectProperty<String> title;
     private ObjectProperty<String> description;
@@ -33,10 +33,10 @@ public class Event implements CalendarEvent {
     }
 
     /**
-     * Creates a copy of the given CalendarEvent.
+     * Creates a copy of the given ReadOnlyEvent.
      * This prevents the original version from being changed unknowingly.
      */
-    public Event(CalendarEvent source) {
+    public Event(ReadOnlyEvent source) {
         this(source.getTitle(), source.getDescription(), source.getLocation(), source.getDatetime());
     }
 
@@ -99,8 +99,8 @@ public class Event implements CalendarEvent {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof CalendarEvent
-                && this.isSameStateAs((CalendarEvent) other));
+                || (other instanceof ReadOnlyEvent
+                && this.isSameStateAs((ReadOnlyEvent) other));
     }
 
     @Override

@@ -55,5 +55,5 @@ public interface ReadOnlyEventBook {
         return builder.toString();
     }
 
-    List<? extends CalendarEvent> getEventList();
+    List<? extends ReadOnlyEvent> getEventList();
 }

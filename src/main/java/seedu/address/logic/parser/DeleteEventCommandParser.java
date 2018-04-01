@@ -7,6 +7,8 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.DeleteEventCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
+//@@author x3tsunayh
+
 /**
  * Parses input arguments and creates a new DeleteEventCommand object
  */
@@ -16,7 +18,7 @@ public class DeleteEventCommandParser implements Parser<DeleteEventCommand> {
      * Parses the given {@code String} of arguments in the context of the DeleteEventCommand
      * and returns an DeleteEventCommand object for execution.
      *
-     * @throws ParseException if the user input does not conform the expected format
+     * @throws ParseException if the user input is not of acceptable format
      */
     @Override
     public DeleteEventCommand parse(String args) throws ParseException {

@@ -7,14 +7,15 @@ import static seedu.address.model.Model.PREDICATE_SHOW_ALL_EVENTS;
 /**
  * Lists all events in the event book to the user.
  */
-public class ListAllEventCommand extends Command {
-    public static final String COMMAND_WORD = "listevent";
-
-    public static final String MESSAGE_SUCCESS = "Listed all events!";
+public class ListAllEventsCommand extends Command {
+    public static final String COMMAND_WORD = "listallevents";
+    public static final String COMMAND_WORD_TWO = "listevents";
+    public static final String COMMAND_WORD_THREE = "allevents";
 
     @Override
     public CommandResult execute() {
         model.updateFilteredEventList(PREDICATE_SHOW_ALL_EVENTS);
-        return new CommandResult(MESSAGE_SUCCESS);
+        return new CommandResult("All " +
+                getMessageForEventListShownSummary(model.getFilteredEventList().size()));
     }
 }

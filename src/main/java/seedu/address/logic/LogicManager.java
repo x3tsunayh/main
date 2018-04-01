@@ -13,7 +13,7 @@ import seedu.address.logic.parser.AddressBookParser;
 import seedu.address.logic.parser.CalendarViewStateParser;
 import seedu.address.model.Model;
 import seedu.address.model.UserPrefs;
-import seedu.address.model.event.CalendarEvent;
+import seedu.address.model.event.ReadOnlyEvent;
 import seedu.address.model.person.Person;
 import seedu.address.model.task.Task;
 import seedu.address.storage.Storage;
@@ -54,7 +54,7 @@ public class LogicManager extends ComponentManager implements Logic {
             CommandResult result = command.execute();
             undoRedoStack.push(command);
 
-            //Updates the View state of the Calendar
+            // Updates View state of Calendar UI
             if (calendarViewStateParser != null) {
                 calendarViewStateParser.updateViewState(commandText);
             }
@@ -86,7 +86,7 @@ public class LogicManager extends ComponentManager implements Logic {
     }
 
     @Override
-    public ObservableList<CalendarEvent> getFilteredEventList() {
+    public ObservableList<ReadOnlyEvent> getFilteredEventList() {
         return model.getFilteredEventList();
     }
 }

@@ -3,7 +3,7 @@ package seedu.address.storage;
 import javax.xml.bind.annotation.XmlElement;
 
 import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.model.event.CalendarEvent;
+import seedu.address.model.event.ReadOnlyEvent;
 import seedu.address.model.event.Datetime;
 import seedu.address.model.event.Event;
 
@@ -28,7 +28,7 @@ public class XmlAdaptedEvent {
     public XmlAdaptedEvent() {
     }
 
-    public XmlAdaptedEvent(CalendarEvent source) {
+    public XmlAdaptedEvent(ReadOnlyEvent source) {
         title = source.getTitle();
         description = source.getDescription();
         location = source.getLocation();

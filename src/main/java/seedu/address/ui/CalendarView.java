@@ -1,8 +1,11 @@
 package seedu.address.ui;
 
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EVENT_DATETIME;
+
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -13,10 +16,16 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.index.Index;
+import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.Logic;
-import seedu.address.model.event.CalendarEvent;
+import seedu.address.logic.commands.CommandResult;
+import seedu.address.logic.commands.FindEventCommand;
+import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.event.ReadOnlyEvent;
 
 /**
  * WORK IN PROGRESS FOR EVENTS AND LOGGING
@@ -26,14 +35,14 @@ public class CalendarView {
     private VBox view;
     private Text calendarTitle;
     private YearMonth currentYearMonth;
-    private ObservableList<CalendarEvent> eventList;
+    private ObservableList<ReadOnlyEvent> eventList;
     private Logic logic;
-    //private final Logger logger = LogsCenter.getLogger(CommandBox.class);
+    private final Logger logger = LogsCenter.getLogger(CommandBox.class);
 
     /**
      * Provides layout for the calendar month with anchor panes.
      */
-    public CalendarView(Logic logic, ObservableList<CalendarEvent> eventList, YearMonth yearMonth) {
+    public CalendarView(Logic logic, ObservableList<ReadOnlyEvent> eventList, YearMonth yearMonth) {
         this.logic = logic;
         this.eventList = eventList;
         currentYearMonth = yearMonth;
@@ -45,16 +54,16 @@ public class CalendarView {
         // Create rows and columns of anchor panes for calendar
         calendarMonthSetup(calendar);
 
-        // Days of a Week
-        Text[] days = new Text[]{new Text("Sunday"), new Text("Monday"), new Text("Tuesday"),
-            new Text("Wednesday"), new Text("Thursday"),
-            new Text("Friday"), new Text("Saturday")};
+        // Days of the Week
+        Text[] days = new Text[]{new Text("SUNDAY"), new Text("MONDAY"), new Text("TUESDAY"),
+                new Text("WEDNESDAY"), new Text("THURSDAY"), new Text("FRIDAY"), new Text("SATURDAY")};
         GridPane dayLabels = new GridPane();
         dayLabels.setPrefWidth(450);
         Integer col = 0;
 
         for (Text day : days) {
             day.setFill(Color.WHITE);
+            day.setFont(new Font("Serif", 13));
             AnchorPane ap = new AnchorPane();
             ap.setPrefSize(200, 10);
             AnchorPane.setBottomAnchor(day, 5.0);
@@ -109,28 +118,47 @@ public class CalendarView {
             boolean eventExist = false;
 
             if (targetIndex == null) {
-                //eventExist checks here to see
-                eventExist = false;
+                eventExist = eventList.stream()
+                        .anyMatch(e -> checkEventDay(e, dayValue)
+                                && checkEventMonth(e, monthValue)
+                                && checkEventYear(e, yearValue));
             } else {
-                CalendarEvent e = eventList.get(targetIndex.getZeroBased());
+                ReadOnlyEvent e = eventList.get(targetIndex.getZeroBased());
 
                 if (checkEventDay(e, dayValue)
-                        && checkEventMonth(e, monthValue) && checkEventYear(e, yearValue)) {
+                        && checkEventMonth(e, monthValue)
+                        && checkEventYear(e, yearValue)) {
                     eventExist = true;
                 }
-
             }
 
             Text dateNumber = new Text(String.valueOf(calendarDate.getDayOfMonth()));
             // Days from a different month shows up as a different colour
             if (calendarDate.getMonthValue() != yearMonth.getMonthValue()) {
-                dateNumber.setFill(Color.GREY);
+                dateNumber.setFill(Color.DARKGREY);
             } else {
                 dateNumber.setFill(Color.WHITE);
             }
             ap.setDate(calendarDate);
             ap.setTopAnchor(dateNumber, 5.0);
             ap.setLeftAnchor(dateNumber, 5.0);
+
+            if (eventExist) {
+                ap.setOnMouseClicked(ev -> {
+                    String commandText = FindEventCommand.getCommandWord()
+                            + " " + PREFIX_EVENT_DATETIME + getFormatDate(dayValue, monthValue, yearValue);
+                    try {
+                        CommandResult commandResult = logic.execute(commandText);
+                        logger.info("Command Result: " + commandResult.feedbackToUser);
+
+                    } catch (CommandException | IllegalValueException e) {
+                        logger.info("Invalid Command: " + commandText);
+                    }
+                });
+                ap.setStyle("-fx-background-color: #2e5577;");
+            } else {
+                ap.setStyle("-fx-background-color: #3d719d;");
+            }
 
             ap.getChildren().add(dateNumber);
             calendarDate = calendarDate.plusDays(1);
@@ -191,7 +219,7 @@ public class CalendarView {
      * @param dayValue
      * @return
      */
-    private boolean checkEventDay(CalendarEvent event, String dayValue) {
+    private boolean checkEventDay(ReadOnlyEvent event, String dayValue) {
         if (dayValue.length() == 1) {
             return event.getDatetime().value.substring(0, 2).equals("0" + dayValue);
         } else {
@@ -205,7 +233,7 @@ public class CalendarView {
      * @param monthValue
      * @return
      */
-    private boolean checkEventMonth(CalendarEvent event, String monthValue) {
+    private boolean checkEventMonth(ReadOnlyEvent event, String monthValue) {
         if (monthValue.length() == 1) {
             return event.getDatetime().value.substring(3, 5).equals("0" + monthValue);
         } else {
@@ -219,7 +247,7 @@ public class CalendarView {
      * @param yearValue
      * @return
      */
-    private boolean checkEventYear(CalendarEvent event, String yearValue) {
+    private boolean checkEventYear(ReadOnlyEvent event, String yearValue) {
         return event.getDatetime().value.substring(6, 10).equals(yearValue);
     }
 

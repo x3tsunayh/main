@@ -7,8 +7,10 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_EVENT_LOCATION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EVENT_TITLE;
 
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.event.CalendarEvent;
+import seedu.address.model.event.ReadOnlyEvent;
 import seedu.address.model.event.Event;
+
+//@@author x3tsunayh
 
 /**
  * Adds an event to event book.
@@ -24,20 +26,20 @@ public class AddEventCommand extends UndoableCommand {
             + PREFIX_EVENT_LOCATION + "LOCATION "
             + PREFIX_EVENT_DATETIME + "DATETIME\n"
             + "Example: " + COMMAND_WORD + " "
-            + PREFIX_EVENT_TITLE + "Halloween Horror Night "
-            + PREFIX_EVENT_DESCRIPTION + "Horrifying night "
-            + PREFIX_EVENT_LOCATION + "Universal Studio "
-            + PREFIX_EVENT_DATETIME + "13-10-2017 2359";
+            + PREFIX_EVENT_TITLE + "Movie Outing "
+            + PREFIX_EVENT_DESCRIPTION + "Watching Black Panther "
+            + PREFIX_EVENT_LOCATION + "Suntec City GV "
+            + PREFIX_EVENT_DATETIME + "22-04-2018 1630";
 
     public static final String MESSAGE_SUCCESS = "New event added: %1$s";
     public static final String MESSAGE_DUPLICATE_EVENT = "This event already exists in the event book";
 
-    private final CalendarEvent toAdd;
+    private final ReadOnlyEvent toAdd;
 
     /**
      * Creates an AddEventCommand to add the specified {@code ReadOnlyEvent}
      */
-    public AddEventCommand(CalendarEvent event)  {
+    public AddEventCommand(ReadOnlyEvent event)  {
         requireNonNull(event);
         toAdd = new Event(event);
     }
