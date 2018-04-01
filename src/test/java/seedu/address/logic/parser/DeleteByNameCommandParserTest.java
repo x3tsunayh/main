@@ -11,6 +11,7 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.DeleteByNameCommand;
 import seedu.address.model.person.Name;
 
+//@@author dezhanglee
 public class DeleteByNameCommandParserTest {
 
     private DeleteByNameCommandParser parser = new DeleteByNameCommandParser();

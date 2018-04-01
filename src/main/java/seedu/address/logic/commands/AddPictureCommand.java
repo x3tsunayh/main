@@ -15,6 +15,7 @@ import seedu.address.model.person.Picture;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 
+//@@author dezhanglee
 /**
  * Adds a profile picture to a person in the address book
  */

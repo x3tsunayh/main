@@ -26,7 +26,7 @@ public class Person {
     private final UniqueTagList tags;
 
     private Picture picture;
-
+    //@@author dezhanglee
     /**
      * Every field must be present and not null.
      */
@@ -40,6 +40,7 @@ public class Person {
         // protect internal tags from changes in the arg list
         this.tags = new UniqueTagList(tags);
     }
+    //@@author
     public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
         requireAllNonNull(name, phone, email, address, tags);
         this.name = name;
@@ -71,14 +72,15 @@ public class Person {
     public Address getAddress() {
         return address;
     }
-
+    //@@author dezhanglee
     public Picture getPicture() {
         return picture;
     }
-
+    //@@author
     public UniqueTagList getUniqueTagList() {
         return tags;
     }
+    //@@author dezhanglee
     /**
      * Update contact picture to that located in path
      * @param path
@@ -117,6 +119,7 @@ public class Person {
         }
     }
     //@@author
+
 
     /**
      * Returns an immutable tag set, which throws {@code UnsupportedOperationException}

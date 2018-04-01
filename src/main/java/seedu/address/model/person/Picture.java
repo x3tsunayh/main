@@ -8,6 +8,7 @@ import java.io.File;
 import java.nio.file.Files;
 import javax.imageio.ImageIO;
 
+//@@author dezhanglee
 /**
  * Represents a Picture in the address book.
  * Guarantees: details are present and not null, field values are validated, immutable.
@@ -19,7 +20,7 @@ public class Picture {
             "Filepath must be valid, point to an image file, and is less than 10MB in size";
     public static final String PICTURE_VALIDATION_REGEX_EXT = "([a-zA-Z]:)?(\\\\[a-zA-Z0-9._-]+)+\\\\?";
     public static final String PICTURE_VALIDATION_REGEX_INT = "[^\\s].*";
-    public static final String APPDATA_DIR = defaultDirectory();
+    public static final String APPDATA_DIR = getDefaultDirectory();
     public static final String FOLDER = APPDATA_DIR + "/AddressBook";
     private static final String URL_PREFIX = "file:/";
 
@@ -181,8 +182,8 @@ public class Picture {
      *
      * @return
      */
-    private static String defaultDirectory() {
-        String os = System.getProperty("os.name").toUpperCase();
+    private static String getDefaultDirectory() {
+        String os = System.getProperty("os.name").toLowerCase();
         if (os.contains("WIN")) {
             return System.getenv("APPDATA");
         } else if (os.contains("MAC")) {

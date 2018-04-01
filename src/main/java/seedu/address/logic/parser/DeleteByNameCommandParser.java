@@ -7,7 +7,7 @@ import seedu.address.logic.commands.DeleteByNameCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Name;
 
-
+//@@author dezhanglee
 /**
  * Parses input arguments and creates a new DeleteCommand object
  */
