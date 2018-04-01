@@ -359,7 +359,7 @@ image::UndoRedoActivityDiagram.png[width="650"]
 // end::undoredo[]
 
 // tag::sort[]
-=== Sort feature
+=== Sort Persons feature
 ==== Current Implementation
 
 The sort mechanism sorts the persons list alphabetically by name. It currently supports sorting in ascending order.
@@ -367,9 +367,9 @@ The sort mechanism sorts the persons list alphabetically by name. It currently s
 The internal details of the sort mechanism is handled by the `sort` method in `UniquePersonList` class.
 The sort mechanism is implemented using a custom comparator in JavaFX ObservableList `sort` method.
 
-The following sequence diagram shows how the sort operation works.
+The following sequence diagram shows how the sort persons operation works.
 
-image::SortingSequenceDiagram.PNG[width="800"]
+image::SortingSequenceDiagram.png[width="800"]
 
 . The user executes the `sort` command.
 . The `AddressBookParser` class parses the command and create a new `SortCommand` class.
@@ -397,9 +397,9 @@ The add task feature allows user to add a new task into the Address Book by spec
 It allows the adding of the following fields: name, priority, description, due date, status and category.
 All of the fields are compulsory except category.
 
-The following sequence diagram shows how the add feature operation works.
+The following sequence diagram shows how the add task operation works.
 
-image::TaskAddSequenceDiagram.PNG[width="800"]
+image::TaskAddSequenceDiagram.png[width="800"]
 
 . The user executes the `task-add` command.
 . The `AddressBookParser` class creates a new `TaskAddCommandParser` class to parse the command.
@@ -409,20 +409,51 @@ image::TaskAddSequenceDiagram.PNG[width="800"]
 // end::task-add[]
 
 // tag::task-list[]
-=== List tasks feature
+=== List Tasks feature
 ==== Current Implementation
 
-The list task feature allows user to display all the tasks in the Address Book.
+The list tasks feature allows user to display all the tasks in the Address Book.
 
-The following sequence diagram shows how the add feature operation works.
+The following sequence diagram shows how the list tasks operation works.
 
-image::TaskListSequenceDiagram.PNG[width="800"]
+image::TaskListSequenceDiagram.png[width="800"]
 
 . The user executes the `task-list` command.
 . The `AddressBookParser` class parses the command creates a new `TaskListCommand` class.
 . The `task-list` command is executed and handled by the `ModelManager` class.
 . The list is returned and displayed to the user.
 // end::task-list[]
+
+// tag::task-sort[]
+=== Sort Tasks feature
+==== Current Implementation
+
+The sort mechanism sorts the tasks list based on priority.
+It currently supports sorting in descending order of importance (i.e. high > medium > low).
+
+The internal details of the sort mechanism is handled by the `sortByPriority` method in `UniqueTaskList` class.
+The sort mechanism is implemented using a custom comparator in JavaFX ObservableList `sort` method.
+
+The following sequence diagram shows how the sort tasks operation works.
+
+image::TaskSortSequenceDiagram.png[width="800"]
+
+. The user executes the `task-sort` command.
+. The `AddressBookParser` class parses the command and create a new `TaskSortCommand` class.
+. The `task-sort` command is executed and handled by the `ModelManager` class.
+. The sorted list is returned and displayed to the user.
+
+==== Design Considerations
+
+===== Aspect: Implementation of `TaskSortCommand`
+
+* **Alternative 1 (current choice):** Sort tasks by priority
+** Pros: Easy to implement and does not need to make changes for every newly added field
+** Cons: Lack flexibility in sorting by other fields
+* **Alternative 2:** Sort tasks by other fields of a task such as name
+** Pros: Allows flexibility in sorting
+** Cons: Might be more difficult to implement as changes need to be made for every newly added field
+// end::task-sort[]
 
 === Convert currency feature
 ==== Current Implementation
@@ -1187,7 +1218,7 @@ Use case ends.
 *Extensions*
 
 [none]
-* 2a. The command is incorrectly entered
+* 2a. The command is incorrectly entered.
 +
 [none]
 ** 2a1. AddressBook shows an error message.
@@ -1201,6 +1232,24 @@ Use case resumes at step 2.
 
 1.  User requests to list tasks
 2.  AddressBook shows a list of tasks
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The list is empty.
++
+Use case ends.
+
+[discrete]
+=== Use case: Sort all tasks by priority
+
+*MSS*
+
+1.  User requests to sort all tasks in AddressBook
+2.  AddressBook sorts the list of tasks by priority in decreasing order of importance (i.e. high > medium > low)
+3.  AddressBook shows a list of sorted tasks
 +
 Use case ends.
 
