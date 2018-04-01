@@ -21,7 +21,7 @@ public class PictureTest {
 
     @Test
     public void constructor_invalidPath_throwsIllegalArgumentException() {
-        String newPictureName = "newPictureName",
+        String newPictureName = "newPictureName";
         String invalidName =
                 "RandomRandomThisIsTooLongToBeValidButToBeSureLetsMakeThisLonger_MakePicturesGreatAgain!?>>:?"
                         + "SurelyThisCantBeValidRight?WellLifeIsUnpredictableSoToBeSafeIWillMakeThisEvenLonger";
