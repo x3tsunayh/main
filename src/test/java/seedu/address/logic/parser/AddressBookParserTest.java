@@ -32,6 +32,7 @@ import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.SortCommand;
 import seedu.address.logic.commands.TaskAddCommand;
 import seedu.address.logic.commands.TaskDeleteCommand;
+import seedu.address.logic.commands.TaskFindCommand;
 import seedu.address.logic.commands.TaskListCommand;
 import seedu.address.logic.commands.TaskSortCommand;
 import seedu.address.logic.commands.UndoCommand;
@@ -39,6 +40,7 @@ import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
 import seedu.address.model.task.Task;
+import seedu.address.model.task.TaskNameContainsKeywordsPredicate;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.PersonUtil;
@@ -177,6 +179,14 @@ public class AddressBookParserTest {
         TaskDeleteCommand command = (TaskDeleteCommand) parser.parseCommand(
                 TaskDeleteCommand.COMMAND_WORD + " " + INDEX_FIRST_TASK.getOneBased());
         assertEquals(new TaskDeleteCommand(INDEX_FIRST_PERSON), command);
+    }
+
+    @Test
+    public void parseCommand_taskFind() throws Exception {
+        List<String> keywords = Arrays.asList("agenda", "day", "meet");
+        TaskFindCommand command = (TaskFindCommand) parser.parseCommand(TaskFindCommand.COMMAND_WORD + " "
+                + keywords.stream().collect(Collectors.joining(" ")));
+        assertEquals(new TaskFindCommand(new TaskNameContainsKeywordsPredicate(keywords)), command);
     }
 
     @Test
