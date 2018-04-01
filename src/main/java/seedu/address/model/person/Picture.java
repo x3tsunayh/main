@@ -37,19 +37,23 @@ public class Picture {
 
     /**
      * initializer if path pointing to pic is specified. For now, only called by XmlAdaptedPerson class
-     *
+     * Since its only called by XmlAdaptedPerson, arguments are correct and hence no need to checkArgument
      * @param path
      */
     public Picture(String path) {
 
         requireNonNull(path);
-        String pathFilter = path;
-        //if the file:/ prefix exists, drop it as isValidPath does not accept the prefix
-        if (path.substring(0, 6).equals(URL_PREFIX)) {
-            pathFilter = path.substring(6);
+        String p = path;
+        
+        //if invalid/outdated copy of picture in XMLAdaptedPerson, reset to default pic. 
+        try {
+            File f = new File(path);
+            ImageIO.read(f);
+        } catch (Exception e) {
+            p = DEFAULT_PATH;
         }
-        checkArgument(isValidPath(pathFilter), MESSAGE_PICTURE_CONSTRAINTS);
-        this.path = path;
+            
+        this.path = p;
     }
 
     /**
