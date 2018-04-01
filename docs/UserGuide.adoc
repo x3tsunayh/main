@@ -409,6 +409,28 @@ Examples:
 Deletes the 2nd task in the address book.
 // end::DeleteTask[]
 
+// tag::FindTask[]
+=== Finding tasks by name: `task-find` `[since v1.4]`
+
+Finds the tasks whose names contain any of the given keywords. +
+Format: `task-find KEYWORD [MORE_KEYWORDS]`
+
+****
+* The search is case-insensitive. e.g. `task` will match `Task`
+* The order of the keywords does not matter. e.g. `Buy Gift` will match `Gift buy`
+* Partial words will be matched. e.g. `ta` will match `task`
+* Tasks matching at least one keyword will be returned (i.e. `OR` search).
+e.g. `Agenda gift` will return `Agenda for meeting`, `Buy gift`
+****
+
+Examples:
+
+* `task-find agenda`
+Returns `Agenda for meeting` and `Project agenda`
+* `task-find email agenda project`
+Returns any task having names `email`, `agenda` or `project`
+// end::FindTask[]
+
 // tag::ListTask[]
 === Listing all tasks: `task-list` `[since v1.3]`
 
@@ -516,5 +538,7 @@ e.g. `find Christmas CNY Halloween`
 e.g. `task-add n/Task 1 p/Medium d/Description for task 1 dd/2018-05-10 s/Undone`
 * *Delete a task* : `task-delete INDEX` +
 e.g. `task-delete 1`
+* *Find tasks by name* : `task-find KEYWORD [MORE_KEYWORDS]` +
+e.g. `task-find project agenda`
 * *List all tasks* : `task-list`
 * *Sort all tasks* : `task-sort`

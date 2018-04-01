@@ -426,6 +426,23 @@ image::TaskDeleteSequenceDiagram.png[width="800"]
 . The task is removed from the list of tasks in Address Book and the updated task list is displayed to the user.
 // end::task-delete[]
 
+// tag::task-find[]
+=== Find Tasks feature
+==== Current Implementation
+
+The find tasks feature allows user to search for any task whose names contains any of the specified keywords in the Address Book.
+The search is case-insensitive and matches partial keyword.
+
+The following sequence diagram shows how the find tasks operation works.
+
+image::TaskFindSequenceDiagram.png[width="800"]
+. The user executes the `task-find` command.
+. The `AddressBookParser` class creates a new `TaskFindCommandParser` class to parse the command.
+. The `TaskFindCommandParser` class parses the command and create a new `TaskFindCommand` class.
+. The `task-find` command is executed and handled by the `ModelManager` class.
+. The list of tasks in Address Book matching the keywords is returned and displayed to the user.
+// end::task-find[]
+
 // tag::task-list[]
 === List Tasks feature
 ==== Current Implementation
@@ -437,7 +454,7 @@ The following sequence diagram shows how the list tasks operation works.
 image::TaskListSequenceDiagram.png[width="800"]
 
 . The user executes the `task-list` command.
-. The `AddressBookParser` class parses the command creates a new `TaskListCommand` class.
+. The `AddressBookParser` class parses the command and creates a new `TaskListCommand` class.
 . The `task-list` command is executed and handled by the `ModelManager` class.
 . The list is returned and displayed to the user.
 // end::task-list[]
@@ -1112,6 +1129,10 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *` |traveler and businessman |sort all tasks by priority  | easily view all the tasks by importance.
 
+|`* * *` |traveler and businessman |find a task by name  | easily locate tasks without having to go through the entire task list.
+
+|`* * *` |traveler and businessman |edit a task  | keep it updated.
+
 |`* * *` |traveler and businessman |convert a sentence or word from one language to another |understand both language at the same time
 
 |`* *` |traveler and businessman |subscribe to event |get more information about the event
@@ -1268,6 +1289,23 @@ Use case ends.
 ** 3a1. AddressBook shows an error message.
 +
 Use case resumes at step 2.
+
+[discrete]
+=== Use case: Find tasks
+
+*MSS*
+
+1.  User requests to find tasks containing specified keywords
+2.  AddressBook shows a list of tasks matching the keywords
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The list is empty as no matching task.
++
+Use case ends.
 
 [discrete]
 === Use case: List all tasks
