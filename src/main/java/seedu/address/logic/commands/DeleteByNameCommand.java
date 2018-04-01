@@ -9,6 +9,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 
+//@@author dezhanglee
 /**
  * Deletes a person by name. Case insensitive
  * Will not work if there are multiple people with same names, use DeleteCommand instead
