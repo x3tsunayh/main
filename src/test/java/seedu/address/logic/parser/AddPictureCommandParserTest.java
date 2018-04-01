@@ -16,6 +16,7 @@ import org.junit.Test;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.AddPictureCommand;
 
+//@@author dezhanglee
 public class AddPictureCommandParserTest {
 
     private static final String MESSAGE_INVALID_FORMAT =

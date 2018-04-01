@@ -23,6 +23,7 @@ import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
 
+//@@author dezhanglee
 public class AddPictureCommandTest {
 
     private ModelManager model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
