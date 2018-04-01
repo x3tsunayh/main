@@ -20,7 +20,7 @@ import seedu.address.logic.UndoRedoStack;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
-import seedu.address.model.event.CalendarEvent;
+import seedu.address.model.event.ReadOnlyEvent;
 import seedu.address.model.event.Event;
 import seedu.address.model.event.ReadOnlyEventBook;
 import seedu.address.model.person.Person;
@@ -164,22 +164,22 @@ public class AddEventCommandTest {
         }
 
         @Override
-        public void addEvent(CalendarEvent toAdd) {
+        public void addEvent(ReadOnlyEvent toAdd) {
             fail("This method should not be called.");
         }
 
         @Override
-        public void deleteEvent(CalendarEvent eventToDelete) {
+        public void deleteEvent(ReadOnlyEvent eventToDelete) {
             fail("This method should not be called.");
         }
 
         @Override
-        public ObservableList<CalendarEvent> getFilteredEventList() {
+        public ObservableList<ReadOnlyEvent> getFilteredEventList() {
             return null;
         }
 
         @Override
-        public void updateFilteredEventList(Predicate<CalendarEvent> predicate) {
+        public void updateFilteredEventList(Predicate<ReadOnlyEvent> predicate) {
             fail("This method should not be called.");
         }
     }
@@ -188,10 +188,10 @@ public class AddEventCommandTest {
      * A Model stub that always accept the event being added.
      */
     private class ModelStubAcceptingEventAdded extends ModelStub {
-        final ArrayList<CalendarEvent> eventsAdded = new ArrayList<>();
+        final ArrayList<ReadOnlyEvent> eventsAdded = new ArrayList<>();
 
         @Override
-        public void addEvent(CalendarEvent toAdd) {
+        public void addEvent(ReadOnlyEvent toAdd) {
             requireNonNull(toAdd);
             eventsAdded.add(toAdd);
         }

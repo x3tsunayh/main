@@ -1,7 +1,7 @@
 package seedu.address.testutil;
 
 import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.model.event.CalendarEvent;
+import seedu.address.model.event.ReadOnlyEvent;
 import seedu.address.model.event.Datetime;
 import seedu.address.model.event.Event;
 
@@ -32,7 +32,7 @@ public class EventBuilder {
     /**
      * Initializes the EventBuilder with the data of {@code eventToCopy}.
      */
-    public EventBuilder(CalendarEvent eventToCopy) {
+    public EventBuilder(ReadOnlyEvent eventToCopy) {
         this.event = new Event(eventToCopy);
     }
 
