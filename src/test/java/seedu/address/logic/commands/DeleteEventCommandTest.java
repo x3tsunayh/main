@@ -18,7 +18,7 @@ import seedu.address.logic.UndoRedoStack;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
-import seedu.address.model.event.CalendarEvent;
+import seedu.address.model.event.ReadOnlyEvent;
 import seedu.address.model.event.TitleContainsKeywordsPredicate;
 
 //@@author x3tsunayh
@@ -32,13 +32,13 @@ public class DeleteEventCommandTest {
 
     @Test
     public void execute_validIndexUnfilteredList_success() throws Exception {
-        CalendarEvent eventToDelete = model.getFilteredEventList().get(Index.fromOneBased(1).getZeroBased());
+        ReadOnlyEvent eventToDelete = model.getFilteredEventList().get(Index.fromOneBased(1).getZeroBased());
         DeleteEventCommand deleteEventCommand = prepareCommand(Index.fromOneBased(1));
 
         String expectedMessage = String.format(DeleteEventCommand.MESSAGE_DELETE_EVENT_SUCCESS, eventToDelete);
 
         ModelManager expectedModel = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
-        CalendarEvent expectedEventToDelete = expectedModel.getFilteredEventList()
+        ReadOnlyEvent expectedEventToDelete = expectedModel.getFilteredEventList()
                 .get(Index.fromOneBased(1).getZeroBased());
         expectedModel.deleteEvent(expectedEventToDelete);
 
@@ -55,18 +55,18 @@ public class DeleteEventCommandTest {
 
     @Test
     public void execute_validIndexFilteredList_success() throws Exception {
-        CalendarEvent event = model.getEventBook().getEventList().get(0);
+        ReadOnlyEvent event = model.getEventBook().getEventList().get(0);
         model.updateFilteredEventList(new TitleContainsKeywordsPredicate(Arrays.asList(event.getTitle())));
         // checks if filtered event list only has one event here
         assert model.getFilteredEventList().size() == 1;
 
-        CalendarEvent eventToDelete = model.getFilteredEventList().get(Index.fromOneBased(1).getZeroBased());
+        ReadOnlyEvent eventToDelete = model.getFilteredEventList().get(Index.fromOneBased(1).getZeroBased());
         DeleteEventCommand deleteEventCommand = prepareCommand(Index.fromOneBased(1));
 
         String expectedMessage = String.format(DeleteEventCommand.MESSAGE_DELETE_EVENT_SUCCESS, eventToDelete);
 
         Model expectedModel = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
-        CalendarEvent expectedEventToDelete = expectedModel.getFilteredEventList()
+        ReadOnlyEvent expectedEventToDelete = expectedModel.getFilteredEventList()
                 .get(Index.fromOneBased(1).getZeroBased());
         expectedModel.deleteEvent(expectedEventToDelete);
         showNoEvent(expectedModel);
@@ -76,7 +76,7 @@ public class DeleteEventCommandTest {
 
     @Test
     public void execute_invalidIndexFilteredList_failure() {
-        CalendarEvent event = model.getEventBook().getEventList().get(0);
+        ReadOnlyEvent event = model.getEventBook().getEventList().get(0);
         model.updateFilteredEventList(new TitleContainsKeywordsPredicate(Arrays.asList(event.getTitle())));
         // checks if filtered event list only has one event here
         assert model.getFilteredEventList().size() == 1;

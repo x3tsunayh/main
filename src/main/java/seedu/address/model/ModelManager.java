@@ -14,7 +14,7 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
 import seedu.address.commons.events.model.EventBookChangedEvent;
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.event.CalendarEvent;
+import seedu.address.model.event.ReadOnlyEvent;
 import seedu.address.model.event.ReadOnlyEventBook;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
@@ -32,7 +32,7 @@ public class ModelManager extends ComponentManager implements Model {
 
     private final AddressBook addressBook;
     private final EventBook eventBook;
-    private final FilteredList<CalendarEvent> filteredEvents;
+    private final FilteredList<ReadOnlyEvent> filteredEvents;
     private final FilteredList<Person> filteredPersons;
     private final FilteredList<Task> filteredTasks;
 
@@ -151,12 +151,12 @@ public class ModelManager extends ComponentManager implements Model {
 
     //=========== Filtered Event List Accessors =============================================================
     @Override
-    public ObservableList<CalendarEvent> getFilteredEventList() {
+    public ObservableList<ReadOnlyEvent> getFilteredEventList() {
         return FXCollections.unmodifiableObservableList(filteredEvents);
     }
 
     @Override
-    public void updateFilteredEventList(Predicate<CalendarEvent> predicate) {
+    public void updateFilteredEventList(Predicate<ReadOnlyEvent> predicate) {
         requireNonNull(predicate);
         filteredEvents.setPredicate(predicate);
     }
@@ -173,7 +173,7 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public void addEvent(CalendarEvent eventToAdd) throws CommandException {
+    public void addEvent(ReadOnlyEvent eventToAdd) throws CommandException {
         eventBook.addEvent(eventToAdd);
         updateFilteredEventList(PREDICATE_SHOW_ALL_EVENTS);
         indicateEventBookChanged();
@@ -184,7 +184,7 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public void deleteEvent(CalendarEvent eventToDelete) throws CommandException {
+    public void deleteEvent(ReadOnlyEvent eventToDelete) throws CommandException {
         eventBook.removeEvent(eventToDelete);
         indicateEventBookChanged();
     }

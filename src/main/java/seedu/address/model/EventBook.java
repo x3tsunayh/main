@@ -8,8 +8,8 @@ import java.util.Objects;
 import javafx.beans.property.ObjectProperty;
 import javafx.collections.ObservableList;
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.event.CalendarEvent;
 import seedu.address.model.event.Event;
+import seedu.address.model.event.ReadOnlyEvent;
 import seedu.address.model.event.ReadOnlyEventBook;
 import seedu.address.model.event.UniqueEventList;
 
@@ -46,7 +46,7 @@ public class EventBook implements ReadOnlyEventBook {
 
     //// list overwrite operations
 
-    public void setEvents(List<? extends CalendarEvent> events) throws CommandException {
+    public void setEvents(List<? extends ReadOnlyEvent> events) throws CommandException {
         this.events.setEvents(events);
     }
 
@@ -67,7 +67,7 @@ public class EventBook implements ReadOnlyEventBook {
      *
      * @throws CommandException if an equivalent event already exists.
      */
-    public void addEvent(CalendarEvent e) throws CommandException {
+    public void addEvent(ReadOnlyEvent e) throws CommandException {
         Event newEvent = new Event(e);
         events.add(newEvent);
     }
@@ -76,7 +76,7 @@ public class EventBook implements ReadOnlyEventBook {
      * Replaces the given event {@code target} in the list with {@code editedReadOnlyEvent}.
      *
      */
-    public void updateEvent(CalendarEvent target, CalendarEvent editedReadOnlyEvent)
+    public void updateEvent(ReadOnlyEvent target, ReadOnlyEvent editedReadOnlyEvent)
             throws CommandException {
         requireNonNull(editedReadOnlyEvent);
 
@@ -87,7 +87,7 @@ public class EventBook implements ReadOnlyEventBook {
     /**
      * Removes {@code key} from this {@code EventBook}.
      */
-    public boolean removeEvent(CalendarEvent key) throws CommandException {
+    public boolean removeEvent(ReadOnlyEvent key) throws CommandException {
         if (events.remove(key)) {
             return true;
         } else {
@@ -162,7 +162,7 @@ public class EventBook implements ReadOnlyEventBook {
     }
 
     @Override
-    public ObservableList<CalendarEvent> getEventList() {
+    public ObservableList<ReadOnlyEvent> getEventList() {
         return events.asObservableList();
     }
 }

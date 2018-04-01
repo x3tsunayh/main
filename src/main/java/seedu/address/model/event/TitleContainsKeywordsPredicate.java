@@ -10,7 +10,7 @@ import seedu.address.commons.util.StringUtil;
 /**
  * Tests that a {@code ReadOnlyEvent}'s {@code Title} matches any of the keywords given.
  */
-public class TitleContainsKeywordsPredicate implements Predicate<CalendarEvent> {
+public class TitleContainsKeywordsPredicate implements Predicate<ReadOnlyEvent> {
     private static String predicateType = "et";
     private final List<String> keywords;
 
@@ -23,7 +23,7 @@ public class TitleContainsKeywordsPredicate implements Predicate<CalendarEvent> 
     }
 
     @Override
-    public boolean test(CalendarEvent event) {
+    public boolean test(ReadOnlyEvent event) {
         if (predicateType.equals("et")) {
             return keywords.stream()
                     .anyMatch(keyword -> StringUtil.containsWordIgnoreCase(event.getTitle(), keyword));

@@ -15,7 +15,7 @@ import javafx.scene.layout.Region;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.ui.EventPanelSelectionChangedEvent;
 import seedu.address.commons.events.ui.JumpToListRequestEvent;
-import seedu.address.model.event.CalendarEvent;
+import seedu.address.model.event.ReadOnlyEvent;
 
 /**
  * Panel containing the list of events.
@@ -27,13 +27,13 @@ public class EventListPanel extends UiPart<Region> {
     @FXML
     private ListView<EventCard> eventListView;
 
-    public EventListPanel(ObservableList<CalendarEvent> eventList) {
+    public EventListPanel(ObservableList<ReadOnlyEvent> eventList) {
         super(FXML);
         setConnections(eventList);
         registerAsAnEventHandler(this);
     }
 
-    private void setConnections(ObservableList<CalendarEvent> eventList) {
+    private void setConnections(ObservableList<ReadOnlyEvent> eventList) {
         ObservableList<EventCard> mappedList = EasyBind.map(
                 eventList, (event) -> new EventCard(event, eventList.indexOf(event) + 1));
         eventListView.setItems(mappedList);

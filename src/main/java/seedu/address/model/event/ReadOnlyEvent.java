@@ -7,7 +7,7 @@ import javafx.beans.property.ObjectProperty;
 /**
  * Interface for Events related to Calendar View feature.
  */
-public interface CalendarEvent {
+public interface ReadOnlyEvent {
     ObjectProperty<String> titleProperty();
 
     String getTitle();
@@ -27,7 +27,7 @@ public interface CalendarEvent {
     /**
      * Checks if @param other is of the same state as this.
      */
-    default boolean isSameStateAs(CalendarEvent other) {
+    default boolean isSameStateAs(ReadOnlyEvent other) {
         return other == this // short circuit if same object
                 || (other != null
                 && other.getTitle().equals(this.getTitle())

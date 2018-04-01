@@ -11,9 +11,11 @@ import java.util.stream.Stream;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.AddEventCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.event.CalendarEvent;
 import seedu.address.model.event.Datetime;
 import seedu.address.model.event.Event;
+import seedu.address.model.event.ReadOnlyEvent;
+
+//@@author x3tsunayh
 
 /**
  * Parses input arguments and creates a new AddEventCommand object
@@ -50,7 +52,7 @@ public class AddEventCommandParser implements Parser<AddEventCommand> {
         String location = argMultimap.getValue(PREFIX_EVENT_LOCATION).get();
         Datetime datetime = ParserUtil.parseDatetime(argMultimap.getValue(PREFIX_EVENT_DATETIME)).get();
 
-        CalendarEvent event = new Event(title, description, location, datetime);
+        ReadOnlyEvent event = new Event(title, description, location, datetime);
 
         return new AddEventCommand(event);
     }

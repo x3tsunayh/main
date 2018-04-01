@@ -2,7 +2,7 @@ package seedu.address.testutil;
 
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.EventBook;
-import seedu.address.model.event.CalendarEvent;
+import seedu.address.model.event.ReadOnlyEvent;
 
 /**
  * A utility class to help with building Eventbook objects.
@@ -24,7 +24,7 @@ public class EventBookBuilder {
     /**
      * Adds a new {@code Event} to the {@code EventBook} that we are building.
      */
-    public EventBookBuilder withEvent(CalendarEvent event) {
+    public EventBookBuilder withEvent(ReadOnlyEvent event) {
         try {
             eventBook.addEvent(event);
         } catch (CommandException e) {
