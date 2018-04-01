@@ -128,8 +128,9 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public void sortTasks() {
-        //TODO: Implement sorting
+    public void sortTasksByPriority() {
+        this.addressBook.sortTasksByPriority();
+        indicateAddressBookChanged();
     }
 
     //=========== Filtered Person List Accessors =============================================================

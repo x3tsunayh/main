@@ -3,11 +3,21 @@ package seedu.address.model.task;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Represents a Task's priority in the address book.
  * Guarantees: immutable; is valid as declared in {@link #isValidTaskPriority(String)}
  */
 public class TaskPriority {
+
+    public static final String TASK_PRIORITY_HIGH = "high";
+    public static final String TASK_PRIORITY_MEDIUM = "medium";
+    public static final String TASK_PRIORITY_LOW = "low";
+
+    public static final List<String> PRIORITY_ORDER =
+            Arrays.asList(TASK_PRIORITY_HIGH, TASK_PRIORITY_MEDIUM, TASK_PRIORITY_LOW);
 
     public static final String MESSAGE_TASK_PRIORITY_CONSTRAINTS =
             "Task priority can only be either low, medium or high";
