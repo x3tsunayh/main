@@ -1,5 +1,6 @@
 package seedu.address.model.person;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_LOCAL_FILE_NONIMAGE;
@@ -20,13 +21,24 @@ public class PictureTest {
     }
 
     @Test
-    public void constructor_invalidPath_throwsIllegalArgumentException() {
-        String newPictureName = "newPictureName";
+    public void constructorForXml_invalidPath_setPathToDefaultPath() {
         String invalidName =
                 "RandomRandomThisIsTooLongToBeValidButToBeSureLetsMakeThisLonger_MakePicturesGreatAgain!?>>:?"
                         + "SurelyThisCantBeValidRight?WellLifeIsUnpredictableSoToBeSafeIWillMakeThisEvenLonger";
-        Assert.assertThrows(IllegalArgumentException.class, () -> new Picture(invalidName, newPictureName));
+        // if input file invalid, then we will set path to be Picture.DEFAULT_PATH. In this case, both constructors
+        // are the same
+        assertEquals(new Picture(invalidName), new Picture());
     }
+
+    @Test
+    public void constructor_invalidPath_throwsIllegalArgumentException() {
+        String invalidName =
+                "RandomRandomThisIsTooLongToBeValidButToBeSureLetsMakeThisLonger_MakePicturesGreatAgain!?>>:?"
+                        + "SurelyThisCantBeValidRight?WellLifeIsUnpredictableSoToBeSafeIWillMakeThisEvenLonger";
+        Assert.assertThrows(IllegalArgumentException.class, () -> new Picture(invalidName, "randomNameDoesntMatter"));
+    }
+
+
 
     @Test
     public void isValidPath() {

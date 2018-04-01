@@ -197,5 +197,12 @@ public class Picture {
         return System.getProperty("user.dir");
     }
 
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof Picture // instanceof handles nulls
+                && this.path.equals(((Picture) other).path)); // state check
+    }
+
 
 }
