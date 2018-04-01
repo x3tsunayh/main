@@ -38,19 +38,20 @@ public class Picture {
 
     /**
      * initializer if path pointing to pic is specified. For now, only called by XmlAdaptedPerson class
-     *
+     * Since its only called by XmlAdaptedPerson (which saves the picture filepaths based on last successful state),
+     * arguments are correct and hence no need to call checkArgument on {@code path}
      * @param path
      */
     public Picture(String path) {
 
         requireNonNull(path);
-        String pathFilter = path;
-        //if the file:/ prefix exists, drop it as isValidPath does not accept the prefix
-        if (path.substring(0, 6).equals(URL_PREFIX)) {
-            pathFilter = path.substring(6);
+        String p = truncateFilePrefix(path);
+        //if invalid/outdated copy of picture in XMLAdaptedPerson, reset to default pic.
+        if (isValidPath(p)) {
+            this.path = path;
+        } else {
+            this.path = DEFAULT_PATH;
         }
-        checkArgument(isValidPath(pathFilter), MESSAGE_PICTURE_CONSTRAINTS);
-        this.path = path;
     }
 
     /**
@@ -193,6 +194,26 @@ public class Picture {
             return System.getProperty("user.home");
         }
         return System.getProperty("user.dir");
+    }
+
+    /**
+     * Removes the "file:/" prefix from a filepath, so that can use isValidPath on p
+     * @param p
+     * @return
+     */
+    private String truncateFilePrefix(String p) {
+
+        if (p.substring(0, 6).equals("file:/")) {
+            return p.substring(6);
+        }
+        return p;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof Picture // instanceof handles nulls
+                && this.path.equals(((Picture) other).path)); // state check
     }
 
 
