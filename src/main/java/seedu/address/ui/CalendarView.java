@@ -56,7 +56,7 @@ public class CalendarView {
 
         // Days of the Week
         Text[] days = new Text[]{new Text("SUNDAY"), new Text("MONDAY"), new Text("TUESDAY"),
-                new Text("WEDNESDAY"), new Text("THURSDAY"), new Text("FRIDAY"), new Text("SATURDAY")};
+            new Text("WEDNESDAY"), new Text("THURSDAY"), new Text("FRIDAY"), new Text("SATURDAY")};
         GridPane dayLabels = new GridPane();
         dayLabels.setPrefWidth(450);
         Integer col = 0;

@@ -138,7 +138,7 @@ public class AddressBookParser {
         case ListAllEventsCommand.COMMAND_WORD_THREE:
             return new ListAllEventsCommand();
 
-            case AddPictureCommand.COMMAND_WORD:
+        case AddPictureCommand.COMMAND_WORD:
             return new AddPictureCommandParser().parse(arguments);
 
         case TaskAddCommand.COMMAND_WORD:

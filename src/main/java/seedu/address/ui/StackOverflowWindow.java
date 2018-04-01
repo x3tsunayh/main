@@ -12,7 +12,7 @@ import seedu.address.commons.core.LogsCenter;
  */
 public class StackOverflowWindow extends UiPart<Stage> {
 
-    public static final String stackOverflowUrl = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+    public static final String STACKOVERFLOW_URL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
 
     private static final Logger logger = LogsCenter.getLogger(StackOverflowWindow.class);
     private static final String FXML = "StackOverflowWindow.fxml";
@@ -27,7 +27,7 @@ public class StackOverflowWindow extends UiPart<Stage> {
      */
     public StackOverflowWindow(Stage root) {
         super(FXML, root);
-        browser.getEngine().load(stackOverflowUrl);
+        browser.getEngine().load(STACKOVERFLOW_URL);
     }
 
     /**

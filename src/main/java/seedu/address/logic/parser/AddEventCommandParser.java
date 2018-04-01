@@ -11,9 +11,9 @@ import java.util.stream.Stream;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.AddEventCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.event.ReadOnlyEvent;
 import seedu.address.model.event.Datetime;
 import seedu.address.model.event.Event;
+import seedu.address.model.event.ReadOnlyEvent;
 
 //@@author x3tsunayh
 

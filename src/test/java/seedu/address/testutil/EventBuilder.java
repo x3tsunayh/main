@@ -1,9 +1,9 @@
 package seedu.address.testutil;
 
 import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.model.event.ReadOnlyEvent;
 import seedu.address.model.event.Datetime;
 import seedu.address.model.event.Event;
+import seedu.address.model.event.ReadOnlyEvent;
 
 /**
  * A utility class to help with building Event objects.

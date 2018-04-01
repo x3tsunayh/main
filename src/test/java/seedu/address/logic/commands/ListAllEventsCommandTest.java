@@ -1,6 +1,5 @@
 package seedu.address.logic.commands;
 
-import static seedu.address.commons.core.Messages.MESSAGE_EVENTS_LISTED_OVERVIEW;
 import static seedu.address.logic.commands.Command.getMessageForEventListShownSummary;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.testutil.TypicalAddressBook.getTypicalAddressBook;
@@ -41,8 +40,8 @@ public class ListAllEventsCommandTest {
 
     @Test
     public void execute_listNotFiltered_showsSameList() {
-        String expectedMessage = String.format("All " +
-                getMessageForEventListShownSummary(expectedModel.getFilteredEventList().size()));
+        String expectedMessage = String.format("All "
+                + getMessageForEventListShownSummary(expectedModel.getFilteredEventList().size()));
         assertCommandSuccess(listEventCommand, model, expectedMessage, expectedModel);
     }
 
@@ -50,8 +49,8 @@ public class ListAllEventsCommandTest {
     public void execute_listIsFiltered_showsEverything() {
         ReadOnlyEvent event = model.getEventBook().getEventList().get(0);
         model.updateFilteredEventList(new TitleContainsKeywordsPredicate(Arrays.asList(event.getTitle())));
-        String expectedMessage = String.format("All " +
-                getMessageForEventListShownSummary(expectedModel.getFilteredEventList().size()));
+        String expectedMessage = String.format("All "
+                + getMessageForEventListShownSummary(expectedModel.getFilteredEventList().size()));
 
         // ensures only one event in the filtered event list
         assert model.getFilteredEventList().size() == 1;

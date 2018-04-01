@@ -7,8 +7,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_EVENT_LOCATION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EVENT_TITLE;
 
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.event.ReadOnlyEvent;
 import seedu.address.model.event.Event;
+import seedu.address.model.event.ReadOnlyEvent;
 
 //@@author x3tsunayh
 
