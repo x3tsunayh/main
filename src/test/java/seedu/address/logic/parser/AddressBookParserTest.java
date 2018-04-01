@@ -6,6 +6,7 @@ import static org.junit.Assert.fail;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_TASK;
 
 import java.util.Arrays;
 import java.util.List;
@@ -30,6 +31,7 @@ import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.SortCommand;
 import seedu.address.logic.commands.TaskAddCommand;
+import seedu.address.logic.commands.TaskDeleteCommand;
 import seedu.address.logic.commands.TaskListCommand;
 import seedu.address.logic.commands.TaskSortCommand;
 import seedu.address.logic.commands.UndoCommand;
@@ -168,6 +170,13 @@ public class AddressBookParserTest {
         Task task = new TaskBuilder().build();
         TaskAddCommand command = (TaskAddCommand) parser.parseCommand(TaskUtil.getTaskAddCommand(task));
         assertEquals(new TaskAddCommand(task), command);
+    }
+
+    @Test
+    public void parseCommand_taskDelete() throws Exception {
+        TaskDeleteCommand command = (TaskDeleteCommand) parser.parseCommand(
+                TaskDeleteCommand.COMMAND_WORD + " " + INDEX_FIRST_TASK.getOneBased());
+        assertEquals(new TaskDeleteCommand(INDEX_FIRST_PERSON), command);
     }
 
     @Test

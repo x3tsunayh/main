@@ -24,19 +24,19 @@ import seedu.address.model.task.Task;
  */
 public class TypicalTasks {
 
-    public static final Task TASKONE = new TaskBuilder().withTaskName("Task 1")
+    public static final Task TASKONE = new TaskBuilder().withTaskName("TaskOne")
             .withTaskPriority("Medium")
             .withTaskDescription("Tasks to be done for task 1")
             .withTaskDueDate("2018-06-15")
             .withTaskStatus("Undone")
             .withTaskCategories("Work").build();
-    public static final Task TASKTWO = new TaskBuilder().withTaskName("Task 2")
+    public static final Task TASKTWO = new TaskBuilder().withTaskName("TaskTwo")
             .withTaskPriority("High")
             .withTaskDescription("Agenda for task 2")
             .withTaskDueDate("2018-03-28")
             .withTaskStatus("Undone")
             .withTaskCategories("Personal").build();
-    public static final Task TASKTHREE = new TaskBuilder().withTaskName("Task 3")
+    public static final Task TASKTHREE = new TaskBuilder().withTaskName("TaskThree")
             .withTaskPriority("Low")
             .withTaskDescription("Purchase office supplies")
             .withTaskDueDate("2018-04-10")
