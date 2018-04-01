@@ -44,15 +44,13 @@ public class Picture {
 
         requireNonNull(path);
         String p = path;
-        
-        //if invalid/outdated copy of picture in XMLAdaptedPerson, reset to default pic. 
+        //if invalid/outdated copy of picture in XMLAdaptedPerson, reset to default pic.
         try {
             File f = new File(path);
             ImageIO.read(f);
         } catch (Exception e) {
             p = DEFAULT_PATH;
         }
-            
         this.path = p;
     }
 
