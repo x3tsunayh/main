@@ -22,7 +22,7 @@ import seedu.address.model.EventBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
-import seedu.address.model.event.CalendarEvent;
+import seedu.address.model.event.ReadOnlyEvent;
 import seedu.address.model.event.TitleContainsKeywordsPredicate;
 
 //@@author x3tsunayh
@@ -92,7 +92,7 @@ public class FindEventCommandTest {
      *     - the {@code EventBook} in model remains the same after executing the {@code command}
      */
     private void assertCommandSuccess(FindEventCommand command, String expectedMessage,
-                                      List<CalendarEvent> expectedList) {
+                                      List<ReadOnlyEvent> expectedList) {
         EventBook expectedEventBook = new EventBook(model.getEventBook());
         CommandResult commandResult = command.execute();
 

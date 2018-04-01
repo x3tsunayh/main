@@ -21,7 +21,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
-import seedu.address.model.event.CalendarEvent;
+import seedu.address.model.event.ReadOnlyEvent;
 import seedu.address.model.event.ReadOnlyEventBook;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
@@ -181,22 +181,22 @@ public class AddCommandTest {
         }
 
         @Override
-        public void addEvent(CalendarEvent toAdd) throws CommandException {
+        public void addEvent(ReadOnlyEvent toAdd) throws CommandException {
 
         }
 
         @Override
-        public void deleteEvent(CalendarEvent eventToDelete) throws CommandException {
+        public void deleteEvent(ReadOnlyEvent eventToDelete) throws CommandException {
 
         }
 
         @Override
-        public ObservableList<CalendarEvent> getFilteredEventList() {
+        public ObservableList<ReadOnlyEvent> getFilteredEventList() {
             return null;
         }
 
         @Override
-        public void updateFilteredEventList(Predicate<CalendarEvent> predicate) {
+        public void updateFilteredEventList(Predicate<ReadOnlyEvent> predicate) {
 
         }
     }

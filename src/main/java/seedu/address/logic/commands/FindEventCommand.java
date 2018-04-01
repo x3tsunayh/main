@@ -2,9 +2,11 @@ package seedu.address.logic.commands;
 
 import seedu.address.model.event.TitleContainsKeywordsPredicate;
 
+//@@author x3tsunayh
+
 /**
  * Finds and lists all events in event book whose name contains any of the argument keywords.
- * Keyword matching is case sensitive.
+ * Keyword matching is case sensitive, and only one field can be searched.
  */
 public class FindEventCommand extends Command {
 
@@ -14,7 +16,7 @@ public class FindEventCommand extends Command {
             + ": Finds all events whose title or description contain any "
             + "of the specified keywords (case-sensitive) and displays them as a list with index numbers.\n"
             + "Parameters: et/KEYWORD [MORE_KEYWORDS]... for title OR ed/KEYWORD [MORE_KEYWORDS]... for description\n"
-            + "Example: " + COMMAND_WORD + " et/sentosa deepavali";
+            + "Example: " + COMMAND_WORD + " et/movie date party";
 
     private final TitleContainsKeywordsPredicate predicate;
 
@@ -36,6 +38,6 @@ public class FindEventCommand extends Command {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof FindEventCommand // instanceof handles nulls
-                && this.predicate.equals(((FindEventCommand) other).predicate)); // state check
+                && this.predicate.equals(((FindEventCommand) other).predicate));
     }
 }

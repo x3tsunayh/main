@@ -11,7 +11,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.model.event.CalendarEvent;
+import seedu.address.model.event.ReadOnlyEvent;
 import seedu.address.model.event.ReadOnlyEventBook;
 /**
  * An Immutable AddressBook that is serializable to XML format
@@ -79,8 +79,8 @@ public class XmlSerializableEventBook implements ReadOnlyEventBook {
     }
 
     @Override
-    public ObservableList<CalendarEvent> getEventList() {
-        final ObservableList<CalendarEvent> events = this.events.stream().map(p -> {
+    public ObservableList<ReadOnlyEvent> getEventList() {
+        final ObservableList<ReadOnlyEvent> events = this.events.stream().map(p -> {
             try {
                 return p.toModelType();
             } catch (IllegalValueException e) {

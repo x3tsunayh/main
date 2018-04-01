@@ -17,19 +17,14 @@ import org.junit.rules.ExpectedException;
 import javafx.collections.ObservableList;
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.UndoRedoStack;
-import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
-import seedu.address.model.event.CalendarEvent;
 import seedu.address.model.event.Event;
+import seedu.address.model.event.ReadOnlyEvent;
 import seedu.address.model.event.ReadOnlyEventBook;
 import seedu.address.model.person.Person;
-import seedu.address.model.person.exceptions.DuplicatePersonException;
-import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.task.Task;
-import seedu.address.model.task.exceptions.DuplicateTaskException;
-import seedu.address.model.task.exceptions.TaskNotFoundException;
 import seedu.address.testutil.EventBuilder;
 
 //@@author x3tsunayh
@@ -91,7 +86,7 @@ public class AddEventCommandTest {
      */
     private class ModelStub implements Model {
         @Override
-        public void addPerson(Person person) throws DuplicatePersonException {
+        public void addPerson(Person person) {
             fail("This method should not be called.");
         }
 
@@ -112,7 +107,7 @@ public class AddEventCommandTest {
         }
 
         @Override
-        public void deletePerson(Person target) throws PersonNotFoundException {
+        public void deletePerson(Person target) {
             fail("This method should not be called.");
         }
 
@@ -138,17 +133,17 @@ public class AddEventCommandTest {
         }
 
         @Override
-        public void addTask(Task task) throws DuplicateTaskException {
+        public void addTask(Task task) {
             fail("This method should not be called.");
         }
 
         @Override
-        public void deleteTask(Task target) throws TaskNotFoundException {
+        public void deleteTask(Task target) {
             fail("This method should not be called.");
         }
 
         @Override
-        public void updateTask(Task target, Task editedTask) throws DuplicateTaskException, TaskNotFoundException {
+        public void updateTask(Task target, Task editedTask) {
             fail("This method should not be called.");
         }
 
@@ -169,22 +164,22 @@ public class AddEventCommandTest {
         }
 
         @Override
-        public void addEvent(CalendarEvent toAdd) throws CommandException {
+        public void addEvent(ReadOnlyEvent toAdd) {
             fail("This method should not be called.");
         }
 
         @Override
-        public void deleteEvent(CalendarEvent eventToDelete) throws CommandException {
+        public void deleteEvent(ReadOnlyEvent eventToDelete) {
             fail("This method should not be called.");
         }
 
         @Override
-        public ObservableList<CalendarEvent> getFilteredEventList() {
+        public ObservableList<ReadOnlyEvent> getFilteredEventList() {
             return null;
         }
 
         @Override
-        public void updateFilteredEventList(Predicate<CalendarEvent> predicate) {
+        public void updateFilteredEventList(Predicate<ReadOnlyEvent> predicate) {
             fail("This method should not be called.");
         }
     }
@@ -193,10 +188,10 @@ public class AddEventCommandTest {
      * A Model stub that always accept the event being added.
      */
     private class ModelStubAcceptingEventAdded extends ModelStub {
-        final ArrayList<CalendarEvent> eventsAdded = new ArrayList<>();
+        final ArrayList<ReadOnlyEvent> eventsAdded = new ArrayList<>();
 
         @Override
-        public void addEvent(CalendarEvent toAdd) {
+        public void addEvent(ReadOnlyEvent toAdd) {
             requireNonNull(toAdd);
             eventsAdded.add(toAdd);
         }

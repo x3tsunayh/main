@@ -26,12 +26,12 @@ public class UniqueEventList implements Iterable<Event> {
 
     private final ObservableList<Event> internalList = FXCollections.observableArrayList();
 
-    private final ObservableList<CalendarEvent> mappedList = EasyBind.map(internalList, (event) -> event);
+    private final ObservableList<ReadOnlyEvent> mappedList = EasyBind.map(internalList, (event) -> event);
 
     /**
      * Returns true if the list contains an equivalent event as the given argument.
      */
-    public boolean contains(CalendarEvent toCheck) {
+    public boolean contains(ReadOnlyEvent toCheck) {
         requireNonNull(toCheck);
         return internalList.contains(toCheck);
     }
@@ -39,7 +39,7 @@ public class UniqueEventList implements Iterable<Event> {
     /**
      * Adds an event to the list.
      */
-    public void add(CalendarEvent toAdd) throws CommandException {
+    public void add(ReadOnlyEvent toAdd) throws CommandException {
         requireNonNull(toAdd);
         if (contains(toAdd)) {
             throw new CommandException("");
@@ -50,7 +50,7 @@ public class UniqueEventList implements Iterable<Event> {
     /**
      * Replaces the event {@code target} in the list with {@code editedEvent}.
      */
-    public void setEvent(CalendarEvent target, CalendarEvent editedEvent)
+    public void setEvent(ReadOnlyEvent target, ReadOnlyEvent editedEvent)
             throws CommandException {
         requireNonNull(editedEvent);
 
@@ -71,7 +71,7 @@ public class UniqueEventList implements Iterable<Event> {
      *
      * @throws CommandException if no such event could be found in the list.
      */
-    public boolean remove(CalendarEvent toRemove) throws CommandException {
+    public boolean remove(ReadOnlyEvent toRemove) throws CommandException {
         requireNonNull(toRemove);
         final boolean eventFoundAndDeleted = internalList.remove(toRemove);
         if (!eventFoundAndDeleted) {
@@ -84,9 +84,9 @@ public class UniqueEventList implements Iterable<Event> {
         this.internalList.setAll(replacement.internalList);
     }
 
-    public void setEvents(List<? extends CalendarEvent> events) throws CommandException {
+    public void setEvents(List<? extends ReadOnlyEvent> events) throws CommandException {
         final UniqueEventList replacement = new UniqueEventList();
-        for (final CalendarEvent event : events) {
+        for (final ReadOnlyEvent event : events) {
             replacement.add(new Event(event));
         }
         setEvents(replacement);
@@ -95,7 +95,7 @@ public class UniqueEventList implements Iterable<Event> {
     /**
      * Returns the backing list as an unmodifiable {@code ObservableList}.
      */
-    public ObservableList<CalendarEvent> asObservableList() {
+    public ObservableList<ReadOnlyEvent> asObservableList() {
         return FXCollections.unmodifiableObservableList(mappedList);
     }
 
