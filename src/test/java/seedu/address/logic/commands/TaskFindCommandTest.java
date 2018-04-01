@@ -7,8 +7,8 @@ import static seedu.address.commons.core.Messages.MESSAGE_TASKS_LISTED_OVERVIEW;
 import static seedu.address.testutil.TypicalAddressBook.getTypicalAddressBook;
 import static seedu.address.testutil.TypicalEvents.getTypicalEventBook;
 import static seedu.address.testutil.TypicalTasks.TASKONE;
-import static seedu.address.testutil.TypicalTasks.TASKTWO;
 import static seedu.address.testutil.TypicalTasks.TASKTHREE;
+import static seedu.address.testutil.TypicalTasks.TASKTWO;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -22,8 +22,8 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
-import seedu.address.model.task.TaskNameContainsKeywordsPredicate;
 import seedu.address.model.task.Task;
+import seedu.address.model.task.TaskNameContainsKeywordsPredicate;
 
 /**
  * Contains integration tests (interaction with the Model) for {@code TaskFindCommand}.
