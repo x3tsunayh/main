@@ -9,6 +9,7 @@ import java.util.Set;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
+import seedu.address.model.tag.UniqueTagList.DuplicateTagException;
 
 
 /**
@@ -102,6 +103,19 @@ public class Person {
         } catch (Exception e) {
             this.picture = oldPic; //reset picture back to default
             throw new IllegalValueException(Picture.MESSAGE_PICTURE_CONSTRAINTS);
+        }
+    }
+
+    //@@author dezhanglee
+    /**
+     * Adds tags from {@code toAdd} to existing Person tag list, throws exception if there are duplicate tags
+     * @param toAdd
+     * @throws DuplicateTagException
+     */
+    public void addTags(Set<Tag> toAdd) throws DuplicateTagException {
+
+        for (Tag t : toAdd) {
+            this.tags.add(t);
         }
     }
     //@@author
