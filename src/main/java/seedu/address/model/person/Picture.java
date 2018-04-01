@@ -37,7 +37,8 @@ public class Picture {
 
     /**
      * initializer if path pointing to pic is specified. For now, only called by XmlAdaptedPerson class
-     * Since its only called by XmlAdaptedPerson, arguments are correct and hence no need to checkArgument
+     * Since its only called by XmlAdaptedPerson (which saves the picture filepaths based on last successful state),
+     * arguments are correct and hence no need to call checkArgument on {@code path}
      * @param path
      */
     public Picture(String path) {

@@ -21,10 +21,11 @@ public class PictureTest {
 
     @Test
     public void constructor_invalidPath_throwsIllegalArgumentException() {
+        String newPictureName = "newPictureName",
         String invalidName =
                 "RandomRandomThisIsTooLongToBeValidButToBeSureLetsMakeThisLonger_MakePicturesGreatAgain!?>>:?"
                         + "SurelyThisCantBeValidRight?WellLifeIsUnpredictableSoToBeSafeIWillMakeThisEvenLonger";
-        Assert.assertThrows(IllegalArgumentException.class, () -> new Picture(invalidName));
+        Assert.assertThrows(IllegalArgumentException.class, () -> new Picture(invalidName, newPictureName));
     }
 
     @Test
