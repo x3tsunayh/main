@@ -44,15 +44,13 @@ public class Picture {
     public Picture(String path) {
 
         requireNonNull(path);
-        String p = path;
+        String p = truncateFilePrefix(path);
         //if invalid/outdated copy of picture in XMLAdaptedPerson, reset to default pic.
-        try {
-            File f = new File(path);
-            ImageIO.read(f);
-        } catch (Exception e) {
-            p = DEFAULT_PATH;
+        if (isValidPath(p)) {
+            this.path = path;
+        } else {
+            this.path = DEFAULT_PATH;
         }
-        this.path = p;
     }
 
     /**
@@ -195,6 +193,19 @@ public class Picture {
             return System.getProperty("user.home");
         }
         return System.getProperty("user.dir");
+    }
+
+    /**
+     * Removes the "file:/" prefix from a filepath, so that can use isValidPath on p
+     * @param p
+     * @return
+     */
+    private String truncateFilePrefix(String p) {
+
+        if (p.substring(0, 6).equals("file:/")) {
+            return p.substring(6);
+        }
+        return p;
     }
 
     @Override
