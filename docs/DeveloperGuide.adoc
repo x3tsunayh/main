@@ -408,6 +408,24 @@ image::TaskAddSequenceDiagram.png[width="800"]
 . The task is added to the list of tasks in Address Book and displayed to the user.
 // end::task-add[]
 
+// tag::task-delete[]
+=== Delete Task feature
+==== Current Implementation
+
+The delete task feature allows user to delete any done, overdue or unwanted task from the Address Book by specifying
+the task's index in the displayed Task List.
+
+The following sequence diagram shows how the delete task operation works.
+
+image::TaskDeleteSequenceDiagram.png[width="800"]
+
+. The user executes the `task-delete` command.
+. The `AddressBookParser` class creates a new `TaskDeleteCommandParser` class to parse the command.
+. The `TaskDeleteCommandParser` class parses the command and create a new `TaskDeleteCommand` class.
+. The `task-delete` command is executed and handled by the `ModelManager` class.
+. The task is removed from the list of tasks in Address Book and the updated task list is displayed to the user.
+// end::task-delete[]
+
 // tag::task-list[]
 === List Tasks feature
 ==== Current Implementation
@@ -1222,6 +1240,32 @@ Use case ends.
 +
 [none]
 ** 2a1. AddressBook shows an error message.
++
+Use case resumes at step 2.
+
+[discrete]
+=== Use case: Delete task
+
+*MSS*
+
+1.  User requests to list tasks
+2.  AddressBook shows a list of tasks
+3.  User requests to delete a specific task in the list
+4.  AddressBook deletes the task
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The list is empty.
++
+Use case ends.
+
+* 3a. The given index is invalid.
++
+[none]
+** 3a1. AddressBook shows an error message.
 +
 Use case resumes at step 2.
 

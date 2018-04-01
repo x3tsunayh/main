@@ -389,6 +389,26 @@ Examples:
 * `task-add n/Agenda for meeting p/High d/Discuss proposal details dd/2018-04-29 s/Undone c/Meeting`
 // end::AddTask[]
 
+// tag::DeleteTask[]
+=== Deleting a task: `task-delete` `[since v1.4]`
+
+Deletes the specified task from the address book. +
+Format: `task-delete INDEX`
+
+****
+* Deletes the task at the specified `INDEX`.
+
+* The index refers to the index number shown in the most recent listing.
+* The index *must be a positive integer* 1, 2, 3, ...
+****
+
+Examples:
+
+* `task-list` +
+`task-delete 2` +
+Deletes the 2nd task in the address book.
+// end::DeleteTask[]
+
 // tag::ListTask[]
 === Listing all tasks: `task-list` `[since v1.3]`
 
@@ -403,26 +423,6 @@ Sorts all tasks in the address book by priority in decreasing order of importanc
 and list them. +
 Format: `task-sort`
 // end::SortTask[]
-
-// tag::DeleteTask[]
-=== Deleting a task: `task-delete` `[coming in v2.0]`
-
-Deletes the specified task from the address book. +
-Format: `delete INDEX`
-
-****
-* Deletes the task at the specified `INDEX`.
-
-* The index refers to the index number shown in the most recent listing.
-* The index *must be a positive integer* 1, 2, 3, ...
-****
-
-Examples:
-
-* `task-list` +
-`delete 2` +
-Deletes the 2nd task in the address book.
-// end::DeleteTask[]
 
 // tag::FindByTag[]
 === Locating persons by tag: `find -t` `[coming in v2.0]`
@@ -514,5 +514,7 @@ e.g. `deleteevent 2`
 e.g. `find Christmas CNY Halloween`
 * *Add a task* : `task-add n/NAME p/PRIORITY d/DESCRIPTION dd/DUE_DATE s/STATUS [c/CATEGORY]...` +
 e.g. `task-add n/Task 1 p/Medium d/Description for task 1 dd/2018-05-10 s/Undone`
+* *Delete a task* : `task-delete INDEX` +
+e.g. `task-delete 1`
 * *List all tasks* : `task-list`
 * *Sort all tasks* : `task-sort`
