@@ -13,25 +13,26 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 
-public class SortCommandTest {
+public class TaskSortCommandTest {
 
     private Model model;
     private Model expectedModel;
-    private SortCommand sortCommand;
+    private TaskSortCommand taskSortCommand;
 
     @Before
     public void setUp() throws Exception {
         model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
         expectedModel = new ModelManager(model.getAddressBook(), getTypicalEventBook(), new UserPrefs());
 
-        sortCommand = new SortCommand();
-        sortCommand.setData(model, new CommandHistory(), new UndoRedoStack());
+        taskSortCommand = new TaskSortCommand();
+        taskSortCommand.setData(model, new CommandHistory(), new UndoRedoStack());
     }
 
     @Test
     public void execute_nonEmptyListIsSorted_success() {
-        model.sortPersons();
-        expectedModel.sortPersons();
-        assertCommandSuccess(sortCommand, model, sortCommand.MESSAGE_SUCCESS, expectedModel);
+        model.sortTasksByPriority();
+        expectedModel.sortTasksByPriority();
+        assertCommandSuccess(taskSortCommand, model, taskSortCommand.MESSAGE_SUCCESS, expectedModel);
     }
+
 }

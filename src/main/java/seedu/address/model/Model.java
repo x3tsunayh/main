@@ -37,8 +37,6 @@ public interface Model {
     /** Adds the given person */
     void addPerson(Person person) throws DuplicatePersonException;
 
-
-
     /**
      * Replaces the given person {@code target} with {@code editedPerson}.
      *
@@ -70,9 +68,9 @@ public interface Model {
     void addTask(Task task) throws DuplicateTaskException;
 
     /**
-     * Sorts the task list
+     * Sorts the task list by priority from high to low importance
      */
-    void sortTasks();
+    void sortTasksByPriority();
 
     /**
      * Replaces the given task {@code target} with {@code editedTask}.

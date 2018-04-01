@@ -148,7 +148,7 @@ public class AddEventCommandTest {
         }
 
         @Override
-        public void sortTasks() {
+        public void sortTasksByPriority() {
             fail("This method should not be called.");
         }
 

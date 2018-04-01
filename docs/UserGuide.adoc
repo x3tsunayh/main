@@ -93,7 +93,7 @@ Edits the profile picture of the 1st person to be the picture at C://pictures/ja
 Shows a list of all persons in the address book. +
 Format: `list`
 
-=== Sorting all persons : `sort`
+=== Sorting all persons by name : `sort`
 
 Sorts all persons in the address book alphabetically by name in ascending order and list them. +
 Format: `sort`
@@ -397,9 +397,9 @@ Format: `task-list`
 // end::ListTask[]
 
 // tag::SortTask[]
-=== Sorting all tasks by priority: `task-sort` `[coming in v2.0]`
+=== Sorting all tasks by priority: `task-sort` `[since v1.4]`
 
-Sorts all tasks in the address book by priority (i.e. High, Medium, Low) in decreasing order of importance
+Sorts all tasks in the address book by priority in decreasing order of importance (i.e. high > medium > low)
 and list them. +
 Format: `task-sort`
 // end::SortTask[]
@@ -486,26 +486,26 @@ _{explain how the user can use the calendar}_
 * *Add a person* : `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...` +
 e.g. `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
 * *Clear* : `clear`
-* *Delete* : `delete INDEX` +
+* *Delete a person* : `delete INDEX` +
 e.g. `delete 3`
-* *Delete By Name* : `deletebyname NAME` +
+* *Delete a person by name* : `deletebyname NAME` +
 e.g. `delete John Appleseed`
-* *Edit* : `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...` +
+* *Edit a person* : `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...` +
 e.g. `edit 2 n/James Lee e/jameslee@example.com`
-* *Find* : `find KEYWORD [MORE_KEYWORDS]` +
+* *Find a person* : `find KEYWORD [MORE_KEYWORDS]` +
 e.g. `find James Jake`
 * *Export* : `export FILEPATH` +
 e.g. `exports data into XML file in user-defined filepath`
 * *Convert* : `convert VALUE` +
 e.g. `convert 1`
-* *List* : `list`
+* *List all persons* : `list`
+* *Sort all persons by name* : `sort`
 * *Help* : `help`
-* *Select* : `select INDEX` +
+* *Select a person* : `select INDEX` +
 e.g.`select 2`
 * *History* : `history`
 * *Undo* : `undo`
 * *Redo* : `redo`
-* *Sort all persons* : `sort`
 * *Add an event* : `addevent et/TITLE ed/DESCRIPTION el/LOCATION edt/DATETIME` +
 e.g. `addevent et/Christmas Party ed/Celebrating Christmas 2018 el/Samuel's House edt/25-12-2018 1830`
 * *Delete an event* : `deleteevent INDEX` +
@@ -514,4 +514,5 @@ e.g. `deleteevent 2`
 e.g. `find Christmas CNY Halloween`
 * *Add a task* : `task-add n/NAME p/PRIORITY d/DESCRIPTION dd/DUE_DATE s/STATUS [c/CATEGORY]...` +
 e.g. `task-add n/Task 1 p/Medium d/Description for task 1 dd/2018-05-10 s/Undone`
-* *List tasks* : `task-list`
+* *List all tasks* : `task-list`
+* *Sort all tasks* : `task-sort`

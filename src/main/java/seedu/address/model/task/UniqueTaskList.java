@@ -3,7 +3,7 @@ package seedu.address.model.task;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
-import java.util.Collection;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -83,10 +83,14 @@ public class UniqueTaskList implements Iterable<Task> {
     }
 
     /**
-     * Sorts all tasks in list
+     * Sorts the task list by priority from high to low importance
      */
-    public void sort() {
-
+    public void sortByPriority() {
+        // Sorts based on high to low priority
+        internalList.sort(Comparator.comparing(Task::getTaskPriority, (t1, t2) -> {
+            return TaskPriority.PRIORITY_ORDER.indexOf(t1.value.toLowerCase())
+                    - TaskPriority.PRIORITY_ORDER.indexOf(t2.value.toLowerCase());
+        }));
     }
 
     public void setTasks(UniqueTaskList replacement) {
