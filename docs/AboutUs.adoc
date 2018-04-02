@@ -9,6 +9,7 @@ We are a team based in the http://www.comp.nus.edu.sg[School of Computing, Natio
 == Project Mentor
 
 === Kelvin Lin
+[https://github.com/Esilocke[github]]
 
 '''
 
@@ -19,14 +20,29 @@ image::x3tsunayh.jpg[width="100", align="left"]
 {empty}[https://github.com/x3tsunayh[github]] [<<x3tsunayh#, portfolio>>]
 
 * Components in charge of: Storage
-* Aspects/tools in charge of: Deliverables and Deadlines, Integration
+* Aspects/tools in charge of: Deliverables and Deadlines, Scheduling and Tracking
 * Features implemented:
-** Saving Addressbook data
-** Export Addressbook data
-** Calendar
+** Saving Addressbook Data
+** Export Addressbook Data
+** Calendar View
+** Event Functionality (Add, Delete, Find, List All, Edit, Sort Events)
+** Stack Overflow Page (changing to LinkedIn Page soon)
 * Code written:
-* Other major contributions:
-** Set up Travis and Coveralls
+
+'''
+
+=== Lee De Zhang
+image::dezhanglee.jpg[width="100", align="left"]
+{empty}[https://github.com/dezhanglee[github]] [<<dezhanglee#, portfolio>>]
+
+* Components in charge of: Logic
+* Aspects/tools in charge of: Project Integration
+* Features implemented:
+** Shorthand Commands
+** Delete Person by Name Enhancement
+** Delete Tag Method
+** Display Picture Feature
+* Code written:
 
 '''
 
@@ -37,25 +53,9 @@ image::nodp.jpg[width="100", align="left"]
 * Components in charge of: Model
 * Aspects/tools in charge of: Code Quality
 * Features implemented:
-** Find by partial words
+** Find by Partial-Word Enhancement
+** Currency Converter Feature
 * Code written:
-* Other major contributions:
-
-'''
-
-=== Lee De Zhang
-image::dezhanglee.jpg[width="100", align="left"]
-{empty}[https://github.com/dezhanglee[github]] [<<dezhanglee#, portfolio>>]
-
-* Components in charge of: Logic
-* Aspects/tools in charge of: Scheduling and Tracking
-* Features implemented:
-** Shorthand Commands
-** Delete Person by Name
-** Display Picture
-* Code written:
-* Other major contributions:
-
 
 '''
 
@@ -64,12 +64,10 @@ image::nodp.jpg[width="100", align="left"]
 {empty}[https://github.com/cyx28[github]] [<<CYX28#, portfolio>>]
 
 * Components in charge of: UI
-* Aspects/tools in charge of: Testing
+* Aspects/tools in charge of: Project Testing
 * Features implemented:
-** Google Search page
 ** Sort by Name
-** To-Do List
+** Task Functionality (Add, Delete, Find, Sort, Edit Tasks)
 * Code written:
-* Other major contributions:
 
 '''
