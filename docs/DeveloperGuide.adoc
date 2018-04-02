@@ -426,6 +426,24 @@ image::TaskDeleteSequenceDiagram.png[width="800"]
 . The task is removed from the list of tasks in Address Book and the updated task list is displayed to the user.
 // end::task-delete[]
 
+// tag::task-edit[]
+=== Edit Task feature
+==== Current Implementation
+
+The edit task feature allows user to edit any fields of an existing task in the AddressBook by specifying
+the task's index in the displayed Task List followed by the parameters of the fields to be edited.
+
+The following sequence diagram shows how the edit task operation works.
+
+image::TaskEditSequenceDiagram.png[width="800"]
+
+. The user executes the `task-edit` command.
+. The `AddressBookParser` class creates a new `TaskEditCommandParser` class to parse the command.
+. The `TaskEditCommandParser` class parses the command and create a new `TaskEditCommand` class.
+. The `task-edit` command is executed and handled by the `ModelManager` class.
+. The task is updated with the new values and the updated task list is displayed to the user.
+// end::task-edit[]
+
 // tag::task-find[]
 === Find Tasks feature
 ==== Current Implementation
@@ -1287,6 +1305,39 @@ Use case ends.
 +
 [none]
 ** 3a1. AddressBook shows an error message.
++
+Use case resumes at step 2.
+
+[discrete]
+=== Use case: Edit task
+
+*MSS*
+
+1.  User requests to list tasks
+2.  AddressBook shows a list of tasks
+3.  User requests to edit a specific task in the list by specifying the task's index and necessary parameters
+4.  AddressBook updates the task
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The list is empty.
++
+Use case ends.
+
+* 3a. The given index is invalid.
++
+[none]
+** 3a1. AddressBook shows an error message.
++
+Use case resumes at step 2.
+
+* 3b. The given parameters are invalid.
++
+[none]
+** 3b1. AddressBook shows an error message.
 +
 Use case resumes at step 2.
 

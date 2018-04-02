@@ -368,12 +368,6 @@ Format: `exit`
 Address book data are saved in the hard disk automatically after any command that changes the data. +
 There is no need to save manually.
 
-// tag::dataencryption[]
-=== Encrypting data files `[coming in v2.0]`
-
-_{explain how the user can enable/disable data encryption}_
-// end::dataencryption[]
-
 // tag::AddTask[]
 === Adding a task: `task-add` `[since v1.3]`
 
@@ -408,6 +402,30 @@ Examples:
 `task-delete 2` +
 Deletes the 2nd task in the address book.
 // end::DeleteTask[]
+
+// tag::EditTask[]
+=== Editing a task: `task-edit` `[since v1.4]`
+
+Edits an existing task in the address book. +
+Format: `task-edit INDEX [n/NAME] [p/PRIORITY] [d/DESCRIPTION] [dd/DUE_DATE] [s/STATUS] [c/CATEGORY]...`
+
+****
+* Edits the task at the specified `INDEX`.
+The index refers to the index number shown in the last task listing. The index *must be a positive integer* 1, 2, 3, ...
+* At least one of the optional fields must be provided.
+* Existing values will be updated to the input values.
+* When editing categories, the existing categories of the task will be removed i.e. adding of categories is not cumulative.
+* You can remove all the task's categories by typing `c/` without specifying any category after it.
+****
+
+Examples:
+
+* `task-list` +
+`task-edit 1 p/medium dd/2018-05-10` +
+Edits the priority and due date of the 1st task to be `medium` and `2018-05-10` respectively.
+* `edit 3 n/Project meeting c/` +
+Edits the name of the 3rd task to be `Project meeting` and clears all existing categories.
+// end::EditTask[]
 
 // tag::FindTask[]
 === Finding tasks by name: `task-find` `[since v1.4]`
@@ -445,6 +463,12 @@ Sorts all tasks in the address book by priority in decreasing order of importanc
 and list them. +
 Format: `task-sort`
 // end::SortTask[]
+
+// tag::dataencryption[]
+=== Encrypting data files `[coming in v2.0]`
+
+_{explain how the user can enable/disable data encryption}_
+// end::dataencryption[]
 
 // tag::FindByTag[]
 === Locating persons by tag: `find -t` `[coming in v2.0]`
@@ -538,6 +562,8 @@ e.g. `find Christmas CNY Halloween`
 e.g. `task-add n/Task 1 p/Medium d/Description for task 1 dd/2018-05-10 s/Undone`
 * *Delete a task* : `task-delete INDEX` +
 e.g. `task-delete 1`
+* *Edit a task* : `task-edit INDEX [n/NAME] [p/PRIORITY] [d/DESCRIPTION] [dd/DUE_DATE] [s/STATUS] [c/CATEGORY]...` +
+e.g. `task-edit 1 p/medium dd/2018-05-10`
 * *Find tasks by name* : `task-find KEYWORD [MORE_KEYWORDS]` +
 e.g. `task-find project agenda`
 * *List all tasks* : `task-list`
