@@ -27,7 +27,7 @@ image::x3tsunayh.jpg[width="100", align="left"]
 ** Calendar View
 ** Event Functionality (Add, Delete, Find, List All, Edit, Sort Events)
 ** Stack Overflow Page (changing to LinkedIn Page soon)
-* Code written:
+* Code written: [https://github.com/CS2103JAN2018-T15-B4/main/tree/master/collated/functional/x3tsunayh.md[functional code]][https://github.com/CS2103JAN2018-T15-B4/main/tree/master/collated/test/x3tsunayh.md[test code]]
 
 '''
 
@@ -42,7 +42,7 @@ image::dezhanglee.jpg[width="100", align="left"]
 ** Delete Person by Name Enhancement
 ** Delete Tag Method
 ** Display Picture Feature
-* Code written:
+* Code written: [https://github.com/CS2103JAN2018-T15-B4/main/tree/master/collated/functional/dezhanglee.md[functional code]][https://github.com/CS2103JAN2018-T15-B4/main/tree/master/collated/test/dezhanglee.md[test code]]
 
 '''
 
@@ -55,7 +55,7 @@ image::nodp.jpg[width="100", align="left"]
 * Features implemented:
 ** Find by Partial-Word Enhancement
 ** Currency Converter Feature
-* Code written:
+* Code written: [[functional code]][[test code]]
 
 '''
 
@@ -68,6 +68,6 @@ image::nodp.jpg[width="100", align="left"]
 * Features implemented:
 ** Sort by Name
 ** Task Functionality (Add, Delete, Find, Sort, Edit Tasks)
-* Code written:
+* Code written: [[functional code]][[test code]]
 
 '''
