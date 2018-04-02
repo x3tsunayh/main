@@ -37,6 +37,7 @@ import seedu.address.model.task.Task;
 import seedu.address.model.task.TaskNameContainsKeywordsPredicate;
 import seedu.address.model.task.exceptions.TaskNotFoundException;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
+import seedu.address.testutil.EditTaskDescriptorBuilder;
 
 /**
  * Contains helper methods for testing commands.
@@ -121,9 +122,10 @@ public class CommandTestUtil {
     public static final String VALID_TASK_DUE_DATE_TASKFIRST = "2018-04-02";
     public static final String VALID_TASK_DUE_DATE_TASKSECOND = "2018-05-10";
     public static final String VALID_TASK_STATUS_TASKFIRST = "Undone";
-    public static final String VALID_TASK_STATUS_TASKSECOND = "Undone";
+    public static final String VALID_TASK_STATUS_TASKSECOND = "done";
     public static final String VALID_TASK_CATEGORY_PERSONAL = "personal";
     public static final String VALID_TASK_CATEGORY_WORK = "work";
+    public static final String VALID_TASK_CATEGORY_MEETING = "meeting";
 
     public static final String TASK_NAME_DESC_TASKFIRST =
             " " + PREFIX_TASK_NAME + VALID_TASK_NAME_TASKFIRST;
@@ -169,6 +171,9 @@ public class CommandTestUtil {
     public static final EditCommand.EditPersonDescriptor DESC_AMY;
     public static final EditCommand.EditPersonDescriptor DESC_BOB;
 
+    public static final TaskEditCommand.EditTaskDescriptor DESC_TASKFIRST;
+    public static final TaskEditCommand.EditTaskDescriptor DESC_TASKSECOND;
+
     static {
         DESC_AMY = new EditPersonDescriptorBuilder().withName(VALID_NAME_AMY)
                 .withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY)
@@ -176,6 +181,16 @@ public class CommandTestUtil {
         DESC_BOB = new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB)
                 .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB)
                 .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
+
+        DESC_TASKFIRST = new EditTaskDescriptorBuilder().withTaskName(VALID_TASK_NAME_TASKFIRST)
+                .withTaskPriority(VALID_TASK_PRIORITY_TASKFIRST).withTaskDescription(VALID_TASK_DESCRIPTION_TASKFIRST)
+                .withTaskDueDate(VALID_TASK_DUE_DATE_TASKFIRST).withTaskStatus(VALID_TASK_STATUS_TASKFIRST)
+                .withTaskCategories(VALID_TASK_CATEGORY_PERSONAL).build();
+
+        DESC_TASKSECOND = new EditTaskDescriptorBuilder().withTaskName(VALID_TASK_NAME_TASKSECOND)
+                .withTaskPriority(VALID_TASK_PRIORITY_TASKSECOND).withTaskDescription(VALID_TASK_DESCRIPTION_TASKSECOND)
+                .withTaskDueDate(VALID_TASK_DUE_DATE_TASKSECOND).withTaskStatus(VALID_TASK_STATUS_TASKSECOND)
+                .withTaskCategories(VALID_TASK_CATEGORY_WORK).build();
     }
 
     /**
