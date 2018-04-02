@@ -14,6 +14,15 @@ import seedu.address.model.person.Person;
  */
 public class CsvFileStorage {
 
+    // This string forms the header for the Google CSV format.
+    public static final String GOOGLE_CSV_FORMAT = "Name,Given Name,Additional Name,Family Name,Yomi Name,"
+            + "Given Name Yomi,Additional Name Yomi,Family Name Yomi,Name Prefix,Name Suffix,Initials,Nickname,"
+            + "Short Name,Maiden Name,Birthday,Gender,Location,Billing Information,Directory Server,Mileage,"
+            + "Occupation,Hobby,Sensitivity,Priority,Subject,Notes,Group Membership,E-mail 1 - Type,E-mail 1 - Value,"
+            + "Phone 1 - Type,Phone 1 - Value,Phone 2 - Type,Phone 2 - Value,Organization 1 - Type,"
+            + "Organization 1 - Name,Organization 1 - Yomi Name,Organization 1 - Title,Organization 1 - Department,"
+            + "Organization 1 - Symbol,Organization 1 - Location,Organization 1 - Job Description";
+
     /**
      * Saves the given addressbook data to the specified file.
      */
@@ -21,13 +30,6 @@ public class CsvFileStorage {
 
         PrintWriter pw = new PrintWriter(new File(filePath));
         StringBuilder sb = new StringBuilder();
-        final String GOOGLE_CSV_FORMAT = "Name,Given Name,Additional Name,Family Name,Yomi Name,Given Name Yomi,"
-                + "Additional Name Yomi,Family Name Yomi,Name Prefix,Name Suffix,Initials,Nickname,Short Name,Maiden Name,"
-                + "Birthday,Gender,Location,Billing Information,Directory Server,Mileage,Occupation,Hobby,Sensitivity,"
-                + "Priority,Subject,Notes,Group Membership,E-mail 1 - Type,E-mail 1 - Value,Phone 1 - Type,"
-                + "Phone 1 - Value,Phone 2 - Type,Phone 2 - Value,Organization 1 - Type,Organization 1 - Name,"
-                + "Organization 1 - Yomi Name,Organization 1 - Title,Organization 1 - Department,Organization 1 - Symbol,"
-                + "Organization 1 - Location,Organization 1 - Job Description";
 
         sb.append(GOOGLE_CSV_FORMAT);
         sb.append('\n');

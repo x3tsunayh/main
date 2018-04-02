@@ -29,6 +29,8 @@ public class FileUtil {
         }
     }
 
+    //@@author x3tsunayh
+
     /**
      * Checks if a String in {@code filePath} is a valid XML file
      */
@@ -40,8 +42,10 @@ public class FileUtil {
      * Checks if a String in {@code filePath} is a valid CSV file
      */
     public static boolean isValidCsvFile(String filePath) {
-        return filePath.toLowerCase().matches(REGEX_CSV_FILE) ;
+        return filePath.toLowerCase().matches(REGEX_CSV_FILE);
     }
+
+    //@@author
 
     /**
      * Creates a file if it does not exist along with its missing parent directories

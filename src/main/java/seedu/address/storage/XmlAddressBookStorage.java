@@ -5,7 +5,6 @@ import static java.util.Objects.requireNonNull;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -16,7 +15,6 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.exceptions.InvalidFileException;
 import seedu.address.commons.util.FileUtil;
 import seedu.address.model.ReadOnlyAddressBook;
-import seedu.address.model.person.Person;
 
 /**
  * A class to access AddressBook data stored as an xml file on the hard disk.
