@@ -13,6 +13,7 @@ public class FileUtil {
 
     private static final String CHARSET = "UTF-8";
     private static final String REGEX_XML_FILE = ".*\\.xml$";
+    private static final String REGEX_CSV_FILE = ".*\\.csv$";
 
     public static boolean isFileExists(File file) {
         return file.exists() && file.isFile();
@@ -33,6 +34,13 @@ public class FileUtil {
      */
     public static boolean isValidXmlFile(String filePath) {
         return filePath.toLowerCase().matches(REGEX_XML_FILE);
+    }
+
+    /**
+     * Checks if a String in {@code filePath} is a valid CSV file
+     */
+    public static boolean isValidCsvFile(String filePath) {
+        return filePath.toLowerCase().matches(REGEX_CSV_FILE) ;
     }
 
     /**

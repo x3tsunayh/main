@@ -64,7 +64,7 @@ public class ExportCommandTest {
     public void execute_invalidFileExtension_throwsCommandException() {
         String filePath = getFilePath("invalidXmlExport.csv");
         ExportCommand command = prepareCommand(filePath);
-        String expectedMessage = String.format(ExportCommand.MESSAGE_NOT_XML_FILE);
+        String expectedMessage = String.format(ExportCommand.MESSAGE_NOT_XML_CSV_FILE);
 
         assertCommandFailure(command, expectedMessage, filePath);
     }

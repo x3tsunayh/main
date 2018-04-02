@@ -61,4 +61,6 @@ public interface AddressBookStorage {
      */
     void backupAddressBook(ReadOnlyAddressBook addressBook) throws IOException, InvalidFileException;
 
+    void exportAddressBookCsv(ReadOnlyAddressBook addressBook, String filePath)
+            throws IOException, InvalidFileException, ExistingFileException;
 }
