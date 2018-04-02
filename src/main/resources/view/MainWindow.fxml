@@ -11,7 +11,8 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tab?>
 <fx:root type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
          minWidth="450" minHeight="600">
   <icons>
@@ -56,27 +57,29 @@
             <StackPane fx:id="personListPanelPlaceholder" VBox.vgrow="ALWAYS"/>
           </VBox>
 
-          <VBox fx:id="calendarPanel" minWidth="500" prefWidth="500" minHeight="400" SplitPane.resizableWithParent="false">
+          <VBox fx:id="calendarPanel" minWidth="500" prefWidth="500" minHeight="775" SplitPane.resizableWithParent="false">
             <padding>
               <Insets top="10" right="10" bottom="10" left="20" />
             </padding>
             <StackPane fx:id="calendarViewPanelPlaceholder" VBox.vgrow="ALWAYS"/>
           </VBox>
 
-          <SplitPane dividerPositions="0.5" orientation="VERTICAL">
-            <VBox fx:id="eventListView" minWidth="350" prefWidth="350" SplitPane.resizableWithParent="false">
-              <padding>
-                <Insets top="10" right="10" bottom="10" left="10" />
-              </padding>
-              <StackPane fx:id="eventListPanelPlaceholder" VBox.vgrow="ALWAYS"/>
-            </VBox>
-            <VBox fx:id="taskList" minWidth="350" prefWidth="350" SplitPane.resizableWithParent="false">
-                <padding>
-                    <Insets top="10" right="10" bottom="10" left="10" />
-                </padding>
-                <StackPane fx:id="taskListPanelPlaceholder" VBox.vgrow="ALWAYS"/>
-            </VBox>
-          </SplitPane>
+          <!-- @@author x3tsunayh -->
+          <VBox fx:id="eventTaskView" minWidth="400" prefWidth="400" SplitPane.resizableWithParent="false">
+            <padding>
+              <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <TabPane fx:id="tabPane" VBox.vgrow="ALWAYS" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab fx:id="eventTab" text="Events">
+                  <StackPane fx:id="eventListPanelPlaceholder" VBox.vgrow="ALWAYS"/>
+                </Tab>
+                <Tab fx:id="taskTab" text="Tasks">
+                  <StackPane fx:id="taskListPanelPlaceholder" VBox.vgrow="ALWAYS"/>
+                </Tab>
+              </tabs>
+            </TabPane>
+          </VBox>
         </SplitPane>
 
         <StackPane fx:id="statusbarPlaceholder" VBox.vgrow="NEVER" />

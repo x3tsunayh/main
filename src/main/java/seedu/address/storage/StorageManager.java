@@ -110,6 +110,12 @@ public class StorageManager extends ComponentManager implements Storage {
         addressBookStorage.backupAddressBook(addressBook);
     }
 
+    @Override
+    public void exportAddressBookCsv(ReadOnlyAddressBook addressBook, String filePath)
+            throws IOException, ExistingFileException, InvalidFileException {
+        addressBookStorage.exportAddressBookCsv(addressBook, filePath);
+    }
+
 
     @Override
     @Subscribe

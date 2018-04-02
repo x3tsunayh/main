@@ -52,7 +52,7 @@ public class ExportCommandTest {
     }
 
     @Test
-    public void execute_validFilePath_success() {
+    public void execute_validXmlFilePath_success() {
         String filePath = getFilePath("validXmlExport.xml");
         ExportCommand command = prepareCommand(filePath);
         String expectedMessage = String.format(ExportCommand.MESSAGE_EXPORT_SUCCESS, filePath);
@@ -62,15 +62,15 @@ public class ExportCommandTest {
 
     @Test
     public void execute_invalidFileExtension_throwsCommandException() {
-        String filePath = getFilePath("invalidXmlExport.csv");
+        String filePath = getFilePath("invalidXmlExport.txt");
         ExportCommand command = prepareCommand(filePath);
-        String expectedMessage = String.format(ExportCommand.MESSAGE_NOT_XML_FILE);
+        String expectedMessage = String.format(ExportCommand.MESSAGE_NOT_XML_CSV_FILE);
 
         assertCommandFailure(command, expectedMessage, filePath);
     }
 
     @Test
-    public void execute_existingName_throwsCommandException() {
+    public void execute_existingXmlName_throwsCommandException() {
         String filePath = getFilePath("existingXmlFile.xml");
         ExportCommand command = prepareCommand(filePath);
         try {
@@ -83,8 +83,23 @@ public class ExportCommandTest {
 
     }
 
+    @Test
+    public void execute_existingCsvName_throwsCommandException() {
+        String filePath = getFilePath("existingCsvFile.csv");
+        ExportCommand command = prepareCommand(filePath);
+        try {
+            storage.exportAddressBook(model.getAddressBook(), "existingCsvFile.csv");
+        } catch (ExistingFileException e) {
+            //do nothing if correct exception is thrown
+        } catch (IOException | InvalidFileException e) {
+            throw new AssertionError("The expected CommandException was not thrown.", e);
+        }
+
+    }
+
 
     private String getFilePath(String fileName) {
+
         return testFolder.getRoot().getPath() + fileName;
     }
 

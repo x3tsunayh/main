@@ -64,7 +64,7 @@ public class XmlAddressBookStorage implements AddressBookStorage {
     }
 
     @Override
-    public void saveAddressBook(ReadOnlyAddressBook addressBook) throws IOException, InvalidFileException {
+    public void saveAddressBook(ReadOnlyAddressBook addressBook) throws IOException {
         saveAddressBook(addressBook, filePath);
     }
 
@@ -90,7 +90,7 @@ public class XmlAddressBookStorage implements AddressBookStorage {
         requireNonNull(addressBook);
         requireNonNull(filePath);
 
-        if (!FileUtil.isValidXmlFile(filePath)) {
+        if (!FileUtil.isValidXmlFile(filePath) && !FileUtil.isValidCsvFile(filePath)) {
             throw new InvalidFileException();
         }
 
@@ -105,8 +105,32 @@ public class XmlAddressBookStorage implements AddressBookStorage {
     }
 
     @Override
-    public void backupAddressBook(ReadOnlyAddressBook addressBook) throws IOException, InvalidFileException {
+    public void backupAddressBook(ReadOnlyAddressBook addressBook) throws IOException {
         saveAddressBook(addressBook, filePath + "-backup");
+    }
+
+    /**
+     * Similar to {@link #saveAddressBook(ReadOnlyAddressBook)}
+     * @param filePath location of the data. Cannot be null
+     */
+    @Override
+    public void exportAddressBookCsv(ReadOnlyAddressBook addressBook, String filePath)
+            throws IOException, InvalidFileException, ExistingFileException {
+        requireNonNull(addressBook);
+        requireNonNull(filePath);
+
+        if (!FileUtil.isValidXmlFile(filePath) && !FileUtil.isValidCsvFile(filePath)) {
+            throw new InvalidFileException();
+        }
+
+        File file = new File(filePath);
+
+        if (FileUtil.isFileExists(file)) {
+            throw new ExistingFileException();
+        }
+
+        FileUtil.createIfMissing(file);
+        CsvFileStorage.saveDataToFile(addressBook, filePath);
     }
 
 }
