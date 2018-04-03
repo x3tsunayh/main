@@ -13,7 +13,6 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.AddTagCommand;
 import seedu.address.model.tag.Tag;
 
@@ -22,12 +21,10 @@ public class AddTagCommandParserTest {
 
     private static final String VALID_TAG_1 = "NUS";
     private static final String VALID_TAG_2 = "CS2103";
+    private static final ArrayList<String> toAdd = new ArrayList<String>(Arrays.asList(VALID_TAG_1, VALID_TAG_2));
 
-    ArrayList<String> toAdd = new ArrayList<String>(Arrays.asList(VALID_TAG_1, VALID_TAG_2));
-
-
-    public static final String TAG_DESC_NUS = " " + PREFIX_TAG + "NUS";
-    public static final String TAG_DESC_CS2103 = " " + PREFIX_TAG + "CS2103";
+    public static final String TAG_DESC_CS2103 = " " + PREFIX_TAG + VALID_TAG_1;
+    public static final String TAG_DESC_NUS = " " + PREFIX_TAG + VALID_TAG_2;
 
     private static final String MESSAGE_INVALID_FORMAT =
             String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddTagCommand.MESSAGE_USAGE);
@@ -57,8 +54,8 @@ public class AddTagCommandParserTest {
 
     @Test
     public void parse_invalidValue_failure() {
-        assertParseFailure(parser, "1" + INVALID_TAG_DESC, Tag.MESSAGE_TAG_CONSTRAINTS); // invalid tag
-        assertParseFailure(parser, "1" + INVALID_TAG_DESC + VALID_TAG_1, Tag.MESSAGE_TAG_CONSTRAINTS); // invalid tag
+        assertParseFailure(parser, "1" + INVALID_TAG_DESC, Tag.MESSAGE_TAG_CONSTRAINTS); //invalid tag
+        assertParseFailure(parser, "1" + INVALID_TAG_DESC + VALID_TAG_1, Tag.MESSAGE_TAG_CONSTRAINTS); //invalid tag
     }
 
     @Test

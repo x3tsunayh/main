@@ -11,7 +11,6 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Set;
 
 import org.junit.Test;
@@ -21,10 +20,13 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.UndoRedoStack;
 import seedu.address.logic.parser.ParserUtil;
-import seedu.address.model.*;
+import seedu.address.model.AddressBook;
+import seedu.address.model.EventBook;
+import seedu.address.model.Model;
+import seedu.address.model.ModelManager;
+import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
-import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.TypicalAddressBook;
 
 //@@author dezhanglee
@@ -33,12 +35,12 @@ import seedu.address.testutil.TypicalAddressBook;
  */
 public class AddTagCommandTest {
 
-    private Model model = new ModelManager(TypicalAddressBook.getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
-
     private static final String VALID_TAG_1 = "NUS";
     private static final String VALID_TAG_2 = "CS2103";
+    private static final ArrayList<String> toAdd = new ArrayList<String>(Arrays.asList(VALID_TAG_1, VALID_TAG_2));
 
-    ArrayList<String> toAdd = new ArrayList<String>(Arrays.asList(VALID_TAG_1, VALID_TAG_2));
+    private Model model = new ModelManager(TypicalAddressBook.getTypicalAddressBook(), getTypicalEventBook(),
+            new UserPrefs());
 
     @Test
     public void execute_unfilteredList_success() throws Exception {
