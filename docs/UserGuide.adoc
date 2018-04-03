@@ -73,21 +73,6 @@ Examples:
 * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
 * `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
 
-=== Adding a profile picture to a person: `addpicture`
-
-Adds a profile picture to a person +
-Format: `addpicture INDEX f\FILENAME`
-
-****
-* Adds a picture at location `FILENAME` to person at the specified `INDEX`. The index refers to the index number shown in the last person listing. The index *must be a positive integer* 1, 2, 3, ...
-* `FILENAME` must point to a valid image file.
-****
-
-Examples:
-
-* `edit 1 f\C://pictures/janeDoe.jpg` +
-Edits the profile picture of the 1st person to be the picture at C://pictures/janeDoe.jpg
-
 === Listing all persons : `list`
 
 Shows a list of all persons in the address book. +
@@ -368,6 +353,23 @@ Format: `exit`
 Address book data are saved in the hard disk automatically after any command that changes the data. +
 There is no need to save manually.
 
+// tag::AddPicture[]
+=== Adding a profile picture to a person: `addpicture` `[since v1.3]`
+
+Adds a profile picture to a person +
+Format: `addpicture INDEX f/FILENAME`
+
+****
+* Adds a picture at location `FILENAME` to person at the specified `INDEX`. The index refers to the index number shown in the last person listing. The index *must be a positive integer* 1, 2, 3, ...
+* `FILENAME` must point to a valid image file.
+****
+
+Examples:
+
+* `edit 1 f/C://pictures/janeDoe.jpg` +
+Edits the profile picture of the 1st person to be the picture at C://pictures/janeDoe.jpg
+// end::AddPicture[]
+
 // tag::AddTask[]
 === Adding a task: `task-add` `[since v1.3]`
 
@@ -464,6 +466,29 @@ and list them. +
 Format: `task-sort`
 // end::SortTask[]
 
+// tag::AddTag[]
+=== Adding individual tags to a contact: `addtag` `[since v1.4]`
+
+Adds tag(s) to a person +
+Format: `addtag INDEX t/TAG t/TAG ...`
+
+****
+* Edits the tag of the contact at the specified `INDEX`.
+The index refers to the index number shown in the last task listing. The index *must be a positive integer* 1, 2, 3, ...
+* At least one tag must be provided.
+* All input tags must be new and unique to the contact. For example, if tag `friend` exists for contact
+at index 1, then both `addtag 1 t/friend` and `addtag 1 t/friend t/schoolmate` will not work as all tags must be new
+
+****
+
+Examples:
+
+* `addtag 12 t/newFriend` +
+Adds the tag `newFriend` to the contact at index 12 of the last contact listing
+* `addtag 7 t/buddy t/CS2103 t/NUS` +
+Adds the tags `buddy`, `CS2103` and `NUS` to contact at index 7 of the last contact listing
+// end::AddTag[]
+
 // tag::dataencryption[]
 === Encrypting data files `[coming in v2.0]`
 
@@ -510,11 +535,6 @@ Examples:
 Returns any person having phone `98203910` or `98203950`
 // end::FindByTag[]
 
-// tag::DisplayPicture[]
-=== Profile picture feature `[coming in v2.0]`
-
-_{explain how the user can make use of the display picture feature}_
-// end::DisplayPicture[]
 
 // tag::CalendarView[]
 === Calendar view feature to check summarised schedule for the month `[coming in v2.0]`
