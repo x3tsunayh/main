@@ -144,7 +144,7 @@ public class Picture {
 
         if (!folder.exists()) {
 
-            if (!folder.mkdir()) { 
+            if (!folder.mkdir()) {
                 this.path = URL_PREFIX + source;
                 return;
             }
