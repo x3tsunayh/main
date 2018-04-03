@@ -3,13 +3,15 @@ package seedu.address.model.task;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
+//@@author CYX28
 /**
  * Represents a Task's description in the address book.
  * Guarantees: immutable; is valid as declared in {@link #isValidTaskDescription(String)}
  */
 public class TaskDescription {
 
-    public static final String MESSAGE_TASK_DESCRIPTION_CONSTRAINTS = "Task descriptions can contain any character";
+    public static final String MESSAGE_TASK_DESCRIPTION_CONSTRAINTS =
+            "Task descriptions can contain any character, but it should not be blank";
 
     /**
      * The first character of the task description must not be a whitespace,

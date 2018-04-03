@@ -69,18 +69,28 @@ public class XmlAddressBookStorageTest {
         readAddressBook("invalidPersonAddressBook.xml");
     }
 
+    //@@author CYX28
     @Test
     public void readAddressBook_invalidTaskAddressBook_throwDataConversionException() throws Exception {
         thrown.expect(DataConversionException.class);
         readAddressBook("invalidTaskAddressBook.xml");
     }
 
+    //@@author
     @Test
     public void readAddressBook_invalidAndValidPersonAddressBook_throwDataConversionException() throws Exception {
         thrown.expect(DataConversionException.class);
         readAddressBook("invalidAndValidPersonAddressBook.xml");
     }
 
+    //@@author CYX28
+    @Test
+    public void readAddressBook_invalidAndValidTaskAddressBook_throwDataConversionException() throws Exception {
+        thrown.expect(DataConversionException.class);
+        readAddressBook("invalidAndValidTaskAddressBook.xml");
+    }
+
+    //@@author
     @Test
     public void readAndSaveAddressBook_allInOrder_success() throws Exception {
         String filePath = testFolder.getRoot().getPath() + "TempAddressBook.xml";

@@ -27,6 +27,7 @@ public class UniquePersonListTest {
         uniquePersonList.asObservableList().remove(0);
     }
 
+    //@@author CYX28
     @Test
     public void sort_ascendingOrder_success() {
         // Setup actual result

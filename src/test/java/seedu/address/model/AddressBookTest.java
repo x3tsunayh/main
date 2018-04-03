@@ -63,6 +63,7 @@ public class AddressBookTest {
         addressBook.resetData(newData);
     }
 
+    //@@author CYX28
     @Test
     public void resetData_withDuplicateTasks_throwsAssertionError() {
         List<Person> newPersons = Arrays.asList();
@@ -76,6 +77,7 @@ public class AddressBookTest {
         addressBook.resetData(newData);
     }
 
+    //@@author
     @Test
     public void getPersonList_modifyList_throwsUnsupportedOperationException() {
         thrown.expect(UnsupportedOperationException.class);
@@ -88,6 +90,7 @@ public class AddressBookTest {
         addressBook.getTagList().remove(0);
     }
 
+    //@@author CYX28
     @Test
     public void getTaskList_modifyList_throwsUnsupportedOperationException() {
         thrown.expect(UnsupportedOperationException.class);
@@ -100,6 +103,7 @@ public class AddressBookTest {
         addressBook.getTaskCategoryList().remove(0);
     }
 
+    //@@author
     /**
      * A stub ReadOnlyAddressBook whose persons, tags, tasks and categories lists can violate interface constraints.
      */

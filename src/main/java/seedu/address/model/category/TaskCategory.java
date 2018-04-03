@@ -3,13 +3,15 @@ package seedu.address.model.category;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
+//@@author CYX28
 /**
  * Represents a TaskCategory in the address book.
  * Guarantees: immutable; name is valid as declared in {@link #isValidTaskCategoryName(String)}
  */
 public class TaskCategory {
 
-    public static final String MESSAGE_TASK_CATEGORY_CONSTRAINTS = "Task category names should be alphanumeric";
+    public static final String MESSAGE_TASK_CATEGORY_CONSTRAINTS =
+            "Task category names should be alphanumeric, and does not contain any whitespaces";
     public static final String TASK_CATEGORY_VALIDATION_REGEX = "\\p{Alnum}+";
 
     public final String taskCategoryName;

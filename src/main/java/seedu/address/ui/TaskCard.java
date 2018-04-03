@@ -7,6 +7,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import seedu.address.model.task.Task;
 
+//@@author CYX28
 /**
  * An UI Component that displays information of a {@code Task}.
  */

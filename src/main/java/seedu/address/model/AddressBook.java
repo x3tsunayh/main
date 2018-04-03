@@ -175,6 +175,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         }
     }
 
+    //@@author CYX28
     /**
      * Sorts the person list alphabetically by name
      */
@@ -182,12 +183,14 @@ public class AddressBook implements ReadOnlyAddressBook {
         persons.sort();
     }
 
+    //@@author
     //// tag-level operations
 
     public void addTag(Tag t) throws UniqueTagList.DuplicateTagException {
         tags.add(t);
     }
 
+    //@@author CYX28
     //// task-level operations
     /**
      * Adds a task to the address book.
@@ -271,6 +274,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         taskCategories.add(tc);
     }
 
+    //@@author
     //// util methods
 
     @Override
@@ -291,6 +295,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         return tags.asObservableList();
     }
 
+    //@@author CYX28
     @Override
     public ObservableList<Task> getTaskList() {
         return tasks.asObservableList();
@@ -301,6 +306,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         return taskCategories.asObservableList();
     }
 
+    //@@author
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object

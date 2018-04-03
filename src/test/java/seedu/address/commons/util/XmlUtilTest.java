@@ -100,6 +100,7 @@ public class XmlUtilTest {
         assertEquals(expectedPerson, actualPerson);
     }
 
+    //@@author CYX28
     @Test
     public void xmlAdaptedTaskFromFile_fileWithMissingTaskField_validResult() throws Exception {
         XmlAdaptedTask actualTask = XmlUtil.getDataFromFile(
@@ -109,6 +110,7 @@ public class XmlUtilTest {
         assertEquals(expectedTask, actualTask);
     }
 
+    //@@author
     @Test
     public void xmlAdaptedPersonFromFile_fileWithInvalidPersonField_validResult() throws Exception {
         XmlAdaptedPerson actualPerson = XmlUtil.getDataFromFile(
@@ -118,6 +120,7 @@ public class XmlUtilTest {
         assertEquals(expectedPerson, actualPerson);
     }
 
+    //@@author CYX28
     @Test
     public void xmlAdaptedTaskFromFile_fileWithInvalidTaskField_validResult() throws Exception {
         XmlAdaptedTask actualTask = XmlUtil.getDataFromFile(
@@ -127,6 +130,7 @@ public class XmlUtilTest {
         assertEquals(expectedTask, actualTask);
     }
 
+    //@@author
     @Test
     public void xmlAdaptedPersonFromFile_fileWithValidPerson_validResult() throws Exception {
         XmlAdaptedPerson actualPerson = XmlUtil.getDataFromFile(
@@ -136,6 +140,7 @@ public class XmlUtilTest {
         assertEquals(expectedPerson, actualPerson);
     }
 
+    //@@author CYX28
     @Test
     public void xmlAdaptedTaskFromFile_fileWithValidTask_validResult() throws Exception {
         XmlAdaptedTask actualTask = XmlUtil.getDataFromFile(
@@ -145,6 +150,7 @@ public class XmlUtilTest {
         assertEquals(expectedTask, actualTask);
     }
 
+    //@@author
     @Test
     public void saveDataToFile_nullFile_throwsNullPointerException() throws Exception {
         thrown.expect(NullPointerException.class);
