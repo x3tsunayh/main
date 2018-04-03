@@ -57,6 +57,12 @@ public class CommandTestUtil {
     public static final String VALID_LOCAL_IMAGE_JPG = "src/test/resources/PictureTest/dezhanglee.jpg";
     public static final String VALID_LOCAL_IMAGE_5MB = "src/test/resources/PictureTest/5mbTestJpg.jpg";
     public static final String VALID_LOCAL_IMAGE_PNG = "src/main/resources/images/help_icon.png";
+    public static final String VALID_XML_FILEPATH = "validXmlFile.xml";
+    public static final String VALID_CSV_FILEPATH = "validCsvFile.csv";
+    public static final String INVALID_XML_FILEPATH = "invalidXmlFile.xmll";
+    public static final String INVALID_CSV_FILEPATH = "invalidCsvFile.csvv";
+    public static final String EXISTING_XML_FILEPATH = "existingXmlFile.xml";
+    public static final String EXISTING_CSV_FILEPATH = "existingCsvFile.csv";
 
     public static final String NAME_DESC_AMY = " " + PREFIX_NAME + VALID_NAME_AMY;
     public static final String NAME_DESC_BOB = " " + PREFIX_NAME + VALID_NAME_BOB;

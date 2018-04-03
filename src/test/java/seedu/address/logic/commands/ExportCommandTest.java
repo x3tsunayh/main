@@ -3,6 +3,12 @@ package seedu.address.logic.commands;
 import static junit.framework.TestCase.fail;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static seedu.address.logic.commands.CommandTestUtil.EXISTING_CSV_FILEPATH;
+import static seedu.address.logic.commands.CommandTestUtil.EXISTING_XML_FILEPATH;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_CSV_FILEPATH;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_XML_FILEPATH;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_CSV_FILEPATH;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_XML_FILEPATH;
 import static seedu.address.testutil.TypicalAddressBook.getTypicalAddressBook;
 import static seedu.address.testutil.TypicalEvents.getTypicalEventBook;
 
@@ -19,6 +25,7 @@ import org.junit.rules.TemporaryFolder;
 import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.commons.exceptions.ExistingFileException;
 import seedu.address.commons.exceptions.InvalidFileException;
+import seedu.address.commons.util.FileUtil;
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.UndoRedoStack;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -53,7 +60,7 @@ public class ExportCommandTest {
 
     @Test
     public void execute_validXmlFilePath_success() {
-        String filePath = getFilePath("validXmlExport.xml");
+        String filePath = getFilePath(VALID_XML_FILEPATH);
         ExportCommand command = prepareCommand(filePath);
         String expectedMessage = String.format(ExportCommand.MESSAGE_EXPORT_SUCCESS, filePath);
 
@@ -61,8 +68,26 @@ public class ExportCommandTest {
     }
 
     @Test
-    public void execute_invalidFileExtension_throwsCommandException() {
-        String filePath = getFilePath("invalidXmlExport.txt");
+    public void execute_validCsvFilePath_success() {
+        String filePath = getFilePath(VALID_CSV_FILEPATH);
+        ExportCommand command = prepareCommand(filePath);
+        String expectedMessage = String.format(ExportCommand.MESSAGE_EXPORT_SUCCESS, filePath);
+
+        assertCommandSuccess(command, expectedMessage, filePath);
+    }
+
+    @Test
+    public void execute_invalidXmlFileExtension_throwsCommandException() {
+        String filePath = getFilePath(INVALID_XML_FILEPATH);
+        ExportCommand command = prepareCommand(filePath);
+        String expectedMessage = String.format(ExportCommand.MESSAGE_NOT_XML_CSV_FILE);
+
+        assertCommandFailure(command, expectedMessage, filePath);
+    }
+
+    @Test
+    public void execute_invalidCsvFileExtension_throwsCommandException() {
+        String filePath = getFilePath(INVALID_CSV_FILEPATH);
         ExportCommand command = prepareCommand(filePath);
         String expectedMessage = String.format(ExportCommand.MESSAGE_NOT_XML_CSV_FILE);
 
@@ -71,24 +96,23 @@ public class ExportCommandTest {
 
     @Test
     public void execute_existingXmlName_throwsCommandException() {
-        String filePath = getFilePath("existingXmlFile.xml");
+        String filePath = getFilePath(EXISTING_XML_FILEPATH);
         ExportCommand command = prepareCommand(filePath);
         try {
-            storage.exportAddressBook(model.getAddressBook(), "existingXmlFile.xml");
+            storage.exportAddressBook(model.getAddressBook(), EXISTING_XML_FILEPATH);
         } catch (ExistingFileException e) {
             //do nothing if correct exception is thrown
         } catch (IOException | InvalidFileException e) {
             throw new AssertionError("The expected CommandException was not thrown.", e);
         }
-
     }
 
     @Test
     public void execute_existingCsvName_throwsCommandException() {
-        String filePath = getFilePath("existingCsvFile.csv");
+        String filePath = getFilePath(EXISTING_CSV_FILEPATH);
         ExportCommand command = prepareCommand(filePath);
         try {
-            storage.exportAddressBook(model.getAddressBook(), "existingCsvFile.csv");
+            storage.exportAddressBook(model.getAddressBook(), EXISTING_CSV_FILEPATH);
         } catch (ExistingFileException e) {
             //do nothing if correct exception is thrown
         } catch (IOException | InvalidFileException e) {
@@ -123,7 +147,10 @@ public class ExportCommandTest {
         try {
             CommandResult result = command.execute();
             assertEquals(expectedMessage, result.feedbackToUser);
-            assertEquals(model.getAddressBook(), new AddressBook(storage.readAddressBook(filePath).get()));
+            // Storage does not support CSV readability for addressbook data.
+            if (!FileUtil.isValidCsvFile(filePath)) {
+                assertEquals(model.getAddressBook(), new AddressBook(storage.readAddressBook(filePath).get()));
+            }
         } catch (CommandException | DataConversionException | IOException | JAXBException e) {
             throw new AssertionError("Export Command is not working as expected.", e);
         }

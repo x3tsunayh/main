@@ -39,7 +39,6 @@ public class ExportCommand extends UndoableCommand {
     }
 
     /**
-     *
      * @param storage
      */
     @Override
@@ -74,6 +73,11 @@ public class ExportCommand extends UndoableCommand {
         return new CommandResult(String.format(MESSAGE_EXPORT_SUCCESS, filePath));
     }
 
-
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof ExportCommand // instanceof handles nulls
+                && filePath.equals(((ExportCommand) other).filePath));
+    }
 }
 

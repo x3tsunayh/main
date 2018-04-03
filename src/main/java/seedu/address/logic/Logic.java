@@ -1,6 +1,7 @@
 package seedu.address.logic;
 
 import javafx.collections.ObservableList;
+import javafx.scene.control.TabPane;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -35,4 +36,9 @@ public interface Logic {
     void setCalendarView(CalendarView calendarView);
 
     ObservableList<ReadOnlyEvent> getFilteredEventList();
+
+    /**
+     * For passing in the UI Object TabPane
+     */
+    void setTabPane(TabPane tabPane);
 }

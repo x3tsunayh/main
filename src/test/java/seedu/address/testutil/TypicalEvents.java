@@ -8,32 +8,29 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.EventBook;
 import seedu.address.model.event.ReadOnlyEvent;
 
+//@@author x3tsunayh
+
 /**
  * A utility class containing a list of {@code Event} objects to be used in tests.
  */
 public class TypicalEvents {
 
-    public static final ReadOnlyEvent SPECTRA = new EventBuilder().withTitle("Spectra")
-            .withDescription("Light and water show").withLocation("Marina Bay Sands")
-            .withDatetime("01-09-2017 1900").build();
-    public static final ReadOnlyEvent DEEPAVALI = new EventBuilder().withTitle("Deepavali")
-            .withDescription("Deepavali Celebrations 2017").withLocation("Little India")
-            .withDatetime("12-11-2017 1900").build();
-    public static final ReadOnlyEvent HENNA = new EventBuilder().withTitle("Henna")
-            .withDescription("Henna Workshop").withLocation("Orchard Gateway")
-            .withDatetime("18-10-2017 1500").build();
-    public static final ReadOnlyEvent WINE = new EventBuilder().withTitle("Wine Fest")
-            .withDescription("Singapore Wine Fiesta 2017").withLocation("Clifford Square")
-            .withDatetime("26-10-2017 1500").build();
-
-    // Manually added
-    public static final ReadOnlyEvent NETWORK = new EventBuilder().withTitle("Network Talk")
-            .withDescription("Networking meeting session").withLocation("IMDA").withDatetime("13-05-2017 1300").build();
-    public static final ReadOnlyEvent SECURITY = new EventBuilder().withTitle("Security Talk")
-            .withDescription("Security meeting session").withLocation("CSIT").withDatetime("26-10-2017 1300").build();
+    public static final ReadOnlyEvent CNY = new EventBuilder().withTitle("CNY")
+            .withDescription("CNY Celebration at FOS").withLocation("NUS S16 Level 3")
+            .withDatetime("15-02-2018 1000").build();
+    public static final ReadOnlyEvent CHRISTMAS = new EventBuilder().withTitle("Christmas")
+            .withDescription("Christmas Party at SOC").withLocation("NUS COM1")
+            .withDatetime("24-12-2018 1830").build();
+    public static final ReadOnlyEvent MOVIE = new EventBuilder().withTitle("Movie Outing")
+            .withDescription("Black Panther Movie").withLocation("Suntec GV")
+            .withDatetime("21-04-2018 1500").build();
+    public static final ReadOnlyEvent REUNION = new EventBuilder().withTitle("Class Reunion")
+            .withDescription("With Secondary School Classmates").withLocation("Samantha's House")
+            .withDatetime("06-05-2018 1730").build();
 
     private TypicalEvents() {
-    } // prevents instantiation
+        // prevents instantiation
+    }
 
     /**
      * Returns an {@code EventBook} with all the typical events.
@@ -44,13 +41,13 @@ public class TypicalEvents {
             try {
                 eb.addEvent(event);
             } catch (CommandException e) {
-                assert false : "not possible";
+                assert false : "Invalid Command";
             }
         }
         return eb;
     }
 
     public static List<ReadOnlyEvent> getTypicalEvents() {
-        return new ArrayList<>(Arrays.asList(SPECTRA, DEEPAVALI, HENNA, WINE));
+        return new ArrayList<>(Arrays.asList(CNY, CHRISTMAS, MOVIE, REUNION));
     }
 }
