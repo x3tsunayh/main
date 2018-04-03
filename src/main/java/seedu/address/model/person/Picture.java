@@ -132,7 +132,9 @@ public class Picture {
 
     /**
      * copies the file from (@code source) to the profile pic folder
-     *
+     * If unable to copy, then just directly use file at source.
+     * This will work since we have already passed {@code source} into isValidPath to ensure it can be read
+     * TODO: display some kind of commandresult to notify user of this ^
      * @param source
      * @param dstFilename
      */
@@ -143,7 +145,8 @@ public class Picture {
         if (!folder.exists()) {
 
             if (!folder.mkdir()) {
-                System.out.println("FAILED TO MAKE FOLDER");
+                this.path = URL_PREFIX + source;
+                return;
             }
         }
 
@@ -152,7 +155,8 @@ public class Picture {
         try {
             src = new File(source);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            this.path = URL_PREFIX + source;
+            return;
         }
 
 
@@ -162,7 +166,8 @@ public class Picture {
             try {
                 dest.createNewFile();
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                this.path = URL_PREFIX + source;
+                return;
             }
         }
 
@@ -170,7 +175,7 @@ public class Picture {
             Files.copy(src.toPath(), dest.toPath() , REPLACE_EXISTING);
             this.path = URL_PREFIX + dest.toPath().toString();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            this.path = URL_PREFIX + source;
         }
     }
 

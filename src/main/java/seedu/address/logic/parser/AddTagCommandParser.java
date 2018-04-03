@@ -4,9 +4,9 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.exceptions.IllegalValueException;
@@ -31,6 +31,11 @@ public class AddTagCommandParser implements Parser<AddTagCommand> {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_TAG);
 
+        if (!arePrefixesPresent(argMultimap, PREFIX_TAG)
+                || argMultimap.getPreamble().isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddTagCommand.MESSAGE_USAGE));
+        }
+
         Index index;
         List<String> tags;
 
@@ -39,16 +44,22 @@ public class AddTagCommandParser implements Parser<AddTagCommand> {
         } catch (IllegalValueException ive) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddTagCommand.MESSAGE_USAGE));
         }
+;
 
-        tags = argMultimap.getAllValues(PREFIX_TAG);
+        Set<Tag> tagSet;
 
-        Set<Tag> tagSet = new HashSet<Tag>();
-        for (String i : tags) {
-            tagSet.add(new Tag(i));
+        try {
+            tagSet = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
+        } catch (IllegalValueException ive) {
+            System.out.println(ive.getMessage());
+            throw new ParseException(ive.getMessage(), ive);
         }
 
         return new AddTagCommand(index, tagSet);
     }
 
+    private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
+        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
+    }
 
 }
