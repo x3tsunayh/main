@@ -51,6 +51,7 @@ public class SampleDataTest extends AddressBookSystemTest {
         assertListMatching(getPersonListPanel(), expectedPersonList);
     }
 
+    //@@author CYX28
     @Test
     public void addressBook_taskDataFileDoesNotExist_loadSampleData() {
         Task[] expectedTaskList = SampleDataUtil.getSampleTasks();

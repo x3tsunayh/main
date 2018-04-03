@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import seedu.address.logic.commands.TaskDeleteCommand;
 
+//@@author CYX28
 public class TaskDeleteCommandParserTest {
 
     private TaskDeleteCommandParser parser = new TaskDeleteCommandParser();
@@ -20,7 +21,8 @@ public class TaskDeleteCommandParserTest {
 
     @Test
     public void parse_invalidArgs_throwsParseException() {
-        assertParseFailure(parser, "c", String.format(MESSAGE_INVALID_COMMAND_FORMAT, TaskDeleteCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, "abc", String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                TaskDeleteCommand.MESSAGE_USAGE));
     }
 
 }

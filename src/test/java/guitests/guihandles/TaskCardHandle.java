@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
 
+//@@author CYX28
 /**
  * Provides a handle to a task card in the task list panel.
  */

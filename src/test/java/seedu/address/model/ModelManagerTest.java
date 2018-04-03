@@ -32,6 +32,7 @@ public class ModelManagerTest {
         modelManager.getFilteredPersonList().remove(0);
     }
 
+    //@@author CYX28
     @Test
     public void getFilteredTaskList_modifyList_throwsUnsupportedOperationException() {
         ModelManager modelManager = new ModelManager();
@@ -39,6 +40,7 @@ public class ModelManagerTest {
         modelManager.getFilteredTaskList().remove(0);
     }
 
+    //@@author
     @Test
     public void equals() {
         AddressBook addressBook = new AddressBookBuilder().withPerson(ALICE).withPerson(BENSON).withTask(TASKONE)

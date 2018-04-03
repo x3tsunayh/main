@@ -16,6 +16,7 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.ui.JumpToListRequestEvent;
 import seedu.address.model.task.Task;
 
+//@@author CYX28
 /**
  * Panel containing the list of tasks.
  */

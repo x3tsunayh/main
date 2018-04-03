@@ -100,6 +100,7 @@ public class ModelManager extends ComponentManager implements Model {
         indicateAddressBookChanged();
     }
 
+    //@@author CYX28
     @Override
     public void sortPersons() {
         this.addressBook.sortPersons();
@@ -133,6 +134,7 @@ public class ModelManager extends ComponentManager implements Model {
         indicateAddressBookChanged();
     }
 
+    //@@author
     //=========== Filtered Person List Accessors =============================================================
 
     /**
@@ -161,6 +163,8 @@ public class ModelManager extends ComponentManager implements Model {
         requireNonNull(predicate);
         filteredEvents.setPredicate(predicate);
     }
+
+    //=========== Filtered Task List Accessors =============================================================
 
     @Override
     public ObservableList<Task> getFilteredTaskList() {

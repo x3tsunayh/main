@@ -6,6 +6,7 @@ import org.junit.rules.ExpectedException;
 
 import seedu.address.model.category.UniqueTaskCategoryList;
 
+//@@author CYX28
 public class UniqueTaskCategoryListTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
