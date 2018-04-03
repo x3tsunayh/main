@@ -6,6 +6,7 @@ import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javafx.scene.control.TabPane;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.AddEventCommand;
@@ -29,6 +30,7 @@ import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.SortCommand;
+import seedu.address.logic.commands.SwitchTabCommand;
 import seedu.address.logic.commands.TaskAddCommand;
 import seedu.address.logic.commands.TaskDeleteCommand;
 import seedu.address.logic.commands.TaskEditCommand;
@@ -48,6 +50,7 @@ public class AddressBookParser {
      * Used for initial separation of command word and args.
      */
     private static final Pattern BASIC_COMMAND_FORMAT = Pattern.compile("(?<commandWord>\\S+)(?<arguments>.*)");
+    private TabPane tabPane;
 
     /**
      * Parses user input into command for execution.
@@ -142,6 +145,10 @@ public class AddressBookParser {
         case ListAllEventsCommand.COMMAND_WORD_THREE:
             return new ListAllEventsCommand();
 
+        case SwitchTabCommand.COMMAND_WORD:
+        case SwitchTabCommand.COMMAND_WORD_TWO:
+            return new SwitchTabCommand(tabPane);
+
         case AddPictureCommand.COMMAND_WORD:
             return new AddPictureCommandParser().parse(arguments);
 
@@ -175,5 +182,12 @@ public class AddressBookParser {
         default:
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
         }
+    }
+
+    /**
+     * Used for passing in the UI TabPane
+     */
+    public void setTabPane(TabPane tabPane) {
+        this.tabPane = tabPane;
     }
 }

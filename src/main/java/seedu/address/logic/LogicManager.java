@@ -3,6 +3,7 @@ package seedu.address.logic;
 import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
+import javafx.scene.control.TabPane;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.exceptions.IllegalValueException;
@@ -33,7 +34,6 @@ public class LogicManager extends ComponentManager implements Logic {
     private final UserPrefs userPrefs;
 
     private CalendarViewStateParser calendarViewStateParser;
-    private CalendarView calendarView;
 
     public LogicManager(Model model, Storage storage, UserPrefs userprefs) {
         this.model = model;
@@ -80,6 +80,7 @@ public class LogicManager extends ComponentManager implements Logic {
         return new ListElementPointer(history.getHistory());
     }
 
+    //@@author x3tsunayh
     @Override
     public void setCalendarView(CalendarView calendarView) {
         this.calendarViewStateParser = new CalendarViewStateParser(this.userPrefs, this.model, calendarView);
@@ -88,5 +89,10 @@ public class LogicManager extends ComponentManager implements Logic {
     @Override
     public ObservableList<ReadOnlyEvent> getFilteredEventList() {
         return model.getFilteredEventList();
+    }
+
+    @Override
+    public void setTabPane(TabPane tabPane) {
+        addressBookParser.setTabPane(tabPane);
     }
 }

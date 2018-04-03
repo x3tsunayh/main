@@ -7,6 +7,7 @@ import com.google.common.eventbus.Subscribe;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
@@ -73,6 +74,9 @@ public class MainWindow extends UiPart<Stage> {
     @FXML
     private StackPane taskListPanelPlaceholder;
 
+    @FXML
+    private TabPane tabPane;
+
     public MainWindow(Stage primaryStage, Config config, UserPrefs prefs, Logic logic) {
         super(FXML, primaryStage);
 
@@ -81,6 +85,7 @@ public class MainWindow extends UiPart<Stage> {
         this.logic = logic;
         this.config = config;
         this.prefs = prefs;
+        this.logic.setTabPane(tabPane);
 
         // Configure the UI
         setTitle(config.getAppTitle());
