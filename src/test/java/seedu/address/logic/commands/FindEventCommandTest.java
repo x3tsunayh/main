@@ -5,9 +5,9 @@ import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static seedu.address.commons.core.Messages.MESSAGE_EVENTS_LISTED_OVERVIEW;
 import static seedu.address.testutil.TypicalAddressBook.getTypicalAddressBook;
-import static seedu.address.testutil.TypicalEvents.DEEPAVALI;
-import static seedu.address.testutil.TypicalEvents.HENNA;
-import static seedu.address.testutil.TypicalEvents.SPECTRA;
+import static seedu.address.testutil.TypicalEvents.CHRISTMAS;
+import static seedu.address.testutil.TypicalEvents.CNY;
+import static seedu.address.testutil.TypicalEvents.MOVIE;
 import static seedu.address.testutil.TypicalEvents.getTypicalEventBook;
 
 import java.util.Arrays;
@@ -71,8 +71,8 @@ public class FindEventCommandTest {
     @Test
     public void execute_multipleKeywords_multiplePersonsFound() {
         String expectedMessage = String.format(MESSAGE_EVENTS_LISTED_OVERVIEW, 3);
-        FindEventCommand command = prepareCommand("Spectra Deepavali Henna");
-        assertCommandSuccess(command, expectedMessage, Arrays.asList(SPECTRA, DEEPAVALI, HENNA));
+        FindEventCommand command = prepareCommand("CNY Christmas Movie");
+        assertCommandSuccess(command, expectedMessage, Arrays.asList(CNY, CHRISTMAS, MOVIE));
     }
 
     /**

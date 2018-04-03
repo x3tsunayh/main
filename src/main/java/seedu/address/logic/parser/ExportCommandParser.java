@@ -6,10 +6,12 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.ExportCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
+//author @x3tsunayh
+
 /**
  * Parses input arguments and creates a new ExportCommand object
  */
-public class ExportCommandParser {
+public class ExportCommandParser implements Parser<ExportCommand> {
 
     /**
      * Parses the given {@code String} of arguments in the context of the ExportCommand

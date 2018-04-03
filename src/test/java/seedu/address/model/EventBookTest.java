@@ -1,7 +1,7 @@
 package seedu.address.model;
 
 import static junit.framework.TestCase.assertEquals;
-import static seedu.address.testutil.TypicalEvents.SPECTRA;
+import static seedu.address.testutil.TypicalEvents.CNY;
 import static seedu.address.testutil.TypicalEvents.getTypicalEventBook;
 
 import java.util.Arrays;
@@ -50,7 +50,7 @@ public class EventBookTest {
     @Test
     public void resetData_withDuplicateEvents_throwsAssertionError() {
         // Repeated events should throw AssertionError
-        List<Event> newEvents = Arrays.asList(new Event(SPECTRA), new Event(SPECTRA));
+        List<Event> newEvents = Arrays.asList(new Event(CNY), new Event(CNY));
         EventBookStub newData = new EventBookStub(newEvents);
 
         thrown.expect(AssertionError.class);

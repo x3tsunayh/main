@@ -4,8 +4,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_TASKS;
-import static seedu.address.testutil.TypicalEvents.DEEPAVALI;
-import static seedu.address.testutil.TypicalEvents.SPECTRA;
+import static seedu.address.testutil.TypicalEvents.CHRISTMAS;
+import static seedu.address.testutil.TypicalEvents.CNY;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.BENSON;
 import static seedu.address.testutil.TypicalTasks.TASKONE;
@@ -46,7 +46,7 @@ public class ModelManagerTest {
         AddressBook addressBook = new AddressBookBuilder().withPerson(ALICE).withPerson(BENSON).withTask(TASKONE)
                 .withTask(TASKTWO).build();
         EventBook eventBook = new EventBookBuilder().withEvent(
-                SPECTRA).withEvent(DEEPAVALI).build();
+                CNY).withEvent(CHRISTMAS).build();
         AddressBook differentAddressBook = new AddressBook();
         EventBook differentEventBook = new EventBook();
         UserPrefs userPrefs = new UserPrefs();
