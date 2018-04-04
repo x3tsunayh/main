@@ -50,22 +50,22 @@
         </StackPane>
 
         <SplitPane id="splitPane" fx:id="splitPane" dividerPositions="0.2" VBox.vgrow="NEVER">
-          <VBox fx:id="personList" minWidth="400" prefWidth="400" SplitPane.resizableWithParent="false">
+          <VBox fx:id="personList" minWidth="380" prefWidth="380" SplitPane.resizableWithParent="false">
             <padding>
               <Insets top="10" right="10" bottom="10" left="10" />
             </padding>
             <StackPane fx:id="personListPanelPlaceholder" VBox.vgrow="ALWAYS"/>
           </VBox>
 
-          <VBox fx:id="calendarPanel" minWidth="500" prefWidth="500" minHeight="775" SplitPane.resizableWithParent="false">
+          <VBox fx:id="calendarPanel" minWidth="500" prefWidth="500" minHeight="400" SplitPane.resizableWithParent="false">
             <padding>
-              <Insets top="10" right="10" bottom="10" left="20" />
+              <Insets top="30" right="10" bottom="10" left="20" />
             </padding>
-            <StackPane fx:id="calendarViewPanelPlaceholder" VBox.vgrow="ALWAYS"/>
+            <StackPane fx:id="calendarViewPanelPlaceholder" VBox.vgrow="NEVER"/>
           </VBox>
 
           <!-- @@author x3tsunayh -->
-          <VBox fx:id="eventTaskView" minWidth="400" prefWidth="400" SplitPane.resizableWithParent="false">
+          <VBox fx:id="eventTaskView" minWidth="380" prefWidth="380" SplitPane.resizableWithParent="false">
             <padding>
               <Insets top="10" right="10" bottom="10" left="10"/>
             </padding>
