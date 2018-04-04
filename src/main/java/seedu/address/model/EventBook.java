@@ -13,6 +13,8 @@ import seedu.address.model.event.ReadOnlyEvent;
 import seedu.address.model.event.ReadOnlyEventBook;
 import seedu.address.model.event.UniqueEventList;
 
+//@@author x3tsunayh
+
 /**
  * Wraps all data at the event-book level
  * Duplicates are not allowed (by .equals comparison)
@@ -28,7 +30,6 @@ public class EventBook implements ReadOnlyEventBook {
      * Note that non-static init blocks are not recommended to use. There are other ways to avoid duplication
      *   among constructors.
      */
-
     {
         events = new UniqueEventList();
     }

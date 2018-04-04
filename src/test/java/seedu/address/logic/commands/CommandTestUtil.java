@@ -57,12 +57,6 @@ public class CommandTestUtil {
     public static final String VALID_LOCAL_IMAGE_JPG = "src/test/resources/PictureTest/dezhanglee.jpg";
     public static final String VALID_LOCAL_IMAGE_5MB = "src/test/resources/PictureTest/5mbTestJpg.jpg";
     public static final String VALID_LOCAL_IMAGE_PNG = "src/main/resources/images/help_icon.png";
-    public static final String VALID_XML_FILEPATH = "validXmlFile.xml";
-    public static final String VALID_CSV_FILEPATH = "validCsvFile.csv";
-    public static final String INVALID_XML_FILEPATH = "invalidXmlFile.xmll";
-    public static final String INVALID_CSV_FILEPATH = "invalidCsvFile.csvv";
-    public static final String EXISTING_XML_FILEPATH = "existingXmlFile.xml";
-    public static final String EXISTING_CSV_FILEPATH = "existingCsvFile.csv";
 
     public static final String NAME_DESC_AMY = " " + PREFIX_NAME + VALID_NAME_AMY;
     public static final String NAME_DESC_BOB = " " + PREFIX_NAME + VALID_NAME_BOB;
@@ -96,6 +90,13 @@ public class CommandTestUtil {
     public static final String INVALID_PIC_DESC_IMAGE_GREATER_THAN_5MB = " " + PREFIX_FILEPATH
             + VALID_LOCAL_IMAGE_BIGGER_THAN_5MB;
 
+    //@@author x3tsunayh
+    public static final String VALID_XML_FILEPATH = "validXmlFile.xml";
+    public static final String VALID_CSV_FILEPATH = "validCsvFile.csv";
+    public static final String INVALID_XML_FILEPATH = "invalidXmlFile.xmll";
+    public static final String INVALID_CSV_FILEPATH = "invalidCsvFile.csvv";
+    public static final String EXISTING_XML_FILEPATH = "existingXmlFile.xml";
+    public static final String EXISTING_CSV_FILEPATH = "existingCsvFile.csv";
     public static final String VALID_TITLE_CNY = "CNY Celebration 2018";
     public static final String VALID_TITLE_CHRISTMAS = "Christmas Celebration 2018";
     public static final String VALID_DESCRIPTION_CNY = "CNY Celebration at FOS";
@@ -119,6 +120,7 @@ public class CommandTestUtil {
     public static final String INVALID_DATETIME_DESC = " "
             + PREFIX_EVENT_DATETIME + "32-12-2018 2359"; //There is no 32 in the date
 
+    //@@author CYX28
     public static final String VALID_TASK_NAME_TASKFIRST = "First task";
     public static final String VALID_TASK_NAME_TASKSECOND = "Second task";
     public static final String VALID_TASK_PRIORITY_TASKFIRST = "high";
@@ -171,6 +173,7 @@ public class CommandTestUtil {
     public static final String INVALID_TASK_CATEGORY_DESC = " "
             + PREFIX_TASK_CATEGORY + "meeting & work"; // '&' not allowed in taskCategory
 
+    //@@author
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";
 
