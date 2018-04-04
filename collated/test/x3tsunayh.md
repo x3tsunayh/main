@@ -177,6 +177,38 @@ public class AddEventCommandTest {
 
 }
 ```
+###### \java\seedu\address\logic\commands\CommandTestUtil.java
+``` java
+    public static final String VALID_XML_FILEPATH = "validXmlFile.xml";
+    public static final String VALID_CSV_FILEPATH = "validCsvFile.csv";
+    public static final String INVALID_XML_FILEPATH = "invalidXmlFile.xmll";
+    public static final String INVALID_CSV_FILEPATH = "invalidCsvFile.csvv";
+    public static final String EXISTING_XML_FILEPATH = "existingXmlFile.xml";
+    public static final String EXISTING_CSV_FILEPATH = "existingCsvFile.csv";
+    public static final String VALID_TITLE_CNY = "CNY Celebration 2018";
+    public static final String VALID_TITLE_CHRISTMAS = "Christmas Celebration 2018";
+    public static final String VALID_DESCRIPTION_CNY = "CNY Celebration at FOS";
+    public static final String VALID_DESCRIPTION_CHRISTMAS = "Christmas Party at SOC";
+    public static final String VALID_LOCATION_CNY = "NUS S16 Level 3";
+    public static final String VALID_LOCATION_CHRISTMAS = "NUS COM1";
+    public static final String VALID_DATETIME_CNY = "15-02-2018 1000";
+    public static final String VALID_DATETIME_CHRISTMAS = "24-12-2018 1830";
+
+    public static final String TITLE_DESC_CNY = " " + PREFIX_EVENT_TITLE + VALID_TITLE_CNY;
+    public static final String TITLE_DESC_CHRISTMAS = " " + PREFIX_EVENT_TITLE + VALID_TITLE_CHRISTMAS;
+    public static final String DESCRIPTION_DESC_CNY = " " + PREFIX_EVENT_DESCRIPTION + VALID_DESCRIPTION_CNY;
+    public static final String DESCRIPTION_DESC_CHRISTMAS = " "
+            + PREFIX_EVENT_DESCRIPTION + VALID_DESCRIPTION_CHRISTMAS;
+    public static final String LOCATION_DESC_CNY = " " + PREFIX_EVENT_LOCATION + VALID_LOCATION_CNY;
+    public static final String LOCATION_DESC_CHRISTMAS = " " + PREFIX_EVENT_LOCATION + VALID_LOCATION_CHRISTMAS;
+    public static final String DATETIME_DESC_CNY = " " + PREFIX_EVENT_DATETIME + VALID_DATETIME_CNY;
+    public static final String DATETIME_DESC_CHRISTMAS = " " + PREFIX_EVENT_DATETIME + VALID_DATETIME_CHRISTMAS;
+
+    // '~' not allowed at the start of field input
+    public static final String INVALID_DATETIME_DESC = " "
+            + PREFIX_EVENT_DATETIME + "32-12-2018 2359"; //There is no 32 in the date
+
+```
 ###### \java\seedu\address\logic\commands\DeleteEventCommandTest.java
 ``` java
 
@@ -288,6 +320,140 @@ public class DeleteEventCommandTest {
     }
 }
 ```
+###### \java\seedu\address\logic\commands\ExportCommandTest.java
+``` java
+
+public class ExportCommandTest {
+    @Rule
+    public TemporaryFolder testFolder = new TemporaryFolder();
+
+    private Storage storage;
+    private Model model;
+
+    @Before
+    public void setUp() {
+        AddressBookStorage addressBookStorage = new XmlAddressBookStorage(getFilePath("addressbook.xml"));
+        XmlEventBookStorage eventBookStorage = new XmlEventBookStorage(getFilePath("eb.xml"));
+        UserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(getFilePath("preferences.json"));
+
+        storage = new StorageManager(addressBookStorage, eventBookStorage, userPrefsStorage);
+        model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
+    }
+
+    @Test
+    public void execute_validXmlFilePath_success() {
+        String filePath = getFilePath(VALID_XML_FILEPATH);
+        ExportCommand command = prepareCommand(filePath);
+        String expectedMessage = String.format(ExportCommand.MESSAGE_EXPORT_SUCCESS, filePath);
+
+        assertCommandSuccess(command, expectedMessage, filePath);
+    }
+
+    @Test
+    public void execute_validCsvFilePath_success() {
+        String filePath = getFilePath(VALID_CSV_FILEPATH);
+        ExportCommand command = prepareCommand(filePath);
+        String expectedMessage = String.format(ExportCommand.MESSAGE_EXPORT_SUCCESS, filePath);
+
+        assertCommandSuccess(command, expectedMessage, filePath);
+    }
+
+    @Test
+    public void execute_invalidXmlFileExtension_throwsCommandException() {
+        String filePath = getFilePath(INVALID_XML_FILEPATH);
+        ExportCommand command = prepareCommand(filePath);
+        String expectedMessage = String.format(ExportCommand.MESSAGE_NOT_XML_CSV_FILE);
+
+        assertCommandFailure(command, expectedMessage, filePath);
+    }
+
+    @Test
+    public void execute_invalidCsvFileExtension_throwsCommandException() {
+        String filePath = getFilePath(INVALID_CSV_FILEPATH);
+        ExportCommand command = prepareCommand(filePath);
+        String expectedMessage = String.format(ExportCommand.MESSAGE_NOT_XML_CSV_FILE);
+
+        assertCommandFailure(command, expectedMessage, filePath);
+    }
+
+    @Test
+    public void execute_existingXmlName_throwsCommandException() {
+        String filePath = getFilePath(EXISTING_XML_FILEPATH);
+        ExportCommand command = prepareCommand(filePath);
+        try {
+            storage.exportAddressBook(model.getAddressBook(), EXISTING_XML_FILEPATH);
+        } catch (ExistingFileException e) {
+            //do nothing if correct exception is thrown
+        } catch (IOException | InvalidFileException e) {
+            throw new AssertionError("The expected CommandException was not thrown.", e);
+        }
+    }
+
+    @Test
+    public void execute_existingCsvName_throwsCommandException() {
+        String filePath = getFilePath(EXISTING_CSV_FILEPATH);
+        ExportCommand command = prepareCommand(filePath);
+        try {
+            storage.exportAddressBook(model.getAddressBook(), EXISTING_CSV_FILEPATH);
+        } catch (ExistingFileException e) {
+            //do nothing if correct exception is thrown
+        } catch (IOException | InvalidFileException e) {
+            throw new AssertionError("The expected CommandException was not thrown.", e);
+        }
+
+    }
+
+
+    private String getFilePath(String fileName) {
+
+        return testFolder.getRoot().getPath() + fileName;
+    }
+
+    /**
+     * Returns an {@code ExportCommand} with parameter {@String filePath}
+     */
+    private ExportCommand prepareCommand(String filePath) {
+        ExportCommand exportCommand = new ExportCommand(filePath);
+        exportCommand.setData(model, new CommandHistory(), new UndoRedoStack());
+        exportCommand.setStorage(storage);
+        return exportCommand;
+    }
+
+    /**
+     * Asserts that {@code command} is successfully executed, and<br>
+     *     - the command feedback is equal to {@code expectedMessage}<br>
+     *     - the {@code FilteredList<Person>} is equal to {@code expectedList}<br>
+     *     - the {@code AddressBook} in model remains the same after executing the {@code command}
+     */
+    private void assertCommandSuccess(ExportCommand command, String expectedMessage, String filePath) {
+        try {
+            CommandResult result = command.execute();
+            assertEquals(expectedMessage, result.feedbackToUser);
+            // Storage does not support CSV readability for addressbook data.
+            if (!FileUtil.isValidCsvFile(filePath)) {
+                assertEquals(model.getAddressBook(), new AddressBook(storage.readAddressBook(filePath).get()));
+            }
+        } catch (CommandException | DataConversionException | IOException | JAXBException e) {
+            throw new AssertionError("Export Command is not working as expected.", e);
+        }
+    }
+
+    /**
+     * Asserts that {@code command} is executed, but<br>
+     *     - the correct CommandException is thrown<br>
+     */
+    public void assertCommandFailure(ExportCommand command, String expectedMessage, String filePath) {
+        try {
+            command.execute();
+            fail("The expected CommandException was not thrown.");
+        } catch (CommandException e) {
+            assertEquals(expectedMessage, e.getMessage());
+            assertFalse((new File(filePath)).exists());
+        }
+    }
+
+}
+```
 ###### \java\seedu\address\logic\commands\FindEventCommandTest.java
 ``` java
 
@@ -335,8 +501,8 @@ public class FindEventCommandTest {
     @Test
     public void execute_multipleKeywords_multiplePersonsFound() {
         String expectedMessage = String.format(MESSAGE_EVENTS_LISTED_OVERVIEW, 3);
-        FindEventCommand command = prepareCommand("Spectra Deepavali Henna");
-        assertCommandSuccess(command, expectedMessage, Arrays.asList(SPECTRA, DEEPAVALI, HENNA));
+        FindEventCommand command = prepareCommand("CNY Christmas Movie");
+        assertCommandSuccess(command, expectedMessage, Arrays.asList(CNY, CHRISTMAS, MOVIE));
     }
 
     /**
@@ -499,7 +665,7 @@ public class EventBookTest {
     @Test
     public void resetData_withDuplicateEvents_throwsAssertionError() {
         // Repeated events should throw AssertionError
-        List<Event> newEvents = Arrays.asList(new Event(SPECTRA), new Event(SPECTRA));
+        List<Event> newEvents = Arrays.asList(new Event(CNY), new Event(CNY));
         EventBookStub newData = new EventBookStub(newEvents);
 
         thrown.expect(AssertionError.class);
@@ -567,6 +733,51 @@ public class EventBookTest {
         public ObservableList<ReadOnlyEvent> getEventList() {
             return events;
         }
+    }
+}
+```
+###### \java\seedu\address\testutil\TypicalEvents.java
+``` java
+
+/**
+ * A utility class containing a list of {@code Event} objects to be used in tests.
+ */
+public class TypicalEvents {
+
+    public static final ReadOnlyEvent CNY = new EventBuilder().withTitle("CNY")
+            .withDescription("CNY Celebration at FOS").withLocation("NUS S16 Level 3")
+            .withDatetime("15-02-2018 1000").build();
+    public static final ReadOnlyEvent CHRISTMAS = new EventBuilder().withTitle("Christmas")
+            .withDescription("Christmas Party at SOC").withLocation("NUS COM1")
+            .withDatetime("24-12-2018 1830").build();
+    public static final ReadOnlyEvent MOVIE = new EventBuilder().withTitle("Movie Outing")
+            .withDescription("Black Panther Movie").withLocation("Suntec GV")
+            .withDatetime("21-04-2018 1500").build();
+    public static final ReadOnlyEvent REUNION = new EventBuilder().withTitle("Class Reunion")
+            .withDescription("With Secondary School Classmates").withLocation("Samantha's House")
+            .withDatetime("06-05-2018 1730").build();
+
+    private TypicalEvents() {
+        // prevents instantiation
+    }
+
+    /**
+     * Returns an {@code EventBook} with all the typical events.
+     */
+    public static EventBook getTypicalEventBook() {
+        EventBook eb = new EventBook();
+        for (ReadOnlyEvent event : getTypicalEvents()) {
+            try {
+                eb.addEvent(event);
+            } catch (CommandException e) {
+                assert false : "Invalid Command";
+            }
+        }
+        return eb;
+    }
+
+    public static List<ReadOnlyEvent> getTypicalEvents() {
+        return new ArrayList<>(Arrays.asList(CNY, CHRISTMAS, MOVIE, REUNION));
     }
 }
 ```

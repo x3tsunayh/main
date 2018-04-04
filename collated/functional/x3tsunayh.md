@@ -1,4 +1,49 @@
 # x3tsunayh
+###### \java\seedu\address\commons\events\model\EventBookChangedEvent.java
+``` java
+
+/**
+ * Indicates the EventBook in the model has changed
+ */
+public class EventBookChangedEvent extends BaseEvent {
+
+    public final ReadOnlyEventBook data;
+
+    public EventBookChangedEvent(ReadOnlyEventBook data) {
+        this.data = data;
+    }
+
+    @Override
+    public String toString() {
+        return "number of events " + data.getEventList().size();
+    }
+}
+```
+###### \java\seedu\address\commons\events\ui\EventPanelSelectionChangedEvent.java
+``` java
+
+/**
+ * Represents a selection change in the Event List Panel
+ */
+public class EventPanelSelectionChangedEvent extends BaseEvent {
+
+    private final EventCard newSelection;
+
+    public EventPanelSelectionChangedEvent(EventCard newSelection) {
+        this.newSelection = newSelection;
+    }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName();
+    }
+
+    public EventCard getNewSelection() {
+        return newSelection;
+    }
+
+}
+```
 ###### \java\seedu\address\commons\util\FileUtil.java
 ``` java
 
@@ -153,7 +198,6 @@ public class ExportCommand extends UndoableCommand {
     }
 
     /**
-     *
      * @param storage
      */
     @Override
@@ -188,7 +232,12 @@ public class ExportCommand extends UndoableCommand {
         return new CommandResult(String.format(MESSAGE_EXPORT_SUCCESS, filePath));
     }
 
-
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof ExportCommand // instanceof handles nulls
+                && filePath.equals(((ExportCommand) other).filePath));
+    }
 }
 
 ```
@@ -249,6 +298,60 @@ public class ListAllEventsCommand extends Command {
         model.updateFilteredEventList(PREDICATE_SHOW_ALL_EVENTS);
         return new CommandResult("All "
                 + getMessageForEventListShownSummary(model.getFilteredEventList().size()));
+    }
+}
+```
+###### \java\seedu\address\logic\commands\SwitchTabCommand.java
+``` java
+
+/**
+ * switch between the Events and Tasks list
+ */
+public class SwitchTabCommand extends Command {
+
+    public static final String COMMAND_WORD = "switchtab";
+    public static final String COMMAND_WORD_TWO = "switch";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Switches between Event and Task UI List Tab";
+    public static final String MESSAGE_SUCCESS = "Switched Tabs!";
+
+    private static final int EVENTS_TAB = 0;
+    private static final int TASKS_TAB = 1;
+
+    private final TabPane tabPane;
+
+    public SwitchTabCommand(TabPane tabPane) {
+        this.tabPane = tabPane;
+    }
+
+    @Override
+    public CommandResult execute() {
+        SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
+        int selectedIndex = selectionModel.getSelectedIndex();
+        if (selectedIndex == EVENTS_TAB) {
+            selectedIndex = TASKS_TAB;
+        } else {
+            selectedIndex = EVENTS_TAB;
+        }
+        selectionModel.select(selectedIndex);
+        return new CommandResult(MESSAGE_SUCCESS);
+    }
+}
+```
+###### \java\seedu\address\logic\LogicManager.java
+``` java
+    @Override
+    public void setCalendarView(CalendarView calendarView) {
+        this.calendarViewStateParser = new CalendarViewStateParser(this.userPrefs, this.model, calendarView);
+    }
+
+    @Override
+    public ObservableList<ReadOnlyEvent> getFilteredEventList() {
+        return model.getFilteredEventList();
+    }
+
+    @Override
+    public void setTabPane(TabPane tabPane) {
+        addressBookParser.setTabPane(tabPane);
     }
 }
 ```
@@ -350,6 +453,14 @@ public class CalendarViewStateParser {
         }
     }
 }
+```
+###### \java\seedu\address\logic\parser\CliSyntax.java
+``` java
+    public static final Prefix PREFIX_EVENT_TITLE = new Prefix("et/");
+    public static final Prefix PREFIX_EVENT_DESCRIPTION = new Prefix("ed/");
+    public static final Prefix PREFIX_EVENT_LOCATION = new Prefix("el/");
+    public static final Prefix PREFIX_EVENT_DATETIME = new Prefix("edt/");
+
 ```
 ###### \java\seedu\address\logic\parser\DeleteEventCommandParser.java
 ``` java
@@ -941,6 +1052,162 @@ public class UniqueEventList implements Iterable<Event> {
     }
 }
 ```
+###### \java\seedu\address\model\EventBook.java
+``` java
+
+/**
+ * Wraps all data at the event-book level
+ * Duplicates are not allowed (by .equals comparison)
+ */
+public class EventBook implements ReadOnlyEventBook {
+
+    private final UniqueEventList events;
+
+    /*
+     * The 'unusual' code block below is an non-static initialization block, sometimes used to avoid duplication
+     * between constructors. See https://docs.oracle.com/javase/tutorial/java/javaOO/initial.html
+     *
+     * Note that non-static init blocks are not recommended to use. There are other ways to avoid duplication
+     *   among constructors.
+     */
+    {
+        events = new UniqueEventList();
+    }
+
+    public EventBook() {
+    }
+
+    /**
+     * Creates an EventBook using the Events in the {@code toBeCopied}
+     */
+    public EventBook(ReadOnlyEventBook toBeCopied) {
+        this();
+        resetData(toBeCopied);
+    }
+
+    //// list overwrite operations
+
+    public void setEvents(List<? extends ReadOnlyEvent> events) throws CommandException {
+        this.events.setEvents(events);
+    }
+
+    /**
+     * Resets the existing data of this {@code EventBook} with {@code newData}.
+     */
+    public void resetData(ReadOnlyEventBook newData) {
+        requireNonNull(newData);
+        try {
+            setEvents(newData.getEventList());
+        } catch (CommandException e) {
+            assert false : "EventBooks should not have duplicate events";
+        }
+    }
+
+    /**
+     * Adds an event to the event book.
+     *
+     * @throws CommandException if an equivalent event already exists.
+     */
+    public void addEvent(ReadOnlyEvent e) throws CommandException {
+        Event newEvent = new Event(e);
+        events.add(newEvent);
+    }
+
+    /**
+     * Replaces the given event {@code target} in the list with {@code editedReadOnlyEvent}.
+     *
+     */
+    public void updateEvent(ReadOnlyEvent target, ReadOnlyEvent editedReadOnlyEvent)
+            throws CommandException {
+        requireNonNull(editedReadOnlyEvent);
+
+        Event editedPerson = new Event(editedReadOnlyEvent);
+        events.setEvent(target, editedPerson);
+    }
+
+    /**
+     * Removes {@code key} from this {@code EventBook}.
+     */
+    public boolean removeEvent(ReadOnlyEvent key) throws CommandException {
+        if (events.remove(key)) {
+            return true;
+        } else {
+            throw new CommandException("");
+        }
+    }
+
+    /**
+     * Order list of all events in the event Book based on the parameter.
+     */
+    public void orderList(String parameter) throws CommandException {
+        events.orderBy(parameter);
+    }
+
+    //// util methods
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(events);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof EventBook // instanceof handles nulls
+                && this.events.equals(((EventBook) other).events));
+    }
+
+    @Override
+    public String toString() {
+        return events.asObservableList().size() + " events";
+    }
+
+    @Override
+    public ObjectProperty<String> titleProperty() {
+        return null;
+    }
+
+    @Override
+    public String getTitle() {
+        return null;
+    }
+
+    @Override
+    public ObjectProperty<String> descriptionProperty() {
+        return null;
+    }
+
+    @Override
+    public String getDescription() {
+        return null;
+    }
+
+    @Override
+    public ObjectProperty<String> locationProperty() {
+        return null;
+    }
+
+    @Override
+    public String getLocation() {
+        return null;
+    }
+
+    @Override
+    public ObjectProperty<String> datetimeProperty() {
+        return null;
+    }
+
+    @Override
+    public String getDatetime() {
+        return null;
+    }
+
+    @Override
+    public ObservableList<ReadOnlyEvent> getEventList() {
+        return events.asObservableList();
+    }
+}
+```
 ###### \java\seedu\address\storage\CsvFileStorage.java
 ``` java
 
@@ -983,6 +1250,401 @@ public class CsvFileStorage {
         pw.close();
     }
 
+}
+```
+###### \java\seedu\address\storage\EventBookStorage.java
+``` java
+
+/**
+ * Represents a storage for {@link seedu.address.model.EventBook}.
+ */
+public interface EventBookStorage {
+
+    /**
+     * Returns the file path of the data file.
+     */
+    String getEventBookFilePath();
+
+    /**
+     * Returns AddressBook data as a {@link ReadOnlyEventBook}.
+     * Returns {@code Optional.empty()} if storage file is not found.
+     *
+     * @throws DataConversionException if the data in storage is not in the expected format.
+     * @throws IOException             if there was any problem when reading from the storage.
+     */
+    Optional<ReadOnlyEventBook> readEventBook() throws DataConversionException, IOException, JAXBException;
+
+    /**
+     * @see #getEventBookFilePath()
+     */
+    Optional<ReadOnlyEventBook> readEventBook(String filePath)
+            throws DataConversionException, IOException, JAXBException;
+
+    /**
+     * Saves the given {@link ReadOnlyEventBook} to the storage.
+     *
+     * @param eventBook cannot be null.
+     * @throws IOException if there was any problem writing to the file.
+     */
+    void saveEventBook(ReadOnlyEventBook eventBook) throws IOException;
+
+    /**
+     * @see #saveEventBook(ReadOnlyEventBook)
+     */
+    void saveEventBook(ReadOnlyEventBook eventBook, String filePath) throws IOException;
+
+    /**
+     * @see #saveEventBook(ReadOnlyEventBook)
+     */
+    void backupEventBook(ReadOnlyEventBook eventBook) throws IOException;
+
+    /**
+     * @see #exportEventBook()
+     */
+    void exportEventBook() throws ParserConfigurationException, IOException, TransformerException;
+
+}
+```
+###### \java\seedu\address\storage\XmlEventBookStorage.java
+``` java
+
+/**
+ * A class to access TunedIn EventBook data stored as an xml file on the hard disk.
+ */
+public class XmlEventBookStorage implements EventBookStorage {
+
+    private static final Logger logger = LogsCenter.getLogger(XmlEventBookStorage.class);
+
+    private String filePath;
+    private String exportedPath;
+    private String header;
+
+
+    public XmlEventBookStorage(String filePath) {
+        this.filePath = filePath;
+    }
+
+    @Override
+    public String getEventBookFilePath() {
+        return filePath;
+    }
+
+    @Override
+    public Optional<ReadOnlyEventBook> readEventBook() throws IOException, JAXBException, DataConversionException {
+        return readEventBook(filePath);
+    }
+
+    @Override
+    public Optional<ReadOnlyEventBook> readEventBook(String filePath) throws DataConversionException,
+            FileNotFoundException, JAXBException {
+        requireNonNull(filePath);
+
+        File eventBookFile = new File(filePath);
+
+        if (!eventBookFile.exists()) {
+            logger.info("EventBook file " + eventBookFile + " not found");
+            return Optional.empty();
+        }
+
+        ReadOnlyEventBook eventBookOptional = XmlFileStorage.loadEventDataFromSaveFile(new File(filePath));
+
+        return Optional.of(eventBookOptional);
+    }
+
+    @Override
+    public void saveEventBook(ReadOnlyEventBook eventBook) throws IOException {
+        saveEventBook(eventBook, filePath);
+    }
+
+    @Override
+    public void saveEventBook(ReadOnlyEventBook eventBook, String filePath) throws IOException {
+        requireNonNull(eventBook);
+        requireNonNull(filePath);
+
+        File file = new File(filePath);
+        FileUtil.createIfMissing(file);
+        XmlFileStorage.saveDataToFile(file, new XmlSerializableEventBook(eventBook));
+    }
+
+    @Override
+    public void backupEventBook(ReadOnlyEventBook eventBook) throws IOException {
+        saveEventBook(eventBook, filePath + "-backup");
+    }
+
+    @Override
+    public void exportEventBook() throws ParserConfigurationException, IOException {
+        //TODO
+    }
+}
+```
+###### \java\seedu\address\ui\CalendarView.java
+``` java
+
+/**
+ * WORK IN PROGRESS FOR EVENTS AND LOGGING
+ */
+public class CalendarView {
+    private ArrayList<AnchorPaneNode> calendarMonth = new ArrayList<>(35);
+    private VBox view;
+    private Text calendarTitle;
+    private YearMonth currentYearMonth;
+    private ObservableList<ReadOnlyEvent> eventList;
+    private Logic logic;
+    private final Logger logger = LogsCenter.getLogger(CommandBox.class);
+
+    /**
+     * Provides layout for the calendar month with anchor panes.
+     */
+    public CalendarView(Logic logic, ObservableList<ReadOnlyEvent> eventList, YearMonth yearMonth) {
+        this.logic = logic;
+        this.eventList = eventList;
+        currentYearMonth = yearMonth;
+
+        // Creates the calendar grid pane
+        GridPane calendar = new GridPane();
+        calendar.setPrefSize(450, 300);
+
+        // Create rows and columns of anchor panes for calendar
+        calendarMonthSetup(calendar);
+
+        // Days of the Week
+        Text[] days = new Text[]{new Text("SUNDAY"), new Text("MONDAY"), new Text("TUESDAY"),
+            new Text("WEDNESDAY"), new Text("THURSDAY"), new Text("FRIDAY"), new Text("SATURDAY")};
+        GridPane dayLabels = new GridPane();
+        dayLabels.setPrefWidth(450);
+        Integer col = 0;
+
+        for (Text day : days) {
+            day.setFill(Color.WHITE);
+            day.setFont(new Font("Serif", 13));
+            AnchorPane ap = new AnchorPane();
+            ap.setPrefSize(200, 10);
+            AnchorPane.setBottomAnchor(day, 5.0);
+            ap.getChildren().add(day);
+            dayLabels.add(ap, col++, 0);
+        }
+
+        // Creates a title for the calendar
+        calendarTitle = new Text();
+        calendarTitle.setFill(Color.WHITE);
+
+        // Buttons to navigate through months
+        Button previousMonth = new Button("< Previous");
+        previousMonth.setOnAction(e -> previousMonth());
+        Button nextMonth = new Button("Next >");
+        nextMonth.setOnAction(e -> nextMonth());
+        HBox titleBar = new HBox(previousMonth, calendarTitle, nextMonth);
+        HBox.setMargin(calendarTitle, new Insets(0, 20, 0, 20));
+        titleBar.setAlignment(Pos.BASELINE_CENTER);
+
+        // Populate calendar with the appropriate day numbers
+        populateCalendar(yearMonth, null);
+
+        // Creates the calendar view
+        view = new VBox(titleBar, dayLabels, calendar);
+        VBox.setMargin(titleBar, new Insets(0, 0, 15, 0));
+
+    }
+
+    /**
+     * WORK IN PROGRESS FOR EVENTS
+     */
+    public void populateCalendar(YearMonth yearMonth, Index targetIndex) {
+        // Gets the current date as reference
+        LocalDate calendarDate = LocalDate.of(yearMonth.getYear(), yearMonth.getMonthValue(), 1);
+
+        // Sets first day to be a Sunday
+        while (!calendarDate.getDayOfWeek().toString().equals("SUNDAY")) {
+            calendarDate = calendarDate.minusDays(1);
+        }
+
+        // Fills up calendar with day numbers
+        for (AnchorPaneNode ap : calendarMonth) {
+            if (ap.getChildren().size() != 0) {
+                ap.getChildren().remove(0);
+            }
+
+            String dayValue = String.valueOf(calendarDate.getDayOfMonth());
+            String monthValue = String.valueOf(calendarDate.getMonthValue());
+            String yearValue = String.valueOf(calendarDate.getYear());
+
+            boolean eventExist = false;
+
+            if (targetIndex == null) {
+                eventExist = eventList.stream()
+                        .anyMatch(e -> checkEventDay(e, dayValue)
+                                && checkEventMonth(e, monthValue)
+                                && checkEventYear(e, yearValue));
+            } else {
+                ReadOnlyEvent e = eventList.get(targetIndex.getZeroBased());
+
+                if (checkEventDay(e, dayValue)
+                        && checkEventMonth(e, monthValue)
+                        && checkEventYear(e, yearValue)) {
+                    eventExist = true;
+                }
+            }
+
+            Text dateNumber = new Text(String.valueOf(calendarDate.getDayOfMonth()));
+            // Days from a different month shows up as a different colour
+            if (calendarDate.getMonthValue() != yearMonth.getMonthValue()) {
+                dateNumber.setFill(Color.DARKGREY);
+            } else {
+                dateNumber.setFill(Color.WHITE);
+            }
+            ap.setDate(calendarDate);
+            ap.setTopAnchor(dateNumber, 5.0);
+            ap.setLeftAnchor(dateNumber, 5.0);
+
+            if (eventExist) {
+                ap.setOnMouseClicked(ev -> {
+                    String commandText = FindEventCommand.getCommandWord()
+                            + " " + PREFIX_EVENT_DATETIME + getFormatDate(dayValue, monthValue, yearValue);
+                    try {
+                        CommandResult commandResult = logic.execute(commandText);
+                        logger.info("Command Result: " + commandResult.feedbackToUser);
+
+                    } catch (CommandException | IllegalValueException e) {
+                        logger.info("Invalid Command: " + commandText);
+                    }
+                });
+                ap.setStyle("-fx-background-color: #2e5577;");
+            } else {
+                ap.setStyle("-fx-background-color: #3d719d;");
+            }
+
+            ap.getChildren().add(dateNumber);
+            calendarDate = calendarDate.plusDays(1);
+        }
+
+        // Change the title of the calendar
+        calendarTitle.setText(yearMonth.getMonth().toString() + " " + String.valueOf(yearMonth.getYear()));
+    }
+
+    /**
+     * Provides layout for the calendar month with anchor panes.
+     */
+    private void calendarMonthSetup(GridPane calendar) {
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 7; j++) {
+                AnchorPaneNode ap = new AnchorPaneNode();
+                ap.getStyleClass().add("anchor");
+                ap.setPrefSize(100, 100);
+                calendar.add(ap, j, i);
+                calendarMonth.add(ap);
+            }
+        }
+    }
+
+    private void previousMonth() {
+        currentYearMonth = currentYearMonth.minusMonths(1);
+        populateCalendar(currentYearMonth, null);
+    }
+
+    private void nextMonth() {
+        currentYearMonth = currentYearMonth.plusMonths(1);
+        populateCalendar(currentYearMonth, null);
+    }
+
+    public YearMonth getCurrentYearMonth() {
+        return currentYearMonth;
+    }
+
+    public void setCurrentYearMonth(YearMonth currentYearMonth) {
+        this.currentYearMonth = currentYearMonth;
+    }
+
+    public VBox getView() {
+        return view;
+    }
+
+    public ArrayList<AnchorPaneNode> getAllCalendarDays() {
+        return calendarMonth;
+    }
+
+    public void setAllCalendarDays(ArrayList<AnchorPaneNode> allCalendarDays) {
+        this.calendarMonth = allCalendarDays;
+    }
+
+    /**
+     * Check whether the event Day matches the input dayValue
+     * @param event
+     * @param dayValue
+     * @return
+     */
+    private boolean checkEventDay(ReadOnlyEvent event, String dayValue) {
+        if (dayValue.length() == 1) {
+            return event.getDatetime().value.substring(0, 2).equals("0" + dayValue);
+        } else {
+            return event.getDatetime().value.substring(0, 2).equals(dayValue);
+        }
+    }
+
+    /**
+     * Check whether the event Day matches the input monthValue
+     * @param event
+     * @param monthValue
+     * @return
+     */
+    private boolean checkEventMonth(ReadOnlyEvent event, String monthValue) {
+        if (monthValue.length() == 1) {
+            return event.getDatetime().value.substring(3, 5).equals("0" + monthValue);
+        } else {
+            return event.getDatetime().value.substring(3, 5).equals(monthValue);
+        }
+    }
+
+    /**
+     * Check whether the event Day matches the input yearValue
+     * @param event
+     * @param yearValue
+     * @return
+     */
+    private boolean checkEventYear(ReadOnlyEvent event, String yearValue) {
+        return event.getDatetime().value.substring(6, 10).equals(yearValue);
+    }
+
+    private String getFormatDate(String day, String month, String year) {
+        if (day.length() == 1) {
+            day = "0" + day;
+        }
+        if (month.length() == 1) {
+            month = "0" + month;
+        }
+        return day + "-" + month + "-" + year;
+    }
+
+}
+```
+###### \java\seedu\address\ui\CalendarViewPanel.java
+``` java
+
+/**
+ * Panel containing the calendar.
+ */
+public class CalendarViewPanel extends UiPart<Region> {
+    private static final String FXML = "CalendarView.fxml";
+
+    @FXML
+    private Pane calendarPanel;
+
+    private CalendarView calendarView;
+    private Logic logic;
+
+    public CalendarViewPanel(Logic logic) {
+        super(FXML);
+        this.logic = logic;
+        setConnections();
+    }
+
+    private void setConnections() {
+        calendarView = new CalendarView(logic, logic.getFilteredEventList(), YearMonth.now());
+        calendarPanel.getChildren().add(calendarView.getView());
+    }
+
+    public CalendarView getCalendarPane() {
+        return calendarView;
+    }
 }
 ```
 ###### \java\seedu\address\ui\CalendarViewUpdate.java
@@ -1028,9 +1690,208 @@ public class CalendarViewUpdate {
     }
 }
 ```
+###### \java\seedu\address\ui\EventCard.java
+``` java
+
+/**
+ * An UI component that displays information of a {@code Event}.
+ */
+public class EventCard extends UiPart<Region> {
+
+    private static final String FXML = "EventListCard.fxml";
+
+    /**
+     * Note: Certain keywords such as "location" and "resources" are reserved keywords in JavaFX.
+     * As a consequence, UI elements' variable names cannot be set to such keywords
+     * or an exception will be thrown by JavaFX during runtime.
+     *
+     * @see <a href="https://github.com/se-edu/addressbook-level4/issues/336">The issue on AddressBook level 4</a>
+     */
+
+    public final ReadOnlyEvent event;
+
+    @FXML
+    private HBox cardPane;
+    @FXML
+    private Label title;
+    @FXML
+    private Label id;
+    @FXML
+    private Label description;
+    @FXML
+    private Label eventLocation;
+    @FXML
+    private Label datetime;
+
+    public EventCard(ReadOnlyEvent event, int displayedIndex) {
+        super(FXML);
+        id.setText(displayedIndex + ". ");
+        this.event = event;
+        bindListeners(event);
+    }
+
+    /**
+     * Binds the individual UI elements to observe their respective {@code Event} properties
+     * so that they will be notified of any changes.
+     */
+    private void bindListeners(ReadOnlyEvent event) {
+        title.textProperty().bind(Bindings.convert(event.titleProperty()));
+        description.textProperty().bind(Bindings.convert(event.descriptionProperty()));
+        eventLocation.textProperty().bind(Bindings.convert(event.locationProperty()));
+        datetime.textProperty().bind(Bindings.convert(event.datetimeProperty()));
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        // short circuit if same object
+        if (other == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(other instanceof EventCard)) {
+            return false;
+        }
+
+        // state check
+        EventCard card = (EventCard) other;
+        return id.getText().equals(card.id.getText())
+                && event.equals(card.event);
+    }
+}
+```
+###### \java\seedu\address\ui\EventListPanel.java
+``` java
+
+/**
+ * Panel containing the list of events.
+ */
+public class EventListPanel extends UiPart<Region> {
+    private static final String FXML = "EventListPanel.fxml";
+    private final Logger logger = LogsCenter.getLogger(EventListPanel.class);
+
+    @FXML
+    private ListView<EventCard> eventListView;
+
+    public EventListPanel(ObservableList<ReadOnlyEvent> eventList) {
+        super(FXML);
+        setConnections(eventList);
+        registerAsAnEventHandler(this);
+    }
+
+    private void setConnections(ObservableList<ReadOnlyEvent> eventList) {
+        ObservableList<EventCard> mappedList = EasyBind.map(
+                eventList, (event) -> new EventCard(event, eventList.indexOf(event) + 1));
+        eventListView.setItems(mappedList);
+        eventListView.setCellFactory(listView -> new EventListViewCell());
+        setEventHandlerForSelectionChangeEvent();
+    }
+
+    private void setEventHandlerForSelectionChangeEvent() {
+        eventListView.getSelectionModel().selectedItemProperty()
+                .addListener((observable, oldValue, newValue) -> {
+                    if (newValue != null) {
+                        logger.fine("Selection in person list panel changed to : '" + newValue + "'");
+                        raise(new EventPanelSelectionChangedEvent(newValue));
+                    }
+                });
+    }
+
+    /**
+     * Scrolls to the {@code PersonCard} at the {@code index} and selects it.
+     */
+    private void scrollTo(int index) {
+        Platform.runLater(() -> {
+            eventListView.scrollTo(index);
+            eventListView.getSelectionModel().clearAndSelect(index);
+        });
+    }
+
+    @Subscribe
+    private void handleJumpToListRequestEvent(JumpToListRequestEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        scrollTo(event.targetIndex);
+    }
+
+    /**
+     * Custom {@code ListCell} that displays the graphics of a {@code EventCard}.
+     */
+    class EventListViewCell extends ListCell<EventCard> {
+
+        @Override
+        protected void updateItem(EventCard event, boolean empty) {
+            super.updateItem(event, empty);
+
+            if (empty || event == null) {
+                setGraphic(null);
+                setText(null);
+            } else {
+                setGraphic(event.getRoot());
+            }
+        }
+    }
+}
+```
+###### \java\seedu\address\ui\StackOverflowWindow.java
+``` java
+
+/**
+ * Controller for a stackoverflow page
+ */
+public class StackOverflowWindow extends UiPart<Stage> {
+
+    public static final String STACKOVERFLOW_URL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+
+    private static final Logger logger = LogsCenter.getLogger(StackOverflowWindow.class);
+    private static final String FXML = "StackOverflowWindow.fxml";
+
+    @FXML
+    private WebView browser;
+
+    /**
+     * Creates a new StackOverflowWindow.
+     *
+     * @param root Stage to use as the root of the StackOverflowWindow.
+     */
+    public StackOverflowWindow(Stage root) {
+        super(FXML, root);
+        browser.getEngine().load(STACKOVERFLOW_URL);
+    }
+
+    /**
+     * Creates a new StackOverflowWindow.
+     */
+    public StackOverflowWindow() {
+        this(new Stage());
+    }
+
+    /**
+     * Shows the stackoverflow window.
+     * @throws IllegalStateException
+     * <ul>
+     *     <li>
+     *         if this method is called on a thread other than the JavaFX Application Thread.
+     *     </li>
+     *     <li>
+     *         if this method is called during animation or layout processing.
+     *     </li>
+     *     <li>
+     *         if this method is called on the primary stage.
+     *     </li>
+     *     <li>
+     *         if {@code dialogStage} is already showing.
+     *     </li>
+     * </ul>
+     */
+    public void show() {
+        logger.fine("Showing the stackoverflow page.");
+        getRoot().show();
+    }
+}
+```
 ###### \resources\view\MainWindow.fxml
 ``` fxml
-          <VBox fx:id="eventTaskView" minWidth="400" prefWidth="400" SplitPane.resizableWithParent="false">
+          <VBox fx:id="eventTaskView" minWidth="380" prefWidth="380" SplitPane.resizableWithParent="false">
             <padding>
               <Insets top="10" right="10" bottom="10" left="10"/>
             </padding>

@@ -90,6 +90,153 @@ public class AddPictureCommandTest {
     }
 }
 ```
+###### \java\seedu\address\logic\commands\AddTagCommandTest.java
+``` java
+/**
+ * Contains integration tests (interaction with the Model) and unit tests for AddTagCommand.
+ */
+public class AddTagCommandTest {
+
+    private static final String VALID_TAG_1 = "NUS";
+    private static final String VALID_TAG_2 = "CS2103";
+    private static final ArrayList<String> toAdd = new ArrayList<String>(Arrays.asList(VALID_TAG_1, VALID_TAG_2));
+
+    private Model model = new ModelManager(TypicalAddressBook.getTypicalAddressBook(), getTypicalEventBook(),
+            new UserPrefs());
+
+    @Test
+    public void execute_unfilteredList_success() throws Exception {
+        Index indexLastPerson = Index.fromOneBased(model.getFilteredPersonList().size());
+        Person lastPerson = model.getFilteredPersonList().get(indexLastPerson.getZeroBased());
+
+        Person editedPerson = new Person(lastPerson);
+
+        Set<Tag> tags = ParserUtil.parseTags(toAdd);
+        editedPerson.addTags(tags);
+
+        AddTagCommand addTagCommand = prepareCommand(indexLastPerson, tags);
+
+        String expectedMessage = String.format(AddTagCommand.MESSAGE_ADD_TAG_PERSON_SUCCESS, editedPerson);
+
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
+                new EventBook(model.getEventBook()), new UserPrefs());
+        expectedModel.updatePerson(lastPerson, editedPerson);
+
+        assertCommandSuccess(addTagCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_filteredList_success() throws Exception {
+
+        showPersonAtIndex(model, INDEX_FIRST_PERSON);
+
+        Person personInFilteredList = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Person editedPerson = new Person(personInFilteredList);
+
+        Set<Tag> tags = ParserUtil.parseTags(toAdd);
+        AddTagCommand addTagCommand = prepareCommand(INDEX_FIRST_PERSON, tags);
+        editedPerson.addTags(tags);
+
+        String expectedMessage = String.format(AddTagCommand.MESSAGE_ADD_TAG_PERSON_SUCCESS, editedPerson);
+
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
+                new EventBook(model.getEventBook()), new UserPrefs());
+        expectedModel.updatePerson(model.getFilteredPersonList().get(0), editedPerson);
+
+        assertCommandSuccess(addTagCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_duplicateTagUnfilteredList_failure() throws Exception {
+
+        Person firstPerson = new Person(model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased()));
+
+        AddTagCommand addTagCommand = prepareCommand(INDEX_FIRST_PERSON, firstPerson.getTags());
+
+        assertCommandFailure(addTagCommand, model, AddTagCommand.MESSAGE_TAGS_MUST_NOT_EXIST);
+    }
+
+    @Test
+    public void execute_duplicateTagFilteredList_failure() throws Exception {
+
+        showPersonAtIndex(model, INDEX_FIRST_PERSON);
+
+        Person personInList = model.getAddressBook().getPersonList().get(INDEX_SECOND_PERSON.getZeroBased());
+
+        AddTagCommand addTagCommand = prepareCommand(INDEX_FIRST_PERSON, personInList.getTags());
+
+        assertCommandFailure(addTagCommand, model, AddTagCommand.MESSAGE_TAGS_MUST_NOT_EXIST);
+    }
+
+    @Test
+    public void execute_invalidPersonIndexUnfilteredList_failure() throws Exception {
+        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
+
+        Set<Tag> tags = ParserUtil.parseTags(toAdd);
+        AddTagCommand addTagCommand = prepareCommand(outOfBoundIndex, tags);
+
+        assertCommandFailure(addTagCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+    }
+
+    /**
+     * Edit filtered list where index is larger than size of filtered list,
+     * but smaller than size of address book
+     */
+    @Test
+    public void execute_invalidPersonIndexFilteredList_failure() throws Exception {
+
+        showPersonAtIndex(model, INDEX_FIRST_PERSON);
+
+        Index outOfBoundIndex = INDEX_SECOND_PERSON;
+
+        // ensures that outOfBoundIndex is still in bounds of address book list
+        assertTrue(outOfBoundIndex.getZeroBased() < model.getAddressBook().getPersonList().size());
+
+        Set<Tag> tags = ParserUtil.parseTags(toAdd);
+        AddTagCommand addTagCommand = prepareCommand(outOfBoundIndex, tags);
+        assertCommandFailure(addTagCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+    }
+
+    @Test
+    public void equals() throws Exception {
+
+        Set<Tag> tags = ParserUtil.parseTags(toAdd);
+        Set<Tag> moreTags = ParserUtil.parseTags(Arrays.asList("qwerty", "uiop"));
+
+        final AddTagCommand standardCommand = new AddTagCommand(INDEX_FIRST_PERSON, tags);
+
+        // same values -> returns true
+        Set<Tag> copyTags = tags;
+        AddTagCommand commandWithSameValues = new AddTagCommand(INDEX_FIRST_PERSON, copyTags);
+        assertTrue(standardCommand.equals(commandWithSameValues));
+
+        // same object -> returns true
+        assertTrue(standardCommand.equals(standardCommand));
+
+        // null -> returns false
+        assertFalse(standardCommand.equals(null));
+
+        // different types -> returns false
+        assertFalse(standardCommand.equals(new ClearCommand()));
+
+        // different index -> returns false
+        assertFalse(standardCommand.equals(new AddTagCommand(INDEX_SECOND_PERSON, tags)));
+
+        // different tags -> returns false
+        assertFalse(standardCommand.equals(new AddTagCommand(INDEX_FIRST_PERSON, moreTags)));
+    }
+
+    /**
+     * Returns an {@code AddTagCommand} with parameters {@code index} and {@code tags}
+     */
+    private AddTagCommand prepareCommand(Index index, Set<Tag> tags) {
+        AddTagCommand addTagCommand = new AddTagCommand(index, tags);
+        addTagCommand.setData(model, new CommandHistory(), new UndoRedoStack());
+        return addTagCommand;
+    }
+
+}
+```
 ###### \java\seedu\address\logic\commands\DeleteByNameCommandTest.java
 ``` java
 public class DeleteByNameCommandTest {
@@ -271,6 +418,57 @@ public class AddPictureCommandParserTest {
         assertParseFailure(parser, userInput, MESSAGE_INVALID_FORMAT);
     }
 
+}
+```
+###### \java\seedu\address\logic\parser\AddTagCommandParserTest.java
+``` java
+public class AddTagCommandParserTest {
+
+    private static final String VALID_TAG_1 = "NUS";
+    private static final String VALID_TAG_2 = "CS2103";
+    private static final ArrayList<String> toAdd = new ArrayList<String>(Arrays.asList(VALID_TAG_1, VALID_TAG_2));
+
+    public static final String TAG_DESC_CS2103 = " " + PREFIX_TAG + VALID_TAG_1;
+    public static final String TAG_DESC_NUS = " " + PREFIX_TAG + VALID_TAG_2;
+
+    private static final String MESSAGE_INVALID_FORMAT =
+            String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddTagCommand.MESSAGE_USAGE);
+
+    private AddTagCommandParser parser = new AddTagCommandParser();
+
+    @Test
+    public void parse_missingParts_failure() {
+        // no index specified
+        assertParseFailure(parser, VALID_TAG_1, MESSAGE_INVALID_FORMAT);
+
+        // no field specified
+        assertParseFailure(parser, "1", MESSAGE_INVALID_FORMAT);
+
+        // no index and no field specified
+        assertParseFailure(parser, "", MESSAGE_INVALID_FORMAT);
+    }
+
+    @Test
+    public void parse_invalidIndex_failure() {
+        // negative index
+        assertParseFailure(parser, "-5" + VALID_TAG_1, MESSAGE_INVALID_FORMAT);
+
+        // zero index
+        assertParseFailure(parser, "0" + VALID_TAG_2, MESSAGE_INVALID_FORMAT);
+    }
+
+    @Test
+    public void parse_invalidValue_failure() {
+        assertParseFailure(parser, "1" + INVALID_TAG_DESC, Tag.MESSAGE_TAG_CONSTRAINTS); //invalid tag
+        assertParseFailure(parser, "1" + INVALID_TAG_DESC + VALID_TAG_1, Tag.MESSAGE_TAG_CONSTRAINTS); //invalid tag
+    }
+
+    @Test
+    public void parse_validValue_success() throws Exception {
+        Set<Tag> tags = ParserUtil.parseTags(toAdd);
+        AddTagCommand expectedCommand = new AddTagCommand(INDEX_FIRST_PERSON, tags);
+        assertParseSuccess(parser, "1 " + TAG_DESC_NUS + " " + TAG_DESC_CS2103, expectedCommand);
+    }
 }
 ```
 ###### \java\seedu\address\logic\parser\DeleteByNameCommandParserTest.java

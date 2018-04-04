@@ -364,6 +364,58 @@ Returns `MYR 2.96 ` +
 Get the rate of MYR given one unit of SGD
 // end::ConvertCurrency[]
 
+=== Adding an event: `addevent` `[since v1.3]`
+
+Adds an event into event book. +
+Format: `et/NAME ed/DESCRIPTION el/LOCATION edt/DATETIME`
+
+****
+* Adds an event if all fields have correct inputs.
+* If there is an empty field, event is not added.
+* If datetime field is detected to be incorrect, no event is added.
+****
+
+Examples:
+
+* `addevent et/Christmas Party ed/Celebrating Christmas 2018 el/Samuel's House edt/25-12-2018 1830` +
+Creates an event with the corresponding details and adds it into the event book; displays it on event list.
+
+=== Deleting an event: `deleteevent` `[since v1.3]`
+
+Deletes an event in the event book. +
+Format: `deleteevent INDEX`
+
+****
+* Deletes an event if given index is valid.
+* Does not delete event is given index is invalid.
+****
+
+Examples:
+
+* `deleteevent 2` +
+Deletes the second event on the displayed event list.
+
+// tag::FindEvent[]
+=== Finding an event: `findevent` `[since v1.4]`
+
+Shows a list of all events matching the given keywords. +
+Format: `findevent et/KEYWORD [MORE_KEYWORDS]... for title OR ed/KEYWORD [MORE_KEYWORDS]... for description`
+// end::FindEvent[]
+
+// tag::ListAllEvents[]
+=== Listing all events: `task-list` `[since v1.4]`
+
+Shows a list of all events in the address book. +
+Format: `listallevents`
+// end::ListAllEvents[]
+
+// tag::SwitchTab[]
+=== Switches between list tabs: `switchtab` `[since v1.4]`
+
+Switches between the Events and Tasks list tabs. +
+Format: `switchtab`
+// end::SwitchTab[]
+
 // tag::AddTask[]
 === Adding a task: `task-add` `[since v1.3]`
 
@@ -460,37 +512,6 @@ and list them. +
 Format: `task-sort`
 // end::SortTask[]
 
-=== Adding an event: `addevent`
-
-Adds an event into event book. +
-Format: `et/NAME ed/DESCRIPTION el/LOCATION edt/DATETIME`
-
-****
-* Adds an event if all fields have correct inputs.
-* If there is an empty field, event is not added.
-* If datetime field is detected to be incorrect, no event is added.
-****
-
-Examples:
-
-* `addevent et/Christmas Party ed/Celebrating Christmas 2018 el/Samuel's House edt/25-12-2018 1830` +
-Creates an event with the corresponding details and adds it into the event book; displays it on event list.
-
-=== Deleting an event: `deleteevent`
-
-Deletes an event in the event book. +
-Format: `deleteevent INDEX`
-
-****
-* Deletes an event if given index is valid.
-* Does not delete event is given index is invalid.
-****
-
-Examples:
-
-* `deleteevent 2` +
-Deletes the second event on the displayed event list.
-
 // tag::dataencryption[]
 === Encrypting data files `[coming in v2.0]`
 
@@ -537,13 +558,6 @@ Examples:
 Returns any person having phone `98203910` or `98203950`
 // end::FindByTag[]
 
-
-// tag::CalendarView[]
-=== Calendar view feature to check summarised schedule for the month `[coming in v2.0]`
-
-_{explain how the user can use the calendar}_
-// end::CalendarView[]
-
 == FAQ
 
 *Q*: How do I transfer my data to another Computer? +
@@ -553,7 +567,7 @@ _{explain how the user can use the calendar}_
 
 * *Add a person* : `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...` +
 e.g. `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
-* *Clear* : `clear`
+* *Clear contacts list* : `clear`
 * *Delete a person* : `delete INDEX` +
 e.g. `delete 3`
 * *Delete a person by name* : `deletebyname NAME` +
@@ -562,8 +576,8 @@ e.g. `delete John Appleseed`
 e.g. `edit 2 n/James Lee e/jameslee@example.com`
 * *Find a person* : `find KEYWORD [MORE_KEYWORDS]` +
 e.g. `find James Jake`
-* *Export* : `export FILEPATH` +
-e.g. `exports data into XML file in user-defined filepath`
+* *Export contacts list into XML or CSV file* : `export FILEPATH` +
+e.g. `export C:\Users\John Doe\Documents\addressbook.xml`
 * *Convert* : `convert VALUE` +
 e.g. `convert 1`
 * *List all persons* : `list`
@@ -578,8 +592,11 @@ e.g.`select 2`
 e.g. `addevent et/Christmas Party ed/Celebrating Christmas 2018 el/Samuel's House edt/25-12-2018 1830`
 * *Delete an event* : `deleteevent INDEX` +
 e.g. `deleteevent 2`
-* *Find an event* : `find KEYWORD [MORE_KEYWORDS]` +
-e.g. `find Christmas CNY Halloween`
+* *Find an event* : `find PREFIX/KEYWORD [MORE_KEYWORDS]` +
+e.g. `find et/Christmas CNY Halloween`
+* *List all events* : `listallevents`
+* *Click-to-view Events* : `Click the shaded days on the Calendar`
+* *Switch between events and tasks list* : `switchtab`
 * *Add a task* : `task-add n/NAME p/PRIORITY d/DESCRIPTION dd/DUE_DATE s/STATUS [c/CATEGORY]...` +
 e.g. `task-add n/Task 1 p/Medium d/Description for task 1 dd/2018-05-10 s/Undone`
 * *Delete a task* : `task-delete INDEX` +

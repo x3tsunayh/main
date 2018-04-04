@@ -140,6 +140,61 @@ public class TaskListPanelHandle extends NodeHandle<ListView<TaskCard>> {
 ```
 ###### \java\seedu\address\logic\commands\CommandTestUtil.java
 ``` java
+    public static final String VALID_TASK_NAME_TASKFIRST = "First task";
+    public static final String VALID_TASK_NAME_TASKSECOND = "Second task";
+    public static final String VALID_TASK_PRIORITY_TASKFIRST = "high";
+    public static final String VALID_TASK_PRIORITY_TASKSECOND = "low";
+    public static final String VALID_TASK_DESCRIPTION_TASKFIRST = "Create a new app";
+    public static final String VALID_TASK_DESCRIPTION_TASKSECOND = "Discuss outing details";
+    public static final String VALID_TASK_DUE_DATE_TASKFIRST = "2018-04-02";
+    public static final String VALID_TASK_DUE_DATE_TASKSECOND = "2018-05-10";
+    public static final String VALID_TASK_STATUS_TASKFIRST = "undone";
+    public static final String VALID_TASK_STATUS_TASKSECOND = "done";
+    public static final String VALID_TASK_CATEGORY_PERSONAL = "personal";
+    public static final String VALID_TASK_CATEGORY_WORK = "work";
+    public static final String VALID_TASK_CATEGORY_MEETING = "meeting";
+
+    public static final String TASK_NAME_DESC_TASKFIRST =
+            " " + PREFIX_TASK_NAME + VALID_TASK_NAME_TASKFIRST;
+    public static final String TASK_NAME_DESC_TASKSECOND =
+            " " + PREFIX_TASK_NAME + VALID_TASK_NAME_TASKSECOND;
+    public static final String TASK_PRIORITY_DESC_TASKFIRST =
+            " " + PREFIX_TASK_PRIORITY + VALID_TASK_PRIORITY_TASKFIRST;
+    public static final String TASK_PRIORITY_DESC_TASKSECOND =
+            " " + PREFIX_TASK_PRIORITY + VALID_TASK_PRIORITY_TASKSECOND;
+    public static final String TASK_DESCRIPTION_DESC_TASKFIRST =
+            " " + PREFIX_TASK_DESCRIPTION + VALID_TASK_DESCRIPTION_TASKFIRST;
+    public static final String TASK_DESCRIPTION_DESC_TASKSECOND =
+            " " + PREFIX_TASK_DESCRIPTION + VALID_TASK_DESCRIPTION_TASKSECOND;
+    public static final String TASK_DUE_DATE_DESC_TASKFIRST =
+            " " + PREFIX_TASK_DUE_DATE + VALID_TASK_DUE_DATE_TASKFIRST;
+    public static final String TASK_DUE_DATE_DESC_TASKSECOND =
+            " " + PREFIX_TASK_DUE_DATE + VALID_TASK_DUE_DATE_TASKSECOND;
+    public static final String TASK_STATUS_DESC_TASKFIRST =
+            " " + PREFIX_TASK_STATUS + VALID_TASK_STATUS_TASKFIRST;
+    public static final String TASK_STATUS_DESC_TASKSECOND =
+            " " + PREFIX_TASK_STATUS + VALID_TASK_STATUS_TASKSECOND;
+    public static final String TASK_CATEGORY_DESC_PERSONAL =
+            " " + PREFIX_TASK_CATEGORY + VALID_TASK_CATEGORY_PERSONAL;
+    public static final String TASK_CATEGORY_DESC_WORK =
+            " " + PREFIX_TASK_CATEGORY + VALID_TASK_CATEGORY_WORK;
+
+    public static final String INVALID_TASK_NAME_DESC = " "
+            + PREFIX_TASK_NAME + "Task*"; // '*' not allowed in taskNames
+    public static final String INVALID_TASK_PRIORITY_DESC = " "
+            + PREFIX_TASK_PRIORITY + "random"; // only 'high', 'medium', 'low' allowed in taskPriority
+    public static final String INVALID_TASK_DESCRIPTION_DESC = " "
+            + PREFIX_TASK_DESCRIPTION + ""; // empty string not allowed in taskDescription
+    public static final String INVALID_TASK_DUE_DATE_DESC = " "
+            + PREFIX_TASK_DUE_DATE + "2018 05 10"; // date without formatter not allowed in taskDueDate
+    public static final String INVALID_TASK_STATUS_DESC = " "
+            + PREFIX_TASK_STATUS + "random"; // only 'done', 'undone' allowed in taskStatus
+    public static final String INVALID_TASK_CATEGORY_DESC = " "
+            + PREFIX_TASK_CATEGORY + "meeting & work"; // '&' not allowed in taskCategory
+
+```
+###### \java\seedu\address\logic\commands\CommandTestUtil.java
+``` java
     /**
      * Updates {@code model}'s filtered list to show only the task at the given {@code targetIndex} in the
      * {@code model}'s address book.
@@ -1523,12 +1578,9 @@ public class TaskPriorityTest {
         assertFalse(TaskPriority.isValidTaskPriority("12345")); // numbers
         assertFalse(TaskPriority.isValidTaskPriority("random 123")); // alphanumeric
 
-        // valid task priority (High, Medium, Low status starting with upper or lowercase)
-        assertTrue(TaskPriority.isValidTaskPriority("High"));
+        // valid task priority (high, medium, low)
         assertTrue(TaskPriority.isValidTaskPriority("high"));
-        assertTrue(TaskPriority.isValidTaskPriority("Medium"));
         assertTrue(TaskPriority.isValidTaskPriority("medium"));
-        assertTrue(TaskPriority.isValidTaskPriority("Low"));
         assertTrue(TaskPriority.isValidTaskPriority("low"));
     }
 
@@ -1561,10 +1613,8 @@ public class TaskStatusTest {
         assertFalse(TaskStatus.isValidTaskStatus("12345")); // numbers
         assertFalse(TaskStatus.isValidTaskStatus("random 123")); // alphanumeric
 
-        // valid task status (done or undone starting with upper or lowercase)
-        assertTrue(TaskStatus.isValidTaskStatus("Done"));
+        // valid task status (done or undone)
         assertTrue(TaskStatus.isValidTaskStatus("done"));
-        assertTrue(TaskStatus.isValidTaskStatus("Undone"));
         assertTrue(TaskStatus.isValidTaskStatus("undone"));
     }
 
@@ -1808,10 +1858,10 @@ public class EditTaskDescriptorBuilder {
 public class TaskBuilder {
 
     public static final String DEFAULT_TASK_NAME = "TASK ONE";
-    public static final String DEFAULT_TASK_PRIORITY = "Medium";
+    public static final String DEFAULT_TASK_PRIORITY = "medium";
     public static final String DEFAULT_TASK_DESCRIPTION = "Sample task description";
     public static final String DEFAULT_TASK_DUE_DATE = "2018-10-10";
-    public static final String DEFAULT_TASK_STATUS = "Undone";
+    public static final String DEFAULT_TASK_STATUS = "undone";
     public static final String DEFAULT_TASK_CATEGORIES = "Work";
 
     private TaskName taskName;
@@ -1968,22 +2018,22 @@ public class TypicalAddressBook {
 public class TypicalTasks {
 
     public static final Task TASKONE = new TaskBuilder().withTaskName("TaskOne")
-            .withTaskPriority("Medium")
+            .withTaskPriority("medium")
             .withTaskDescription("Tasks to be done for task 1")
             .withTaskDueDate("2018-06-15")
-            .withTaskStatus("Undone")
+            .withTaskStatus("undone")
             .withTaskCategories("Work").build();
     public static final Task TASKTWO = new TaskBuilder().withTaskName("TaskTwo")
-            .withTaskPriority("High")
+            .withTaskPriority("high")
             .withTaskDescription("Agenda for task 2")
             .withTaskDueDate("2018-03-28")
-            .withTaskStatus("Undone")
+            .withTaskStatus("undone")
             .withTaskCategories("Personal").build();
     public static final Task TASKTHREE = new TaskBuilder().withTaskName("TaskThree")
-            .withTaskPriority("Low")
+            .withTaskPriority("low")
             .withTaskDescription("Purchase office supplies")
             .withTaskDueDate("2018-04-10")
-            .withTaskStatus("Undone")
+            .withTaskStatus("undone")
             .withTaskCategories("Work").build();
 
     // Manuall added - Task's details found in {@code CommandTestUtil}
@@ -1998,10 +2048,10 @@ public class TypicalTasks {
 
     // Manually added
     public static final Task TASKFOUR = new TaskBuilder().withTaskName("Task 4")
-            .withTaskPriority("Medium")
+            .withTaskPriority("medium")
             .withTaskDescription("Work in progress: Development and documentation")
             .withTaskDueDate("2018-05-10")
-            .withTaskStatus("Undone").build();
+            .withTaskStatus("undone").build();
 
     private TypicalTasks() {} // prevents instantiation
 
