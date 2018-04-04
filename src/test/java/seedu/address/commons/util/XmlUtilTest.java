@@ -48,10 +48,10 @@ public class XmlUtilTest {
     private static final List<XmlAdaptedTag> VALID_TAGS = Collections.singletonList(new XmlAdaptedTag("friends"));
 
     private static final String VALID_TASK_NAME = "Task 200";
-    private static final String VALID_TASK_PRIORITY = "High";
+    private static final String VALID_TASK_PRIORITY = "high";
     private static final String VALID_TASK_DESCRIPTION = "(1) Business Proposal (2) Implementation details";
     private static final String VALID_TASK_DUE_DATE = "2018-05-25";
-    private static final String VALID_TASK_STATUS = "Undone";
+    private static final String VALID_TASK_STATUS = "undone";
     private static final List<XmlAdaptedTaskCategory> VALID_TASK_CATEGORIES =
             Collections.singletonList(new XmlAdaptedTaskCategory("Work"));
 

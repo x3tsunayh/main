@@ -51,26 +51,26 @@
     <tags>owesMoney</tags>
     <tasks>
         <taskName>TaskOne</taskName>
-        <taskPriority>Medium</taskPriority>
+        <taskPriority>medium</taskPriority>
         <taskDescription>Tasks to be done for task 1</taskDescription>
         <taskDueDate>2018-06-15</taskDueDate>
-        <taskStatus>Undone</taskStatus>
+        <taskStatus>undone</taskStatus>
         <categorised>Work</categorised>
     </tasks>
     <tasks>
         <taskName>TaskTwo</taskName>
-        <taskPriority>High</taskPriority>
+        <taskPriority>high</taskPriority>
         <taskDescription>Agenda for task 2</taskDescription>
         <taskDueDate>2018-03-28</taskDueDate>
-        <taskStatus>Undone</taskStatus>
+        <taskStatus>undone</taskStatus>
         <categorised>Personal</categorised>
     </tasks>
     <tasks>
         <taskName>TaskThree</taskName>
-        <taskPriority>Low</taskPriority>
+        <taskPriority>low</taskPriority>
         <taskDescription>Purchase office supplies</taskDescription>
         <taskDueDate>2018-04-10</taskDueDate>
-        <taskStatus>Undone</taskStatus>
+        <taskStatus>undone</taskStatus>
         <categorised>Work</categorised>
     </tasks>
     <taskCategories>Work</taskCategories>

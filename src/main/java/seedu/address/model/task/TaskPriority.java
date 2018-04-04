@@ -21,14 +21,14 @@ public class TaskPriority {
             Arrays.asList(TASK_PRIORITY_HIGH, TASK_PRIORITY_MEDIUM, TASK_PRIORITY_LOW);
 
     public static final String MESSAGE_TASK_PRIORITY_CONSTRAINTS =
-            "Task priority can only be either low, medium or high";
+            "Task priority can only be either high, medium or low";
 
     /**
      * The first character of the task priority must not be a whitespace,
      * otherwise " " ( a blank string) becomes a valid input.
      * The valid values for task priority can start with or without capital letter.
      */
-    public static final String TASK_PRIORITY_VALIDATION_REGEX = "^([H|h]igh|[M|m]edium|[L|l]ow)$";
+    public static final String TASK_PRIORITY_VALIDATION_REGEX = "^(high|medium|low)$";
 
     public final String value;
 

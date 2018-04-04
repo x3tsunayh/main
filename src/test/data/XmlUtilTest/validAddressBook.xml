@@ -56,18 +56,18 @@
     </persons>
     <tasks>
         <taskName>Task 100</taskName>
-        <taskPriority>Medium</taskPriority>
+        <taskPriority>medium</taskPriority>
         <taskDescription>Agenda for April month meeting</taskDescription>
         <taskDueDate>2018-04-30</taskDueDate>
-        <taskStatus>Undone</taskStatus>
+        <taskStatus>undone</taskStatus>
         <categorised>Meeting</categorised>
     </tasks>
     <tasks>
         <taskName>Task 200</taskName>
-        <taskPriority>High</taskPriority>
+        <taskPriority>high</taskPriority>
         <taskDescription>(1) Business Proposal (2) Implementation details</taskDescription>
         <taskDueDate>2018-05-25</taskDueDate>
-        <taskStatus>Undone</taskStatus>
+        <taskStatus>undone</taskStatus>
         <categorised>Work</categorised>
     </tasks>
     <taskCategories>Work</taskCategories>

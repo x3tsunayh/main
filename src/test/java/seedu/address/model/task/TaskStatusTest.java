@@ -33,10 +33,8 @@ public class TaskStatusTest {
         assertFalse(TaskStatus.isValidTaskStatus("12345")); // numbers
         assertFalse(TaskStatus.isValidTaskStatus("random 123")); // alphanumeric
 
-        // valid task status (done or undone starting with upper or lowercase)
-        assertTrue(TaskStatus.isValidTaskStatus("Done"));
+        // valid task status (done or undone)
         assertTrue(TaskStatus.isValidTaskStatus("done"));
-        assertTrue(TaskStatus.isValidTaskStatus("Undone"));
         assertTrue(TaskStatus.isValidTaskStatus("undone"));
     }
 

@@ -19,10 +19,10 @@ import seedu.address.model.util.SampleDataUtil;
 public class TaskBuilder {
 
     public static final String DEFAULT_TASK_NAME = "TASK ONE";
-    public static final String DEFAULT_TASK_PRIORITY = "Medium";
+    public static final String DEFAULT_TASK_PRIORITY = "medium";
     public static final String DEFAULT_TASK_DESCRIPTION = "Sample task description";
     public static final String DEFAULT_TASK_DUE_DATE = "2018-10-10";
-    public static final String DEFAULT_TASK_STATUS = "Undone";
+    public static final String DEFAULT_TASK_STATUS = "undone";
     public static final String DEFAULT_TASK_CATEGORIES = "Work";
 
     private TaskName taskName;
