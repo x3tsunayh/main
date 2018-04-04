@@ -401,9 +401,9 @@ The following sequence diagram shows how the add task operation works.
 
 image::TaskAddSequenceDiagram.png[width="800"]
 
-. The user executes the `task-add` command.
-. The `AddressBookParser` class creates a new `TaskAddCommandParser` class to parse the command.
-. The `TaskAddCommandParser` class parses the command and create a new `TaskAddCommand` class.
+. The user executes the `task-add` command and specify the required arguments.
+. The `AddressBookParser` class creates a new `TaskAddCommandParser` class to parse the command arguments.
+. The `TaskAddCommandParser` class parses the arguments and create a new `TaskAddCommand` class.
 . The `task-add` command is executed and handled by the `ModelManager` class.
 . The task is added to the list of tasks in Address Book and displayed to the user.
 // end::task-add[]
@@ -419,9 +419,9 @@ The following sequence diagram shows how the delete task operation works.
 
 image::TaskDeleteSequenceDiagram.png[width="800"]
 
-. The user executes the `task-delete` command.
-. The `AddressBookParser` class creates a new `TaskDeleteCommandParser` class to parse the command.
-. The `TaskDeleteCommandParser` class parses the command and create a new `TaskDeleteCommand` class.
+. The user executes the `task-delete` command and specify the required argument.
+. The `AddressBookParser` class creates a new `TaskDeleteCommandParser` class to parse the command argument.
+. The `TaskDeleteCommandParser` class parses the argument and create a new `TaskDeleteCommand` class.
 . The `task-delete` command is executed and handled by the `ModelManager` class.
 . The task is removed from the list of tasks in Address Book and the updated task list is displayed to the user.
 // end::task-delete[]
@@ -437,9 +437,9 @@ The following sequence diagram shows how the edit task operation works.
 
 image::TaskEditSequenceDiagram.png[width="800"]
 
-. The user executes the `task-edit` command.
-. The `AddressBookParser` class creates a new `TaskEditCommandParser` class to parse the command.
-. The `TaskEditCommandParser` class parses the command and create a new `TaskEditCommand` class.
+. The user executes the `task-edit` command and specify the required arguments.
+. The `AddressBookParser` class creates a new `TaskEditCommandParser` class to parse the command arguments.
+. The `TaskEditCommandParser` class parses the arguments and create a new `TaskEditCommand` class.
 . The `task-edit` command is executed and handled by the `ModelManager` class.
 . The task is updated with the new values and the updated task list is displayed to the user.
 // end::task-edit[]
@@ -454,9 +454,9 @@ The search is case-insensitive and matches partial keyword.
 The following sequence diagram shows how the find tasks operation works.
 
 image::TaskFindSequenceDiagram.png[width="800"]
-. The user executes the `task-find` command.
-. The `AddressBookParser` class creates a new `TaskFindCommandParser` class to parse the command.
-. The `TaskFindCommandParser` class parses the command and create a new `TaskFindCommand` class.
+. The user executes the `task-find` command and specify the required argument(s).
+. The `AddressBookParser` class creates a new `TaskFindCommandParser` class to parse the command argument(s).
+. The `TaskFindCommandParser` class parses the argument(s) and create a new `TaskFindCommand` class.
 . The `task-find` command is executed and handled by the `ModelManager` class.
 . The list of tasks in Address Book matching the keywords is returned and displayed to the user.
 // end::task-find[]

@@ -73,151 +73,6 @@ Examples:
 * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
 * `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
 
-=== Listing all persons : `list`
-
-Shows a list of all persons in the address book. +
-Format: `list`
-
-=== Sorting all persons by name : `sort`
-
-Sorts all persons in the address book alphabetically by name in ascending order and list them. +
-Format: `sort`
-
-=== Editing a person : `edit`
-
-Edits an existing person in the address book. +
-Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]...`
-
-****
-* Edits the person at the specified `INDEX`. The index refers to the index number shown in the last person listing. The index *must be a positive integer* 1, 2, 3, ...
-* At least one of the optional fields must be provided.
-* Existing values will be updated to the input values.
-* When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
-* You can remove all the person's tags by typing `t/` without specifying any tags after it.
-****
-
-Examples:
-
-* `edit 1 p/91234567 e/johndoe@example.com` +
-Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
-* `edit 2 n/Betsy Crower t/` +
-Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
-
-=== Locating persons by name: `find`
-
-Finds persons whose names contain any of the given keywords. +
-Format: `find KEYWORD [MORE_KEYWORDS]`
-
-****
-* The search is case insensitive. e.g `hans` will match `Hans`
-* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
-* Only the name is searched.
-* Partial words will be matched e.g. `Han` will match `Hans`
-* Persons matching at least one keyword will be returned (i.e. `OR` search). e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
-****
-
-Examples:
-
-* `find John` +
-Returns `john` and `John Doe`
-* `find Betsy Tim John` +
-Returns any person having names `Betsy`, `Tim`, or `John`
-
-=== Converting from one currency to another: `convert`
-
-Convert any amount in terms of SGD to USD +
-Format: `convert [VALUE] [CURRENCY_CODE] [CURRENCY_CODE]`
-
-****
-* Comma is use as a thousand separtor and to 2 decimal places, eg 1,000.00
-* 17 currencies available to be converted from one to another
-* List of currency codes available (according to ISO 4217):
-
-  AUD - Australian dollar
-  CAD - Canadian dollar
-  CHF - Swiss franc
-  CNY - Renminbi (Chinese) yuan
-  GBP - Pound sterling
-  HKD - Hong Kong dollar
-  ILS - Israeli new shekel
-  INR - Indian rupee
-  JPY - Japanese yen
-  MYR - Malaysian ringgit
-  NZD - New Zealand dollar
-  PHP - Philippine piso
-  SEK - Swedish krona/kronor
-  SGD - Singapore dollar
-  THB - Thai baht
-  TWD - New Taiwan dollar
-  USD - United States dollar
-
-****
-
-Examples:
-
-
-* `convert 1 SGD MYR` +
-Converts 1 SGD into MYR +
-Returns `MYR 2.96` +
-
-* `convert 10000 JPY USD` +
-Converts 10,000 JPY to USD +
-Returns `USD 94.50`
-* `convert SGD MYR` +
-Returns `MYR 2.96 ` +
-Get the rate of MYR given one unit of SGD
-
-=== Exporting addressbook data: `export`
-
-Exports addressbook data into an XML file. +
-Format: `export FILEPATH [MORE_KEYWORDS]`
-
-****
-* Addressbook creates XML file if valid filepath and filename is given.
-* If filename already exists, a warning message is displayed.
-* If file extension is not .xml, a warning message is displayed.
-* If filepath not given, XML file is auto-created under main folder.
-* If filepath is invalid, Addressbook creates folders to support the filepath defined by the user.
-****
-
-Examples:
-
-* `export C:\Users\John Doe\Documents\addressbook.xml` +
-Creates XML file in the user-defined filepath
-* `exp addressbook.xml` +
-Creates XML file in the main folder of the Addressbook
-
-=== Adding an event: `addevent`
-
-Adds an event into event book. +
-Format: `et/NAME ed/DESCRIPTION el/LOCATION edt/DATETIME`
-
-****
-* Adds an event if all fields have correct inputs.
-* If there is an empty field, event is not added.
-* If datetime field is detected to be incorrect, no event is added.
-****
-
-Examples:
-
-* `addevent et/Christmas Party ed/Celebrating Christmas 2018 el/Samuel's House edt/25-12-2018 1830` +
-Creates an event with the corresponding details and adds it into the event book; displays it on event list.
-
-=== Deleting an event: `deleteevent`
-
-Deletes an event in the event book. +
-Format: `deleteevent INDEX`
-
-****
-* Deletes an event if given index is valid.
-* Does not delete event is given index is invalid.
-****
-
-Examples:
-
-* `deleteevent 2` +
-Deletes the second event on the displayed event list.
-
 === Deleting a person: `delete`
 
 Deletes the specified person from the address book. +
@@ -239,7 +94,7 @@ Deletes the 2nd person in the address book.
 `delete 1` +
 Deletes the 1st person in the results of the `find` command.
 
-=== Deleting a person by name: `deletebyname`
+=== Deleting a person by name: `deletebyname` `[since v1.1]`
 
 Deletes the specified person from the address book by name. +
 Format: `delete NAME`
@@ -257,6 +112,51 @@ Examples:
 * `deletebyname` +
 `john doe` +
 Deletes the contact whose name matches john doe.
+
+=== Editing a person : `edit`
+
+Edits an existing person in the address book. +
+Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]...`
+
+****
+* Edits the person at the specified `INDEX`. The index refers to the index number shown in the last person listing. The index *must be a positive integer* 1, 2, 3, ...
+* At least one of the optional fields must be provided.
+* Existing values will be updated to the input values.
+* When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
+* You can remove all the person's tags by typing `t/` without specifying any tags after it.
+****
+
+Examples:
+
+* `edit 1 p/91234567 e/johndoe@example.com` +
+Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
+* `edit 2 n/Betsy Crower t/` +
+Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
+
+=== Find persons by name: `find`
+
+Finds persons whose names contain any of the given keywords. +
+Format: `find KEYWORD [MORE_KEYWORDS]`
+
+****
+* The search is case insensitive. e.g `hans` will match `Hans`
+* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
+* Only the name is searched.
+* Partial words will be matched e.g. `Han` will match `Hans`
+* Persons matching at least one keyword will be returned (i.e. `OR` search). e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+****
+
+Examples:
+
+* `find John` +
+Returns `john` and `John Doe`
+* `find Betsy Tim John` +
+Returns any person having names `Betsy`, `Tim`, or `John`
+
+=== Listing all persons : `list`
+
+Shows a list of all persons in the address book. +
+Format: `list`
 
 === Selecting a person : `select`
 
@@ -277,6 +177,31 @@ Selects the 2nd person in the address book.
 * `find Betsy` +
 `select 1` +
 Selects the 1st person in the results of the `find` command.
+
+=== Sorting all persons by name : `sort` `[since v1.1]`
+
+Sorts all persons in the address book alphabetically by name in ascending order and list them. +
+Format: `sort`
+
+=== Exporting addressbook data: `export` `[since v1.1]`
+
+Exports addressbook data into an XML file. +
+Format: `export FILEPATH [MORE_KEYWORDS]`
+
+****
+* Addressbook creates XML file if valid filepath and filename is given.
+* If filename already exists, a warning message is displayed.
+* If file extension is not .xml, a warning message is displayed.
+* If filepath not given, XML file is auto-created under main folder.
+* If filepath is invalid, Addressbook creates folders to support the filepath defined by the user.
+****
+
+Examples:
+
+* `export C:\Users\John Doe\Documents\addressbook.xml` +
+Creates XML file in the user-defined filepath
+* `exp addressbook.xml` +
+Creates XML file in the main folder of the Addressbook
 
 === Listing entered commands : `history`
 
@@ -369,6 +294,75 @@ Examples:
 * `edit 1 f/C://pictures/janeDoe.jpg` +
 Edits the profile picture of the 1st person to be the picture at C://pictures/janeDoe.jpg
 // end::AddPicture[]
+
+// tag::AddTag[]
+=== Adding individual tags to a contact: `addtag` `[since v1.4]`
+
+Adds tag(s) to a person +
+Format: `addtag INDEX t/TAG t/TAG ...`
+
+****
+* Edits the tag of the contact at the specified `INDEX`.
+The index refers to the index number shown in the last task listing. The index *must be a positive integer* 1, 2, 3, ...
+* At least one tag must be provided.
+* All input tags must be new and unique to the contact. For example, if tag `friend` exists for contact
+at index 1, then both `addtag 1 t/friend` and `addtag 1 t/friend t/schoolmate` will not work as all tags must be new
+
+****
+
+Examples:
+
+* `addtag 12 t/newFriend` +
+Adds the tag `newFriend` to the contact at index 12 of the last contact listing
+* `addtag 7 t/buddy t/CS2103 t/NUS` +
+Adds the tags `buddy`, `CS2103` and `NUS` to contact at index 7 of the last contact listing
+// end::AddTag[]
+
+// tag::ConvertCurrency[]
+=== Converting from one currency to another: `convert` `[since v1.3]`
+
+Convert any amount in terms of SGD to USD +
+Format: `convert [VALUE] [CURRENCY_CODE] [CURRENCY_CODE]`
+
+****
+* Comma is use as a thousand separtor and to 2 decimal places, eg 1,000.00
+* 17 currencies available to be converted from one to another
+* List of currency codes available (according to ISO 4217):
+
+  AUD - Australian dollar
+  CAD - Canadian dollar
+  CHF - Swiss franc
+  CNY - Renminbi (Chinese) yuan
+  GBP - Pound sterling
+  HKD - Hong Kong dollar
+  ILS - Israeli new shekel
+  INR - Indian rupee
+  JPY - Japanese yen
+  MYR - Malaysian ringgit
+  NZD - New Zealand dollar
+  PHP - Philippine piso
+  SEK - Swedish krona/kronor
+  SGD - Singapore dollar
+  THB - Thai baht
+  TWD - New Taiwan dollar
+  USD - United States dollar
+
+****
+
+Examples:
+
+
+* `convert 1 SGD MYR` +
+Converts 1 SGD into MYR +
+Returns `MYR 2.96` +
+
+* `convert 10000 JPY USD` +
+Converts 10,000 JPY to USD +
+Returns `USD 94.50`
+* `convert SGD MYR` +
+Returns `MYR 2.96 ` +
+Get the rate of MYR given one unit of SGD
+// end::ConvertCurrency[]
 
 // tag::AddTask[]
 === Adding a task: `task-add` `[since v1.3]`
@@ -466,28 +460,36 @@ and list them. +
 Format: `task-sort`
 // end::SortTask[]
 
-// tag::AddTag[]
-=== Adding individual tags to a contact: `addtag` `[since v1.4]`
+=== Adding an event: `addevent`
 
-Adds tag(s) to a person +
-Format: `addtag INDEX t/TAG t/TAG ...`
+Adds an event into event book. +
+Format: `et/NAME ed/DESCRIPTION el/LOCATION edt/DATETIME`
 
 ****
-* Edits the tag of the contact at the specified `INDEX`.
-The index refers to the index number shown in the last task listing. The index *must be a positive integer* 1, 2, 3, ...
-* At least one tag must be provided.
-* All input tags must be new and unique to the contact. For example, if tag `friend` exists for contact
-at index 1, then both `addtag 1 t/friend` and `addtag 1 t/friend t/schoolmate` will not work as all tags must be new
-
+* Adds an event if all fields have correct inputs.
+* If there is an empty field, event is not added.
+* If datetime field is detected to be incorrect, no event is added.
 ****
 
 Examples:
 
-* `addtag 12 t/newFriend` +
-Adds the tag `newFriend` to the contact at index 12 of the last contact listing
-* `addtag 7 t/buddy t/CS2103 t/NUS` +
-Adds the tags `buddy`, `CS2103` and `NUS` to contact at index 7 of the last contact listing
-// end::AddTag[]
+* `addevent et/Christmas Party ed/Celebrating Christmas 2018 el/Samuel's House edt/25-12-2018 1830` +
+Creates an event with the corresponding details and adds it into the event book; displays it on event list.
+
+=== Deleting an event: `deleteevent`
+
+Deletes an event in the event book. +
+Format: `deleteevent INDEX`
+
+****
+* Deletes an event if given index is valid.
+* Does not delete event is given index is invalid.
+****
+
+Examples:
+
+* `deleteevent 2` +
+Deletes the second event on the displayed event list.
 
 // tag::dataencryption[]
 === Encrypting data files `[coming in v2.0]`
