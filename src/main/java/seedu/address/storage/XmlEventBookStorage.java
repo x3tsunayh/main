@@ -16,8 +16,6 @@ import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.commons.util.FileUtil;
 import seedu.address.model.event.ReadOnlyEventBook;
 
-//@@author x3tsunayh
-
 /**
  * A class to access TunedIn EventBook data stored as an xml file on the hard disk.
  */

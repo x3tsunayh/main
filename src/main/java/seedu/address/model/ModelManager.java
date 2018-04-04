@@ -164,6 +164,19 @@ public class ModelManager extends ComponentManager implements Model {
         filteredEvents.setPredicate(predicate);
     }
 
+    //=========== Filtered Task List Accessors =============================================================
+
+    @Override
+    public ObservableList<Task> getFilteredTaskList() {
+        return FXCollections.unmodifiableObservableList(filteredTasks);
+    }
+
+    @Override
+    public void updateFilteredTaskList(Predicate<Task> predicate) {
+        requireNonNull(predicate);
+        filteredTasks.setPredicate(predicate);
+    }
+
     @Override
     public void addEvent(ReadOnlyEvent eventToAdd) throws CommandException {
         eventBook.addEvent(eventToAdd);
@@ -179,19 +192,6 @@ public class ModelManager extends ComponentManager implements Model {
     public void deleteEvent(ReadOnlyEvent eventToDelete) throws CommandException {
         eventBook.removeEvent(eventToDelete);
         indicateEventBookChanged();
-    }
-
-    //=========== Filtered Task List Accessors =============================================================
-
-    @Override
-    public ObservableList<Task> getFilteredTaskList() {
-        return FXCollections.unmodifiableObservableList(filteredTasks);
-    }
-
-    @Override
-    public void updateFilteredTaskList(Predicate<Task> predicate) {
-        requireNonNull(predicate);
-        filteredTasks.setPredicate(predicate);
     }
 
     @Override
