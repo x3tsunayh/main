@@ -304,11 +304,6 @@ public class AddTagCommandParser implements Parser<AddTagCommand> {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_TAG);
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_TAG)
-                || argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddTagCommand.MESSAGE_USAGE));
-        }
-
         Index index;
         List<String> tags;
 
@@ -317,23 +312,17 @@ public class AddTagCommandParser implements Parser<AddTagCommand> {
         } catch (IllegalValueException ive) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddTagCommand.MESSAGE_USAGE));
         }
-;
 
-        Set<Tag> tagSet;
+        tags = argMultimap.getAllValues(PREFIX_TAG);
 
-        try {
-            tagSet = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
-        } catch (IllegalValueException ive) {
-            System.out.println(ive.getMessage());
-            throw new ParseException(ive.getMessage(), ive);
+        Set<Tag> tagSet = new HashSet<Tag>();
+        for (String i : tags) {
+            tagSet.add(new Tag(i));
         }
 
         return new AddTagCommand(index, tagSet);
     }
 
-    private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
-        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
-    }
 
 }
 ```
@@ -552,9 +541,7 @@ public class Picture {
 
     /**
      * copies the file from (@code source) to the profile pic folder
-     * If unable to copy, then just directly use file at source.
-     * This will work since we have already passed {@code source} into isValidPath to ensure it can be read
-     * TODO: display some kind of commandresult to notify user of this ^
+     *
      * @param source
      * @param dstFilename
      */
@@ -565,8 +552,7 @@ public class Picture {
         if (!folder.exists()) {
 
             if (!folder.mkdir()) {
-                this.path = URL_PREFIX + source;
-                return;
+                System.out.println("FAILED TO MAKE FOLDER");
             }
         }
 
@@ -575,8 +561,7 @@ public class Picture {
         try {
             src = new File(source);
         } catch (Exception e) {
-            this.path = URL_PREFIX + source;
-            return;
+            System.out.println(e.getMessage());
         }
 
 
@@ -586,8 +571,7 @@ public class Picture {
             try {
                 dest.createNewFile();
             } catch (Exception e) {
-                this.path = URL_PREFIX + source;
-                return;
+                System.out.println(e.getMessage());
             }
         }
 
@@ -595,7 +579,7 @@ public class Picture {
             Files.copy(src.toPath(), dest.toPath() , REPLACE_EXISTING);
             this.path = URL_PREFIX + dest.toPath().toString();
         } catch (Exception e) {
-            this.path = URL_PREFIX + source;
+            System.out.println(e.getMessage());
         }
     }
 

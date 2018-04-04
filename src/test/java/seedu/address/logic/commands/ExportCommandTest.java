@@ -41,8 +41,6 @@ import seedu.address.storage.UserPrefsStorage;
 import seedu.address.storage.XmlAddressBookStorage;
 import seedu.address.storage.XmlEventBookStorage;
 
-//@@author x3tsunayh
-
 public class ExportCommandTest {
     @Rule
     public TemporaryFolder testFolder = new TemporaryFolder();

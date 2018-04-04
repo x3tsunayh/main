@@ -446,17 +446,6 @@ public class TaskSortCommand extends UndoableCommand {
 
 }
 ```
-###### \java\seedu\address\logic\parser\CliSyntax.java
-``` java
-    public static final Prefix PREFIX_TASK_NAME = new Prefix("n/");
-    public static final Prefix PREFIX_TASK_PRIORITY = new Prefix("p/");
-    public static final Prefix PREFIX_TASK_DESCRIPTION = new Prefix("d/");
-    public static final Prefix PREFIX_TASK_DUE_DATE = new Prefix("dd/");
-    public static final Prefix PREFIX_TASK_STATUS = new Prefix("s/");
-    public static final Prefix PREFIX_TASK_CATEGORY = new Prefix("c/");
-
-}
-```
 ###### \java\seedu\address\logic\parser\ParserUtil.java
 ``` java
     /**
@@ -1441,14 +1430,14 @@ public class TaskPriority {
             Arrays.asList(TASK_PRIORITY_HIGH, TASK_PRIORITY_MEDIUM, TASK_PRIORITY_LOW);
 
     public static final String MESSAGE_TASK_PRIORITY_CONSTRAINTS =
-            "Task priority can only be either high, medium or low";
+            "Task priority can only be either low, medium or high";
 
     /**
      * The first character of the task priority must not be a whitespace,
      * otherwise " " ( a blank string) becomes a valid input.
      * The valid values for task priority can start with or without capital letter.
      */
-    public static final String TASK_PRIORITY_VALIDATION_REGEX = "^(high|medium|low)$";
+    public static final String TASK_PRIORITY_VALIDATION_REGEX = "^([H|h]igh|[M|m]edium|[L|l]ow)$";
 
     public final String value;
 
@@ -1504,7 +1493,7 @@ public class TaskStatus {
      * otherwise " " (a blank string) becomes a valid input.
      * The valid values for task status can start with or without capital letter.
      */
-    public static final String TASK_STATUS_VALIDATION_REGEX = "^(done|undone)$";
+    public static final String TASK_STATUS_VALIDATION_REGEX = "^([D|d]one|[U|u]ndone)$";
 
     public final String value;
 

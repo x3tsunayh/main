@@ -3,8 +3,6 @@ package seedu.address.commons.events.model;
 import seedu.address.commons.events.BaseEvent;
 import seedu.address.model.event.ReadOnlyEventBook;
 
-//@@author x3tsunayh
-
 /**
  * Indicates the EventBook in the model has changed
  */

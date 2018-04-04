@@ -10,8 +10,6 @@ import javax.xml.transform.TransformerException;
 import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.model.event.ReadOnlyEventBook;
 
-//@@author x3tsunayh
-
 /**
  * Represents a storage for {@link seedu.address.model.EventBook}.
  */

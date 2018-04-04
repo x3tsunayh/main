@@ -27,8 +27,6 @@ import seedu.address.logic.commands.FindEventCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.event.ReadOnlyEvent;
 
-//@@author x3tsunayh
-
 /**
  * WORK IN PROGRESS FOR EVENTS AND LOGGING
  */

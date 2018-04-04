@@ -7,8 +7,6 @@ import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import seedu.address.commons.core.LogsCenter;
 
-//@@author x3tsunayh
-
 /**
  * Controller for a stackoverflow page
  */
