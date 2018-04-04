@@ -14,6 +14,7 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.tag.UniqueTagList.DuplicateTagException;
 
 //@@author dezhanglee
 /**
@@ -63,7 +64,7 @@ public class AddTagCommand extends UndoableCommand {
 
         try {
             editedPerson.addTags(tags);
-        } catch (Exception e) {
+        } catch (DuplicateTagException dte) {
             throw new CommandException(MESSAGE_TAGS_MUST_NOT_EXIST);
         }
 
