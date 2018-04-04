@@ -612,7 +612,7 @@ The following sequence diagram shows how the `addpicture` command works
 
 image::AddPictureSequenceDiagram.png[width="800"]
 
-. The user executes the `addpicture INDEX f\FILENAME` command, with parameters `INDEX` and `FILENAME`
+. The user executes the `addpicture INDEX f/FILENAME` command, with parameters `INDEX` and `FILENAME`
 . The `AddressBookParser` class parses the command and create a new `AddPictureCommand` class.
 . The `AddPicture` command is executed and handled by the `ModelManager` class.
 . A new `Picture` object is created, containing the image referenced by `FILENAME`.
@@ -636,6 +636,27 @@ Not store the images +
 No space requirement to store the images locally +
 **Cons:** +
 Need to ensure that the image is not deleted, or it won't display. +
+
+// tag::addtag[]
+=== Add Tag to Contact (Since v1.4)
+
+The add tag command inherits from `UndoableCommand`.
+
+The `logic` component parses user inputs, while the `model` component updates the person in the Address Book.
+
+The following sequence diagram illustrates how the Add Tag command works:
+
+image::AddTagSequenceDiagram.png[width="800"]
+
+
+. The user executes the `addtag INDEX t/TAG1 t/TAG2 ...` command, with parameters `INDEX` and TAG1, TAG2, ...
+. The `AddressBookParser` class parses the command and create a new `AddTagCommand` class.
+. The `AddTag` command is executed and handled by the `ModelManager` class.
+. New `Tag` object(s) (depending on the number of input tags) is created.
+. The new `Tag` is attached to the `Person` at `INDEX`.
+. `updatePerson` in `ModelManager` updates the person at `INDEX` with a new person with the added tags.
+
+// end::addtag[]
 
 == Documentation
 
