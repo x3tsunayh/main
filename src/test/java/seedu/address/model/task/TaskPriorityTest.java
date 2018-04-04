@@ -33,12 +33,9 @@ public class TaskPriorityTest {
         assertFalse(TaskPriority.isValidTaskPriority("12345")); // numbers
         assertFalse(TaskPriority.isValidTaskPriority("random 123")); // alphanumeric
 
-        // valid task priority (High, Medium, Low status starting with upper or lowercase)
-        assertTrue(TaskPriority.isValidTaskPriority("High"));
+        // valid task priority (high, medium, low)
         assertTrue(TaskPriority.isValidTaskPriority("high"));
-        assertTrue(TaskPriority.isValidTaskPriority("Medium"));
         assertTrue(TaskPriority.isValidTaskPriority("medium"));
-        assertTrue(TaskPriority.isValidTaskPriority("Low"));
         assertTrue(TaskPriority.isValidTaskPriority("low"));
     }
 

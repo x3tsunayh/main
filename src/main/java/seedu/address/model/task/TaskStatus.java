@@ -17,7 +17,7 @@ public class TaskStatus {
      * otherwise " " (a blank string) becomes a valid input.
      * The valid values for task status can start with or without capital letter.
      */
-    public static final String TASK_STATUS_VALIDATION_REGEX = "^([D|d]one|[U|u]ndone)$";
+    public static final String TASK_STATUS_VALIDATION_REGEX = "^(done|undone)$";
 
     public final String value;
 

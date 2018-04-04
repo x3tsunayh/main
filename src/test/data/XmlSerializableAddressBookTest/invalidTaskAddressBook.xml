@@ -6,6 +6,6 @@
         <taskPriority>random</taskPriority>
         <taskDescription>Tasks to be done for task 1</taskDescription>
         <taskDueDate>2018-06-15</taskDueDate>
-        <taskStatus>Undone</taskStatus>
+        <taskStatus>undone</taskStatus>
     </tasks>
 </addressbook>

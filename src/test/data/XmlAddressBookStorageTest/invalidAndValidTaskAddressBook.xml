@@ -3,10 +3,10 @@
     <!-- Valid Task -->
     <tasks>
         <taskName>Agenda for meeting</taskName>
-        <taskPriority>High</taskPriority>
+        <taskPriority>high</taskPriority>
         <taskDescription>(1) Proposal (2) Implementation details</taskDescription>
         <taskDueDate>2018-04-25</taskDueDate>
-        <taskStatus>Undone</taskStatus>
+        <taskStatus>undone</taskStatus>
         <categorised>Work</categorised>
     </tasks>
     <!-- Task with invalid priority field -->
@@ -15,7 +15,7 @@
         <taskPriority>random</taskPriority>
         <taskDescription>(1) Proposal (2) Implementation details</taskDescription>
         <taskDueDate>2018-04-25</taskDueDate>
-        <taskStatus>Undone</taskStatus>
+        <taskStatus>undone</taskStatus>
         <categorised>Work</categorised>
     </tasks>
 </addressbook>

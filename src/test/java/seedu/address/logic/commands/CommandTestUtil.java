@@ -121,13 +121,13 @@ public class CommandTestUtil {
 
     public static final String VALID_TASK_NAME_TASKFIRST = "First task";
     public static final String VALID_TASK_NAME_TASKSECOND = "Second task";
-    public static final String VALID_TASK_PRIORITY_TASKFIRST = "High";
-    public static final String VALID_TASK_PRIORITY_TASKSECOND = "Low";
+    public static final String VALID_TASK_PRIORITY_TASKFIRST = "high";
+    public static final String VALID_TASK_PRIORITY_TASKSECOND = "low";
     public static final String VALID_TASK_DESCRIPTION_TASKFIRST = "Create a new app";
     public static final String VALID_TASK_DESCRIPTION_TASKSECOND = "Discuss outing details";
     public static final String VALID_TASK_DUE_DATE_TASKFIRST = "2018-04-02";
     public static final String VALID_TASK_DUE_DATE_TASKSECOND = "2018-05-10";
-    public static final String VALID_TASK_STATUS_TASKFIRST = "Undone";
+    public static final String VALID_TASK_STATUS_TASKFIRST = "undone";
     public static final String VALID_TASK_STATUS_TASKSECOND = "done";
     public static final String VALID_TASK_CATEGORY_PERSONAL = "personal";
     public static final String VALID_TASK_CATEGORY_WORK = "work";

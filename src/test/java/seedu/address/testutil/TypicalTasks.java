@@ -26,22 +26,22 @@ import seedu.address.model.task.Task;
 public class TypicalTasks {
 
     public static final Task TASKONE = new TaskBuilder().withTaskName("TaskOne")
-            .withTaskPriority("Medium")
+            .withTaskPriority("medium")
             .withTaskDescription("Tasks to be done for task 1")
             .withTaskDueDate("2018-06-15")
-            .withTaskStatus("Undone")
+            .withTaskStatus("undone")
             .withTaskCategories("Work").build();
     public static final Task TASKTWO = new TaskBuilder().withTaskName("TaskTwo")
-            .withTaskPriority("High")
+            .withTaskPriority("high")
             .withTaskDescription("Agenda for task 2")
             .withTaskDueDate("2018-03-28")
-            .withTaskStatus("Undone")
+            .withTaskStatus("undone")
             .withTaskCategories("Personal").build();
     public static final Task TASKTHREE = new TaskBuilder().withTaskName("TaskThree")
-            .withTaskPriority("Low")
+            .withTaskPriority("low")
             .withTaskDescription("Purchase office supplies")
             .withTaskDueDate("2018-04-10")
-            .withTaskStatus("Undone")
+            .withTaskStatus("undone")
             .withTaskCategories("Work").build();
 
     // Manuall added - Task's details found in {@code CommandTestUtil}
@@ -56,10 +56,10 @@ public class TypicalTasks {
 
     // Manually added
     public static final Task TASKFOUR = new TaskBuilder().withTaskName("Task 4")
-            .withTaskPriority("Medium")
+            .withTaskPriority("medium")
             .withTaskDescription("Work in progress: Development and documentation")
             .withTaskDueDate("2018-05-10")
-            .withTaskStatus("Undone").build();
+            .withTaskStatus("undone").build();
 
     private TypicalTasks() {} // prevents instantiation
 

@@ -56,17 +56,17 @@ public class SampleDataUtil {
 
     public static Task[] getSampleTasks() {
         return new Task[] {
-            new Task(new TaskName("Task XYZ"), new TaskPriority("Medium"),
+            new Task(new TaskName("Task XYZ"), new TaskPriority("medium"),
                 new TaskDescription("Task description XYZ"),
-                new TaskDueDate("2018-04-28"), new TaskStatus("Undone"),
+                new TaskDueDate("2018-04-28"), new TaskStatus("undone"),
                 getTaskCategorySet("Work")),
-            new Task(new TaskName("Essay research"), new TaskPriority("Low"),
+            new Task(new TaskName("Essay research"), new TaskPriority("low"),
                 new TaskDescription("Google for interesting points on essay topic"),
-                new TaskDueDate("2018-05-29"), new TaskStatus("Undone"),
+                new TaskDueDate("2018-05-29"), new TaskStatus("undone"),
                 getTaskCategorySet("Personal")),
-            new Task(new TaskName("Formulate meeting agenda"), new TaskPriority("High"),
+            new Task(new TaskName("Formulate meeting agenda"), new TaskPriority("high"),
                 new TaskDescription("(1) Analyse the project requirements (2) Record meeting agenda"),
-                new TaskDueDate("2018-04-20"), new TaskStatus("Undone"),
+                new TaskDueDate("2018-04-20"), new TaskStatus("undone"),
                 getTaskCategorySet("Meeting"))
         };
     }
