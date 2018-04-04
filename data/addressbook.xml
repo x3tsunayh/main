@@ -59,11 +59,13 @@
         <tagged>colleagues</tagged>
     </persons>
     <persons>
-        <name>Bacd</name>
-        <phone>98672345</phone>
-        <email>bacd@gmail.com</email>
-        <address>blk 457 ang mo kio #20-20</address>
+        <name>bernice</name>
+        <phone>98765432</phone>
+        <email>johnd@example.com</email>
+        <address>311, Clementi Ave 2, #02-25</address>
         <picture>images/default.png</picture>
+        <tagged>owesMoney</tagged>
+        <tagged>friends</tagged>
     </persons>
     <tags>colleagues</tags>
     <tags>classmates</tags>
@@ -71,6 +73,7 @@
     <tags>neighbours</tags>
     <tags>family</tags>
     <tags>friends</tags>
+    <tags>owesMoney</tags>
     <tasks>
         <taskName>Discuss project</taskName>
         <taskPriority>medium</taskPriority>
