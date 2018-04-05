@@ -87,7 +87,7 @@ public class CalendarView {
         Button nextMonth = new Button("Next >");
         nextMonth.setOnAction(e -> nextMonth());
         HBox titleBar = new HBox(previousMonth, calendarTitle, nextMonth);
-        HBox.setMargin(calendarTitle, new Insets(0, 20, 0, 20));
+        HBox.setMargin(calendarTitle, new Insets(0, 10, 0, 10));
         titleBar.setAlignment(Pos.BASELINE_CENTER);
 
         // Populate calendar with the appropriate day numbers
@@ -97,9 +97,8 @@ public class CalendarView {
         DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("dd MMMM yyyy");
         Button calendarDateTime = new Button("Today's date is " + dateTimeFormat.format(LocalDate.now()));
         calendarDateTime.setStyle("-fx-border-color: transparent; "
-                + "-fx-background-color: transparent; -fx-font-size: 20");
+                + "-fx-background-color: transparent; -fx-font-size: 18");
         calendarDateTime.setOnAction(e -> originalYearMonth());
-        calendarDateTime.setFont(new Font("Serif", 24));
         HBox calendarDtBar = new HBox(calendarDateTime);
         calendarDtBar.setAlignment(Pos.BASELINE_CENTER);
 
@@ -111,9 +110,9 @@ public class CalendarView {
         welcomeMessageBar.setAlignment(Pos.BASELINE_CENTER);
 
         // Creates the calendar view
-        view = new VBox(welcomeMessageBar, calendarDtBar, titleBar, dayLabels, calendar);
-        VBox.setMargin(calendarDtBar, new Insets(0, 0, 15, 0));
-        VBox.setMargin(titleBar, new Insets(0, 0, 15, 0));
+        view = new VBox(calendarDtBar, titleBar, dayLabels, calendar);
+        VBox.setMargin(calendarDtBar, new Insets(0, 0, 5, 0));
+        VBox.setMargin(titleBar, new Insets(0, 0, 5, 0));
     }
 
     /**
