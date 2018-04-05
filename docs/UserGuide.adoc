@@ -349,6 +349,7 @@ Convert any amount in terms of SGD to USD +
 Format: `convert [VALUE] [CURRENCY_CODE] [CURRENCY_CODE]`
 
 ****
+* Rates are fixed
 * Comma is use as a thousand separtor and to 2 decimal places, eg 1,000.00
 * 17 currencies available to be converted from one to another
 * List of currency codes available (according to ISO 4217):
