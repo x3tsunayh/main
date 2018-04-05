@@ -422,6 +422,29 @@ No space requirement to store the images locally +
 **Cons:** +
 Need to ensure that the image is not deleted, or it won't display. +
 
+=== Find feature
+
+==== Current Implementation
+Right now, find feature is limited to finding by name.
+
+It is modify such that able to find by name and tag by specifying the type to be search  after the command name `find`.
+
+==== Implementation - Search by Name
+
+. The user executes the `find n/KEYWORD [MORE_KEYWORDS]...`, given the search type `n/` and with parameters `KEYWORD`
+. The `AddressBookParser` class parses the command and create a new `FindCommandParse` class.
+. The `FindCommandParse` will compare the search type to check if search is by name and parse the keywords to `FindCommand`
+. The `FindCommand` object is created, and assisted by `NameContainsKeywordsPredicate` to obtain the result.
+. The  result is then return and displayed to the user.
+
+==== Implementation - Search by Tag
+
+. The user executes the `find t/KEYWORD [MORE_KEYWORDS]...`, given the search type `t/` and with parameters `KEYWORD`
+. The `AddressBookParser` class parses the command and create a new `FindCommandParse` class.
+. The `FindCommandParse` will compare the search type to check if search is by tag and parse the keywords to `FindCommand`
+. The `FindCommand` object is created, and assisted by `TagContainsKeywordsPredicate` to obtain the result.
+. The  result is then return and displayed to the user.
+
 // tag::addtag[]
 === Add Tag to Contact
 

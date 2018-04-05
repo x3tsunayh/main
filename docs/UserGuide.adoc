@@ -133,10 +133,10 @@ Edits the phone number and email address of the 1st person to be `91234567` and 
 * `edit 2 n/Betsy Crower t/` +
 Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
 
-=== Find persons by name: `find`
+=== Find persons by name: `find n/` `[since v1.4]`
 
 Finds persons whose names contain any of the given keywords. +
-Format: `find KEYWORD [MORE_KEYWORDS]`
+Format: `find n/KEYWORD [MORE_KEYWORDS]...`
 
 ****
 * The search is case insensitive. e.g `hans` will match `Hans`
@@ -148,10 +148,34 @@ Format: `find KEYWORD [MORE_KEYWORDS]`
 
 Examples:
 
-* `find John` +
+* `find n/John` +
 Returns `john` and `John Doe`
-* `find Betsy Tim John` +
+* `find /nBetsy Tim John` +
 Returns any person having names `Betsy`, `Tim`, or `John`
+* `find /nJ +
+Returns any person having names `John`, `Jack`, or `Joanna`
+
+=== Find persons by tag: `find t/` `[since v1.4]`
+
+Finds persons whose tag contain any of the given keywords. +
+Format: `find t/KEYWORD [MORE_KEYWORDS]...`
+
+****
+* The search is case insensitive. e.g `friends` will match `Friends`
+* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
+* Only the tag is searched.
+* Partial words will be matched e.g. `fri` will match `Friends`
+* Tags matching at least one keyword will be returned (i.e. `OR` search). e.g. `Friends Classmates` will return person whose tag contains `Friends` or `Classmates`
+****
+
+Examples:
+
+* `find t/Friends` +
+Returns `friends` and `Friends`
+* `find t/Friends Classmates` +
+Returns any person having tag(s) `Friends`, or `Classmates`
+* `find t/f` +
+Returns any person having tag(s) `Friends`, or `Family`
 
 === Listing all persons : `list`
 
@@ -512,17 +536,11 @@ and list them. +
 Format: `task-sort`
 // end::SortTask[]
 
-// tag::dataencryption[]
-=== Encrypting data files `[coming in v2.0]`
+// tag::FindByAddress[]
+=== Locating persons by address: `find a/` `[coming in v1.5]`
 
-_{explain how the user can enable/disable data encryption}_
-// end::dataencryption[]
-
-// tag::FindByTag[]
-=== Locating persons by tag: `find -t` `[coming in v2.0]`
-
-Finds persons whose names contain any of the given keywords. +
-Format: `find -t KEYWORD [MORE_KEYWORDS]`
+Finds persons whose address contain any of the given keywords. +
+Format: `find a/KEYWORD [MORE_KEYWORDS]...`
 
 ****
 * The search is case insensitive. e.g `hans` will match `Hans`
@@ -534,17 +552,17 @@ Format: `find -t KEYWORD [MORE_KEYWORDS]`
 
 Examples:
 
-* `find -t friends` +
-Returns `john` and `John Doe`
-* `find -t f` +
+* `find a/5TH` +
+Returns `5th` and `5TH`
+* `find a/` +
 Returns any person having tags `family` or `friends`
-// end::FindByTag[]
+// end::FindByAddress[]
 
-// tag::FindByTag[]
-=== Locating persons by phone: `find -p` `[coming in v2.0]`
+// tag::FindByPhone[]
+=== Locating persons by phone: `find p/` `[coming in v1.5]`
 
 Finds persons whose names contain any of the given value. +
-Format: `find -p VALUE`
+Format: `find p/KEYWORD [MORE_KEYWORDS]...`
 
 ****
 * Only the phone is searched.
@@ -554,9 +572,65 @@ Format: `find -p VALUE`
 
 Examples:
 
-* `find -p 982039` +
+* `find p/ 982039` +
 Returns any person having phone `98203910` or `98203950`
-// end::FindByTag[]
+// end::FindByPhone[]
+
+=== Autocomplete of command `[coming in v2.0]`
+
+Finds persons whose names contain any of the given value. +
+
+****
+* Command will autocomplete if left one possible command remaining
+****
+
+Examples:
+
+* `fin` +
+Returns any command `find` +
+
+=== List out possible command `[coming in v2.0]`
+
+List out possible commands as one types on the command line +
+
+****
+* Possible commands will be listed
+****
+
+Examples:
+
+* Empty command line +
+Returns all of commands +
+
+* `f` +
+Returns commands started with `f` such as `findEvent`, `find' +
+
+* `find` +
+Returns commands started with `find` such as `find' +
+
+=== Hint out the possible command sytnax `[coming in v2.0]`
+
+Guide user on the command sytnax +
+
+****
+* Stynax will be shown to guide thru till the command is completely written
+* Check for each parameter, the value conforming to
+****
+
+Examples:
+
+* `add n/` +
+Return feedback to ask user to input name +
+
+* `convert 10 SGD` +
+Returns feedback to input the currency code to be converted to +
+
+
+// tag::dataencryption[]
+=== Encrypting data files `[coming in v2.0]`
+
+_{explain how the user can enable/disable data encryption}_
+// end::dataencryption[]
 
 == FAQ
 
@@ -574,8 +648,10 @@ e.g. `delete 3`
 e.g. `delete John Appleseed`
 * *Edit a person* : `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...` +
 e.g. `edit 2 n/James Lee e/jameslee@example.com`
-* *Find a person* : `find KEYWORD [MORE_KEYWORDS]` +
-e.g. `find James Jake`
+* *Find a person by name* : `find n/KEYWORD [MORE_KEYWORDS]` +
+e.g. `find n/James Jake`
+* *Find a person by tag* : `find n/KEYWORD [MORE_KEYWORDS]` +
+e.g. `find t/friends`
 * *Export contacts list into XML or CSV file* : `export FILEPATH` +
 e.g. `export C:\Users\John Doe\Documents\addressbook.xml`
 * *Convert* : `convert VALUE` +
