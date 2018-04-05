@@ -22,6 +22,7 @@ public class FindCommand extends Command {
 
     private Predicate<Person> predicate;
 
+    //@@author jill858
     public FindCommand(Predicate<Person> predicate) {
         this.predicate = predicate;
     }

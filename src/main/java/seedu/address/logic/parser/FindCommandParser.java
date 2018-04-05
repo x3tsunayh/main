@@ -31,6 +31,7 @@ public class FindCommandParser implements Parser<FindCommand> {
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
         }
 
+        //@@author jill858
         String targetPrefix = getPrefix(trimmedArgs);
         String[] keywords = getKeywords(trimmedArgs);
 
@@ -44,10 +45,22 @@ public class FindCommandParser implements Parser<FindCommand> {
         }
     }
 
+    //@@author jill858
+    /**
+     * Extract the search type
+     * @param args command line input
+     * @return
+     */
     private static String getPrefix(String args) {
         return args.substring(0, 2);
     }
 
+    //@@author jill858
+    /**
+     * Extract keywords out from the command
+     * @param args command line input
+     * @return
+     */
     private static String[] getKeywords(String args) {
         String[] keywords;
 

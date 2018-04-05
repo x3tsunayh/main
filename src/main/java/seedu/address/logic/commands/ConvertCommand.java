@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import seedu.address.model.Currency;
 
+//@@author jill858
 /**
  * Converts any amount from one currency to another
  */
