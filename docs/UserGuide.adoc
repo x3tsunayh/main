@@ -17,7 +17,7 @@ By: `CS2103JAN2018 T15-B4`      Since: `Jan 2018`      Licence: `MIT`
 
 == Introduction
 
-BizConnect Journal is catered towards businessmen users and travelers who *prefer to use a desktop app for managing contacts*. More importantly, BCJ is *optimized for those who prefer to work with a Command Line Interface* (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, BCJ can get your contact management tasks done faster than traditional GUI apps. Interested? Jump to the <<Quick Start>> to get started. Enjoy!
+BizConnect Journal is catered towards businessmen and travelers who *prefer to use a desktop app for managing contacts*. More importantly, BCJ is *optimized for those who prefer to work with a Command Line Interface* (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, BCJ can get your contact management tasks done faster than traditional GUI apps. Interested? Jump to the <<Quick Start>> to get started. Enjoy!
 
 == Quick Start
 
