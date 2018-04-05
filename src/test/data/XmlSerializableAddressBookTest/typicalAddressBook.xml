@@ -47,6 +47,29 @@
         <email>anna@example.com</email>
         <address>4th street</address>
     </persons>
+    <persons>
+        <name>Harry Styles</name>
+        <phone>84821222</phone>
+        <email>harry@example.com</email>
+        <address>chinatown street</address>
+        <tagged>colleagues</tagged>
+        <tagged>family</tagged>
+    </persons>
+    <persons>
+        <name>Ian Kurz</name>
+        <phone>94839221</phone>
+        <email>ian@example.com</email>
+        <address>cross road 10</address>
+        <tagged>classmates</tagged>
+        <tagged>owesMoney</tagged>
+    </persons>
+    <persons>
+        <name>Keith Loh</name>
+        <phone>84123922</phone>
+        <email>keith@example.com</email>
+        <address>5th avenue</address>
+        <tagged>classmates</tagged>
+    </persons>
     <tags>friends</tags>
     <tags>owesMoney</tags>
     <tasks>
