@@ -67,13 +67,13 @@
         <tagged>owesMoney</tagged>
         <tagged>friends</tagged>
     </persons>
+    <tags>owesMoney</tags>
     <tags>colleagues</tags>
     <tags>classmates</tags>
     <tags>asdasd</tags>
     <tags>neighbours</tags>
     <tags>family</tags>
     <tags>friends</tags>
-    <tags>owesMoney</tags>
     <tasks>
         <taskName>Discuss project</taskName>
         <taskPriority>medium</taskPriority>
@@ -115,7 +115,16 @@
         <taskStatus>undone</taskStatus>
         <categorised>Meeting</categorised>
     </tasks>
+    <tasks>
+        <taskName>Agenda for meeting</taskName>
+        <taskPriority>high</taskPriority>
+        <taskDescription>Discuss proposal details</taskDescription>
+        <taskDueDate>2018-04-29</taskDueDate>
+        <taskStatus>undone</taskStatus>
+        <categorised>ccc1</categorised>
+    </tasks>
     <taskCategories>Personal</taskCategories>
     <taskCategories>Meeting</taskCategories>
     <taskCategories>Work</taskCategories>
+    <taskCategories>ccc1</taskCategories>
 </addressbook>

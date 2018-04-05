@@ -4,6 +4,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_EVENT_DATETIME;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
@@ -36,6 +37,7 @@ public class CalendarView {
     private ArrayList<AnchorPaneNode> calendarMonth = new ArrayList<>(35);
     private VBox view;
     private Text calendarTitle;
+    private YearMonth defaultYearMonth;
     private YearMonth currentYearMonth;
     private ObservableList<ReadOnlyEvent> eventList;
     private Logic logic;
@@ -47,6 +49,7 @@ public class CalendarView {
     public CalendarView(Logic logic, ObservableList<ReadOnlyEvent> eventList, YearMonth yearMonth) {
         this.logic = logic;
         this.eventList = eventList;
+        defaultYearMonth = yearMonth;
         currentYearMonth = yearMonth;
 
         // Creates the calendar grid pane
@@ -76,6 +79,7 @@ public class CalendarView {
         // Creates a title for the calendar
         calendarTitle = new Text();
         calendarTitle.setFill(Color.WHITE);
+        calendarTitle.setFont(new Font("Serif", 16));
 
         // Buttons to navigate through months
         Button previousMonth = new Button("< Previous");
@@ -89,10 +93,27 @@ public class CalendarView {
         // Populate calendar with the appropriate day numbers
         populateCalendar(yearMonth, null);
 
-        // Creates the calendar view
-        view = new VBox(titleBar, dayLabels, calendar);
-        VBox.setMargin(titleBar, new Insets(0, 0, 15, 0));
+        // Displaying the current date and time
+        DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("dd MMMM yyyy");
+        Button calendarDateTime = new Button("Today's date is " + dateTimeFormat.format(LocalDate.now()));
+        calendarDateTime.setStyle("-fx-border-color: transparent; "
+                + "-fx-background-color: transparent; -fx-font-size: 20");
+        calendarDateTime.setOnAction(e -> originalYearMonth());
+        calendarDateTime.setFont(new Font("Serif", 24));
+        HBox calendarDtBar = new HBox(calendarDateTime);
+        calendarDtBar.setAlignment(Pos.BASELINE_CENTER);
 
+        // Displaying a welcome message
+        Text welcomeMessage = new Text("Welcome to BizConnect Journal!");
+        welcomeMessage.setFill(Color.WHITE);
+        welcomeMessage.setFont(new Font("Impact", 24));
+        HBox welcomeMessageBar = new HBox(welcomeMessage);
+        welcomeMessageBar.setAlignment(Pos.BASELINE_CENTER);
+
+        // Creates the calendar view
+        view = new VBox(welcomeMessageBar, calendarDtBar, titleBar, dayLabels, calendar);
+        VBox.setMargin(calendarDtBar, new Insets(0, 0, 15, 0));
+        VBox.setMargin(titleBar, new Insets(0, 0, 15, 0));
     }
 
     /**
@@ -192,6 +213,11 @@ public class CalendarView {
 
     private void nextMonth() {
         currentYearMonth = currentYearMonth.plusMonths(1);
+        populateCalendar(currentYearMonth, null);
+    }
+
+    private void originalYearMonth() {
+        currentYearMonth = defaultYearMonth;
         populateCalendar(currentYearMonth, null);
     }
 
