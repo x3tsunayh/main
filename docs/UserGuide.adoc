@@ -613,7 +613,7 @@ Returns commands started with `find` such as `find' +
 Guide user on the command sytnax +
 
 ****
-* Stynax will be shown to guide thru till the command is completely written
+* Syntax will be shown to guide thru till the command is completely written
 * Check for each parameter, the value conforming to
 ****
 
