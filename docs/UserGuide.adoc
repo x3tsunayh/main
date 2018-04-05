@@ -387,8 +387,8 @@ Converts 10,000 JPY to USD +
 Returns `Converted 10,000 JPY to USD 94.50`
 
 * `convert SGD MYR` +
-Returns `Converted 1 SGD to MYR 2.96 ` +
-Get the rate of MYR given one unit of SGD
+Get the rate of MYR given one unit of SGD +
+Returns `Converted 1 SGD to MYR 2.96`
 // end::ConvertCurrency[]
 
 === Adding an event: `addevent` `[since v1.3]`
