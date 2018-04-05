@@ -3,6 +3,7 @@ package seedu.address.model;
 import java.util.Arrays;
 import java.util.List;
 
+//@@author jill858
 /**
  * Represent currencies and its rate
  */

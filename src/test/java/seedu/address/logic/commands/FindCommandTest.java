@@ -38,7 +38,7 @@ import seedu.address.model.tag.TagContainsKeywordsPredicate;
  */
 public class FindCommandTest {
     private Model model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
-
+    //@@author jill858
     @Test
     public void equals() {
         NameContainsKeywordsPredicate firstPredicate =
@@ -65,14 +65,14 @@ public class FindCommandTest {
         // different person -> returns false
         assertFalse(findFirstCommand.equals(findSecondCommand));
     }
-
+    //@@author jill858
     @Test
     public void execute_zeroKeywords_noPersonFound() {
         String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 0);
         FindCommand command = prepareNameCommand(" ");
         assertCommandSuccess(command, expectedMessage, Collections.emptyList());
     }
-
+    //@@author jill858
     @Test
     public void execute_multipleKeywords_multiplePersonsFound() {
         // multiple name keywords
@@ -115,7 +115,7 @@ public class FindCommandTest {
         command = prepareTagCommand("colL owESM");
         assertCommandSuccess(command, expectedMessage, Arrays.asList(BENSON, HARRY, IAN));
     }
-
+    //@@author jill858
     @Test
     public void execute_singleKeywords_multiplePersonsFound() {
         // name keywords
@@ -138,8 +138,6 @@ public class FindCommandTest {
         command = prepareNameCommand("kU");
         assertCommandSuccess(command, expectedMessage, Arrays.asList(CARL, FIONA, IAN));
 
-
-
         // tag keywords
         expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 7);
         command = prepareTagCommand("friends");
@@ -161,7 +159,7 @@ public class FindCommandTest {
         command = prepareTagCommand("owesM");
         assertCommandSuccess(command, expectedMessage, Arrays.asList(BENSON, IAN));
     }
-
+    //@@author jill858
     /**
      * Parses {@code userInput} into a {@code FindCommand} for a name search.
      */
@@ -171,7 +169,7 @@ public class FindCommandTest {
         command.setData(model, new CommandHistory(), new UndoRedoStack());
         return command;
     }
-
+    //@@author jill858
     /**
      * Parses {@code userInput} into a {@code FindCommand} for a tag search.
      */
