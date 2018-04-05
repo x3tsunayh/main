@@ -349,6 +349,7 @@ Convert any amount in terms of SGD to USD +
 Format: `convert [VALUE] [CURRENCY_CODE] [CURRENCY_CODE]`
 
 ****
+* Rates are fixed
 * Comma is use as a thousand separtor and to 2 decimal places, eg 1,000.00
 * 17 currencies available to be converted from one to another
 * List of currency codes available (according to ISO 4217):
@@ -373,18 +374,21 @@ Format: `convert [VALUE] [CURRENCY_CODE] [CURRENCY_CODE]`
 
 ****
 
-Examples:
+[TIP]
+Value can be empty to get the standard rate of 1 unit of a particular currency to be convert to another
 
+Examples:
 
 * `convert 1 SGD MYR` +
 Converts 1 SGD into MYR +
-Returns `MYR 2.96` +
+Returns `Converted 1 SGD to MYR 2.96` +
 
 * `convert 10000 JPY USD` +
 Converts 10,000 JPY to USD +
-Returns `USD 94.50`
+Returns `Converted 10,000 JPY to USD 94.50`
+
 * `convert SGD MYR` +
-Returns `MYR 2.96 ` +
+Returns `Converted 1 SGD to MYR 2.96 ` +
 Get the rate of MYR given one unit of SGD
 // end::ConvertCurrency[]
 
