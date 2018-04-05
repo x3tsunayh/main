@@ -97,7 +97,7 @@ Deletes the 1st person in the results of the `find` command.
 === Deleting a person by name: `deletebyname` `[since v1.1]`
 
 Deletes the specified person from the address book by name. +
-Format: `delete NAME`
+Format: `deletebyname NAME`
 
 ****
 * Deletes the person at the specified `NAME`.
@@ -109,8 +109,7 @@ Format: `delete NAME`
 
 Examples:
 
-* `deletebyname` +
-`john doe` +
+* `deletebyname john doe` +
 Deletes the contact whose name matches john doe.
 
 === Editing a person : `edit`
@@ -150,9 +149,9 @@ Examples:
 
 * `find n/John` +
 Returns `john` and `John Doe`
-* `find /nBetsy Tim John` +
+* `find n/Betsy Tim John` +
 Returns any person having names `Betsy`, `Tim`, or `John`
-* `find /nJ +
+* `find n/J +
 Returns any person having names `John`, `Jack`, or `Joanna`
 
 === Find persons by tag: `find t/` `[since v1.4]`
@@ -224,7 +223,7 @@ Examples:
 
 * `export C:\Users\John Doe\Documents\addressbook.xml` +
 Creates XML file in the user-defined filepath
-* `exp addressbook.xml` +
+* `export addressbook.xml` +
 Creates XML file in the main folder of the Addressbook
 
 === Listing entered commands : `history`
@@ -315,7 +314,7 @@ Format: `addpicture INDEX f/FILENAME`
 
 Examples:
 
-* `edit 1 f/C://pictures/janeDoe.jpg` +
+* `addpicture 1 f/C://pictures/janeDoe.jpg` +
 Edits the profile picture of the 1st person to be the picture at C://pictures/janeDoe.jpg
 // end::AddPicture[]
 
@@ -345,8 +344,8 @@ Adds the tags `buddy`, `CS2103` and `NUS` to contact at index 7 of the last cont
 // tag::ConvertCurrency[]
 === Converting from one currency to another: `convert` `[since v1.3]`
 
-Convert any amount in terms of SGD to USD +
-Format: `convert [VALUE] [CURRENCY_CODE] [CURRENCY_CODE]`
+Convert any amount from SRC_CURRENCY_CODE to DST_CURRENCY_CODE +
+Format: `convert [VALUE] SRC_CURRENCY_CODE DST_CURRENCY_CODE`
 
 ****
 * Rates are fixed
@@ -395,7 +394,7 @@ Get the rate of MYR given one unit of SGD
 === Adding an event: `addevent` `[since v1.3]`
 
 Adds an event into event book. +
-Format: `et/NAME ed/DESCRIPTION el/LOCATION edt/DATETIME`
+Format: `addevent et/NAME ed/DESCRIPTION el/LOCATION edt/DATETIME`
 
 ****
 * Adds an event if all fields have correct inputs.
@@ -431,7 +430,7 @@ Format: `findevent et/KEYWORD [MORE_KEYWORDS]... for title OR ed/KEYWORD [MORE_K
 // end::FindEvent[]
 
 // tag::ListAllEvents[]
-=== Listing all events: `task-list` `[since v1.4]`
+=== Listing all events: `listallevents` `[since v1.4]`
 
 Shows a list of all events in the address book. +
 Format: `listallevents`
@@ -450,13 +449,19 @@ Format: `switchtab`
 Adds a task to the address book. +
 Format: `task-add n/NAME p/PRIORITY d/DESCRIPTION dd/DUE_DATE s/STATUS [c/CATEGORY]...`
 
+****
+* Adds a task if all fields have valid inputs.
+* The valid values of priority are : high, medium and low.
+* The valid values of status are : undone and done.
+****
+
 [TIP]
 A task can have any number of categories (including 0)
 
 Examples:
 
-* `task-add n/Task 1 p/Medium d/Description for task 1 dd/2018-05-10 s/Undone`
-* `task-add n/Agenda for meeting p/High d/Discuss proposal details dd/2018-04-29 s/Undone c/Meeting`
+* `task-add n/Task 1 p/medium d/Description for task 1 dd/2018-05-10 s/undone`
+* `task-add n/Agenda for meeting p/high d/Discuss proposal details dd/2018-04-29 s/undone c/Meeting`
 // end::AddTask[]
 
 // tag::DeleteTask[]
@@ -467,7 +472,6 @@ Format: `task-delete INDEX`
 
 ****
 * Deletes the task at the specified `INDEX`.
-
 * The index refers to the index number shown in the most recent listing.
 * The index *must be a positive integer* 1, 2, 3, ...
 ****
@@ -499,7 +503,7 @@ Examples:
 * `task-list` +
 `task-edit 1 p/medium dd/2018-05-10` +
 Edits the priority and due date of the 1st task to be `medium` and `2018-05-10` respectively.
-* `edit 3 n/Project meeting c/` +
+* `task-edit 3 n/Project meeting c/` +
 Edits the name of the 3rd task to be `Project meeting` and clears all existing categories.
 // end::EditTask[]
 
@@ -507,7 +511,7 @@ Edits the name of the 3rd task to be `Project meeting` and clears all existing c
 === Finding tasks by name: `task-find` `[since v1.4]`
 
 Finds the tasks whose names contain any of the given keywords. +
-Format: `task-find KEYWORD [MORE_KEYWORDS]`
+Format: `task-find KEYWORD [MORE_KEYWORDS]...`
 
 ****
 * The search is case-insensitive. e.g. `task` will match `Task`
@@ -541,7 +545,7 @@ Format: `task-sort`
 // end::SortTask[]
 
 // tag::FindByAddress[]
-=== Locating persons by address: `find a/` `[coming in v1.5]`
+=== Find persons by address: `find a/` `[coming in v1.5]`
 
 Finds persons whose address contain any of the given keywords. +
 Format: `find a/KEYWORD [MORE_KEYWORDS]...`
@@ -563,7 +567,7 @@ Returns any person having tags `family` or `friends`
 // end::FindByAddress[]
 
 // tag::FindByPhone[]
-=== Locating persons by phone: `find p/` `[coming in v1.5]`
+=== Find persons by phone: `find p/` `[coming in v1.5]`
 
 Finds persons whose names contain any of the given value. +
 Format: `find p/KEYWORD [MORE_KEYWORDS]...`
@@ -576,7 +580,7 @@ Format: `find p/KEYWORD [MORE_KEYWORDS]...`
 
 Examples:
 
-* `find p/ 982039` +
+* `find p/982039` +
 Returns any person having phone `98203910` or `98203950`
 // end::FindByPhone[]
 
@@ -612,7 +616,7 @@ Returns commands started with `f` such as `findEvent`, `find' +
 * `find` +
 Returns commands started with `find` such as `find' +
 
-=== Hint out the possible command sytnax `[coming in v2.0]`
+=== Hint out the possible command syntax `[coming in v2.0]`
 
 Guide user on the command sytnax +
 
@@ -645,45 +649,50 @@ _{explain how the user can enable/disable data encryption}_
 
 * *Add a person* : `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...` +
 e.g. `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
-* *Clear contacts list* : `clear`
 * *Delete a person* : `delete INDEX` +
 e.g. `delete 3`
 * *Delete a person by name* : `deletebyname NAME` +
 e.g. `delete John Appleseed`
 * *Edit a person* : `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...` +
 e.g. `edit 2 n/James Lee e/jameslee@example.com`
-* *Find a person by name* : `find n/KEYWORD [MORE_KEYWORDS]` +
+* *Find persons by name* : `find n/KEYWORD [MORE_KEYWORDS]...` +
 e.g. `find n/James Jake`
-* *Find a person by tag* : `find n/KEYWORD [MORE_KEYWORDS]` +
+* *Find persons by tag* : `find t/KEYWORD [MORE_KEYWORDS]...` +
 e.g. `find t/friends`
-* *Export contacts list into XML or CSV file* : `export FILEPATH` +
-e.g. `export C:\Users\John Doe\Documents\addressbook.xml`
-* *Convert* : `convert VALUE` +
-e.g. `convert 1`
 * *List all persons* : `list`
-* *Sort all persons by name* : `sort`
-* *Help* : `help`
 * *Select a person* : `select INDEX` +
 e.g.`select 2`
+* *Sort all persons by name* : `sort`
+* *Export contacts list into XML or CSV file* : `export FILEPATH` +
+e.g. `export C:\Users\John Doe\Documents\addressbook.xml`
 * *History* : `history`
 * *Undo* : `undo`
 * *Redo* : `redo`
+* *Clear contacts list* : `clear`
+* *Help* : `help`
+* *Exit program* : `exit`
+* *Add a profile picture to a person* : `addpicture INDEX f/FILENAME` +
+e.g. `addpicture 1 f/C://pictures/janeDoe.jpg`
+* *Add tag(s) to a person* : `addtag INDEX t/TAG [t/TAG]...` +
+e.g. `addtag 12 t/newFriend`
+* *Convert currency* : `convert [VALUE] SRC_CURRENCY_CODE DST_CURRENCY_CODE` +
+e.g. `convert 10000 JPY USD`
 * *Add an event* : `addevent et/TITLE ed/DESCRIPTION el/LOCATION edt/DATETIME` +
 e.g. `addevent et/Christmas Party ed/Celebrating Christmas 2018 el/Samuel's House edt/25-12-2018 1830`
 * *Delete an event* : `deleteevent INDEX` +
 e.g. `deleteevent 2`
-* *Find an event* : `find PREFIX/KEYWORD [MORE_KEYWORDS]` +
-e.g. `find et/Christmas CNY Halloween`
+* *Find an event* : `findevent PREFIX/KEYWORD [MORE_KEYWORDS]...` +
+e.g. `findevent et/Christmas CNY Halloween`
 * *List all events* : `listallevents`
 * *Click-to-view Events* : `Click the shaded days on the Calendar`
 * *Switch between events and tasks list* : `switchtab`
 * *Add a task* : `task-add n/NAME p/PRIORITY d/DESCRIPTION dd/DUE_DATE s/STATUS [c/CATEGORY]...` +
-e.g. `task-add n/Task 1 p/Medium d/Description for task 1 dd/2018-05-10 s/Undone`
+e.g. `task-add n/Task 1 p/medium d/Description for task 1 dd/2018-05-10 s/undone`
 * *Delete a task* : `task-delete INDEX` +
 e.g. `task-delete 1`
 * *Edit a task* : `task-edit INDEX [n/NAME] [p/PRIORITY] [d/DESCRIPTION] [dd/DUE_DATE] [s/STATUS] [c/CATEGORY]...` +
 e.g. `task-edit 1 p/medium dd/2018-05-10`
-* *Find tasks by name* : `task-find KEYWORD [MORE_KEYWORDS]` +
+* *Find tasks by name* : `task-find KEYWORD [MORE_KEYWORDS]...` +
 e.g. `task-find project agenda`
 * *List all tasks* : `task-list`
 * *Sort all tasks* : `task-sort`
