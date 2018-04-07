@@ -67,6 +67,33 @@
         <tagged>owesMoney</tagged>
         <tagged>friends</tagged>
     </persons>
+    <persons>
+        <name>John Doe</name>
+        <phone>98765432</phone>
+        <email>johnd@example.com</email>
+        <address>311, Clementi Ave 2, #02-25</address>
+        <picture>images/default.png</picture>
+        <tagged>owesMoney</tagged>
+        <tagged>friends</tagged>
+    </persons>
+    <persons>
+        <name>John Dooe</name>
+        <phone>98765432</phone>
+        <email>johnd@example.com</email>
+        <address>311, Clementi Ave 2, #02-25</address>
+        <picture>images/default.png</picture>
+        <tagged>owesMoney</tagged>
+        <tagged>friends</tagged>
+    </persons>
+    <persons>
+        <name>John Deoe</name>
+        <phone>98765432</phone>
+        <email>johnd@example.com</email>
+        <address>311, Clementi Ave 2, #02-25</address>
+        <picture>images/default.png</picture>
+        <tagged>owesMoney</tagged>
+        <tagged>friends</tagged>
+    </persons>
     <tags>owesMoney</tags>
     <tags>colleagues</tags>
     <tags>classmates</tags>
@@ -123,8 +150,8 @@
         <taskStatus>undone</taskStatus>
         <categorised>ccc1</categorised>
     </tasks>
+    <taskCategories>ccc1</taskCategories>
     <taskCategories>Personal</taskCategories>
     <taskCategories>Meeting</taskCategories>
     <taskCategories>Work</taskCategories>
-    <taskCategories>ccc1</taskCategories>
 </addressbook>

@@ -23,7 +23,7 @@ public class LinkedInWindow extends UiPart<Stage> {
     private WebView browser;
 
     /**
-     * Creates a new LinkedIn.
+     * Creates a new LinkedIn page.
      *
      * @param root Stage to use as the root of the LinkedIn.
      */
