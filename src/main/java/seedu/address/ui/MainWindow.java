@@ -54,7 +54,7 @@ public class MainWindow extends UiPart<Stage> {
     private MenuItem helpMenuItem;
 
     @FXML
-    private MenuItem stackOverflowItem;
+    private MenuItem linkedInItem;
 
     @FXML
     private StackPane calendarViewPanelPlaceholder;
@@ -101,7 +101,7 @@ public class MainWindow extends UiPart<Stage> {
 
     private void setAccelerators() {
         setAccelerator(helpMenuItem, KeyCombination.valueOf("F1"));
-        setAccelerator(stackOverflowItem, KeyCombination.valueOf("F2"));
+        setAccelerator(linkedInItem, KeyCombination.valueOf("F2"));
     }
 
     /**
@@ -204,9 +204,9 @@ public class MainWindow extends UiPart<Stage> {
      * Opens the help window.
      */
     @FXML
-    public void handleStackOverflow() {
-        StackOverflowWindow stackOverflowWindow = new StackOverflowWindow();
-        stackOverflowWindow.show();
+    public void handleLinkedIn() {
+        LinkedInWindow linkedInWindow = new LinkedInWindow();
+        linkedInWindow.show();
     }
 
     void show() {

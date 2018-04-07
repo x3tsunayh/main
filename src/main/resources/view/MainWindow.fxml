@@ -32,7 +32,7 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <MenuItem fx:id="helpMenuItem" mnemonicParsing="false" onAction="#handleHelp" text="Help" />
-            <MenuItem fx:id="stackOverflowItem" mnemonicParsing="false" onAction="#handleStackOverflow" text="StackOverflow" />
+            <MenuItem fx:id="linkedInItem" mnemonicParsing="false" onAction="#handleLinkedIn" text="LinkedIn" />
           </Menu>
         </MenuBar>
 
@@ -81,6 +81,12 @@
             </TabPane>
           </VBox>
         </SplitPane>
+
+        <StackPane fx:id="browserPlaceholder" prefWidth="340" >
+          <padding>
+            <Insets top="10" right="10" bottom="10" left="10" />
+          </padding>
+        </StackPane>
 
         <StackPane fx:id="statusbarPlaceholder" VBox.vgrow="NEVER" />
       </VBox>
