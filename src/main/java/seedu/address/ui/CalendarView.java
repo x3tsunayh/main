@@ -31,7 +31,7 @@ import seedu.address.model.event.ReadOnlyEvent;
 //@@author x3tsunayh
 
 /**
- * WORK IN PROGRESS FOR EVENTS AND LOGGING
+ * Creates a Calendar View
  */
 public class CalendarView {
     private ArrayList<AnchorPaneNode> calendarMonth = new ArrayList<>(35);
@@ -116,7 +116,9 @@ public class CalendarView {
     }
 
     /**
-     * WORK IN PROGRESS FOR EVENTS
+     * Sets the calendar days according to the intended month and year
+     * @param targetIndex for finding specific event(s)
+     * @param yearMonth for desired year and month of the calendar view
      */
     public void populateCalendar(YearMonth yearMonth, Index targetIndex) {
         // Gets the current date as reference
@@ -205,16 +207,19 @@ public class CalendarView {
         }
     }
 
+    // to look at the previous month
     private void previousMonth() {
         currentYearMonth = currentYearMonth.minusMonths(1);
         populateCalendar(currentYearMonth, null);
     }
 
+    // to look at the next month
     private void nextMonth() {
         currentYearMonth = currentYearMonth.plusMonths(1);
         populateCalendar(currentYearMonth, null);
     }
 
+    // to jump back to the current year and month easily
     private void originalYearMonth() {
         currentYearMonth = defaultYearMonth;
         populateCalendar(currentYearMonth, null);

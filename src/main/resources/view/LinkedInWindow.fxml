@@ -4,11 +4,12 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.web.WebView?>
 
+<!-- @@author x3tsunayh -->
 <!-- TODO: set a more appropriate initial size -->
 <fx:root type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
          title="LinkedIn" maximized="true">
   <icons>
-    <Image url="@/images/help_icon.png" />
+    <Image url="@/images/linkedin_icon.png" />
   </icons>
   <scene>
     <Scene>
