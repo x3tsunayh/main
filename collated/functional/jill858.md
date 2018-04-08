@@ -10,7 +10,17 @@ public class ConvertCommand extends Command {
     public static final String COMMAND_ALIAS = "cv";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Converts an amount from one currency to another\n"
-            + "Example: " + COMMAND_WORD + " 1 SGD USD";
+            + "Example: " + COMMAND_WORD + " 1 SGD USD\n"
+            + "Sample currency code: \n"
+            + "AUD - Australian dollar\n"
+            + "CAD - Canadian dollar\n"
+            + "CNY - Renminbi (Chinese) yuan\n"
+            + "HKD - Hong Kong dollar\n"
+            + "JPY - Japanese yen\n"
+            + "MYR - Malaysian ringgit\n"
+            + "SGD - Singapore dollar\n"
+            + "TWD - New Taiwan dollar\n"
+            + "USD - United States dollar\n";
 
     public static final String MESSAGE_COMPLETE = "Converted %s %,.2f to %s %,.2f";
 

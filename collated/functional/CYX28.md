@@ -37,10 +37,10 @@ public class TaskAddCommand extends UndoableCommand {
             + "[" + PREFIX_TASK_CATEGORY + "CATEGORY]...\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_TASK_NAME + "Agenda for meeting "
-            + PREFIX_TASK_PRIORITY + "High "
+            + PREFIX_TASK_PRIORITY + "high "
             + PREFIX_TASK_DESCRIPTION + "Discuss proposal details "
             + PREFIX_TASK_DUE_DATE + "2018-04-29 "
-            + PREFIX_TASK_STATUS + "Undone "
+            + PREFIX_TASK_STATUS + "undone "
             + PREFIX_TASK_CATEGORY + "Meeting";
 
     public static final String MESSAGE_SUCCESS = "New task added: %1$s";

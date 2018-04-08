@@ -44,6 +44,30 @@ public class EventPanelSelectionChangedEvent extends BaseEvent {
 
 }
 ```
+###### \java\seedu\address\commons\events\ui\GoogleContactNameEvent.java
+``` java
+
+/**
+ * An event requesting to google for a contact's name.
+ */
+public class GoogleContactNameEvent extends BaseEvent {
+
+    private Person person;
+
+    public GoogleContactNameEvent (Person person) {
+        this.person = person;
+    }
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName();
+    }
+
+    public Person getPerson() {
+        return this.person;
+    }
+
+}
+```
 ###### \java\seedu\address\commons\util\FileUtil.java
 ``` java
 
@@ -103,7 +127,7 @@ public class AddEventCommand extends UndoableCommand {
         try {
             model.addEvent(toAdd);
             return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
-        } catch (Error e) {
+        } catch (DuplicateEventException dee) {
             throw new CommandException(MESSAGE_DUPLICATE_EVENT);
         }
     }
@@ -185,7 +209,7 @@ public class ExportCommand extends UndoableCommand {
     public static final String MESSAGE_EXPORT_SUCCESS = "Addressbook data exported to: %1$s";
     public static final String MESSAGE_NOT_XML_CSV_FILE = "Filepath does not lead to an XML/CSV file.";
     public static final String MESSAGE_ERROR = "Addressbook data not exported successfully.";
-    public static final String MESSAGE_EXISTING_XML = "XML/CSV file name already exists. Choose a different name.";
+    public static final String MESSAGE_EXISTING_XML_CSV = "XML/CSV file name already exists. Choose a different name.";
 
     private Storage storage;
     private final String filePath;
@@ -207,27 +231,18 @@ public class ExportCommand extends UndoableCommand {
 
     @Override
     public CommandResult executeUndoableCommand() throws CommandException {
-        if (FileUtil.isValidCsvFile(filePath)) {
-            try {
-                storage.exportAddressBookCsv(model.getAddressBook(), filePath);
-            } catch (IOException e) {
-                throw new CommandException(MESSAGE_ERROR);
-            } catch (InvalidFileException e) {
-                throw new CommandException(MESSAGE_NOT_XML_CSV_FILE);
-            } catch (ExistingFileException e) {
-                throw new CommandException(MESSAGE_EXISTING_XML);
-            }
-            return new CommandResult(String.format(MESSAGE_EXPORT_SUCCESS, filePath));
-        }
-
         try {
-            storage.exportAddressBook(model.getAddressBook(), filePath);
+            if (FileUtil.isValidCsvFile(filePath)) {
+                storage.exportAddressBookCsv(model.getAddressBook(), filePath);
+            } else {
+                storage.exportAddressBook(model.getAddressBook(), filePath);
+            }
         } catch (IOException e) {
             throw new CommandException(MESSAGE_ERROR);
         } catch (InvalidFileException e) {
             throw new CommandException(MESSAGE_NOT_XML_CSV_FILE);
         } catch (ExistingFileException e) {
-            throw new CommandException(MESSAGE_EXISTING_XML);
+            throw new CommandException(MESSAGE_EXISTING_XML_CSV);
         }
         return new CommandResult(String.format(MESSAGE_EXPORT_SUCCESS, filePath));
     }
@@ -279,6 +294,51 @@ public class FindEventCommand extends Command {
         return other == this // short circuit if same object
                 || (other instanceof FindEventCommand // instanceof handles nulls
                 && this.predicate.equals(((FindEventCommand) other).predicate));
+    }
+}
+```
+###### \java\seedu\address\logic\commands\GoogleCommand.java
+``` java
+
+/**
+ * Selects and google searches a person's name identified using the last displayed index from the address book.
+ */
+public class GoogleCommand extends Command {
+
+    public static final String COMMAND_WORD = "google";
+    public static final String COMMAND_ALIAS = "g";
+    public static final String MESSAGE_USAGE = COMMAND_WORD
+            + ": Googles the person's name identified by the index number used in the last person listing.\n"
+            + "Parameters: INDEX (must be a positive integer)\n"
+            + "Example: " + COMMAND_WORD + " 1";
+
+    public static final String MESSAGE_GOOGLE_PERSON_SUCCESS = "Google Searched Person: %1$s";
+
+    private final Index targetIndex;
+
+    public GoogleCommand(Index targetIndex) {
+        this.targetIndex = targetIndex;
+    }
+
+    @Override
+    public CommandResult execute() throws CommandException {
+
+        List<Person> lastShownList = model.getFilteredPersonList();
+
+        if (targetIndex.getZeroBased() >= lastShownList.size()) {
+            throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        }
+
+        EventsCenter.getInstance().post(new GoogleContactNameEvent(lastShownList.get(targetIndex.getZeroBased())));
+        return new CommandResult(String.format(MESSAGE_GOOGLE_PERSON_SUCCESS, targetIndex.getOneBased()));
+
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof GoogleCommand // instanceof handles nulls
+                && this.targetIndex.equals(((GoogleCommand) other).targetIndex)); // state check
     }
 }
 ```
@@ -533,6 +593,30 @@ public class FindEventCommandParser implements Parser<FindEventCommand> {
     }
 }
 ```
+###### \java\seedu\address\logic\parser\GoogleCommandParser.java
+``` java
+
+/**
+ * Parses input arguments and creates a new GoogleCommand object
+ */
+public class GoogleCommandParser implements Parser<GoogleCommand> {
+
+    /**
+     * Parses the given {@code String} of arguments in the context of the SelectCommand
+     * and returns an SelectCommand object for execution.
+     * @throws ParseException if the user input does not conform the expected format
+     */
+    public GoogleCommand parse(String args) throws ParseException {
+        try {
+            Index index = ParserUtil.parseIndex(args);
+            return new GoogleCommand(index);
+        } catch (IllegalValueException ive) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, GoogleCommand.MESSAGE_USAGE));
+        }
+    }
+}
+```
 ###### \java\seedu\address\model\event\Datetime.java
 ``` java
 
@@ -567,20 +651,31 @@ public class Datetime {
     /**
      * Returns true if a given string is a valid event datetime.
      */
-    public static boolean isValidDatetime(String test) {
+    public static boolean isValidDatetime(String datetime) {
         Boolean validTime = false;
         Boolean validDate = false;
+        Boolean validFormat = false;
 
-        if (test.length() != VALID_DATETIME_LENGTH) {
+        if (datetime.length() != VALID_DATETIME_LENGTH) {
             return false;
         }
 
         try {
-            int day = Integer.parseInt(test.substring(0, 2));
-            int month = Integer.parseInt(test.substring(3, 5));
-            int year = Integer.parseInt(test.substring(6, 10));
-            int hour = Integer.parseInt(test.substring(11, 13));
-            int min = Integer.parseInt(test.substring(13, 15));
+            int day = Integer.parseInt(datetime.substring(0, 2));
+            int month = Integer.parseInt(datetime.substring(3, 5));
+            int year = Integer.parseInt(datetime.substring(6, 10));
+            int hour = Integer.parseInt(datetime.substring(11, 13));
+            int min = Integer.parseInt(datetime.substring(13, 15));
+
+            String firstSeperator = datetime.substring(2, 3);
+            String secondSeperator = datetime.substring(5, 6);
+            String thirdSeperator = datetime.substring(10, 11);
+            System.out.println(firstSeperator + secondSeperator + thirdSeperator);
+
+            //Format Validation
+            if (firstSeperator.equals("-") & secondSeperator.equals("-") & thirdSeperator.equals(" ")) {
+                validFormat = true;
+            }
 
             //Time Validation
             if (0 <= hour && hour <= 23) {
@@ -624,7 +719,7 @@ public class Datetime {
         } catch (NumberFormatException e) {
             return false;
         }
-        return validTime && validDate;
+        return validTime && validDate && validFormat;
     }
 
     @Override
@@ -749,6 +844,18 @@ public class Event implements ReadOnlyEvent {
     @Override
     public String toString() {
         return getAsText();
+    }
+}
+```
+###### \java\seedu\address\model\event\exceptions\DuplicateEventException.java
+``` java
+
+/**
+ * Signals that the operation will result in duplicate Event objects.
+ */
+public class DuplicateEventException extends DuplicateDataException {
+    public DuplicateEventException() {
+        super("Event already exists in the event list!");
     }
 }
 ```
@@ -929,10 +1036,10 @@ public class UniqueEventList implements Iterable<Event> {
     /**
      * Adds an event to the list.
      */
-    public void add(ReadOnlyEvent toAdd) throws CommandException {
+    public void add(ReadOnlyEvent toAdd) throws DuplicateEventException {
         requireNonNull(toAdd);
         if (contains(toAdd)) {
-            throw new CommandException("");
+            throw new DuplicateEventException();
         }
         internalList.add(new Event(toAdd));
     }
@@ -974,7 +1081,7 @@ public class UniqueEventList implements Iterable<Event> {
         this.internalList.setAll(replacement.internalList);
     }
 
-    public void setEvents(List<? extends ReadOnlyEvent> events) throws CommandException {
+    public void setEvents(List<? extends ReadOnlyEvent> events) throws CommandException, DuplicateEventException {
         final UniqueEventList replacement = new UniqueEventList();
         for (final ReadOnlyEvent event : events) {
             replacement.add(new Event(event));
@@ -1088,7 +1195,11 @@ public class EventBook implements ReadOnlyEventBook {
     //// list overwrite operations
 
     public void setEvents(List<? extends ReadOnlyEvent> events) throws CommandException {
-        this.events.setEvents(events);
+        try {
+            this.events.setEvents(events);
+        } catch (DuplicateEventException dee) {
+            throw new AssertionError("Eventbooks should not have duplicate events");
+        }
     }
 
     /**
@@ -1099,7 +1210,7 @@ public class EventBook implements ReadOnlyEventBook {
         try {
             setEvents(newData.getEventList());
         } catch (CommandException e) {
-            assert false : "EventBooks should not have duplicate events";
+            throw new AssertionError("Eventbooks should not have duplicate events");
         }
     }
 
@@ -1108,7 +1219,7 @@ public class EventBook implements ReadOnlyEventBook {
      *
      * @throws CommandException if an equivalent event already exists.
      */
-    public void addEvent(ReadOnlyEvent e) throws CommandException {
+    public void addEvent(ReadOnlyEvent e) throws CommandException, DuplicateEventException {
         Event newEvent = new Event(e);
         events.add(newEvent);
     }
@@ -1319,7 +1430,7 @@ public class XmlEventBookStorage implements EventBookStorage {
     private String exportedPath;
     private String header;
 
-
+    // default constructor
     public XmlEventBookStorage(String filePath) {
         this.filePath = filePath;
     }
@@ -1335,8 +1446,7 @@ public class XmlEventBookStorage implements EventBookStorage {
     }
 
     @Override
-    public Optional<ReadOnlyEventBook> readEventBook(String filePath) throws DataConversionException,
-            FileNotFoundException, JAXBException {
+    public Optional<ReadOnlyEventBook> readEventBook(String filePath) throws FileNotFoundException, JAXBException {
         requireNonNull(filePath);
 
         File eventBookFile = new File(filePath);
@@ -1373,7 +1483,115 @@ public class XmlEventBookStorage implements EventBookStorage {
 
     @Override
     public void exportEventBook() throws ParserConfigurationException, IOException {
-        //TODO
+        //TODO BY V2.0
+    }
+}
+```
+###### \java\seedu\address\ui\AnchorPaneNode.java
+``` java
+
+/**
+ * Creates anchor pane to store additional data.
+ */
+public class AnchorPaneNode extends AnchorPane {
+    // Date associated with this pane
+    private LocalDate date;
+    /**
+     * Create a anchor pane node. Date is not assigned in the constructor.
+     * @param children children of the anchor pane
+     */
+
+    public AnchorPaneNode(Node... children) {
+        super(children);
+        // Add action handler for mouse clicked
+        //this.setOnMouseClicked(e -> System.out.println("This pane's date is: " + date));
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+}
+```
+###### \java\seedu\address\ui\BrowserPanel.java
+``` java
+
+/**
+ * The Browser Panel of the App.
+ * The default page is Google's home page, but can also be used to
+ * google for contacts selected by the Select Command.
+ */
+public class BrowserPanel extends UiPart<Stage> {
+
+    public static final String GOOGLE_URL = "https://www.google.com.sg";
+    public static final String SEARCH_PAGE_URL =
+            "https://www.google.com.sg/search?q=";
+
+    private static final String FXML = "BrowserPanel.fxml";
+
+    private final Logger logger = LogsCenter.getLogger(this.getClass());
+
+    @FXML
+    private WebView browser;
+
+    /**
+     * Creates a new Google Search page.
+     *
+     * @param root Stage to use as the root of the GoogleSearch.
+     */
+    public BrowserPanel(Stage root, Person person) {
+        super(FXML, root);
+        if (person != null) {
+            this.loadPersonPage(person);
+        } else {
+            this.loadPage(GOOGLE_URL);
+        }
+        registerAsAnEventHandler(this);
+    }
+
+    public BrowserPanel(Person person) {
+        this(new Stage(), person);
+    }
+
+    private void loadPersonPage(Person person) {
+        loadPage(SEARCH_PAGE_URL + person.getName().fullName);
+    }
+
+    public void loadPage(String url) {
+        browser.getEngine().load(url);
+    }
+
+    /**
+     * Frees resources allocated to the browser.
+     */
+    public void freeResources() {
+        browser = null;
+    }
+
+    /**
+     * Shows the GoogleSearch window.
+     * @throws IllegalStateException
+     * <ul>
+     *     <li>
+     *         if this method is called on a thread other than the JavaFX Application Thread.
+     *     </li>
+     *     <li>
+     *         if this method is called during animation or layout processing.
+     *     </li>
+     *     <li>
+     *         if this method is called on the primary stage.
+     *     </li>
+     *     <li>
+     *         if {@code dialogStage} is already showing.
+     *     </li>
+     * </ul>
+     */
+    public void show() {
+        logger.fine("Showing Google Search page.");
+        getRoot().show();
     }
 }
 ```
@@ -1381,12 +1599,13 @@ public class XmlEventBookStorage implements EventBookStorage {
 ``` java
 
 /**
- * WORK IN PROGRESS FOR EVENTS AND LOGGING
+ * Creates a Calendar View
  */
 public class CalendarView {
     private ArrayList<AnchorPaneNode> calendarMonth = new ArrayList<>(35);
     private VBox view;
     private Text calendarTitle;
+    private YearMonth defaultYearMonth;
     private YearMonth currentYearMonth;
     private ObservableList<ReadOnlyEvent> eventList;
     private Logic logic;
@@ -1398,6 +1617,7 @@ public class CalendarView {
     public CalendarView(Logic logic, ObservableList<ReadOnlyEvent> eventList, YearMonth yearMonth) {
         this.logic = logic;
         this.eventList = eventList;
+        defaultYearMonth = yearMonth;
         currentYearMonth = yearMonth;
 
         // Creates the calendar grid pane
@@ -1427,6 +1647,7 @@ public class CalendarView {
         // Creates a title for the calendar
         calendarTitle = new Text();
         calendarTitle.setFill(Color.WHITE);
+        calendarTitle.setFont(new Font("Serif", 16));
 
         // Buttons to navigate through months
         Button previousMonth = new Button("< Previous");
@@ -1434,20 +1655,38 @@ public class CalendarView {
         Button nextMonth = new Button("Next >");
         nextMonth.setOnAction(e -> nextMonth());
         HBox titleBar = new HBox(previousMonth, calendarTitle, nextMonth);
-        HBox.setMargin(calendarTitle, new Insets(0, 20, 0, 20));
+        HBox.setMargin(calendarTitle, new Insets(0, 10, 0, 10));
         titleBar.setAlignment(Pos.BASELINE_CENTER);
 
         // Populate calendar with the appropriate day numbers
         populateCalendar(yearMonth, null);
 
-        // Creates the calendar view
-        view = new VBox(titleBar, dayLabels, calendar);
-        VBox.setMargin(titleBar, new Insets(0, 0, 15, 0));
+        // Displaying the current date and time
+        DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("dd MMMM yyyy");
+        Button calendarDateTime = new Button("Today's date is " + dateTimeFormat.format(LocalDate.now()));
+        calendarDateTime.setStyle("-fx-border-color: transparent; "
+                + "-fx-background-color: transparent; -fx-font-size: 18");
+        calendarDateTime.setOnAction(e -> originalYearMonth());
+        HBox calendarDtBar = new HBox(calendarDateTime);
+        calendarDtBar.setAlignment(Pos.BASELINE_CENTER);
 
+        // Displaying a welcome message
+        Text welcomeMessage = new Text("Welcome to BizConnect Journal!");
+        welcomeMessage.setFill(Color.WHITE);
+        welcomeMessage.setFont(new Font("Impact", 24));
+        HBox welcomeMessageBar = new HBox(welcomeMessage);
+        welcomeMessageBar.setAlignment(Pos.BASELINE_CENTER);
+
+        // Creates the calendar view
+        view = new VBox(calendarDtBar, titleBar, dayLabels, calendar);
+        VBox.setMargin(calendarDtBar, new Insets(0, 0, 5, 0));
+        VBox.setMargin(titleBar, new Insets(0, 0, 5, 0));
     }
 
     /**
-     * WORK IN PROGRESS FOR EVENTS
+     * Sets the calendar days according to the intended month and year
+     * @param targetIndex for finding specific event(s)
+     * @param yearMonth for desired year and month of the calendar view
      */
     public void populateCalendar(YearMonth yearMonth, Index targetIndex) {
         // Gets the current date as reference
@@ -1536,13 +1775,21 @@ public class CalendarView {
         }
     }
 
+    // to look at the previous month
     private void previousMonth() {
         currentYearMonth = currentYearMonth.minusMonths(1);
         populateCalendar(currentYearMonth, null);
     }
 
+    // to look at the next month
     private void nextMonth() {
         currentYearMonth = currentYearMonth.plusMonths(1);
+        populateCalendar(currentYearMonth, null);
+    }
+
+    // to jump back to the current year and month easily
+    private void originalYearMonth() {
+        currentYearMonth = defaultYearMonth;
         populateCalendar(currentYearMonth, null);
     }
 
@@ -1832,41 +2079,41 @@ public class EventListPanel extends UiPart<Region> {
     }
 }
 ```
-###### \java\seedu\address\ui\StackOverflowWindow.java
+###### \java\seedu\address\ui\LinkedInWindow.java
 ``` java
 
 /**
- * Controller for a stackoverflow page
+ * Controller for a LinkedIn page
  */
-public class StackOverflowWindow extends UiPart<Stage> {
+public class LinkedInWindow extends UiPart<Stage> {
 
-    public static final String STACKOVERFLOW_URL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+    public static final String LINKEDIN_URL = "https://www.linkedin.com";
 
-    private static final Logger logger = LogsCenter.getLogger(StackOverflowWindow.class);
-    private static final String FXML = "StackOverflowWindow.fxml";
+    private static final Logger logger = LogsCenter.getLogger(LinkedInWindow.class);
+    private static final String FXML = "LinkedInWindow.fxml";
 
     @FXML
     private WebView browser;
 
     /**
-     * Creates a new StackOverflowWindow.
+     * Creates a new LinkedIn page.
      *
-     * @param root Stage to use as the root of the StackOverflowWindow.
+     * @param root Stage to use as the root of the LinkedIn.
      */
-    public StackOverflowWindow(Stage root) {
+    public LinkedInWindow(Stage root) {
         super(FXML, root);
-        browser.getEngine().load(STACKOVERFLOW_URL);
+        browser.getEngine().load(LINKEDIN_URL);
     }
 
     /**
-     * Creates a new StackOverflowWindow.
+     * Creates a new LinkedInWindow.
      */
-    public StackOverflowWindow() {
+    public LinkedInWindow() {
         this(new Stage());
     }
 
     /**
-     * Shows the stackoverflow window.
+     * Shows the LinkedIn window.
      * @throws IllegalStateException
      * <ul>
      *     <li>
@@ -1884,14 +2131,86 @@ public class StackOverflowWindow extends UiPart<Stage> {
      * </ul>
      */
     public void show() {
-        logger.fine("Showing the stackoverflow page.");
+        logger.fine("Showing the LinkedIn page.");
         getRoot().show();
     }
 }
 ```
+###### \resources\view\BrowserPanel.fxml
+``` fxml
+<!-- TODO: set a more appropriate initial size -->
+<fx:root type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+         title="GoogleSearch" maximized="true">
+  <icons>
+    <Image url="@/images/chrome_icon.png" />
+  </icons>
+  <scene>
+    <Scene>
+      <WebView fx:id="browser"/>
+    </Scene>
+  </scene>
+</fx:root>
+```
+###### \resources\view\CalendarView.fxml
+``` fxml
+<Pane fx:id="calendarPanel" maxHeight="-Infinity"
+      maxWidth="-Infinity" minHeight="-Infinity"
+      minWidth="-Infinity" prefHeight="550.0"
+      prefWidth="550.0" xmlns="http://javafx.com/javafx/8.0.60"
+      xmlns:fx="http://javafx.com/fxml/1"
+/>
+```
+###### \resources\view\EventListCard.fxml
+``` fxml
+<HBox xmlns:fx="http://javafx.com/fxml/1" id="cardPane" fx:id="cardPane" xmlns="http://javafx.com/javafx/8">
+  <GridPane HBox.hgrow="ALWAYS">
+    <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10" prefWidth="150"/>
+    </columnConstraints>
+    <VBox alignment="CENTER_LEFT" minHeight="105" GridPane.columnIndex="0">
+      <padding>
+        <Insets top="5" right="5" bottom="5" left="15"/>
+      </padding>
+      <HBox alignment="CENTER_LEFT">
+        <Label fx:id="id" styleClass="cell_big_label">
+          <minWidth>
+            <!-- Ensures that the label text is never truncated -->
+            <Region fx:constant="USE_PREF_SIZE"/>
+          </minWidth>
+        </Label>
+        <Label fx:id="title" text="\$title" styleClass="cell_big_label"/>
+      </HBox>
+      <Label fx:id="description" styleClass="cell_small_label" text="\$description"/>
+      <Label fx:id="eventLocation" styleClass="cell_small_label" text="\$eventLocation"/>
+      <Label fx:id="datetime" styleClass="cell_small_label" text="\$datetime"/>
+    </VBox>
+  </GridPane>
+</HBox>
+```
+###### \resources\view\EventListPanel.fxml
+``` fxml
+<VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+  <ListView fx:id="eventListView" VBox.vgrow="ALWAYS"/>
+</VBox>
+```
+###### \resources\view\LinkedInWindow.fxml
+``` fxml
+<!-- TODO: set a more appropriate initial size -->
+<fx:root type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+         title="LinkedIn" maximized="true">
+  <icons>
+    <Image url="@/images/linkedin_icon.png" />
+  </icons>
+  <scene>
+    <Scene>
+      <WebView fx:id="browser"/>
+    </Scene>
+  </scene>
+</fx:root>
+```
 ###### \resources\view\MainWindow.fxml
 ``` fxml
-          <VBox fx:id="eventTaskView" minWidth="380" prefWidth="380" SplitPane.resizableWithParent="false">
+          <VBox fx:id="eventTaskView" minWidth="380" prefWidth="380" SplitPane.resizableWithParent="true">
             <padding>
               <Insets top="10" right="10" bottom="10" left="10"/>
             </padding>

@@ -124,7 +124,7 @@ public class AddTagCommand extends UndoableCommand {
 
         try {
             editedPerson.addTags(tags);
-        } catch (Exception e) {
+        } catch (DuplicateTagException dte) {
             throw new CommandException(MESSAGE_TAGS_MUST_NOT_EXIST);
         }
 
