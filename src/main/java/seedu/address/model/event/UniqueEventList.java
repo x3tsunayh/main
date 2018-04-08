@@ -14,6 +14,7 @@ import org.fxmisc.easybind.EasyBind;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.event.exceptions.DuplicateEventException;
 
 //@@author x3tsunayh
 
@@ -39,10 +40,10 @@ public class UniqueEventList implements Iterable<Event> {
     /**
      * Adds an event to the list.
      */
-    public void add(ReadOnlyEvent toAdd) throws CommandException {
+    public void add(ReadOnlyEvent toAdd) throws DuplicateEventException {
         requireNonNull(toAdd);
         if (contains(toAdd)) {
-            throw new CommandException("");
+            throw new DuplicateEventException();
         }
         internalList.add(new Event(toAdd));
     }
@@ -84,7 +85,7 @@ public class UniqueEventList implements Iterable<Event> {
         this.internalList.setAll(replacement.internalList);
     }
 
-    public void setEvents(List<? extends ReadOnlyEvent> events) throws CommandException {
+    public void setEvents(List<? extends ReadOnlyEvent> events) throws CommandException, DuplicateEventException {
         final UniqueEventList replacement = new UniqueEventList();
         for (final ReadOnlyEvent event : events) {
             replacement.add(new Event(event));

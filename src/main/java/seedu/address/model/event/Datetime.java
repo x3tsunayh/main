@@ -37,20 +37,31 @@ public class Datetime {
     /**
      * Returns true if a given string is a valid event datetime.
      */
-    public static boolean isValidDatetime(String test) {
+    public static boolean isValidDatetime(String datetime) {
         Boolean validTime = false;
         Boolean validDate = false;
+        Boolean validFormat = false;
 
-        if (test.length() != VALID_DATETIME_LENGTH) {
+        if (datetime.length() != VALID_DATETIME_LENGTH) {
             return false;
         }
 
         try {
-            int day = Integer.parseInt(test.substring(0, 2));
-            int month = Integer.parseInt(test.substring(3, 5));
-            int year = Integer.parseInt(test.substring(6, 10));
-            int hour = Integer.parseInt(test.substring(11, 13));
-            int min = Integer.parseInt(test.substring(13, 15));
+            int day = Integer.parseInt(datetime.substring(0, 2));
+            int month = Integer.parseInt(datetime.substring(3, 5));
+            int year = Integer.parseInt(datetime.substring(6, 10));
+            int hour = Integer.parseInt(datetime.substring(11, 13));
+            int min = Integer.parseInt(datetime.substring(13, 15));
+
+            String firstSeperator = datetime.substring(2, 3);
+            String secondSeperator = datetime.substring(5, 6);
+            String thirdSeperator = datetime.substring(10, 11);
+            System.out.println(firstSeperator + secondSeperator + thirdSeperator);
+
+            //Format Validation
+            if (firstSeperator.equals("-") & secondSeperator.equals("-") & thirdSeperator.equals(" ")) {
+                validFormat = true;
+            }
 
             //Time Validation
             if (0 <= hour && hour <= 23) {
@@ -94,7 +105,7 @@ public class Datetime {
         } catch (NumberFormatException e) {
             return false;
         }
-        return validTime && validDate;
+        return validTime && validDate && validFormat;
     }
 
     @Override
