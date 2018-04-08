@@ -32,7 +32,8 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <MenuItem fx:id="helpMenuItem" mnemonicParsing="false" onAction="#handleHelp" text="Help" />
-            <MenuItem fx:id="stackOverflowItem" mnemonicParsing="false" onAction="#handleStackOverflow" text="StackOverflow" />
+            <MenuItem fx:id="linkedInItem" mnemonicParsing="false" onAction="#handleLinkedIn" text="LinkedIn" />
+            <MenuItem fx:id="googleItem" mnemonicParsing="false" onAction="#handleGoogleSearch" text="Google" />
           </Menu>
         </MenuBar>
 

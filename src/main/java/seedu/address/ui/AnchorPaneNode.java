@@ -5,8 +5,10 @@ import java.time.LocalDate;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 
+//@@author x3tsunayh
+
 /**
- * I DO NOT KNOW YET
+ * Creates anchor pane to store additional data.
  */
 public class AnchorPaneNode extends AnchorPane {
     // Date associated with this pane

@@ -10,37 +10,37 @@ import seedu.address.commons.core.LogsCenter;
 //@@author x3tsunayh
 
 /**
- * Controller for a stackoverflow page
+ * Controller for a LinkedIn page
  */
-public class StackOverflowWindow extends UiPart<Stage> {
+public class LinkedInWindow extends UiPart<Stage> {
 
-    public static final String STACKOVERFLOW_URL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+    public static final String LINKEDIN_URL = "https://www.linkedin.com";
 
-    private static final Logger logger = LogsCenter.getLogger(StackOverflowWindow.class);
-    private static final String FXML = "StackOverflowWindow.fxml";
+    private static final Logger logger = LogsCenter.getLogger(LinkedInWindow.class);
+    private static final String FXML = "LinkedInWindow.fxml";
 
     @FXML
     private WebView browser;
 
     /**
-     * Creates a new StackOverflowWindow.
+     * Creates a new LinkedIn page.
      *
-     * @param root Stage to use as the root of the StackOverflowWindow.
+     * @param root Stage to use as the root of the LinkedIn.
      */
-    public StackOverflowWindow(Stage root) {
+    public LinkedInWindow(Stage root) {
         super(FXML, root);
-        browser.getEngine().load(STACKOVERFLOW_URL);
+        browser.getEngine().load(LINKEDIN_URL);
     }
 
     /**
-     * Creates a new StackOverflowWindow.
+     * Creates a new LinkedInWindow.
      */
-    public StackOverflowWindow() {
+    public LinkedInWindow() {
         this(new Stage());
     }
 
     /**
-     * Shows the stackoverflow window.
+     * Shows the LinkedIn window.
      * @throws IllegalStateException
      * <ul>
      *     <li>
@@ -58,7 +58,7 @@ public class StackOverflowWindow extends UiPart<Stage> {
      * </ul>
      */
     public void show() {
-        logger.fine("Showing the stackoverflow page.");
+        logger.fine("Showing the LinkedIn page.");
         getRoot().show();
     }
 }

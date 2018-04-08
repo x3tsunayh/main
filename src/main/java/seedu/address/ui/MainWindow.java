@@ -17,9 +17,11 @@ import seedu.address.commons.core.Config;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.ui.ExitAppRequestEvent;
+import seedu.address.commons.events.ui.GoogleContactNameEvent;
 import seedu.address.commons.events.ui.ShowHelpRequestEvent;
 import seedu.address.logic.Logic;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.person.Person;
 
 /**
  * The Main Window. Provides the basic application layout containing
@@ -54,7 +56,10 @@ public class MainWindow extends UiPart<Stage> {
     private MenuItem helpMenuItem;
 
     @FXML
-    private MenuItem stackOverflowItem;
+    private MenuItem linkedInItem;
+
+    @FXML
+    private MenuItem googleItem;
 
     @FXML
     private StackPane calendarViewPanelPlaceholder;
@@ -101,7 +106,8 @@ public class MainWindow extends UiPart<Stage> {
 
     private void setAccelerators() {
         setAccelerator(helpMenuItem, KeyCombination.valueOf("F1"));
-        setAccelerator(stackOverflowItem, KeyCombination.valueOf("F2"));
+        setAccelerator(linkedInItem, KeyCombination.valueOf("F2"));
+        setAccelerator(googleItem, KeyCombination.valueOf("F3"));
     }
 
     /**
@@ -138,8 +144,6 @@ public class MainWindow extends UiPart<Stage> {
      * Fills up all the placeholders of this window.
      */
     void fillInnerParts() {
-        //browserPanel = new BrowserPanel();
-
         personListPanel = new PersonListPanel(logic.getFilteredPersonList());
         personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
 
@@ -192,7 +196,7 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     /**
-     * Opens the help window.
+     * Opens the Help window.
      */
     @FXML
     public void handleHelp() {
@@ -201,12 +205,30 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     /**
-     * Opens the help window.
+     * Opens the LinkedIn window.
      */
     @FXML
-    public void handleStackOverflow() {
-        StackOverflowWindow stackOverflowWindow = new StackOverflowWindow();
-        stackOverflowWindow.show();
+    public void handleLinkedIn() {
+        LinkedInWindow linkedInWindow = new LinkedInWindow();
+        linkedInWindow.show();
+    }
+
+    /**
+     * Opens the Contact Google Search window.
+     */
+    @FXML
+    public void handleContactSearch(Person person) {
+        BrowserPanel contactSearchWindow = new BrowserPanel(person);
+        contactSearchWindow.show();
+    }
+
+    /**
+     * Opens the default Google Search window.
+     */
+    @FXML
+    public void handleGoogleSearch() {
+        BrowserPanel googleSearchWindow = new BrowserPanel(null);
+        googleSearchWindow.show();
     }
 
     void show() {
@@ -237,6 +259,12 @@ public class MainWindow extends UiPart<Stage> {
     private void handleShowHelpEvent(ShowHelpRequestEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
         handleHelp();
+    }
+
+    @Subscribe
+    private void handleContactSearchEvent(GoogleContactNameEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        handleContactSearch(event.getPerson());
     }
 
 }
