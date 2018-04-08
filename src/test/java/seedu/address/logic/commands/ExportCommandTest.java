@@ -98,8 +98,7 @@ public class ExportCommandTest {
 
     @Test
     public void execute_existingXmlName_throwsCommandException() {
-        String filePath = getFilePath(EXISTING_XML_FILEPATH);
-        ExportCommand command = prepareCommand(filePath);
+        ExportCommand command = prepareCommand(EXISTING_XML_FILEPATH);
         try {
             storage.exportAddressBook(model.getAddressBook(), EXISTING_XML_FILEPATH);
         } catch (ExistingFileException e) {
@@ -120,7 +119,6 @@ public class ExportCommandTest {
         } catch (IOException | InvalidFileException e) {
             throw new AssertionError("The expected CommandException was not thrown.", e);
         }
-
     }
 
 
