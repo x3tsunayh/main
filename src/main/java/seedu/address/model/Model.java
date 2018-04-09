@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.event.ReadOnlyEvent;
 import seedu.address.model.event.ReadOnlyEventBook;
+import seedu.address.model.event.exceptions.DuplicateEventException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
@@ -90,7 +91,7 @@ public interface Model {
      */
     void updateFilteredTaskList(Predicate<Task> predicate);
 
-    void addEvent(ReadOnlyEvent toAdd) throws CommandException;
+    void addEvent(ReadOnlyEvent toAdd) throws CommandException, DuplicateEventException;
 
     void deleteEvent(ReadOnlyEvent eventToDelete) throws CommandException;
 

@@ -22,12 +22,14 @@ image::x3tsunayh.jpg[width="100", align="left"]
 * Components in charge of: Storage
 * Aspects/tools in charge of: Deliverables and Deadlines, Scheduling and Tracking
 * Features implemented:
+** Google Search Contact Name
 ** Saving Addressbook Data
 ** Export Addressbook Data
 ** Calendar View
-** Event Functionality (Add, Delete, Find, Edit, Sort and List All Events)
+** Event Functionality (Add, Delete, Find, and List All Events)
 ** Switch Tab Functionality between Events and Tasks Tabs
-** Stack Overflow Page (changing to LinkedIn Page soon)
+** LinkedIn Page
+** Google Page
 * Code written: [https://github.com/CS2103JAN2018-T15-B4/main/tree/master/collated/functional/x3tsunayh.md[functional code]][https://github.com/CS2103JAN2018-T15-B4/main/tree/master/collated/test/x3tsunayh.md[test code]]
 
 '''

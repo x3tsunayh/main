@@ -116,9 +116,25 @@ public class CommandTestUtil {
     public static final String DATETIME_DESC_CNY = " " + PREFIX_EVENT_DATETIME + VALID_DATETIME_CNY;
     public static final String DATETIME_DESC_CHRISTMAS = " " + PREFIX_EVENT_DATETIME + VALID_DATETIME_CHRISTMAS;
 
-    // '~' not allowed at the start of field input
-    public static final String INVALID_DATETIME_DESC = " "
-            + PREFIX_EVENT_DATETIME + "32-12-2018 2359"; //There is no 32 in the date
+    public static final String VALID_DATETIME_01 = "01-12-2018 2359";
+    public static final String VALID_DATETIME_29 = "29-12-2018 2359";
+    public static final String VALID_DATETIME_30 = "30-12-2018 2359";
+    public static final String VALID_DATETIME_31 = "31-12-2018 2359";
+    public static final String INVALID_DATETIME_00 = "00-12-2018 2359"; //There is no 00 in the date
+    public static final String INVALID_DATETIME_32 = "32-12-2018 2359"; //There is no 32 in the date
+
+    public static final String VALID_DATETIME_DESC_01 = " "
+            + PREFIX_EVENT_DATETIME + VALID_DATETIME_01;
+    public static final String VALID_DATETIME_DESC_29 = " "
+            + PREFIX_EVENT_DATETIME + VALID_DATETIME_29;
+    public static final String VALID_DATETIME_DESC_30 = " "
+            + PREFIX_EVENT_DATETIME + VALID_DATETIME_30;
+    public static final String VALID_DATETIME_DESC_31 = " "
+            + PREFIX_EVENT_DATETIME + VALID_DATETIME_31;
+    public static final String INVALID_DATETIME_DESC_00 = " "
+            + PREFIX_EVENT_DATETIME + INVALID_DATETIME_00;
+    public static final String INVALID_DATETIME_DESC_32 = " "
+            + PREFIX_EVENT_DATETIME + INVALID_DATETIME_32;
 
     //@@author CYX28
     public static final String VALID_TASK_NAME_TASKFIRST = "First task";

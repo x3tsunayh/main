@@ -29,7 +29,7 @@ public class XmlEventBookStorage implements EventBookStorage {
     private String exportedPath;
     private String header;
 
-
+    // default constructor
     public XmlEventBookStorage(String filePath) {
         this.filePath = filePath;
     }
@@ -45,8 +45,7 @@ public class XmlEventBookStorage implements EventBookStorage {
     }
 
     @Override
-    public Optional<ReadOnlyEventBook> readEventBook(String filePath) throws DataConversionException,
-            FileNotFoundException, JAXBException {
+    public Optional<ReadOnlyEventBook> readEventBook(String filePath) throws FileNotFoundException, JAXBException {
         requireNonNull(filePath);
 
         File eventBookFile = new File(filePath);
@@ -83,6 +82,6 @@ public class XmlEventBookStorage implements EventBookStorage {
 
     @Override
     public void exportEventBook() throws ParserConfigurationException, IOException {
-        //TODO
+        //TODO BY V2.0
     }
 }

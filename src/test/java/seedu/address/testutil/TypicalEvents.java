@@ -7,6 +7,7 @@ import java.util.List;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.EventBook;
 import seedu.address.model.event.ReadOnlyEvent;
+import seedu.address.model.event.exceptions.DuplicateEventException;
 
 //@@author x3tsunayh
 
@@ -42,6 +43,8 @@ public class TypicalEvents {
                 eb.addEvent(event);
             } catch (CommandException e) {
                 assert false : "Invalid Command";
+            } catch (DuplicateEventException e) {
+                assert false : "Duplicate Event";
             }
         }
         return eb;

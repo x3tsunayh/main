@@ -204,9 +204,25 @@ public class AddEventCommandTest {
     public static final String DATETIME_DESC_CNY = " " + PREFIX_EVENT_DATETIME + VALID_DATETIME_CNY;
     public static final String DATETIME_DESC_CHRISTMAS = " " + PREFIX_EVENT_DATETIME + VALID_DATETIME_CHRISTMAS;
 
-    // '~' not allowed at the start of field input
-    public static final String INVALID_DATETIME_DESC = " "
-            + PREFIX_EVENT_DATETIME + "32-12-2018 2359"; //There is no 32 in the date
+    public static final String VALID_DATETIME_01 = "01-12-2018 2359";
+    public static final String VALID_DATETIME_29 = "29-12-2018 2359";
+    public static final String VALID_DATETIME_30 = "30-12-2018 2359";
+    public static final String VALID_DATETIME_31 = "31-12-2018 2359";
+    public static final String INVALID_DATETIME_00 = "00-12-2018 2359"; //There is no 00 in the date
+    public static final String INVALID_DATETIME_32 = "32-12-2018 2359"; //There is no 32 in the date
+
+    public static final String VALID_DATETIME_DESC_01 = " "
+            + PREFIX_EVENT_DATETIME + VALID_DATETIME_01;
+    public static final String VALID_DATETIME_DESC_29 = " "
+            + PREFIX_EVENT_DATETIME + VALID_DATETIME_29;
+    public static final String VALID_DATETIME_DESC_30 = " "
+            + PREFIX_EVENT_DATETIME + VALID_DATETIME_30;
+    public static final String VALID_DATETIME_DESC_31 = " "
+            + PREFIX_EVENT_DATETIME + VALID_DATETIME_31;
+    public static final String INVALID_DATETIME_DESC_00 = " "
+            + PREFIX_EVENT_DATETIME + INVALID_DATETIME_00;
+    public static final String INVALID_DATETIME_DESC_32 = " "
+            + PREFIX_EVENT_DATETIME + INVALID_DATETIME_32;
 
 ```
 ###### \java\seedu\address\logic\commands\DeleteEventCommandTest.java
@@ -378,8 +394,7 @@ public class ExportCommandTest {
 
     @Test
     public void execute_existingXmlName_throwsCommandException() {
-        String filePath = getFilePath(EXISTING_XML_FILEPATH);
-        ExportCommand command = prepareCommand(filePath);
+        ExportCommand command = prepareCommand(EXISTING_XML_FILEPATH);
         try {
             storage.exportAddressBook(model.getAddressBook(), EXISTING_XML_FILEPATH);
         } catch (ExistingFileException e) {
@@ -400,7 +415,6 @@ public class ExportCommandTest {
         } catch (IOException | InvalidFileException e) {
             throw new AssertionError("The expected CommandException was not thrown.", e);
         }
-
     }
 
 
@@ -736,6 +750,90 @@ public class EventBookTest {
     }
 }
 ```
+###### \java\seedu\address\storage\XmlEventBookStorageTest.java
+``` java
+
+public class XmlEventBookStorageTest {
+    private static final String TEST_DATA_FOLDER = FileUtil
+            .getPath("./src/test/data/XmlEventBookStorageTest/");
+
+    private static final String HEADER = "Title,Description,Location,Datetime";
+    private static final String EXPORT_DATA = "TempEventBook.csv";
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
+    @Rule
+    public TemporaryFolder testFolder = new TemporaryFolder();
+
+    @Test
+    public void readEventBook_nullFilePath_throwsNullPointerException() throws Exception {
+        thrown.expect(NullPointerException.class);
+        readEventBook(null);
+    }
+
+    private java.util.Optional<ReadOnlyEventBook> readEventBook(String filePath) throws Exception {
+        return new XmlEventBookStorage(filePath)
+                .readEventBook(addToTestDataPathIfNotNull(filePath));
+    }
+
+    private String addToTestDataPathIfNotNull(String prefsFileInTestDataFolder) {
+        return prefsFileInTestDataFolder != null
+                ? TEST_DATA_FOLDER + prefsFileInTestDataFolder
+                : null;
+    }
+
+    @Test
+    public void read_missingFile_emptyResult() throws Exception {
+        assertFalse(readEventBook("NonExistentFile.xml").isPresent());
+    }
+
+    @Test
+    public void readAndSaveEventBook_allInOrder_success() throws Exception {
+        String filePath = testFolder.getRoot().getPath() + "TempEventBook.xml";
+        EventBook original = getTypicalEventBook();
+        XmlEventBookStorage xmlEventBookStorage = new XmlEventBookStorage(filePath);
+
+        // saves in new file and read again; ensures data integrity
+        xmlEventBookStorage.saveEventBook(original, filePath);
+        ReadOnlyEventBook readBack = xmlEventBookStorage.readEventBook(filePath).get();
+        assertEquals(original, new EventBook(readBack));
+
+
+    }
+
+    @Test
+    public void saveEventBook_nullAddressBook_throwsNullPointerException() {
+        thrown.expect(NullPointerException.class);
+        saveEventBook(null, "SomeFile.xml");
+    }
+
+    @Test
+    public void getEventList_modifyList_throwsUnsupportedOperationException() {
+        XmlSerializableEventBook eventBook = new XmlSerializableEventBook();
+        thrown.expect(UnsupportedOperationException.class);
+        eventBook.getEventList().remove(0);
+    }
+
+    /**
+     * Saves {@code eventBook} at the specified {@code filePath}.
+     */
+    private void saveEventBook(ReadOnlyEventBook eventBook, String filePath) {
+        try {
+            new XmlEventBookStorage(filePath)
+                    .saveEventBook(eventBook, addToTestDataPathIfNotNull(filePath));
+        } catch (IOException ioe) {
+            throw new AssertionError("There should be no error writing to this file.", ioe);
+        }
+    }
+
+    @Test
+    public void saveEventBook_nullFilePath_throwsNullPointerException() throws IOException {
+        thrown.expect(NullPointerException.class);
+        saveEventBook(new EventBook(), null);
+    }
+}
+```
 ###### \java\seedu\address\testutil\TypicalEvents.java
 ``` java
 
@@ -771,6 +869,8 @@ public class TypicalEvents {
                 eb.addEvent(event);
             } catch (CommandException e) {
                 assert false : "Invalid Command";
+            } catch (DuplicateEventException e) {
+                assert false : "Duplicate Event";
             }
         }
         return eb;

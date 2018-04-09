@@ -16,6 +16,7 @@ import seedu.address.commons.events.model.EventBookChangedEvent;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.event.ReadOnlyEvent;
 import seedu.address.model.event.ReadOnlyEventBook;
+import seedu.address.model.event.exceptions.DuplicateEventException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
@@ -165,7 +166,7 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public void addEvent(ReadOnlyEvent eventToAdd) throws CommandException {
+    public void addEvent(ReadOnlyEvent eventToAdd) throws CommandException, DuplicateEventException {
         eventBook.addEvent(eventToAdd);
         updateFilteredEventList(PREDICATE_SHOW_ALL_EVENTS);
         indicateEventBookChanged();

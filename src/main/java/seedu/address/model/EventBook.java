@@ -12,6 +12,7 @@ import seedu.address.model.event.Event;
 import seedu.address.model.event.ReadOnlyEvent;
 import seedu.address.model.event.ReadOnlyEventBook;
 import seedu.address.model.event.UniqueEventList;
+import seedu.address.model.event.exceptions.DuplicateEventException;
 
 //@@author x3tsunayh
 
@@ -48,7 +49,11 @@ public class EventBook implements ReadOnlyEventBook {
     //// list overwrite operations
 
     public void setEvents(List<? extends ReadOnlyEvent> events) throws CommandException {
-        this.events.setEvents(events);
+        try {
+            this.events.setEvents(events);
+        } catch (DuplicateEventException dee) {
+            throw new AssertionError("Eventbooks should not have duplicate events");
+        }
     }
 
     /**
@@ -59,7 +64,7 @@ public class EventBook implements ReadOnlyEventBook {
         try {
             setEvents(newData.getEventList());
         } catch (CommandException e) {
-            assert false : "EventBooks should not have duplicate events";
+            throw new AssertionError("Eventbooks should not have duplicate events");
         }
     }
 
@@ -68,7 +73,7 @@ public class EventBook implements ReadOnlyEventBook {
      *
      * @throws CommandException if an equivalent event already exists.
      */
-    public void addEvent(ReadOnlyEvent e) throws CommandException {
+    public void addEvent(ReadOnlyEvent e) throws CommandException, DuplicateEventException {
         Event newEvent = new Event(e);
         events.add(newEvent);
     }
