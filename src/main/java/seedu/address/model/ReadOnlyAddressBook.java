@@ -24,7 +24,14 @@ public interface ReadOnlyAddressBook {
     ObservableList<Tag> getTagList();
 
     /**
-     * Returns an unmodifiable view of the tasks list.
+     * Returns an unmodifiable view of the tasks list before sorting.
+     * This list will not contain any duplicate tasks.
+     */
+    ObservableList<Task> getOriginalTaskList();
+
+    /**
+     * Returns an unmodifiable view of the tasks list sorted by task status (i.e. undone and done)
+     * followed by taskDueDate.
      * This list will not contain any duplicate tasks.
      */
     ObservableList<Task> getTaskList();

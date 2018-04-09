@@ -3,6 +3,7 @@
 <!-- @@author CYX28 -->
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.GridPane?>
@@ -28,11 +29,25 @@
                 </Label>
                 <Label fx:id="name" text="\$first" styleClass="cell_big_label" />
             </HBox>
-            <FlowPane fx:id="categories" />
-            <Label fx:id="priority" styleClass="cell_small_label" text="\$priority" />
             <Label fx:id="description" styleClass="cell_small_label" text="\$description" />
-            <Label fx:id="dueDate" styleClass="cell_small_label" text="\$dueDate" />
-            <Label fx:id="status" styleClass="cell_small_label" text="\$status" />
+            <FlowPane fx:id="categories" />
+        </VBox>
+        <VBox alignment="CENTER_RIGHT" minHeight="105" GridPane.columnIndex="1">
+            <padding>
+                <Insets top="25" right="0" bottom="0" left="0" />
+            </padding>
+            <HBox fx:id="statusPane" alignment="CENTER_RIGHT">
+                <ImageView fx:id="statusImage"></ImageView>
+            </HBox>
+            <HBox fx:id="dueDatePane" alignment="CENTER_RIGHT">
+                <ImageView fx:id="dueDateImage"></ImageView>
+                <Label fx:id="dueDate" styleClass="cell_small_label" text="\$dueDate" />
+            </HBox>
+            <HBox fx:id="priorityPane" alignment="CENTER_RIGHT">
+                <ImageView fx:id="priorityImage"></ImageView>
+                <Label fx:id="priority" styleClass="cell_small_label" text="\$priority" />
+            </HBox>
+            <!--<Label fx:id="priority" styleClass="cell_small_label" text="\$priority" />-->
         </VBox>
     </GridPane>
 </HBox>
