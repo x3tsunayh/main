@@ -33,7 +33,8 @@ public class TaskUtil {
         sb.append(PREFIX_TASK_DESCRIPTION + task.getTaskDescription().value + " ");
         sb.append(PREFIX_TASK_DUE_DATE + task.getTaskDueDate().value + " ");
         sb.append(PREFIX_TASK_STATUS + task.getTaskStatus().value + " ");
-        task.getTaskCategories().stream().forEach(s -> sb.append(PREFIX_TASK_CATEGORY + s.taskCategoryName + " "));
+        task.getTaskCategories().stream().forEach(s -> sb.append(PREFIX_TASK_CATEGORY
+                + s.taskCategoryName.toLowerCase() + " "));
         return sb.toString();
     }
 
