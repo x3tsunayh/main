@@ -336,6 +336,12 @@
     -fx-background-radius: 0;
 }
 
+#overdueTaskCount {
+    -alignment: center;
+    -fx-font-size: 15;
+    -fx-font-color: red;
+}
+
 #tags, #categories {
     -fx-hgap: 7;
     -fx-vgap: 3;
@@ -348,4 +354,25 @@
     -fx-border-radius: 2;
     -fx-background-radius: 2;
     -fx-font-size: 11;
+}
+
+#statusPane {
+    -fx-padding: 0 35 0 0;
+    -fx-spacing: 2;
+}
+
+#statusImage {
+    -fx-padding: 0 100 0 0;
+}
+
+#dueDatePane {
+    -fx-padding: 0 5 5 0;
+    -fx-spacing: 2;
+}
+
+#priorityPane {
+    -fx-padding: 0 8 0 0;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 5 5 5 5;
+    -fx-spacing: 2;
 }

@@ -8,15 +8,15 @@
         <taskDescription>Tasks to be done for task 1</taskDescription>
         <taskDueDate>2018-06-15</taskDueDate>
         <taskStatus>undone</taskStatus>
-        <categorised>Work</categorised>
+        <categorised>work</categorised>
     </tasks>
     <tasks>
         <taskName>TaskTwo</taskName>
         <taskPriority>high</taskPriority>
         <taskDescription>Agenda for task 2</taskDescription>
         <taskDueDate>2018-03-27</taskDueDate>
-        <taskStatus>undone</taskStatus>
-        <categorised>Personal</categorised>
+        <taskStatus>done</taskStatus>
+        <categorised>personal</categorised>
     </tasks>
     <tasks>
         <taskName>TaskThree</taskName>
@@ -24,8 +24,8 @@
         <taskDescription>Purchase office supplies</taskDescription>
         <taskDueDate>2018-04-10</taskDueDate>
         <taskStatus>undone</taskStatus>
-        <categorised>Work</categorised>
+        <categorised>work</categorised>
     </tasks>
     <taskCategories>Work</taskCategories>
-    <taskCategories>Personal</taskCategories>
+    <taskCategories>personal</taskCategories>
 </addressbook>

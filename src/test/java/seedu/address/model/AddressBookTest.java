@@ -132,6 +132,11 @@ public class AddressBookTest {
         }
 
         @Override
+        public ObservableList<Task> getOriginalTaskList() {
+            return tasks;
+        }
+
+        @Override
         public ObservableList<Task> getTaskList() {
             return tasks;
         }

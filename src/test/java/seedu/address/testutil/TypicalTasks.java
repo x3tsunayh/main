@@ -30,19 +30,19 @@ public class TypicalTasks {
             .withTaskDescription("Tasks to be done for task 1")
             .withTaskDueDate("2018-06-15")
             .withTaskStatus("undone")
-            .withTaskCategories("Work").build();
+            .withTaskCategories("work").build();
     public static final Task TASKTWO = new TaskBuilder().withTaskName("TaskTwo")
             .withTaskPriority("high")
             .withTaskDescription("Agenda for task 2")
             .withTaskDueDate("2018-03-28")
             .withTaskStatus("undone")
-            .withTaskCategories("Personal").build();
+            .withTaskCategories("personal").build();
     public static final Task TASKTHREE = new TaskBuilder().withTaskName("TaskThree")
             .withTaskPriority("low")
             .withTaskDescription("Purchase office supplies")
             .withTaskDueDate("2018-04-10")
-            .withTaskStatus("undone")
-            .withTaskCategories("Work").build();
+            .withTaskStatus("done")
+            .withTaskCategories("work").build();
 
     // Manuall added - Task's details found in {@code CommandTestUtil}
     public static final Task TASKFIRST = new TaskBuilder().withTaskName(VALID_TASK_NAME_TASKFIRST)

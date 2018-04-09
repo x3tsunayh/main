@@ -341,7 +341,7 @@ public class ParserUtil {
      */
     public static TaskCategory parseTaskCategory(String taskCategory) throws IllegalValueException {
         requireNonNull(taskCategory);
-        String trimmedTaskCategory = taskCategory.trim();
+        String trimmedTaskCategory = taskCategory.trim().toLowerCase();
         if (!TaskCategory.isValidTaskCategoryName(trimmedTaskCategory)) {
             throw new IllegalValueException(TaskCategory.MESSAGE_TASK_CATEGORY_CONSTRAINTS);
         }

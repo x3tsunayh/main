@@ -1,7 +1,6 @@
 package systemtests;
 
 import static seedu.address.ui.testutil.GuiTestAssert.assertListMatching;
-import static seedu.address.ui.testutil.GuiTestAssert.assertTaskListMatching;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,7 +10,6 @@ import org.junit.Test;
 
 import seedu.address.model.AddressBook;
 import seedu.address.model.person.Person;
-import seedu.address.model.task.Task;
 import seedu.address.model.util.SampleDataUtil;
 import seedu.address.testutil.TestUtil;
 
@@ -51,10 +49,4 @@ public class SampleDataTest extends AddressBookSystemTest {
         assertListMatching(getPersonListPanel(), expectedPersonList);
     }
 
-    //@@author CYX28
-    @Test
-    public void addressBook_taskDataFileDoesNotExist_loadSampleData() {
-        Task[] expectedTaskList = SampleDataUtil.getSampleTasks();
-        assertTaskListMatching(getTaskListPanel(), expectedTaskList);
-    }
 }

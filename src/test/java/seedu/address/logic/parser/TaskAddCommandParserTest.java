@@ -58,7 +58,7 @@ public class TaskAddCommandParserTest {
         Task expectedTask = new TaskBuilder().withTaskName(VALID_TASK_NAME_TASKFIRST)
                 .withTaskPriority(VALID_TASK_PRIORITY_TASKFIRST).withTaskDescription(VALID_TASK_DESCRIPTION_TASKFIRST)
                 .withTaskDueDate(VALID_TASK_DUE_DATE_TASKFIRST).withTaskStatus(VALID_TASK_STATUS_TASKFIRST)
-                .withTaskCategories(VALID_TASK_CATEGORY_WORK).build();
+                .withTaskCategories(VALID_TASK_CATEGORY_PERSONAL).build();
 
         // whitespace only preamble
         assertParseSuccess(parser, PREAMBLE_WHITESPACE + TASK_NAME_DESC_TASKFIRST + TASK_PRIORITY_DESC_TASKFIRST
@@ -66,9 +66,9 @@ public class TaskAddCommandParserTest {
                 + TASK_CATEGORY_DESC_PERSONAL, new TaskAddCommand(expectedTask));
 
         // multiple taskNames - last taskName accepted
-        assertParseSuccess(parser, TASK_NAME_DESC_TASKSECOND + TASK_NAME_DESC_TASKFIRST + TASK_PRIORITY_DESC_TASKFIRST
-                + TASK_DESCRIPTION_DESC_TASKFIRST + TASK_DUE_DATE_DESC_TASKFIRST + TASK_STATUS_DESC_TASKFIRST
-                + TASK_CATEGORY_DESC_PERSONAL, new TaskAddCommand(expectedTask));
+        assertParseSuccess(parser, TASK_NAME_DESC_TASKSECOND + TASK_NAME_DESC_TASKFIRST
+                + TASK_PRIORITY_DESC_TASKFIRST + TASK_DESCRIPTION_DESC_TASKFIRST + TASK_DUE_DATE_DESC_TASKFIRST
+                + TASK_STATUS_DESC_TASKFIRST + TASK_CATEGORY_DESC_PERSONAL, new TaskAddCommand(expectedTask));
 
         // multiple taskPriorities - last taskPriority accepted
         assertParseSuccess(parser, TASK_NAME_DESC_TASKFIRST + TASK_PRIORITY_DESC_TASKSECOND
@@ -97,7 +97,8 @@ public class TaskAddCommandParserTest {
                 .withTaskCategories(VALID_TASK_CATEGORY_PERSONAL, VALID_TASK_CATEGORY_WORK).build();
         assertParseSuccess(parser, TASK_NAME_DESC_TASKFIRST + TASK_PRIORITY_DESC_TASKFIRST
                 + TASK_DESCRIPTION_DESC_TASKFIRST + TASK_DUE_DATE_DESC_TASKFIRST + TASK_STATUS_DESC_TASKFIRST
-                + TASK_CATEGORY_DESC_PERSONAL + TASK_CATEGORY_DESC_WORK, new TaskAddCommand(expectedTask));
+                + TASK_CATEGORY_DESC_PERSONAL + TASK_CATEGORY_DESC_WORK,
+                new TaskAddCommand(expectedTaskMultipleCategories));
     }
 
     @Test

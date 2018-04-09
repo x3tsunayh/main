@@ -3,12 +3,21 @@ package seedu.address.model.task;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
+import java.util.Arrays;
+import java.util.List;
+
 //@@author CYX28
 /**
  * Represents a Task's status in the address book.
  * Guarantees: immutable; is valid as declared in {@link #isValidTaskStatus(String)}
  */
 public class TaskStatus {
+
+    public static final String TASK_STATUS_DONE = "done";
+    public static final String TASK_STATUS_UNDONE = "undone";
+
+    public static final List<String> STATUS_ORDER =
+            Arrays.asList(TASK_STATUS_UNDONE, TASK_STATUS_DONE);
 
     public static final String MESSAGE_TASK_STATUS_CONSTRAINTS = "Task status can only be either done or undone.";
 

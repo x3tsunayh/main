@@ -107,16 +107,24 @@
         <taskDescription>Finalise on project features</taskDescription>
         <taskDueDate>2018-03-30</taskDueDate>
         <taskStatus>undone</taskStatus>
-        <categorised>Work</categorised>
+        <categorised>work</categorised>
     </tasks>
     <tasks>
-        <taskName>Agenda for meeting</taskName>
-        <taskPriority>high</taskPriority>
-        <taskDescription>(1) Proposal (2) Implementation details</taskDescription>
-        <taskDueDate>2018-03-28</taskDueDate>
+        <taskName>Questions for client</taskName>
+        <taskPriority>low</taskPriority>
+        <taskDescription>Clarify client's expectation of the project</taskDescription>
+        <taskDueDate>2018-04-11</taskDueDate>
         <taskStatus>undone</taskStatus>
-        <categorised>Meeting</categorised>
-        <categorised>Work</categorised>
+        <categorised>work</categorised>
+    </tasks>
+    <tasks>
+        <taskName>Follow up with boss</taskName>
+        <taskPriority>high</taskPriority>
+        <taskDescription>Present proposal to boss regarding project concerns</taskDescription>
+        <taskDueDate>2018-04-13</taskDueDate>
+        <taskStatus>undone</taskStatus>
+        <categorised>work</categorised>
+        <categorised>meeting</categorised>
     </tasks>
     <tasks>
         <taskName>Buy birthday gift</taskName>
@@ -124,34 +132,25 @@
         <taskDescription>Buy a gift for cousin's birthday in April</taskDescription>
         <taskDueDate>2018-04-18</taskDueDate>
         <taskStatus>undone</taskStatus>
-        <categorised>Personal</categorised>
+        <categorised>personal</categorised>
     </tasks>
     <tasks>
-        <taskName>Agenda for meetinggg</taskName>
-        <taskPriority>high</taskPriority>
-        <taskDescription>Discuss proposal details</taskDescription>
-        <taskDueDate>2018-04-29</taskDueDate>
+        <taskName>Programming Project</taskName>
+        <taskPriority>medium</taskPriority>
+        <taskDescription>(1) Analyse requirements (2) Write programs (3) Testing (4) Documentation (5) Submit to boss</taskDescription>
+        <taskDueDate>2018-04-20</taskDueDate>
         <taskStatus>undone</taskStatus>
-        <categorised>Meeting</categorised>
-    </tasks>
-    <tasks>
-        <taskName>Agenda for mee444ting</taskName>
-        <taskPriority>high</taskPriority>
-        <taskDescription>Discuss proposal details</taskDescription>
-        <taskDueDate>2018-04-29</taskDueDate>
-        <taskStatus>undone</taskStatus>
-        <categorised>Meeting</categorised>
+        <categorised>personal</categorised>
     </tasks>
     <tasks>
         <taskName>Agenda for meeting</taskName>
         <taskPriority>high</taskPriority>
         <taskDescription>Discuss proposal details</taskDescription>
-        <taskDueDate>2018-04-29</taskDueDate>
-        <taskStatus>undone</taskStatus>
-        <categorised>ccc1</categorised>
+        <taskDueDate>2018-04-20</taskDueDate>
+        <taskStatus>done</taskStatus>
+        <categorised>meeting</categorised>
     </tasks>
-    <taskCategories>ccc1</taskCategories>
-    <taskCategories>Personal</taskCategories>
-    <taskCategories>Meeting</taskCategories>
-    <taskCategories>Work</taskCategories>
+    <taskCategories>work</taskCategories>
+    <taskCategories>personal</taskCategories>
+    <taskCategories>meeting</taskCategories>
 </addressbook>

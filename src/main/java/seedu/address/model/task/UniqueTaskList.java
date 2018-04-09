@@ -93,6 +93,18 @@ public class UniqueTaskList implements Iterable<Task> {
         }));
     }
 
+    /**
+     * Sorts the task list by status from undone to done followed by due date in ascending order
+     */
+    public void sortByStatusAndDueDate() {
+        internalList.sort(Comparator.comparing(Task::getTaskStatus, (s1, s2) -> {
+            return TaskStatus.STATUS_ORDER.indexOf(s1.value.toLowerCase())
+                    - TaskStatus.STATUS_ORDER.indexOf(s2.value.toLowerCase());
+        }).thenComparing(Comparator.comparing(Task::getTaskDueDate, (dd1, dd2) -> {
+            return dd1.value.compareTo(dd2.value);
+        })));
+    }
+
     public void setTasks(UniqueTaskList replacement) {
         this.internalList.setAll(replacement.internalList);
     }

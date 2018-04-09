@@ -81,7 +81,8 @@ public class Task {
                 && otherTask.getTaskPriority().equals(this.getTaskPriority())
                 && otherTask.getTaskDescription().equals(this.getTaskDescription())
                 && otherTask.getTaskDueDate().equals(this.getTaskDueDate())
-                && otherTask.getTaskStatus().equals(this.getTaskStatus());
+                && otherTask.getTaskStatus().equals(this.getTaskStatus())
+                && otherTask.getTaskCategories().equals(this.getTaskCategories());
     }
 
     @Override
