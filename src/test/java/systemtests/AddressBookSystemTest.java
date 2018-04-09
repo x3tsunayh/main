@@ -6,7 +6,6 @@ import static org.junit.Assert.assertTrue;
 import static seedu.address.ui.StatusBarFooter.SYNC_STATUS_INITIAL;
 import static seedu.address.ui.StatusBarFooter.SYNC_STATUS_UPDATED;
 import static seedu.address.ui.testutil.GuiTestAssert.assertListMatching;
-import static seedu.address.ui.testutil.GuiTestAssert.assertTaskListMatching;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -26,7 +25,6 @@ import guitests.guihandles.MainWindowHandle;
 import guitests.guihandles.PersonListPanelHandle;
 import guitests.guihandles.ResultDisplayHandle;
 import guitests.guihandles.StatusBarFooterHandle;
-import guitests.guihandles.TaskListPanelHandle;
 
 import seedu.address.TestApp;
 import seedu.address.commons.core.EventsCenter;
@@ -119,10 +117,6 @@ public abstract class AddressBookSystemTest {
 
     public ResultDisplayHandle getResultDisplay() {
         return mainWindowHandle.getResultDisplay();
-    }
-
-    public TaskListPanelHandle getTaskListPanel() {
-        return mainWindowHandle.getTaskListPanel();
     }
 
     /**
@@ -274,7 +268,6 @@ public abstract class AddressBookSystemTest {
             assertEquals("", getCommandBox().getInput());
             assertEquals("", getResultDisplay().getText());
             assertListMatching(getPersonListPanel(), getModel().getFilteredPersonList());
-            assertTaskListMatching(getTaskListPanel(), getModel().getFilteredTaskList());
             assertEquals("./" + testApp.getStorageSaveLocation(), getStatusBarFooter().getSaveLocation());
             assertEquals(SYNC_STATUS_INITIAL, getStatusBarFooter().getSyncStatus());
         } catch (Exception e) {

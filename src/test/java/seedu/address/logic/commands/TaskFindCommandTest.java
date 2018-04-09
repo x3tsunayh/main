@@ -71,7 +71,7 @@ public class TaskFindCommandTest {
     public void execute_multipleKeywords_multipleTasksFound() {
         String expectedMessage = String.format(MESSAGE_TASKS_LISTED_OVERVIEW, 3);
         TaskFindCommand command = prepareCommand("one two three");
-        assertCommandSuccess(command, expectedMessage, Arrays.asList(TASKONE, TASKTWO, TASKTHREE));
+        assertCommandSuccess(command, expectedMessage, Arrays.asList(TASKTWO, TASKONE, TASKTHREE));
     }
 
     /**
