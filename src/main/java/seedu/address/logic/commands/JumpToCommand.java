@@ -1,13 +1,9 @@
 package seedu.address.logic.commands;
 
-import static java.util.Objects.requireNonNull;
-
 import java.time.YearMonth;
 
 import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.events.ui.JumpToCalendarRequestEvent;
-import seedu.address.model.event.Event;
-import seedu.address.model.event.ReadOnlyEvent;
 
 //@@author x3tsunayh
 
@@ -37,5 +33,12 @@ public class JumpToCommand extends Command {
     public CommandResult execute() {
         EventsCenter.getInstance().post(new JumpToCalendarRequestEvent(yearMonth));
         return new CommandResult(String.format(JUMP_TO_MESSAGE, yearMonth.toString()));
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof JumpToCommand // instanceof handles nulls
+                && yearMonth.equals(((JumpToCommand) other).yearMonth));
     }
 }
