@@ -128,12 +128,16 @@ public class SampleDataUtil {
 
     public static Event[] getSampleEvents() throws IllegalValueException {
         return new Event[]{
-            new Event(new String("Clique Gathering"), new String("Night out with friends"),
-                new String("Tampines Hub"), new Datetime("13-10-2017 1700")),
-            new Event(new String("School Hall Concert"), new String("Friend performing"),
-                new String("UCC"), new Datetime("26-10-2017 1800")),
-            new Event(new String("Halloween Party"), new String("Halloween Event"),
-                new String("Andy's House"), new Datetime("31-10-2017 2000"))
+            new Event(new String("Halloween Party"), new String("-"),
+                new String("Andy's House"), new Datetime("31-10-2017 2000")),
+            new Event(new String("School Hall Concert"), new String("Catchup session w/ old classmates"),
+                new String("UCC"), new Datetime("14-03-2018 1900")),
+            new Event(new String("Class Reunion"), new String("Catchup session with old classmates"),
+                new String("Tampines Hub"), new Datetime("15-04-2018 1745")),
+            new Event(new String("Tennis Game"), new String("Playing with friends"),
+                new String("NUS Tennis Court 7"), new Datetime("28-04-2018 0930")),
+            new Event(new String("JB Trip"), new String("Trip to Johor Bahru"),
+                new String("Woodlands"), new Datetime("12-05-2018 0900"))
         };
     }
 }
