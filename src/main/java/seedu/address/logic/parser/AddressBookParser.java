@@ -26,6 +26,7 @@ import seedu.address.logic.commands.FindEventCommand;
 import seedu.address.logic.commands.GoogleCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.HistoryCommand;
+import seedu.address.logic.commands.JumpToCommand;
 import seedu.address.logic.commands.ListAllEventsCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.RedoCommand;
@@ -153,6 +154,10 @@ public class AddressBookParser {
         case SwitchTabCommand.COMMAND_WORD:
         case SwitchTabCommand.COMMAND_WORD_TWO:
             return new SwitchTabCommand(tabPane);
+
+        case JumpToCommand.COMMAND_WORD:
+        case JumpToCommand.COMMAND_ALIAS:
+            return new JumpToCommandParser().parse(arguments);
 
         case AddPictureCommand.COMMAND_WORD:
             return new AddPictureCommandParser().parse(arguments);

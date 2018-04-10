@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
+import com.google.common.eventbus.Subscribe;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -19,8 +20,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.index.Index;
+import seedu.address.commons.events.ui.JumpToCalendarRequestEvent;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.Logic;
 import seedu.address.logic.commands.CommandResult;
@@ -113,6 +116,8 @@ public class CalendarView {
         view = new VBox(calendarDtBar, titleBar, dayLabels, calendar);
         VBox.setMargin(calendarDtBar, new Insets(0, 0, 5, 0));
         VBox.setMargin(titleBar, new Insets(0, 0, 5, 0));
+
+        EventsCenter.getInstance().registerHandler(this);
     }
 
     /**
@@ -291,6 +296,14 @@ public class CalendarView {
             month = "0" + month;
         }
         return day + "-" + month + "-" + year;
+    }
+
+    @Subscribe
+    private void handleJumpToCalendarRequestEvent(JumpToCalendarRequestEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        System.out.println("test");
+        setCurrentYearMonth(event.getYearMonth());
+        populateCalendar(event.getYearMonth(), null);
     }
 
 }

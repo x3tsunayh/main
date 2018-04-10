@@ -15,6 +15,7 @@ public class GoogleContactNameEvent extends BaseEvent {
     public GoogleContactNameEvent (Person person) {
         this.person = person;
     }
+
     @Override
     public String toString() {
         return this.getClass().getSimpleName();
