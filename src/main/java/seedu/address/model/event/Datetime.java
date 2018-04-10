@@ -13,7 +13,8 @@ import seedu.address.commons.exceptions.IllegalValueException;
 public class Datetime {
 
     public static final String MESSAGE_DATETIME_CONSTRAINTS =
-            "Event datetime should be in the format: dd-mm-yyyy hhmm";
+            "Event datetime should be in the format: dd-mm-yyyy hhmm\n"
+            + "Datetime values should also be logical (eg. hhmm should be between 0000 to 2359)";
 
     private static final int VALID_DATETIME_LENGTH = 15;
 
@@ -56,7 +57,6 @@ public class Datetime {
             String firstSeperator = datetime.substring(2, 3);
             String secondSeperator = datetime.substring(5, 6);
             String thirdSeperator = datetime.substring(10, 11);
-            System.out.println(firstSeperator + secondSeperator + thirdSeperator);
 
             //Format Validation
             if (firstSeperator.equals("-") & secondSeperator.equals("-") & thirdSeperator.equals(" ")) {
