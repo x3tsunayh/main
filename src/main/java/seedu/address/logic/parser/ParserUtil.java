@@ -384,11 +384,11 @@ public class ParserUtil {
             throw new IllegalValueException(MESSAGE_USAGE);
         }
 
-        int year = Integer.parseInt(yearmonth.substring(1,5));
-        String separator = yearmonth.substring(5,6);
+        int year = Integer.parseInt(yearmonth.substring(1, 5));
+        String separator = yearmonth.substring(5, 6);
         int month = Integer.parseInt(yearmonth.substring(6));
 
-        if (!separator.equals("-") || 1900 > year || year > 2300 || 1 > month || month > 12 ) {
+        if (!separator.equals("-") || 1900 > year || year > 2300 || 1 > month || month > 12) {
             throw new IllegalValueException(MESSAGE_USAGE);
         }
 
