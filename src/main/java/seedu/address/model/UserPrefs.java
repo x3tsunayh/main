@@ -16,7 +16,7 @@ public class UserPrefs {
     private String eventBookName = "MyEventBook";
 
     public UserPrefs() {
-        this.setGuiSettings(500, 500, 0, 0);
+        this.setGuiSettings(1750, 1000, 0, 0);
     }
 
     public GuiSettings getGuiSettings() {
