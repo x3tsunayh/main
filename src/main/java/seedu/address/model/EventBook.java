@@ -35,8 +35,7 @@ public class EventBook implements ReadOnlyEventBook {
         events = new UniqueEventList();
     }
 
-    public EventBook() {
-    }
+    public EventBook() {}
 
     /**
      * Creates an EventBook using the Events in the {@code toBeCopied}
@@ -48,7 +47,7 @@ public class EventBook implements ReadOnlyEventBook {
 
     //// list overwrite operations
 
-    public void setEvents(List<? extends ReadOnlyEvent> events) throws CommandException {
+    public void setEvents(List<? extends ReadOnlyEvent> events) {
         try {
             this.events.setEvents(events);
         } catch (DuplicateEventException dee) {
@@ -62,9 +61,9 @@ public class EventBook implements ReadOnlyEventBook {
     public void resetData(ReadOnlyEventBook newData) {
         requireNonNull(newData);
         try {
-            setEvents(newData.getEventList());
-        } catch (CommandException e) {
-            throw new AssertionError("Eventbooks should not have duplicate events");
+            this.events.setEvents(newData.getEventList());
+        } catch (DuplicateEventException dee) {
+            throw new AssertionError("Eventbooks should not have duplicated events");
         }
     }
 
@@ -76,18 +75,6 @@ public class EventBook implements ReadOnlyEventBook {
     public void addEvent(ReadOnlyEvent e) throws CommandException, DuplicateEventException {
         Event newEvent = new Event(e);
         events.add(newEvent);
-    }
-
-    /**
-     * Replaces the given event {@code target} in the list with {@code editedReadOnlyEvent}.
-     *
-     */
-    public void updateEvent(ReadOnlyEvent target, ReadOnlyEvent editedReadOnlyEvent)
-            throws CommandException {
-        requireNonNull(editedReadOnlyEvent);
-
-        Event editedPerson = new Event(editedReadOnlyEvent);
-        events.setEvent(target, editedPerson);
     }
 
     /**
@@ -107,8 +94,6 @@ public class EventBook implements ReadOnlyEventBook {
     public void orderList(String parameter) throws CommandException {
         events.orderBy(parameter);
     }
-
-    //// util methods
 
     @Override
     public int hashCode() {

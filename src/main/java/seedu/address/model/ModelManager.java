@@ -63,14 +63,17 @@ public class ModelManager extends ComponentManager implements Model {
         indicateAddressBookChanged();
     }
 
+    //@@author x3tsunayh
+    @Override
+    public void resetData(ReadOnlyEventBook newData) {
+        eventBook.resetData(newData);
+        indicateEventBookChanged();
+    }
+
+    //@@author
     @Override
     public ReadOnlyAddressBook getAddressBook() {
         return addressBook;
-    }
-
-    @Override
-    public ReadOnlyEventBook getEventBook() {
-        return eventBook;
     }
 
     /** Raises an event to indicate the model has changed */
@@ -174,6 +177,11 @@ public class ModelManager extends ComponentManager implements Model {
     public void deleteEvent(ReadOnlyEvent eventToDelete) throws CommandException {
         eventBook.removeEvent(eventToDelete);
         indicateEventBookChanged();
+    }
+
+    @Override
+    public ReadOnlyEventBook getEventBook() {
+        return eventBook;
     }
 
     //=========== Filtered Task List Accessors =============================================================

@@ -85,7 +85,7 @@ public class UniqueEventList implements Iterable<Event> {
         this.internalList.setAll(replacement.internalList);
     }
 
-    public void setEvents(List<? extends ReadOnlyEvent> events) throws CommandException, DuplicateEventException {
+    public void setEvents(List<? extends ReadOnlyEvent> events) throws DuplicateEventException {
         final UniqueEventList replacement = new UniqueEventList();
         for (final ReadOnlyEvent event : events) {
             replacement.add(new Event(event));

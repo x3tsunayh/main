@@ -258,7 +258,7 @@ public class DeleteByNameCommandTest {
     }
 
     @Test
-    public void execute_invalidNameUnfilteredList_throwsCommandException() throws Exception {
+    public void execute_invalidNameUnfilteredList_throwsCommandException() {
 
         Name randomName = new Name("Random Random Random 242neklw");
         DeleteByNameCommand deleteByNameCommand = prepareCommand(randomName);
@@ -336,6 +336,90 @@ public class DeleteByNameCommandTest {
     }
 }
 
+```
+###### \java\seedu\address\logic\commands\ResetPictureCommandTest.java
+``` java
+public class ResetPictureCommandTest {
+
+    private ModelManager model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
+    private Index index = INDEX_FIRST_PERSON;
+
+    @Test
+    public void execute_validIndexUnfilteredList_success() throws Exception {
+
+
+        Person toUpdatePerson = model.getFilteredPersonList().get(index.getZeroBased());
+        Person updatedPerson = new Person(toUpdatePerson);
+
+        updatedPerson.resetPicture();
+        ResetPictureCommand resetPictureCommand = prepareCommand(index);
+        String expectedMessage = String.format(ResetPictureCommand.MESSAGE_EDIT_PERSON_SUCCESS, index.getOneBased());
+        Model expectedModel = new ModelManager(model.getAddressBook(), getTypicalEventBook(), new UserPrefs());
+        expectedModel.updatePerson(model.getFilteredPersonList().get(0), updatedPerson);
+
+        assertCommandSuccess(resetPictureCommand, model, expectedMessage, expectedModel);
+
+    }
+
+    @Test
+    public void execute_validIndexFilteredList_success() throws Exception {
+
+        showPersonAtIndex(model, index);
+
+        Person toUpdatePerson = model.getFilteredPersonList().get(index.getZeroBased());
+        Person updatedPerson = new Person(toUpdatePerson);
+
+        updatedPerson.resetPicture();
+        ResetPictureCommand resetPictureCommand = prepareCommand(index);
+        String expectedMessage = String.format(ResetPictureCommand.MESSAGE_EDIT_PERSON_SUCCESS, index.getOneBased());
+        Model expectedModel = new ModelManager(model.getAddressBook(), getTypicalEventBook(), new UserPrefs());
+        expectedModel.updatePerson(model.getFilteredPersonList().get(0), updatedPerson);
+
+        assertCommandSuccess(resetPictureCommand, model, expectedMessage, expectedModel);
+
+    }
+
+    @Test
+    public void execute_filteredListInvalidIndex_failure() throws Exception {
+        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
+        ResetPictureCommand resetPictureCommand = prepareCommand(outOfBoundIndex);
+
+        assertCommandFailure(resetPictureCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+    }
+
+    @Test
+    public void equals() throws Exception {
+        ResetPictureCommand resetPicCommandFirst = prepareCommand(INDEX_FIRST_PERSON);
+        ResetPictureCommand resetPicCommandSecond = prepareCommand(INDEX_SECOND_PERSON);
+
+        // same object -> returns true
+        assertTrue(resetPicCommandFirst.equals(resetPicCommandFirst));
+
+        // same values -> returns true
+        ResetPictureCommand resetPicCommandFirstCopy = prepareCommand(INDEX_FIRST_PERSON);
+        assertTrue(resetPicCommandFirstCopy.equals(resetPicCommandFirst));
+
+        // different types -> returns false
+        assertFalse(resetPicCommandFirst.equals(1));
+
+        // null -> returns false
+        assertFalse(resetPicCommandFirst.equals(null));
+
+        // different indexes -> returns false
+        assertFalse(resetPicCommandSecond.equals(resetPicCommandFirst));
+
+    }
+
+
+    /**
+     * Returns an {@code ResetPictureCommand} with parameters {@code index}
+     */
+    private ResetPictureCommand prepareCommand(Index index) {
+        ResetPictureCommand resetPictureCommand = new ResetPictureCommand(index);
+        resetPictureCommand.setData(model, new CommandHistory(), new UndoRedoStack());
+        return resetPictureCommand;
+    }
+}
 ```
 ###### \java\seedu\address\logic\parser\AddPictureCommandParserTest.java
 ``` java
@@ -526,6 +610,42 @@ public class DeleteByNameCommandParserTest {
         //Other ascii characters
         assertParseFailure(parser, "ε",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteByNameCommand.MESSAGE_USAGE));
+    }
+
+}
+```
+###### \java\seedu\address\logic\parser\ResetPictureCommandParserTest.java
+``` java
+public class ResetPictureCommandParserTest {
+
+    private static final String MESSAGE_INVALID_FORMAT =
+            String.format(MESSAGE_INVALID_COMMAND_FORMAT, ResetPictureCommand.MESSAGE_USAGE);
+
+    private ResetPictureCommandParser parser = new ResetPictureCommandParser();
+
+    @Test
+    public void parse_validArgs_returnsResetPictureCommand() {
+        assertParseSuccess(parser, "1", new ResetPictureCommand(INDEX_FIRST_PERSON));
+    }
+
+    @Test
+    public void parse_invalidInput_failure() {
+        // negative index
+        assertParseFailure(parser, "-5", MESSAGE_INVALID_FORMAT);
+
+        // zero index
+        assertParseFailure(parser, "0", MESSAGE_INVALID_FORMAT);
+
+        // multiple repeated index
+        assertParseFailure(parser, "1 1", MESSAGE_INVALID_FORMAT);
+
+        // multiple distinct index
+        assertParseFailure(parser, "1 2", MESSAGE_INVALID_FORMAT);
+
+
+        // invalid arguments being parsed as preamble
+        assertParseFailure(parser, "1 some random string", MESSAGE_INVALID_FORMAT);
+
     }
 
 }

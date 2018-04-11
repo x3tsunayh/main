@@ -158,17 +158,17 @@
         <categorised>meeting</categorised>
     </tasks>
     <taskCategories>testingmultipletags</taskCategories>
+    <taskCategories>thisisaverylongtagwhichwilloverflowtothenextline</taskCategories>
+    <taskCategories>reporttoboss</taskCategories>
+    <taskCategories>work</taskCategories>
     <taskCategories>project</taskCategories>
+    <taskCategories>personal</taskCategories>
+    <taskCategories>clientmeeting</taskCategories>
     <taskCategories>overflowtonextline</taskCategories>
+    <taskCategories>moretags</taskCategories>
+    <taskCategories>testinglongtags</taskCategories>
     <taskCategories>interest</taskCategories>
     <taskCategories>thisisaverylongtag</taskCategories>
     <taskCategories>meetingwithboss</taskCategories>
     <taskCategories>meeting</taskCategories>
-    <taskCategories>thisisaverylongtagwhichwilloverflowtothenextline</taskCategories>
-    <taskCategories>reporttoboss</taskCategories>
-    <taskCategories>work</taskCategories>
-    <taskCategories>personal</taskCategories>
-    <taskCategories>clientmeeting</taskCategories>
-    <taskCategories>moretags</taskCategories>
-    <taskCategories>testinglongtags</taskCategories>
 </addressbook>

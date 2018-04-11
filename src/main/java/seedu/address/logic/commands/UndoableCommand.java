@@ -2,17 +2,21 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+import static seedu.address.model.Model.PREDICATE_SHOW_ALL_EVENTS;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
+import seedu.address.model.EventBook;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.event.ReadOnlyEventBook;
 
 /**
  * Represents a command which can be undone and redone.
  */
 public abstract class UndoableCommand extends Command {
     private ReadOnlyAddressBook previousAddressBook;
+    private ReadOnlyEventBook previousEventBook;
 
     protected abstract CommandResult executeUndoableCommand() throws CommandException;
 
@@ -22,6 +26,14 @@ public abstract class UndoableCommand extends Command {
     private void saveAddressBookSnapshot() {
         requireNonNull(model);
         this.previousAddressBook = new AddressBook(model.getAddressBook());
+    }
+
+    /**
+     * Stores the current state of {@code model#eventBook}.
+     */
+    private void saveEventBookSnapshot() {
+        requireNonNull(model);
+        this.previousEventBook = new EventBook(model.getEventBook());
     }
 
     /**
@@ -36,9 +48,11 @@ public abstract class UndoableCommand extends Command {
      * show all persons.
      */
     protected final void undo() {
-        requireAllNonNull(model, previousAddressBook);
+        requireAllNonNull(model, previousAddressBook, previousEventBook);
         model.resetData(previousAddressBook);
+        model.resetData(previousEventBook);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        model.updateFilteredEventList(PREDICATE_SHOW_ALL_EVENTS);
     }
 
     /**
@@ -54,11 +68,13 @@ public abstract class UndoableCommand extends Command {
                     + "it should not fail now");
         }
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        model.updateFilteredEventList(PREDICATE_SHOW_ALL_EVENTS);
     }
 
     @Override
     public final CommandResult execute() throws CommandException {
         saveAddressBookSnapshot();
+        saveEventBookSnapshot();
         preprocessUndoableCommand();
         return executeUndoableCommand();
     }

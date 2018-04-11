@@ -1,4 +1,59 @@
 # jill858
+###### \data\XmlSerializableAddressBookTest\typicalAddressBook.xml
+``` xml
+    <persons>
+        <name>Harry Styles</name>
+        <phone>84821222</phone>
+        <email>harry@example.com</email>
+        <address>chinatown street</address>
+        <tagged>colleagues</tagged>
+        <tagged>family</tagged>
+    </persons>
+    <persons>
+        <name>Ian Kurz</name>
+        <phone>94839221</phone>
+        <email>ian@example.com</email>
+        <address>cross road 10</address>
+        <tagged>classmates</tagged>
+        <tagged>owesMoney</tagged>
+    </persons>
+    <persons>
+        <name>Keith Loh</name>
+        <phone>84123922</phone>
+        <email>keith@example.com</email>
+        <address>5th avenue</address>
+        <tagged>classmates</tagged>
+    </persons>
+    <tags>friends</tags>
+    <tags>owesMoney</tags>
+    <tasks>
+        <taskName>TaskOne</taskName>
+        <taskPriority>medium</taskPriority>
+        <taskDescription>Tasks to be done for task 1</taskDescription>
+        <taskDueDate>2018-06-15</taskDueDate>
+        <taskStatus>undone</taskStatus>
+        <categorised>work</categorised>
+    </tasks>
+    <tasks>
+        <taskName>TaskTwo</taskName>
+        <taskPriority>high</taskPriority>
+        <taskDescription>Agenda for task 2</taskDescription>
+        <taskDueDate>2018-03-28</taskDueDate>
+        <taskStatus>undone</taskStatus>
+        <categorised>personal</categorised>
+    </tasks>
+    <tasks>
+        <taskName>TaskThree</taskName>
+        <taskPriority>low</taskPriority>
+        <taskDescription>Purchase office supplies</taskDescription>
+        <taskDueDate>2018-04-10</taskDueDate>
+        <taskStatus>done</taskStatus>
+        <categorised>work</categorised>
+    </tasks>
+    <taskCategories>work</taskCategories>
+    <taskCategories>personal</taskCategories>
+</addressbook>
+```
 ###### \java\seedu\address\logic\commands\ConvertCommandTest.java
 ``` java
 public class ConvertCommandTest {
@@ -360,7 +415,178 @@ public class ConvertCommandParserTest {
 
         // multiple whitespaces between keywords
         assertParseSuccess(parser, "t/owesMoney\t friends  \t", expectedFindTagCommand);
+
+        FindCommand expectedFindAddressCommand =
+                new FindCommand(new AddressContainsKeywordsPredicate(Arrays.asList("clementi", "avenue")));
+
+        assertParseSuccess(parser, "a/clementi avenue", expectedFindAddressCommand);
+
+        // multiple whitespaces between keywords
+        assertParseSuccess(parser, "a/clementi\t avenue  \t", expectedFindAddressCommand);
+
+        FindCommand expectedFindPhoneCommand =
+                new FindCommand(new PhoneContainsKeywordsPredicate(Arrays.asList("94945000")));
+
+        assertParseSuccess(parser, "p/94945000", expectedFindPhoneCommand);
+
+        // multiple whitespaces between keywords
+        assertParseSuccess(parser, "p/94945000 \t", expectedFindPhoneCommand);
     }
+
+}
+```
+###### \java\seedu\address\model\person\AddressContainsKeywordsPredicateTest.java
+``` java
+public class AddressContainsKeywordsPredicateTest {
+    @Test
+    public void equals() {
+        List<String> firstPredicateKeywordList = Collections.singletonList("Clementi Avenue");
+        List<String> secondPredicateKeywordList = Arrays.asList("Clementi Avenue", "Dover Road");
+
+        AddressContainsKeywordsPredicate firstPredicate =
+                new AddressContainsKeywordsPredicate(firstPredicateKeywordList);
+        AddressContainsKeywordsPredicate secondPredicate =
+                new AddressContainsKeywordsPredicate(secondPredicateKeywordList);
+
+        // same object -> returns true
+        assertTrue(firstPredicate.equals(firstPredicate));
+
+        // same values -> returns true
+        AddressContainsKeywordsPredicate firstPredicateCopy =
+                new AddressContainsKeywordsPredicate(firstPredicateKeywordList);
+        assertTrue(firstPredicate.equals(firstPredicateCopy));
+
+        // different types -> returns false
+        assertFalse(firstPredicate.equals(1));
+
+        // null -> returns false
+        assertFalse(firstPredicate.equals(null));
+
+        // different person -> returns false
+        assertFalse(firstPredicate.equals(secondPredicate));
+    }
+
+    @Test
+    public void test_addressContainsKeywords_returnsTrue() {
+        // One keyword
+        AddressContainsKeywordsPredicate predicate =
+                new AddressContainsKeywordsPredicate(Collections.singletonList("clementi"));
+        assertTrue(predicate.test(new PersonBuilder().withAddress("clementi avenue").build()));
+
+        // Multiple keywords
+        predicate = new AddressContainsKeywordsPredicate(Arrays.asList("clementi", "avenue"));
+        assertTrue(predicate.test(new PersonBuilder().withAddress("clementi avenue").build()));
+
+        // Only one matching keyword
+        predicate = new AddressContainsKeywordsPredicate(Arrays.asList("clementi", "road"));
+        assertTrue(predicate.test(new PersonBuilder().withAddress("clementi avenue").build()));
+
+        // One mixed-case keyword
+        predicate = new AddressContainsKeywordsPredicate(Arrays.asList("ClEMenti"));
+        assertTrue(predicate.test(new PersonBuilder().withAddress("clementi avenue").build()));
+
+        // Multiple mixed-case keywords
+        predicate = new AddressContainsKeywordsPredicate(Arrays.asList("ClEMenti", "AvEnUe"));
+        assertTrue(predicate.test(new PersonBuilder().withAddress("clementi avenue").build()));
+
+        // One partial keyword
+        predicate = new AddressContainsKeywordsPredicate(Arrays.asList("clem"));
+        assertTrue(predicate.test(new PersonBuilder().withAddress("clementi avenue").build()));
+
+        // Multiple partial keywords
+        predicate = new AddressContainsKeywordsPredicate(Arrays.asList("clem", "ave"));
+        assertTrue(predicate.test(new PersonBuilder().withAddress("clementi avenue").build()));
+
+        // One partial mixed-case keyword
+        predicate = new AddressContainsKeywordsPredicate(Arrays.asList("ClEMe"));
+        assertTrue(predicate.test(new PersonBuilder().withAddress("clementi avenue").build()));
+
+        // Multiple partial mixed-case keywords
+        predicate = new AddressContainsKeywordsPredicate(Arrays.asList("ClEM", "AvE"));
+        assertTrue(predicate.test(new PersonBuilder().withAddress("clementi avenue").build()));
+    }
+
+    @Test
+    public void test_addressDoesNotContainKeywords_returnsFalse() {
+        // Zero keywords
+        AddressContainsKeywordsPredicate predicate = new AddressContainsKeywordsPredicate(Collections.emptyList());
+        assertFalse(predicate.test(new PersonBuilder().withAddress("clementi avenue").build()));
+
+        // Non-matching keyword
+        predicate = new AddressContainsKeywordsPredicate(Arrays.asList("clementi", "avenue"));
+        assertFalse(predicate.test(new PersonBuilder().withAddress("dover road").build()));
+
+
+        // address not match
+        predicate = new AddressContainsKeywordsPredicate(
+                Arrays.asList("12345", "alice@email.com", "Alice", "Loop", "Avenue", "classmates"));
+        assertFalse(predicate.test(new PersonBuilder().withName("Alice").withPhone("12345")
+                .withEmail("alice@email.com").withAddress("Main Street").withTags("friends").build()));
+    }
+}
+```
+###### \java\seedu\address\model\person\PhoneContainsKeywordsPredicateTest.java
+``` java
+public class PhoneContainsKeywordsPredicateTest {
+    @Test
+    public void equals() {
+        List<String> firstPredicateKeywordList = Collections.singletonList("94945555");
+        List<String> secondPredicateKeywordList = Arrays.asList("94945555", "84845555");
+
+        PhoneContainsKeywordsPredicate firstPredicate = new PhoneContainsKeywordsPredicate(firstPredicateKeywordList);
+        PhoneContainsKeywordsPredicate secondPredicate = new PhoneContainsKeywordsPredicate(secondPredicateKeywordList);
+
+        // same object -> returns true
+        assertTrue(firstPredicate.equals(firstPredicate));
+
+        // same values -> returns true
+        PhoneContainsKeywordsPredicate firstPredicateCopy =
+                new PhoneContainsKeywordsPredicate(firstPredicateKeywordList);
+        assertTrue(firstPredicate.equals(firstPredicateCopy));
+
+        // different types -> returns false
+        assertFalse(firstPredicate.equals(1));
+
+        // null -> returns false
+        assertFalse(firstPredicate.equals(null));
+
+        // different person -> returns false
+        assertFalse(firstPredicate.equals(secondPredicate));
+    }
+
+    @Test
+    public void test_phoneContainsKeywords_returnsTrue() {
+        // One keyword
+        PhoneContainsKeywordsPredicate predicate =
+                new PhoneContainsKeywordsPredicate(Collections.singletonList("94945555"));
+        assertTrue(predicate.test(new PersonBuilder().withPhone("94945555").build()));
+
+        // Multiple keywords but only one matched
+        predicate = new PhoneContainsKeywordsPredicate(Arrays.asList("94945555", "87879000"));
+        assertTrue(predicate.test(new PersonBuilder().withPhone("94945555").build()));
+
+        // Partial keyword
+        predicate = new PhoneContainsKeywordsPredicate(Arrays.asList("9494"));
+        assertTrue(predicate.test(new PersonBuilder().withPhone("94945555").build()));
+    }
+
+    @Test
+    public void test_phoneDoesNotContainKeywords_returnsFalse() {
+        // Zero keywords
+        PhoneContainsKeywordsPredicate predicate = new PhoneContainsKeywordsPredicate(Collections.emptyList());
+        assertFalse(predicate.test(new PersonBuilder().withPhone("94945555").build()));
+
+        // Non-matching keyword
+        predicate = new PhoneContainsKeywordsPredicate(Arrays.asList("94945555"));
+        assertFalse(predicate.test(new PersonBuilder().withPhone("98985555").build()));
+
+        // phone not match
+        predicate = new PhoneContainsKeywordsPredicate(
+                Arrays.asList("94945555", "alice@email.com", "Alice", "Main", "Street", "classmates"));
+        assertFalse(predicate.test(new PersonBuilder().withName("Alice").withPhone("12345")
+                .withEmail("alice@email.com").withAddress("Main Street").withTags("friends").build()));
+    }
+
 
 }
 ```
@@ -394,7 +620,7 @@ public class TagContainsKeywordsPredicateTest {
     }
 
     @Test
-    public void test_nameContainsKeywords_returnsTrue() {
+    public void test_tagContainsKeywords_returnsTrue() {
         // One keyword
         TagContainsKeywordsPredicate predicate = new TagContainsKeywordsPredicate(Collections.singletonList("friends"));
         assertTrue(predicate.test(new PersonBuilder().withTags("friends", "colleagues").build()));
@@ -422,7 +648,7 @@ public class TagContainsKeywordsPredicateTest {
     }
 
     @Test
-    public void test_nameDoesNotContainKeywords_returnsFalse() {
+    public void test_tagDoesNotContainKeywords_returnsFalse() {
         // Zero keywords
         TagContainsKeywordsPredicate predicate = new TagContainsKeywordsPredicate(Collections.emptyList());
         assertFalse(predicate.test(new PersonBuilder().withTags("friends").build()));

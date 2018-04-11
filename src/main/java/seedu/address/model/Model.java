@@ -23,8 +23,11 @@ public interface Model {
     Predicate<ReadOnlyEvent> PREDICATE_SHOW_ALL_EVENTS = unused -> true;
     Predicate<Task> PREDICATE_SHOW_ALL_TASKS = unused -> true;
 
-    /** Clears existing backing model and replaces with the provided new data. */
+    /** Clears existing backing model for address book and replaces with the provided new data. */
     void resetData(ReadOnlyAddressBook newData);
+
+    /** Clears existing backing model for event book and replaces with the provided new data. */
+    void resetData(ReadOnlyEventBook newData);
 
     /** Returns the AddressBook */
     ReadOnlyAddressBook getAddressBook();

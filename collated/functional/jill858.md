@@ -160,6 +160,10 @@ public class ConvertCommandParser implements Parser<ConvertCommand> {
             return new FindCommand(new NameContainsKeywordsPredicate(Arrays.asList(keywords)));
         } else if (targetPrefix.equals(PREFIX_TAG.getPrefix())) {
             return new FindCommand(new TagContainsKeywordsPredicate(Arrays.asList(keywords)));
+        } else if (targetPrefix.equals(PREFIX_ADDRESS.getPrefix())) {
+            return new FindCommand(new AddressContainsKeywordsPredicate(Arrays.asList(keywords)));
+        } else if (targetPrefix.equals(PREFIX_PHONE.getPrefix())) {
+            return new FindCommand(new PhoneContainsKeywordsPredicate(Arrays.asList(keywords)));
         } else {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
@@ -170,9 +174,9 @@ public class ConvertCommandParser implements Parser<ConvertCommand> {
 ###### \java\seedu\address\logic\parser\FindCommandParser.java
 ``` java
     /**
-     * Extract the search type
+     * Extract the search type (
      * @param args command line input
-     * @return
+     * @return type of search field
      */
     private static String getPrefix(String args) {
         return args.substring(0, 2);
@@ -182,9 +186,9 @@ public class ConvertCommandParser implements Parser<ConvertCommand> {
 ###### \java\seedu\address\logic\parser\FindCommandParser.java
 ``` java
     /**
-     * Extract keywords out from the command
+     * Extract keywords out from the command input
      * @param args command line input
-     * @return
+     * @return list of keywords
      */
     private static String[] getKeywords(String args) {
         String[] keywords;
@@ -301,6 +305,58 @@ public class Currency {
 
         default: return 1;
         }
+    }
+}
+```
+###### \java\seedu\address\model\person\AddressContainsKeywordsPredicate.java
+``` java
+/**
+ * Tests that a {@code Person}'s {@code Address} matches any of the keywords given.
+ */
+public class AddressContainsKeywordsPredicate implements Predicate<Person> {
+    private final List<String> keywords;
+
+    public AddressContainsKeywordsPredicate(List<String> keywords) {
+        this.keywords = keywords;
+    }
+
+    @Override
+    public boolean test(Person person) {
+        return keywords.stream()
+                .anyMatch(keyword -> StringUtil.containsWordIgnoreCase(person.getAddress().value, keyword));
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof AddressContainsKeywordsPredicate // instanceof handles nulls
+                && this.keywords.equals(((AddressContainsKeywordsPredicate) other).keywords)); // state check
+    }
+}
+```
+###### \java\seedu\address\model\person\PhoneContainsKeywordsPredicate.java
+``` java
+/**
+ * Tests that a {@code Person}'s {@code Phone} matches any of the keywords given.
+ */
+public class PhoneContainsKeywordsPredicate implements Predicate<Person> {
+    private final List<String> keywords;
+
+    public PhoneContainsKeywordsPredicate(List<String> keywords) {
+        this.keywords = keywords;
+    }
+
+    @Override
+    public boolean test(Person person) {
+        return keywords.stream()
+                .anyMatch(keyword -> StringUtil.containsWordIgnoreCase(person.getPhone().value, keyword));
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof PhoneContainsKeywordsPredicate // instanceof handles nulls
+                && this.keywords.equals(((PhoneContainsKeywordsPredicate) other).keywords)); // state check
     }
 }
 ```

@@ -166,6 +166,26 @@ public class AddEventCommand extends UndoableCommand {
     }
 }
 ```
+###### \java\seedu\address\logic\commands\ClearEventCommand.java
+``` java
+
+/**
+ * Clears the event list.
+ */
+public class ClearEventCommand extends UndoableCommand {
+
+    public static final String COMMAND_WORD = "clearevents";
+    public static final String MESSAGE_SUCCESS = "Event list has been cleared!";
+
+
+    @Override
+    public CommandResult executeUndoableCommand() {
+        requireNonNull(model);
+        model.resetData(new EventBook());
+        return new CommandResult(MESSAGE_SUCCESS);
+    }
+}
+```
 ###### \java\seedu\address\logic\commands\DeleteEventCommand.java
 ``` java
 
@@ -563,15 +583,13 @@ public class CalendarViewStateParser {
 
         if (commandWord.equals(AddEventCommand.COMMAND_WORD)
                 || commandWord.equals(DeleteEventCommand.COMMAND_WORD)
-                //|| commandWord.equals(EditEventCommand.COMMAND_WORD)
-                //|| commandWord.equals(ListEventCommand.COMMAND_WORD)
-                //|| commandWord.equals(OrderEventCommand.COMMAND_WORD)
                 || commandWord.equals(ClearCommand.COMMAND_WORD)
                 || commandWord.equals(ClearCommand.COMMAND_ALIAS)
                 || commandWord.equals(UndoCommand.COMMAND_WORD)
                 || commandWord.equals(UndoCommand.COMMAND_ALIAS)
                 || commandWord.equals(RedoCommand.COMMAND_WORD)
-                || commandWord.equals(RedoCommand.COMMAND_ALIAS)) {
+                || commandWord.equals(RedoCommand.COMMAND_ALIAS)
+                || commandWord.equals(ClearEventCommand.COMMAND_WORD)) {
             CalendarViewUpdate.updateViewState(calendarView);
         } else if (commandWord.equals(FindEventCommand.COMMAND_WORD)) {
             CalendarViewUpdate.updateFindState(calendarView, model);
@@ -1204,7 +1222,7 @@ public class UniqueEventList implements Iterable<Event> {
         this.internalList.setAll(replacement.internalList);
     }
 
-    public void setEvents(List<? extends ReadOnlyEvent> events) throws CommandException, DuplicateEventException {
+    public void setEvents(List<? extends ReadOnlyEvent> events) throws DuplicateEventException {
         final UniqueEventList replacement = new UniqueEventList();
         for (final ReadOnlyEvent event : events) {
             replacement.add(new Event(event));
@@ -1304,8 +1322,7 @@ public class EventBook implements ReadOnlyEventBook {
         events = new UniqueEventList();
     }
 
-    public EventBook() {
-    }
+    public EventBook() {}
 
     /**
      * Creates an EventBook using the Events in the {@code toBeCopied}
@@ -1317,7 +1334,7 @@ public class EventBook implements ReadOnlyEventBook {
 
     //// list overwrite operations
 
-    public void setEvents(List<? extends ReadOnlyEvent> events) throws CommandException {
+    public void setEvents(List<? extends ReadOnlyEvent> events) {
         try {
             this.events.setEvents(events);
         } catch (DuplicateEventException dee) {
@@ -1331,9 +1348,9 @@ public class EventBook implements ReadOnlyEventBook {
     public void resetData(ReadOnlyEventBook newData) {
         requireNonNull(newData);
         try {
-            setEvents(newData.getEventList());
-        } catch (CommandException e) {
-            throw new AssertionError("Eventbooks should not have duplicate events");
+            this.events.setEvents(newData.getEventList());
+        } catch (DuplicateEventException dee) {
+            throw new AssertionError("Eventbooks should not have duplicated events");
         }
     }
 
@@ -1345,18 +1362,6 @@ public class EventBook implements ReadOnlyEventBook {
     public void addEvent(ReadOnlyEvent e) throws CommandException, DuplicateEventException {
         Event newEvent = new Event(e);
         events.add(newEvent);
-    }
-
-    /**
-     * Replaces the given event {@code target} in the list with {@code editedReadOnlyEvent}.
-     *
-     */
-    public void updateEvent(ReadOnlyEvent target, ReadOnlyEvent editedReadOnlyEvent)
-            throws CommandException {
-        requireNonNull(editedReadOnlyEvent);
-
-        Event editedPerson = new Event(editedReadOnlyEvent);
-        events.setEvent(target, editedPerson);
     }
 
     /**
@@ -1376,8 +1381,6 @@ public class EventBook implements ReadOnlyEventBook {
     public void orderList(String parameter) throws CommandException {
         events.orderBy(parameter);
     }
-
-    //// util methods
 
     @Override
     public int hashCode() {
@@ -1441,6 +1444,15 @@ public class EventBook implements ReadOnlyEventBook {
         return events.asObservableList();
     }
 }
+```
+###### \java\seedu\address\model\ModelManager.java
+``` java
+    @Override
+    public void resetData(ReadOnlyEventBook newData) {
+        eventBook.resetData(newData);
+        indicateEventBookChanged();
+    }
+
 ```
 ###### \java\seedu\address\storage\CsvFileStorage.java
 ``` java
@@ -2102,12 +2114,63 @@ public class EventCard extends UiPart<Region> {
     private Label eventLocation;
     @FXML
     private Label datetime;
+    @FXML
+    private HBox eventLabelPane;
+    @FXML
+    private Label eventLabel;
+    @FXML
+    private ImageView eventImage;
 
     public EventCard(ReadOnlyEvent event, int displayedIndex) {
         super(FXML);
         id.setText(displayedIndex + ". ");
         this.event = event;
         bindListeners(event);
+        setEventStatusStyle(event.getDatetime().value);
+    }
+
+    /**
+     * Set the style for the event status label pane
+     * @param maxWidth maximum width of the pane
+     * @param colorCode color code of the border of the pane
+     */
+    private void setEventPaneStyle(int maxWidth, String colorCode) {
+        eventLabelPane.setMaxWidth(maxWidth);
+        eventLabelPane.setStyle("-fx-border-color: " + colorCode + ";");
+    }
+
+    /**
+     * Set the text to be displayed at event date label
+     * @param eventStatus text to be displayed
+     */
+    private void setEventLabelText(String eventStatus) {
+        eventLabel.setText(eventStatus);
+    }
+
+    /**
+     * Sets the event field style to alert users
+     * (1) past events: grey color display
+     * (2) happening today: red color display
+     * (3) happening next 3 days: yellow color display
+     * (4) beyond next 3 days: green color display
+     */
+    private void setEventStatusStyle(String eventDate) {
+        int remainingDays = DateUtil.getDayCountBetweenTwoDates(DateUtil.getTodayDate(),
+                DateUtil.getParsedDateTime(eventDate));
+
+        if (remainingDays < 0) { // overdue tasks
+            setEventPaneStyle(200, "#C5CDE2");
+            setEventLabelText("  PAST EVENT");
+        } else if (remainingDays == 0) {
+            setEventPaneStyle(200, "#FF0000");
+            setEventLabelText("  HAPPENING TODAY!");
+        } else if (remainingDays < 3) {
+            setEventPaneStyle(200, "#FFC000");
+            setEventLabelText("  HAPPENING SOON");
+        } else {
+            setEventPaneStyle(200, "#00FF00");
+            setEventLabelText("  NOT ANYTIME SOON");
+        }
     }
 
     /**
@@ -2293,8 +2356,24 @@ public class LinkedInWindow extends UiPart<Stage> {
       xmlns:fx="http://javafx.com/fxml/1"
 />
 ```
+###### \resources\view\DarkTheme.css
+``` css
+#statusPane {
+    -fx-padding: 0 35 0 0;
+    -fx-spacing: 2;
+}
+
+#eventLabelPane {
+    -fx-padding: 0 10 0 0;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 10 10 10 10;
+    -fx-spacing: 100;
+}
+
+```
 ###### \resources\view\EventListCard.fxml
 ``` fxml
+<?import javafx.scene.image.ImageView?>
 <HBox xmlns:fx="http://javafx.com/fxml/1" id="cardPane" fx:id="cardPane" xmlns="http://javafx.com/javafx/8">
   <GridPane HBox.hgrow="ALWAYS">
     <columnConstraints>
@@ -2316,6 +2395,14 @@ public class LinkedInWindow extends UiPart<Stage> {
       <Label fx:id="description" styleClass="cell_small_label" text="\$description"/>
       <Label fx:id="eventLocation" styleClass="cell_small_label" text="\$eventLocation"/>
       <Label fx:id="datetime" styleClass="cell_small_label" text="\$datetime"/>
+    </VBox>
+    <VBox alignment="CENTER_RIGHT" minHeight="105" GridPane.columnIndex="1">
+      <padding>
+        <Insets top="25" right="0" bottom="0" left="0" />
+      </padding>
+        <HBox fx:id="eventLabelPane" alignment="CENTER_RIGHT">
+          <Label fx:id="eventLabel" styleClass="cell_small_label" text="\$eventLabel" />
+        </HBox>
     </VBox>
   </GridPane>
 </HBox>
