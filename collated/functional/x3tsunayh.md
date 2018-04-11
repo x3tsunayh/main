@@ -57,6 +57,7 @@ public class GoogleContactNameEvent extends BaseEvent {
     public GoogleContactNameEvent (Person person) {
         this.person = person;
     }
+
     @Override
     public String toString() {
         return this.getClass().getSimpleName();
@@ -64,6 +65,31 @@ public class GoogleContactNameEvent extends BaseEvent {
 
     public Person getPerson() {
         return this.person;
+    }
+
+}
+```
+###### \java\seedu\address\commons\events\ui\JumpToCalendarRequestEvent.java
+``` java
+
+/**
+ * An event requesting to jump to a specified month and year on the calendar.
+ */
+public class JumpToCalendarRequestEvent extends BaseEvent {
+
+    private YearMonth yearMonth;
+
+    public JumpToCalendarRequestEvent (YearMonth yearMonth) {
+        this.yearMonth = yearMonth;
+    }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName();
+    }
+
+    public YearMonth getYearMonth() {
+        return yearMonth;
     }
 
 }
@@ -342,6 +368,45 @@ public class GoogleCommand extends Command {
     }
 }
 ```
+###### \java\seedu\address\logic\commands\JumpToCommand.java
+``` java
+
+/**
+ * Jumps to user-defined month and year on the calendar
+ */
+public class JumpToCommand extends Command {
+    public static final String COMMAND_WORD = "jumpto";
+    public static final String COMMAND_ALIAS = "jt";
+    public static final String JUMP_TO_MESSAGE = "Jumped to: %1$s";
+
+    public static final String MESSAGE_USAGE = COMMAND_WORD
+            + ": Jumps to a specified year (between 1900 to 2300) and month (between 01 to 12) on the calendar.\n"
+            + "Parameters: yyyy-mm\n"
+            + "Example: " + COMMAND_WORD + " 201802";
+
+    private final YearMonth yearMonth;
+
+    /**
+     * Creates a JumpToCommand to jump to specified year and month of the calendar
+     */
+    public JumpToCommand(YearMonth yearMonthValue)  {
+        yearMonth = yearMonthValue;
+    }
+
+    @Override
+    public CommandResult execute() {
+        EventsCenter.getInstance().post(new JumpToCalendarRequestEvent(yearMonth));
+        return new CommandResult(String.format(JUMP_TO_MESSAGE, yearMonth.toString()));
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof JumpToCommand // instanceof handles nulls
+                && yearMonth.equals(((JumpToCommand) other).yearMonth));
+    }
+}
+```
 ###### \java\seedu\address\logic\commands\ListAllEventsCommand.java
 ``` java
 
@@ -617,6 +682,64 @@ public class GoogleCommandParser implements Parser<GoogleCommand> {
     }
 }
 ```
+###### \java\seedu\address\logic\parser\JumpToCommandParser.java
+``` java
+
+/**
+ * Parses input arguments and creates a new JumpToCommand object
+ */
+public class JumpToCommandParser implements Parser<JumpToCommand> {
+
+    /**
+     * Parses the given {@code String} of arguments in the context of the JumpToCommand
+     * and returns an JumpToCommand object for execution.
+     * @throws ParseException if the user input does not conform the expected format
+     */
+    public JumpToCommand parse(String args) throws ParseException {
+        try {
+            YearMonth yearMonth = ParserUtil.parseYearmonth(args);
+            return new JumpToCommand(yearMonth);
+        } catch (IllegalValueException ive) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, JumpToCommand.MESSAGE_USAGE));
+        }
+    }
+}
+```
+###### \java\seedu\address\logic\parser\ParserUtil.java
+``` java
+
+    /**
+     * Parses a {@code Optional<String> datetime} into an {@code Optional<Datetime>} if {@code datetime} is present.
+     * See header comment of this class regarding the use of {@code Optional} parameters.
+     */
+    public static Optional<Datetime> parseDatetime(Optional<String> datetime) throws IllegalValueException {
+        requireNonNull(datetime);
+        return datetime.isPresent() ? Optional.of(new Datetime(datetime.get())) : Optional.empty();
+    }
+
+    /**
+     * Parses a {@code String yearmonth} into a {@code YearMonth} if {@code yearmonth} is present.
+     */
+    public static YearMonth parseYearmonth(String yearmonth) throws IllegalValueException {
+        requireNonNull(yearmonth);
+        if (yearmonth.length() != JUMPTO_VALID_ARGS_LENGTH) {
+            throw new IllegalValueException(MESSAGE_USAGE);
+        }
+
+        int year = Integer.parseInt(yearmonth.substring(1, 5));
+        String separator = yearmonth.substring(5, 6);
+        int month = Integer.parseInt(yearmonth.substring(6));
+
+        if (!separator.equals("-") || 1900 > year || year > 2300 || 1 > month || month > 12) {
+            throw new IllegalValueException(MESSAGE_USAGE);
+        }
+
+        YearMonth yearMonth = YearMonth.of(year, month);
+        return yearMonth;
+    }
+}
+```
 ###### \java\seedu\address\model\event\Datetime.java
 ``` java
 
@@ -627,7 +750,8 @@ public class GoogleCommandParser implements Parser<GoogleCommand> {
 public class Datetime {
 
     public static final String MESSAGE_DATETIME_CONSTRAINTS =
-            "Event datetime should be in the format: dd-mm-yyyy hhmm";
+            "Event datetime should be in the format: dd-mm-yyyy hhmm\n"
+            + "Datetime values should also be logical (eg. hhmm should be between 0000 to 2359)";
 
     private static final int VALID_DATETIME_LENGTH = 15;
 
@@ -670,7 +794,6 @@ public class Datetime {
             String firstSeperator = datetime.substring(2, 3);
             String secondSeperator = datetime.substring(5, 6);
             String thirdSeperator = datetime.substring(10, 11);
-            System.out.println(firstSeperator + secondSeperator + thirdSeperator);
 
             //Format Validation
             if (firstSeperator.equals("-") & secondSeperator.equals("-") & thirdSeperator.equals(" ")) {
@@ -1681,6 +1804,8 @@ public class CalendarView {
         view = new VBox(calendarDtBar, titleBar, dayLabels, calendar);
         VBox.setMargin(calendarDtBar, new Insets(0, 0, 5, 0));
         VBox.setMargin(titleBar, new Insets(0, 0, 5, 0));
+
+        EventsCenter.getInstance().registerHandler(this);
     }
 
     /**
@@ -1859,6 +1984,14 @@ public class CalendarView {
             month = "0" + month;
         }
         return day + "-" + month + "-" + year;
+    }
+
+    @Subscribe
+    private void handleJumpToCalendarRequestEvent(JumpToCalendarRequestEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        System.out.println("test");
+        setCurrentYearMonth(event.getYearMonth());
+        populateCalendar(event.getYearMonth(), null);
     }
 
 }
