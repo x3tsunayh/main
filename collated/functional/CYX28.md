@@ -1,4 +1,40 @@
 # CYX28
+###### \java\seedu\address\commons\util\DateUtil.java
+``` java
+/**
+ * A container for Date specific utility functions
+ */
+public class DateUtil {
+
+    /**
+     * Get today's date in LocalDate format
+     * @return today's date in LocalDate format
+     */
+    public static LocalDate getTodayDate() {
+        return LocalDate.now();
+    }
+
+    /**
+     * Parse given date into LocalDate format
+     * @param dateToParse date must be in String format with hypens e.g. 2018-05-12
+     * @return date in LocalDate format
+     */
+    public static LocalDate getParsedDate(String dateToParse) {
+        return LocalDate.parse(dateToParse);
+    }
+
+    /**
+     * Get the number of days between the start and end date
+     * @param startDate a date in LocalDate format
+     * @param endDate a date in LocalDate format
+     * @return number of days in between the two dates
+     */
+    public static int getDayCountBetweenTwoDates(LocalDate startDate, LocalDate endDate) {
+        return (int) DAYS.between(startDate, endDate);
+    }
+
+}
+```
 ###### \java\seedu\address\logic\commands\SortCommand.java
 ``` java
 /**
@@ -425,27 +461,6 @@ public class TaskListCommand extends Command {
 
 }
 ```
-###### \java\seedu\address\logic\commands\TaskSortCommand.java
-``` java
-/**
- * Sorts tasks by priority in decreasing order of importance (i.e. high > medium > low) and
- * lists all tasks in the address book to the user.
- */
-public class TaskSortCommand extends UndoableCommand {
-
-    public static final String COMMAND_WORD = "task-sort";
-    public static final String COMMAND_ALIAS = "ts";
-    public static final String MESSAGE_SUCCESS =
-            "Listed all tasks sorted by priority from high to low importance";
-
-    @Override
-    public CommandResult executeUndoableCommand() {
-        model.sortTasksByPriority();
-        return new CommandResult(MESSAGE_SUCCESS);
-    }
-
-}
-```
 ###### \java\seedu\address\logic\parser\CliSyntax.java
 ``` java
     public static final Prefix PREFIX_TASK_NAME = new Prefix("n/");
@@ -593,7 +608,7 @@ public class TaskSortCommand extends UndoableCommand {
      */
     public static TaskCategory parseTaskCategory(String taskCategory) throws IllegalValueException {
         requireNonNull(taskCategory);
-        String trimmedTaskCategory = taskCategory.trim();
+        String trimmedTaskCategory = taskCategory.trim().toLowerCase();
         if (!TaskCategory.isValidTaskCategoryName(trimmedTaskCategory)) {
             throw new IllegalValueException(TaskCategory.MESSAGE_TASK_CATEGORY_CONSTRAINTS);
         }
@@ -867,10 +882,13 @@ public class TaskFindCommandParser implements Parser<TaskFindCommand> {
     }
 
     /**
-     * Sorts the task list by priority from high to low importance
+     * Sorts the task list by
+     * (1) status (i.e. undone to done,
+     * (2) due date in ascending order and
+     * (3) priority (i.e. high > medium > low)
      */
-    public void sortTasksByPriority() {
-        tasks.sortByPriority();
+    public void sortTasksByStatusDueDateAndPriority() {
+        tasks.sortByStatusDueDateAndPriority();
     }
 
     //// taskCategory-level operations
@@ -884,6 +902,7 @@ public class TaskFindCommandParser implements Parser<TaskFindCommand> {
 ``` java
     @Override
     public ObservableList<Task> getTaskList() {
+        sortTasksByStatusDueDateAndPriority();
         return tasks.asObservableList();
     }
 
@@ -1106,12 +1125,6 @@ public class UniqueTaskCategoryList implements Iterable<TaskCategory> {
         indicateAddressBookChanged();
     }
 
-    @Override
-    public void sortTasksByPriority() {
-        this.addressBook.sortTasksByPriority();
-        indicateAddressBookChanged();
-    }
-
 ```
 ###### \java\seedu\address\model\person\UniquePersonList.java
 ``` java
@@ -1197,7 +1210,8 @@ public class Task {
                 && otherTask.getTaskPriority().equals(this.getTaskPriority())
                 && otherTask.getTaskDescription().equals(this.getTaskDescription())
                 && otherTask.getTaskDueDate().equals(this.getTaskDueDate())
-                && otherTask.getTaskStatus().equals(this.getTaskStatus());
+                && otherTask.getTaskStatus().equals(this.getTaskStatus())
+                && otherTask.getTaskCategories().equals(this.getTaskCategories());
     }
 
     @Override
@@ -1289,7 +1303,7 @@ public class TaskDescription {
 public class TaskDueDate {
 
     public static final String MESSAGE_TASK_DUE_DATE_CONSTRAINTS =
-            "Task due dates must be a valid date in the format yyyy-MM-dd";
+            "Task due dates must be a valid date in the format yyyy-MM-dd, and it should not be empty";
 
     /**
      * The first character of the task due date must not be a whitespace,
@@ -1441,7 +1455,7 @@ public class TaskPriority {
             Arrays.asList(TASK_PRIORITY_HIGH, TASK_PRIORITY_MEDIUM, TASK_PRIORITY_LOW);
 
     public static final String MESSAGE_TASK_PRIORITY_CONSTRAINTS =
-            "Task priority can only be either high, medium or low";
+            "Task priority can only be either high, medium or low, and it should not be empty";
 
     /**
      * The first character of the task priority must not be a whitespace,
@@ -1497,7 +1511,14 @@ public class TaskPriority {
  */
 public class TaskStatus {
 
-    public static final String MESSAGE_TASK_STATUS_CONSTRAINTS = "Task status can only be either done or undone.";
+    public static final String TASK_STATUS_DONE = "done";
+    public static final String TASK_STATUS_UNDONE = "undone";
+
+    public static final List<String> STATUS_ORDER =
+            Arrays.asList(TASK_STATUS_UNDONE, TASK_STATUS_DONE);
+
+    public static final String MESSAGE_TASK_STATUS_CONSTRAINTS =
+            "Task status can only be either done or undone, and it should not be empty.";
 
     /**
      * The first character of the task status must not be a whitespace,
@@ -1616,14 +1637,21 @@ public class UniqueTaskList implements Iterable<Task> {
     }
 
     /**
-     * Sorts the task list by priority from high to low importance
+     * Sorts the task list by
+     * (1) status (i.e. undone to done,
+     * (2) due date in ascending order and
+     * (3) priority (i.e. high > medium > low)
      */
-    public void sortByPriority() {
-        // Sorts based on high to low priority
-        internalList.sort(Comparator.comparing(Task::getTaskPriority, (t1, t2) -> {
-            return TaskPriority.PRIORITY_ORDER.indexOf(t1.value.toLowerCase())
-                    - TaskPriority.PRIORITY_ORDER.indexOf(t2.value.toLowerCase());
-        }));
+    public void sortByStatusDueDateAndPriority() {
+        internalList.sort(Comparator.comparing(Task::getTaskStatus, (s1, s2) -> {
+            return TaskStatus.STATUS_ORDER.indexOf(s1.value.toLowerCase())
+                    - TaskStatus.STATUS_ORDER.indexOf(s2.value.toLowerCase());
+        }).thenComparing(Comparator.comparing(Task::getTaskDueDate, (dd1, dd2) -> {
+            return dd1.value.compareTo(dd2.value);
+        })).thenComparing(Comparator.comparing(Task::getTaskPriority, (p1, p2) -> {
+            return TaskPriority.PRIORITY_ORDER.indexOf(p1.value.toLowerCase())
+                    - TaskPriority.PRIORITY_ORDER.indexOf(p2.value.toLowerCase());
+        })));
     }
 
     public void setTasks(UniqueTaskList replacement) {
@@ -1877,33 +1905,204 @@ public class TaskCard extends UiPart<Region> {
     public final Task task;
 
     @FXML
-    private HBox cardPane;
+    private Label id;
     @FXML
     private Label name;
     @FXML
-    private Label id;
-    @FXML
-    private Label priority;
-    @FXML
     private Label description;
+    @FXML
+    private FlowPane categories;
+    @FXML
+    private ImageView statusImage;
+    @FXML
+    private ImageView dueDateImage;
     @FXML
     private Label dueDate;
     @FXML
-    private Label status;
+    private HBox priorityPane;
     @FXML
-    private FlowPane categories;
+    private ImageView priorityImage;
+    @FXML
+    private Label priority;
 
     public TaskCard(Task task, int displayedIndex) {
         super(FXML);
         this.task = task;
-        id.setText(displayedIndex + ". ");
+
+        setTaskIdStyle(displayedIndex);
+        setTaskNameStyle(task.getTaskName().value);
+        setTaskDescriptionStyle(task.getTaskDescription().value);
+        setTaskCategoryStyle(task.getTaskCategories());
+        setTaskPriorityDueDateAndStatusStyle(task.getTaskPriority().value, task.getTaskDueDate().value,
+                task.getTaskStatus().value);
+    }
+
+    /**
+     * Set the style for task id field
+     * Ensure that task id does not get truncated
+     * @param taskDisplayedIndex index of displayed task
+     */
+    private void setTaskIdStyle(int taskDisplayedIndex) {
+        id.setText(taskDisplayedIndex + ". ");
+        id.setWrapText(true);
+    }
+
+    /**
+     * Set the style for task name field
+     * Ensure that longer task name does not get truncated or overlap with other fields
+     * @param taskName name of task
+     */
+    private void setTaskNameStyle(String taskName) {
         name.setText(task.getTaskName().value);
-        priority.setText(task.getTaskPriority().value);
+        name.setWrapText(true);
+    }
+
+    /**
+     * Set the style for task description field
+     * Ensure that longer task description does not get truncated or overlap with other fields
+     * @param taskDescription description of task
+     */
+    private void setTaskDescriptionStyle(String taskDescription) {
         description.setText(task.getTaskDescription().value);
-        dueDate.setText(task.getTaskDueDate().value);
-        status.setText(task.getTaskStatus().value);
-        task.getTaskCategories().forEach(category -> categories.getChildren()
-                .add(new Label(category.taskCategoryName)));
+        description.setWrapText(true);
+    }
+
+    /**
+     * Set the style for task category field
+     * Ensure that longer category label does not get truncated or overlap with other fields
+     * @param taskCategories all categories belonging to a task
+     */
+    private void setTaskCategoryStyle(Set<TaskCategory> taskCategories) {
+        for (TaskCategory category : taskCategories) {
+            Label categoryLabel = new Label(category.taskCategoryName);
+            categoryLabel.setMaxWidth(220);
+            categoryLabel.setWrapText(true);
+            categories.getChildren().add(categoryLabel);
+        }
+    }
+
+    /**
+     * Set the style for task priority, due date and status fields
+     * @param taskPriority priority level
+     * @param taskDueDate due date
+     * @param taskStatus status
+     */
+    private void setTaskPriorityDueDateAndStatusStyle(String taskPriority, String taskDueDate, String taskStatus) {
+        if (taskStatus.equals("done")) {
+            setTaskPriorityLabelText("");
+            setTaskDueDateLabelText("");
+            setTaskStatusImageForDoneTasks("images/taskStatusDone.png", 50, 50);
+        } else { // undone tasks
+            setTaskPriorityStyleForUndoneTasks(taskPriority);
+            setTaskDueDateStyleForUndoneTasks(taskDueDate);
+        }
+    }
+
+    /**
+     * Set the task priority field style for undone tasks
+     * (1) high: red color display
+     * (2) medium: orange color display
+     * (3) low: green color display
+     * @param taskPriority priority level
+     */
+    private void setTaskPriorityStyleForUndoneTasks(String taskPriority) {
+        if (taskPriority.equals("high")) {
+            setTaskPriorityPaneStyle(68, "#FF0000");
+            setTaskPriorityImage("images/taskPriorityHigh.png");
+
+        } else if (taskPriority.equals("medium")) {
+            setTaskPriorityPaneStyle(88, "#FFC000");
+            setTaskPriorityImage("images/taskPriorityMedium.png");
+        } else {
+            setTaskPriorityPaneStyle(65, "#00FF00");
+            setTaskPriorityImage("images/taskPriorityLow.png");
+        }
+        setTaskPriorityLabelText(taskPriority.toUpperCase());
+    }
+
+    /**
+     * Set the style for the task priority pane
+     * @param maxWidth maximum width of the pane
+     * @param colorCode color code of the border of the pane
+     */
+    private void setTaskPriorityPaneStyle(int maxWidth, String colorCode) {
+        priorityPane.setMaxWidth(maxWidth);
+        priorityPane.setStyle("-fx-border-color: " + colorCode + ";");
+    }
+
+    /**
+     * Set the image to be displayed at task priority field
+     * @param imageUrl url of the image to be displayed
+     */
+    private void setTaskPriorityImage(String imageUrl) {
+        try {
+            priorityImage.setImage(new Image(imageUrl, 15, 15, true, true));
+        } catch (IllegalArgumentException iae) {
+            raise(new NewResultAvailableEvent(String.format(MESSAGE_INVALID_ARGUMENT, "priority")));
+        }
+    }
+
+    /**
+     * Set the text to be displayed at task priority label
+     * @param taskPriority text to be displayed
+     */
+    private void setTaskPriorityLabelText(String taskPriority) {
+        priority.setText(taskPriority);
+    }
+
+    /**
+     * Set the task due date field style for undone tasks
+     * - Set different text colors based on days left to task due date
+     * (1) < 0 day (overdue tasks): red color text with circular exclamation symbol
+     * (1) < 3 days: red color text
+     * (2) 3 & 4 days: orange color text
+     * (3) >= 5 days: green color text
+     * - Set the label text of task due date field
+     * @param taskDueDate due date of task
+     */
+    private void setTaskDueDateStyleForUndoneTasks(String taskDueDate) {
+        int remainingDays = (int) DateUtil.getDayCountBetweenTwoDates(DateUtil.getTodayDate(),
+                DateUtil.getParsedDate(taskDueDate));
+
+        if (remainingDays < 0) { // overdue tasks
+            try {
+                dueDateImage.setImage(new Image("images/taskOverdue.png", 20, 20,
+                        true, true));
+            } catch (IllegalArgumentException iae) {
+                raise(new NewResultAvailableEvent(String.format(MESSAGE_INVALID_ARGUMENT, "due date")));
+            }
+            dueDate.setStyle("-fx-text-fill: #FF0000;");
+        } else if (remainingDays < 3) {
+            dueDate.setStyle("-fx-text-fill: #FF0000;");
+        } else if (remainingDays < 5) {
+            dueDate.setStyle("-fx-text-fill: #FFC000;");
+        } else {
+            dueDate.setStyle("-fx-text-fill: #00FF00;");
+        }
+
+        setTaskDueDateLabelText(taskDueDate);
+    }
+
+    /**
+     * Set the text to be displayed at task due date label
+     * @param taskDueDate text to be displayed
+     */
+    private void setTaskDueDateLabelText(String taskDueDate) {
+        dueDate.setText(taskDueDate);
+    }
+
+    /**
+     * Set the image of the task status field for completed tasks
+     * @param taskStatusImageUrl url of the image to be displayed
+     * @param width width of the image
+     * @param height height of the image
+     */
+    private void setTaskStatusImageForDoneTasks(String taskStatusImageUrl, int width, int height) {
+        try {
+            statusImage.setImage(new Image(taskStatusImageUrl, width, height, true, true));
+        } catch (IllegalArgumentException iae) {
+            raise(new NewResultAvailableEvent(String.format(MESSAGE_INVALID_ARGUMENT, "status")));
+        }
     }
 
     @Override
@@ -1984,10 +2183,34 @@ public class TaskListPanel extends UiPart<Region> {
     }
 }
 ```
+###### \resources\view\DarkTheme.css
+``` css
+#statusPane {
+    -fx-padding: 0 35 0 0;
+    -fx-spacing: 2;
+}
+
+#statusImage {
+    -fx-padding: 0 100 0 0;
+}
+
+#dueDatePane {
+    -fx-padding: 0 5 5 0;
+    -fx-spacing: 2;
+}
+
+#priorityPane {
+    -fx-padding: 0 8 0 0;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 5 5 5 5;
+    -fx-spacing: 2;
+}
+```
 ###### \resources\view\TaskListCard.fxml
 ``` fxml
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.GridPane?>
@@ -2004,21 +2227,38 @@ public class TaskListPanel extends UiPart<Region> {
             <padding>
                 <Insets top="5" right="5" bottom="5" left="15" />
             </padding>
-            <HBox spacing="5" alignment="CENTER_LEFT">
-                <Label fx:id="id" styleClass="cell_big_label">
-                    <minWidth>
-                        <!-- Ensures that the label text is never truncated -->
-                        <Region fx:constant="USE_PREF_SIZE" />
-                    </minWidth>
-                </Label>
+            <HBox spacing="5" alignment="CENTER_LEFT" maxWidth="225">
+                <Label fx:id="id" styleClass="cell_big_label" />
                 <Label fx:id="name" text="\$first" styleClass="cell_big_label" />
             </HBox>
+            <Label fx:id="description" styleClass="cell_small_label" text="\$description" maxWidth="225" />
             <FlowPane fx:id="categories" />
-            <Label fx:id="priority" styleClass="cell_small_label" text="\$priority" />
-            <Label fx:id="description" styleClass="cell_small_label" text="\$description" />
-            <Label fx:id="dueDate" styleClass="cell_small_label" text="\$dueDate" />
-            <Label fx:id="status" styleClass="cell_small_label" text="\$status" />
+        </VBox>
+        <VBox alignment="CENTER_RIGHT" minHeight="105" GridPane.columnIndex="1">
+            <padding>
+                <Insets top="25" right="0" bottom="0" left="0" />
+            </padding>
+            <HBox fx:id="statusPane" alignment="CENTER_RIGHT">
+                <ImageView fx:id="statusImage"></ImageView>
+            </HBox>
+            <HBox fx:id="dueDatePane" alignment="CENTER_RIGHT">
+                <ImageView fx:id="dueDateImage"></ImageView>
+                <Label fx:id="dueDate" styleClass="cell_small_label" text="\$dueDate" />
+            </HBox>
+            <HBox fx:id="priorityPane" alignment="CENTER_RIGHT">
+                <ImageView fx:id="priorityImage"></ImageView>
+                <Label fx:id="priority" styleClass="cell_small_label" text="\$priority" />
+            </HBox>
         </VBox>
     </GridPane>
 </HBox>
+```
+###### \resources\view\TaskListPanel.fxml
+``` fxml
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <ListView fx:id="taskListView" VBox.vgrow="ALWAYS" />
+</VBox>
 ```

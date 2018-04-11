@@ -129,12 +129,6 @@ public class ModelManager extends ComponentManager implements Model {
         indicateAddressBookChanged();
     }
 
-    @Override
-    public void sortTasksByPriority() {
-        this.addressBook.sortTasksByPriority();
-        indicateAddressBookChanged();
-    }
-
     //@@author
     //=========== Filtered Person List Accessors =============================================================
 

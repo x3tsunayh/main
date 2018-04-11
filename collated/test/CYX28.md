@@ -1,105 +1,143 @@
 # CYX28
-###### \java\guitests\guihandles\TaskCardHandle.java
+###### \java\seedu\address\commons\util\DateUtilTest.java
 ``` java
-/**
- * Provides a handle to a task card in the task list panel.
- */
-public class TaskCardHandle extends NodeHandle<Node> {
-    private static final String TASK_ID_FIELD_ID = "#id";
-    private static final String TASK_NAME_FIELD_ID = "#name";
-    private static final String TASK_PRIORITY_FIELD_ID = "#priority";
-    private static final String TASK_DESCRIPTION_FIELD_ID = "#description";
-    private static final String TASK_DUE_DATE_FIELD_ID = "#dueDate";
-    private static final String TASK_STATUS_FIELD_ID = "#status";
-    private static final String TASK_CATEGORIES_FIELD_ID = "#categories";
+public class DateUtilTest {
 
-    private final Label idLabel;
-    private final Label nameLabel;
-    private final Label priorityLabel;
-    private final Label descriptionLabel;
-    private final Label dueDateLabel;
-    private final Label statusLabel;
-    private final List<Label> categoriesLabels;
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
-    public TaskCardHandle(Node cardNode) {
-        super(cardNode);
+    @Test
+    public void getParsedDate_correctFormatDate_success() {
+        String dateToParse = "2018-05-12";
+        LocalDate expectedParsedDate = LocalDate.parse(dateToParse);
+        LocalDate actualParsedDate = DateUtil.getParsedDate(dateToParse);
 
-        this.idLabel = getChildNode(TASK_ID_FIELD_ID);
-        this.nameLabel = getChildNode(TASK_NAME_FIELD_ID);
-        this.priorityLabel = getChildNode(TASK_PRIORITY_FIELD_ID);
-        this.descriptionLabel = getChildNode(TASK_DESCRIPTION_FIELD_ID);
-        this.dueDateLabel = getChildNode(TASK_DUE_DATE_FIELD_ID);
-        this.statusLabel = getChildNode(TASK_STATUS_FIELD_ID);
-
-        Region taskCategoriesContainer = getChildNode(TASK_CATEGORIES_FIELD_ID);
-        this.categoriesLabels = taskCategoriesContainer
-                .getChildrenUnmodifiable()
-                .stream()
-                .map(Label.class::cast)
-                .collect(Collectors.toList());
+        assertEquals(expectedParsedDate, actualParsedDate);
     }
 
-    public String getTaskId() {
-        return idLabel.getText();
+    @Test
+    public void getParsedDate_wrongFormatDate_fail() {
+        thrown.expect(DateTimeParseException.class);
+        String dateToParse = "2018 05 12";
+        LocalDate expectedParsedDate = LocalDate.parse(dateToParse);
+        LocalDate actualParsedDate = DateUtil.getParsedDate(dateToParse);
+
+        assertNotEquals(expectedParsedDate, actualParsedDate);
     }
 
-    public String getTaskName() {
-        return nameLabel.getText();
+    @Test
+    public void getDayCountBetweenTwoDates_sameYearSameMonthStartDayBeforeEndDay_success() {
+        LocalDate startDate = LocalDate.parse("2018-05-10");
+        LocalDate endDate = LocalDate.parse("2018-05-12");
+        int expectedDayCount = (int) DAYS.between(startDate, endDate);
+        int actualDayCount = DateUtil.getDayCountBetweenTwoDates(startDate, endDate);
+
+        assertEquals(expectedDayCount, actualDayCount);
     }
 
-    public String getTaskPriority() {
-        return priorityLabel.getText();
+    @Test
+    public void getDayCountBetweenTwoDates_sameYearSameMonthSameDay_success() {
+        LocalDate startDate = LocalDate.parse("2018-05-12");
+        LocalDate endDate = LocalDate.parse("2018-05-12");
+        int expectedDayCount = (int) DAYS.between(startDate, endDate);
+        int actualDayCount = DateUtil.getDayCountBetweenTwoDates(startDate, endDate);
+
+        assertEquals(expectedDayCount, actualDayCount);
     }
 
-    public String getTaskDescription() {
-        return descriptionLabel.getText();
+    @Test
+    public void getDayCountBetweenTwoDates_sameYearSameMonthStartDayAfterEndDay_success() {
+        LocalDate startDate = LocalDate.parse("2018-05-12");
+        LocalDate endDate = LocalDate.parse("2018-05-10");
+        int expectedDayCount = (int) DAYS.between(startDate, endDate);
+        int actualDayCount = DateUtil.getDayCountBetweenTwoDates(startDate, endDate);
+
+        assertEquals(expectedDayCount, actualDayCount);
     }
 
-    public String getTaskDueDate() {
-        return dueDateLabel.getText();
+    @Test
+    public void getDayCountBetweenTwoDates_sameYearDifferentMonthSameDay_success() {
+        LocalDate startDate = LocalDate.parse("2018-05-12");
+        LocalDate endDate = LocalDate.parse("2018-06-12");
+        int expectedDayCount = (int) DAYS.between(startDate, endDate);
+        int actualDayCount = DateUtil.getDayCountBetweenTwoDates(startDate, endDate);
+
+        assertEquals(expectedDayCount, actualDayCount);
     }
 
-    public String getTaskStatus() {
-        return statusLabel.getText();
+    @Test
+    public void getDayCountBetweenTwoDates_sameYearDifferentMonthStartDayBeforeEndDay_success() {
+        LocalDate startDate = LocalDate.parse("2018-05-10");
+        LocalDate endDate = LocalDate.parse("2018-06-12");
+        int expectedDayCount = (int) DAYS.between(startDate, endDate);
+        int actualDayCount = DateUtil.getDayCountBetweenTwoDates(startDate, endDate);
+
+        assertEquals(expectedDayCount, actualDayCount);
     }
 
-    public List<String> getTaskCategories() {
-        return categoriesLabels
-                .stream()
-                .map(Label::getText)
-                .collect(Collectors.toList());
-    }
-}
-```
-###### \java\guitests\guihandles\TaskListPanelHandle.java
-``` java
-/**
- * Provides a handle for {@code TaskListPanel} containing the list of {@code TaskCard}.
- */
-public class TaskListPanelHandle extends NodeHandle<ListView<TaskCard>> {
-    public static final String TASK_LIST_VIEW_ID = "#taskListView";
+    @Test
+    public void getDayCountBetweenTwoDates_sameYearDifferentMonthStartDayAfterEndDay_success() {
+        LocalDate startDate = LocalDate.parse("2018-05-12");
+        LocalDate endDate = LocalDate.parse("2018-05-10");
+        int expectedDayCount = (int) DAYS.between(startDate, endDate);
+        int actualDayCount = DateUtil.getDayCountBetweenTwoDates(startDate, endDate);
 
-    public TaskListPanelHandle(ListView<TaskCard> taskListPanelNode) {
-        super(taskListPanelNode);
+        assertEquals(expectedDayCount, actualDayCount);
     }
 
-    /**
-     * Returns the task card handle of a task associated with the {@code index} in the list.
-     */
-    public TaskCardHandle getTaskCardHandle(int index) {
-        return getTaskCardHandle(getRootNode().getItems().get(index).task);
+    @Test
+    public void getDayCountBetweenTwoDates_differentYearSameMonthSameDay_success() {
+        LocalDate startDate = LocalDate.parse("2017-05-12");
+        LocalDate endDate = LocalDate.parse("2018-05-12");
+        int expectedDayCount = (int) DAYS.between(startDate, endDate);
+        int actualDayCount = DateUtil.getDayCountBetweenTwoDates(startDate, endDate);
+
+        assertEquals(expectedDayCount, actualDayCount);
     }
 
-    /**
-     * Returns the {@code TaskCardHandle} of the specified {@code task} in the list.
-     */
-    public TaskCardHandle getTaskCardHandle(Task task) {
-        Optional<TaskCardHandle> handle = getRootNode().getItems().stream()
-                .filter(card -> card.task.equals(task))
-                .map(card -> new TaskCardHandle(card.getRoot()))
-                .findFirst();
-        return handle.orElseThrow(() -> new IllegalArgumentException("Task does not exist."));
+    @Test
+    public void getDayCountBetweenTwoDates_differentYearSameMonthStartDayBeforeEndDay_success() {
+        LocalDate startDate = LocalDate.parse("2017-05-10");
+        LocalDate endDate = LocalDate.parse("2018-06-12");
+        int expectedDayCount = (int) DAYS.between(startDate, endDate);
+        int actualDayCount = DateUtil.getDayCountBetweenTwoDates(startDate, endDate);
+
+        assertEquals(expectedDayCount, actualDayCount);
     }
+
+    @Test
+    public void getDayCountBetweenTwoDates_differentYearSameMonthStartDayAfterEndDay_success() {
+        LocalDate startDate = LocalDate.parse("2017-05-12");
+        LocalDate endDate = LocalDate.parse("2018-05-10");
+        int expectedDayCount = (int) DAYS.between(startDate, endDate);
+        int actualDayCount = DateUtil.getDayCountBetweenTwoDates(startDate, endDate);
+
+        assertEquals(expectedDayCount, actualDayCount);
+    }
+
+    @Test
+    public void getDayCountBetweenTwoDates_twoDatesWithAndWithoutLeapYear_success() {
+        LocalDate startDateWithLeapYear = LocalDate.parse("2012-02-12");
+        LocalDate endDateWithLeapYear = LocalDate.parse("2012-03-12");
+
+        int expectedDayCountWithLeapYear = (int) DAYS.between(startDateWithLeapYear, endDateWithLeapYear);
+        int actualDayCountWithLeapYear =
+                DateUtil.getDayCountBetweenTwoDates(startDateWithLeapYear, endDateWithLeapYear);
+        assertEquals(expectedDayCountWithLeapYear, actualDayCountWithLeapYear);
+
+        LocalDate startDateWithoutLeapYear = LocalDate.parse("2017-02-12");
+        LocalDate endDateWithoutLeapYear = LocalDate.parse("2017-03-12");
+
+        int expectedDayCountWithoutLeapYear = (int) DAYS.between(startDateWithoutLeapYear, endDateWithoutLeapYear);
+        int actualDayCountWithoutLeapYear =
+                DateUtil.getDayCountBetweenTwoDates(startDateWithoutLeapYear, endDateWithoutLeapYear);
+        assertEquals(expectedDayCountWithoutLeapYear, actualDayCountWithoutLeapYear);
+
+        // compare the day count between difference in dates with and without leap year
+        assertNotEquals(actualDayCountWithLeapYear, actualDayCountWithoutLeapYear);
+
+    }
+
 }
 ```
 ###### \java\seedu\address\commons\util\XmlUtilTest.java
@@ -761,7 +799,7 @@ public class TaskFindCommandTest {
     public void execute_multipleKeywords_multipleTasksFound() {
         String expectedMessage = String.format(MESSAGE_TASKS_LISTED_OVERVIEW, 3);
         TaskFindCommand command = prepareCommand("one two three");
-        assertCommandSuccess(command, expectedMessage, Arrays.asList(TASKONE, TASKTWO, TASKTHREE));
+        assertCommandSuccess(command, expectedMessage, Arrays.asList(TASKTWO, TASKONE, TASKTHREE));
     }
 
     /**
@@ -818,32 +856,6 @@ public class TaskListCommandTest {
 
 }
 ```
-###### \java\seedu\address\logic\commands\TaskSortCommandTest.java
-``` java
-public class TaskSortCommandTest {
-
-    private Model model;
-    private Model expectedModel;
-    private TaskSortCommand taskSortCommand;
-
-    @Before
-    public void setUp() throws Exception {
-        model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
-        expectedModel = new ModelManager(model.getAddressBook(), getTypicalEventBook(), new UserPrefs());
-
-        taskSortCommand = new TaskSortCommand();
-        taskSortCommand.setData(model, new CommandHistory(), new UndoRedoStack());
-    }
-
-    @Test
-    public void execute_nonEmptyListIsSorted_success() {
-        model.sortTasksByPriority();
-        expectedModel.sortTasksByPriority();
-        assertCommandSuccess(taskSortCommand, model, taskSortCommand.MESSAGE_SUCCESS, expectedModel);
-    }
-
-}
-```
 ###### \java\seedu\address\logic\parser\AddressBookParserTest.java
 ``` java
     @Test
@@ -883,11 +895,6 @@ public class TaskSortCommandTest {
         assertTrue(parser.parseCommand(TaskListCommand.COMMAND_WORD + " 5") instanceof TaskListCommand);
     }
 
-    @Test
-    public void parseCommand_taskSort() throws Exception {
-        assertTrue(parser.parseCommand(TaskSortCommand.COMMAND_WORD) instanceof TaskSortCommand);
-        assertTrue(parser.parseCommand(TaskSortCommand.COMMAND_WORD + " 5") instanceof TaskSortCommand);
-    }
 }
 ```
 ###### \java\seedu\address\logic\parser\TaskAddCommandParserTest.java
@@ -901,7 +908,7 @@ public class TaskAddCommandParserTest {
         Task expectedTask = new TaskBuilder().withTaskName(VALID_TASK_NAME_TASKFIRST)
                 .withTaskPriority(VALID_TASK_PRIORITY_TASKFIRST).withTaskDescription(VALID_TASK_DESCRIPTION_TASKFIRST)
                 .withTaskDueDate(VALID_TASK_DUE_DATE_TASKFIRST).withTaskStatus(VALID_TASK_STATUS_TASKFIRST)
-                .withTaskCategories(VALID_TASK_CATEGORY_WORK).build();
+                .withTaskCategories(VALID_TASK_CATEGORY_PERSONAL).build();
 
         // whitespace only preamble
         assertParseSuccess(parser, PREAMBLE_WHITESPACE + TASK_NAME_DESC_TASKFIRST + TASK_PRIORITY_DESC_TASKFIRST
@@ -909,9 +916,9 @@ public class TaskAddCommandParserTest {
                 + TASK_CATEGORY_DESC_PERSONAL, new TaskAddCommand(expectedTask));
 
         // multiple taskNames - last taskName accepted
-        assertParseSuccess(parser, TASK_NAME_DESC_TASKSECOND + TASK_NAME_DESC_TASKFIRST + TASK_PRIORITY_DESC_TASKFIRST
-                + TASK_DESCRIPTION_DESC_TASKFIRST + TASK_DUE_DATE_DESC_TASKFIRST + TASK_STATUS_DESC_TASKFIRST
-                + TASK_CATEGORY_DESC_PERSONAL, new TaskAddCommand(expectedTask));
+        assertParseSuccess(parser, TASK_NAME_DESC_TASKSECOND + TASK_NAME_DESC_TASKFIRST
+                + TASK_PRIORITY_DESC_TASKFIRST + TASK_DESCRIPTION_DESC_TASKFIRST + TASK_DUE_DATE_DESC_TASKFIRST
+                + TASK_STATUS_DESC_TASKFIRST + TASK_CATEGORY_DESC_PERSONAL, new TaskAddCommand(expectedTask));
 
         // multiple taskPriorities - last taskPriority accepted
         assertParseSuccess(parser, TASK_NAME_DESC_TASKFIRST + TASK_PRIORITY_DESC_TASKSECOND
@@ -940,7 +947,8 @@ public class TaskAddCommandParserTest {
                 .withTaskCategories(VALID_TASK_CATEGORY_PERSONAL, VALID_TASK_CATEGORY_WORK).build();
         assertParseSuccess(parser, TASK_NAME_DESC_TASKFIRST + TASK_PRIORITY_DESC_TASKFIRST
                 + TASK_DESCRIPTION_DESC_TASKFIRST + TASK_DUE_DATE_DESC_TASKFIRST + TASK_STATUS_DESC_TASKFIRST
-                + TASK_CATEGORY_DESC_PERSONAL + TASK_CATEGORY_DESC_WORK, new TaskAddCommand(expectedTask));
+                + TASK_CATEGORY_DESC_PERSONAL + TASK_CATEGORY_DESC_WORK,
+                new TaskAddCommand(expectedTaskMultipleCategories));
     }
 
     @Test
@@ -1684,20 +1692,24 @@ public class UniqueTaskListTest {
     }
 
     @Test
-    public void sortByPriority_decreasingOrder_success() {
+    public void sortByStatusDueDateAndPriority_undoneToDoneDateInAscOrderAndPriorityHighToLow_success() {
         // Setup actual result
         AddressBook addressBook = TypicalAddressBook.getTypicalAddressBook();
-        addressBook.sortTasksByPriority();
-        ObservableList<Task> actualTaskList = addressBook.getTaskList();
+        addressBook.sortTasksByStatusDueDateAndPriority();
+        ObservableList<Task> actualTaskList = addressBook.getOriginalTaskList();
 
         // Setup expected result
         List<Task> taskList = TypicalTasks.getTypicalTasks();
 
-        // Custom comparator to sort based on high to low priority
-        taskList.sort(Comparator.comparing(Task::getTaskPriority, (t1, t2) -> {
-            return TaskPriority.PRIORITY_ORDER.indexOf(t1.value.toLowerCase())
-                    - TaskPriority.PRIORITY_ORDER.indexOf(t2.value.toLowerCase());
-        }));
+        taskList.sort(Comparator.comparing(Task::getTaskStatus, (s1, s2) -> {
+            return TaskStatus.STATUS_ORDER.indexOf(s1.value.toLowerCase())
+                    - TaskStatus.STATUS_ORDER.indexOf(s2.value.toLowerCase());
+        }).thenComparing(Comparator.comparing(Task::getTaskDueDate, (dd1, dd2) -> {
+            return dd1.value.compareTo(dd2.value);
+        })).thenComparing(Comparator.comparing(Task::getTaskPriority, (p1, p2) -> {
+            return TaskPriority.PRIORITY_ORDER.indexOf(p1.value.toLowerCase())
+                    - TaskPriority.PRIORITY_ORDER.indexOf(p2.value.toLowerCase());
+        })));
 
         ObservableList<Task> expectedTaskList = FXCollections.observableList(taskList);
 
@@ -1705,25 +1717,80 @@ public class UniqueTaskListTest {
     }
 
     @Test
-    public void sortByPriority_ascendingOrder_fail() {
+    public void sortByStatusDueDateAndPriority_doneToUndoneDateInAscOrderAndPriorityHighToLow_fail() {
         // Setup actual result
         AddressBook addressBook = TypicalAddressBook.getTypicalAddressBook();
-        addressBook.sortTasksByPriority();
-        ObservableList<Task> actualTaskList = addressBook.getTaskList();
+        addressBook.sortTasksByStatusDueDateAndPriority();
+        ObservableList<Task> actualTaskList = addressBook.getOriginalTaskList();
 
         // Setup expected result
         List<Task> taskList = TypicalTasks.getTypicalTasks();
 
-        // Custom comparator to sort based on low to high priority
-        taskList.sort(Comparator.comparing(Task::getTaskPriority, (t1, t2) -> {
-            return TaskPriority.PRIORITY_ORDER.indexOf(t1.value.toLowerCase())
-                    - TaskPriority.PRIORITY_ORDER.indexOf(t2.value.toLowerCase());
-        }).reversed());
+        taskList.sort(Comparator.comparing(Task::getTaskStatus, (s1, s2) -> {
+            return TaskStatus.STATUS_ORDER.indexOf(s1.value.toLowerCase())
+                    - TaskStatus.STATUS_ORDER.indexOf(s2.value.toLowerCase());
+        }).reversed().thenComparing(Comparator.comparing(Task::getTaskDueDate, (dd1, dd2) -> {
+            return dd1.value.compareTo(dd2.value);
+        })).thenComparing(Comparator.comparing(Task::getTaskPriority, (p1, p2) -> {
+            return TaskPriority.PRIORITY_ORDER.indexOf(p1.value.toLowerCase())
+                    - TaskPriority.PRIORITY_ORDER.indexOf(p2.value.toLowerCase());
+        })));
 
         ObservableList<Task> expectedTaskList = FXCollections.observableList(taskList);
 
         assertNotEquals(actualTaskList, expectedTaskList);
     }
+
+    @Test
+    public void sortByStatusDueDateAndPriority_undoneToDoneDateInDscOrderAndPriorityHighToLow_fail() {
+        // Setup actual result
+        AddressBook addressBook = TypicalAddressBook.getTypicalAddressBook();
+        addressBook.sortTasksByStatusDueDateAndPriority();
+        ObservableList<Task> actualTaskList = addressBook.getOriginalTaskList();
+
+        // Setup expected result
+        List<Task> taskList = TypicalTasks.getTypicalTasks();
+
+        taskList.sort(Comparator.comparing(Task::getTaskStatus, (s1, s2) -> {
+            return TaskStatus.STATUS_ORDER.indexOf(s1.value.toLowerCase())
+                    - TaskStatus.STATUS_ORDER.indexOf(s2.value.toLowerCase());
+        }).thenComparing(Comparator.comparing(Task::getTaskDueDate, (dd1, dd2) -> {
+            return dd1.value.compareTo(dd2.value);
+        })).reversed().thenComparing(Comparator.comparing(Task::getTaskPriority, (p1, p2) -> {
+            return TaskPriority.PRIORITY_ORDER.indexOf(p1.value.toLowerCase())
+                    - TaskPriority.PRIORITY_ORDER.indexOf(p2.value.toLowerCase());
+        })));
+
+        ObservableList<Task> expectedTaskList = FXCollections.observableList(taskList);
+
+        assertNotEquals(actualTaskList, expectedTaskList);
+    }
+
+    @Test
+    public void sortByStatusDueDateAndPriority_undoneToDoneDateInAscOrderAndPriorityLowToHigh_fail() {
+        // Setup actual result
+        AddressBook addressBook = TypicalAddressBook.getTypicalAddressBook();
+        addressBook.sortTasksByStatusDueDateAndPriority();
+        ObservableList<Task> actualTaskList = addressBook.getOriginalTaskList();
+
+        // Setup expected result
+        List<Task> taskList = TypicalTasks.getTypicalTasks();
+
+        taskList.sort(Comparator.comparing(Task::getTaskStatus, (s1, s2) -> {
+            return TaskStatus.STATUS_ORDER.indexOf(s1.value.toLowerCase())
+                    - TaskStatus.STATUS_ORDER.indexOf(s2.value.toLowerCase());
+        }).thenComparing(Comparator.comparing(Task::getTaskDueDate, (dd1, dd2) -> {
+            return dd1.value.compareTo(dd2.value);
+        })).thenComparing(Comparator.comparing(Task::getTaskPriority, (p1, p2) -> {
+            return TaskPriority.PRIORITY_ORDER.indexOf(p1.value.toLowerCase())
+                    - TaskPriority.PRIORITY_ORDER.indexOf(p2.value.toLowerCase());
+        })).reversed());
+
+        ObservableList<Task> expectedTaskList = FXCollections.observableList(taskList);
+
+        assertNotEquals(actualTaskList, expectedTaskList);
+    }
+
 }
 ```
 ###### \java\seedu\address\storage\XmlAddressBookStorageTest.java
@@ -1862,7 +1929,7 @@ public class TaskBuilder {
     public static final String DEFAULT_TASK_DESCRIPTION = "Sample task description";
     public static final String DEFAULT_TASK_DUE_DATE = "2018-10-10";
     public static final String DEFAULT_TASK_STATUS = "undone";
-    public static final String DEFAULT_TASK_CATEGORIES = "Work";
+    public static final String DEFAULT_TASK_CATEGORIES = "work";
 
     private TaskName taskName;
     private TaskPriority taskPriority;
@@ -1971,7 +2038,8 @@ public class TaskUtil {
         sb.append(PREFIX_TASK_DESCRIPTION + task.getTaskDescription().value + " ");
         sb.append(PREFIX_TASK_DUE_DATE + task.getTaskDueDate().value + " ");
         sb.append(PREFIX_TASK_STATUS + task.getTaskStatus().value + " ");
-        task.getTaskCategories().stream().forEach(s -> sb.append(PREFIX_TASK_CATEGORY + s.taskCategoryName + " "));
+        task.getTaskCategories().stream().forEach(s -> sb.append(PREFIX_TASK_CATEGORY
+                + s.taskCategoryName.toLowerCase() + " "));
         return sb.toString();
     }
 
@@ -2022,19 +2090,19 @@ public class TypicalTasks {
             .withTaskDescription("Tasks to be done for task 1")
             .withTaskDueDate("2018-06-15")
             .withTaskStatus("undone")
-            .withTaskCategories("Work").build();
+            .withTaskCategories("work").build();
     public static final Task TASKTWO = new TaskBuilder().withTaskName("TaskTwo")
             .withTaskPriority("high")
             .withTaskDescription("Agenda for task 2")
             .withTaskDueDate("2018-03-28")
             .withTaskStatus("undone")
-            .withTaskCategories("Personal").build();
+            .withTaskCategories("personal").build();
     public static final Task TASKTHREE = new TaskBuilder().withTaskName("TaskThree")
             .withTaskPriority("low")
             .withTaskDescription("Purchase office supplies")
             .withTaskDueDate("2018-04-10")
-            .withTaskStatus("undone")
-            .withTaskCategories("Work").build();
+            .withTaskStatus("done")
+            .withTaskCategories("work").build();
 
     // Manuall added - Task's details found in {@code CommandTestUtil}
     public static final Task TASKFIRST = new TaskBuilder().withTaskName(VALID_TASK_NAME_TASKFIRST)
@@ -2059,105 +2127,5 @@ public class TypicalTasks {
         return new ArrayList<>(Arrays.asList(TASKONE, TASKTWO, TASKTHREE));
     }
 
-}
-```
-###### \java\seedu\address\ui\TaskCardTest.java
-``` java
-public class TaskCardTest extends GuiUnitTest {
-
-    @Test
-    public void display() {
-        // no task categories
-        Task taskWithNoCategories = new TaskBuilder().withTaskCategories(new String[0]).build();
-        TaskCard taskCard = new TaskCard(taskWithNoCategories, 1);
-        uiPartRule.setUiPart(taskCard);
-        assertCardDisplay(taskCard, taskWithNoCategories, 1);
-
-        // with task categories
-        Task taskWithCategories = new TaskBuilder().build();
-        taskCard = new TaskCard(taskWithCategories, 2);
-        uiPartRule.setUiPart(taskCard);
-        assertCardDisplay(taskCard, taskWithCategories, 2);
-    }
-
-    @Test
-    public void equals() {
-        Task task = new TaskBuilder().build();
-        TaskCard taskCard = new TaskCard(task, 0);
-
-        // same task, same index -> returns true
-        TaskCard copy = new TaskCard(task, 0);
-        assertTrue(taskCard.equals(copy));
-
-        // same object -> returns true
-        assertTrue(taskCard.equals(taskCard));
-
-        // null -> returns false
-        assertFalse(taskCard.equals(null));
-
-        // different types -> returns false
-        assertFalse(taskCard.equals(0));
-
-        //different task, same index -> returns false
-        Task differentTask = new TaskBuilder().withTaskName("differentTaskName").build();
-        assertFalse(taskCard.equals(new TaskCard(differentTask, 0)));
-
-        // same task, different index -> returns false
-        assertFalse(taskCard.equals(new TaskCard(task, 1)));
-    }
-
-    /**
-     * Asserts that {@code taskCard} displays the details of {@code expectedTask} correctly and matches
-     * {@code expectedId}.
-     */
-    private void assertCardDisplay(TaskCard taskCard, Task expectedTask, int expectedId) {
-        guiRobot.pauseForHuman();
-
-        TaskCardHandle taskCardHandle = new TaskCardHandle((taskCard.getRoot()));
-
-        // Verify id is displaed correctly
-        assertEquals(Integer.toString(expectedId) + ". ", taskCardHandle.getTaskId());
-
-        // Verify task details are displayed correctly
-        assertCardDisplaysTask(expectedTask, taskCardHandle);
-    }
-
-}
-```
-###### \java\seedu\address\ui\TaskListPanelTest.java
-``` java
-public class TaskListPanelTest extends GuiUnitTest {
-    private static final ObservableList<Task> TYPICAL_TASKS = FXCollections.observableList(getTypicalTasks());
-
-    private TaskListPanelHandle taskListPanelHandle;
-
-    @Before
-    public void setUp() {
-        TaskListPanel taskListPanel = new TaskListPanel(TYPICAL_TASKS);
-        uiPartRule.setUiPart(taskListPanel);
-
-        taskListPanelHandle = new TaskListPanelHandle(getChildNode(taskListPanel.getRoot(),
-                TaskListPanelHandle.TASK_LIST_VIEW_ID));
-    }
-
-    @Test
-    public void display() {
-        for (int i = 0; i < TYPICAL_TASKS.size(); i++) {
-            Task expectedTask = TYPICAL_TASKS.get(i);
-            TaskCardHandle actualCard = taskListPanelHandle.getTaskCardHandle(i);
-
-            assertCardDisplaysTask(expectedTask, actualCard);
-            assertEquals(Integer.toString(i + 1) + ". ", actualCard.getTaskId());
-        }
-    }
-}
-```
-###### \java\systemtests\SampleDataTest.java
-``` java
-    @Test
-    public void addressBook_taskDataFileDoesNotExist_loadSampleData() {
-        Task[] expectedTaskList = SampleDataUtil.getSampleTasks();
-        assertTaskListMatching(getTaskListPanel(), expectedTaskList);
-    }
 }
 ```

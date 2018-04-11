@@ -221,10 +221,12 @@ Google searches the name of the 2nd person in the address book.
 `google 1` +
 Google searches the name of the 1st person in the results of `find` command.
 
+// tag::sort[]
 === Sorting all persons by name : `sort` `[since v1.1]`
 
 Sorts all persons in the address book alphabetically by name in ascending order and list them. +
 Format: `sort`
+// end::sort[]
 
 === Exporting addressbook data: `export` `[since v1.1]`
 
@@ -463,6 +465,37 @@ Switches between the Events and Tasks list tabs. +
 Format: `switchtab`
 // end::SwitchTab[]
 
+// tag::TaskDisplay[]
+=== Task Display `[since v1.5rc]`
+
+Enhances the task display to make it more user-friendly such as easily identifying the undone tasks
+and its due date and status.
+
+****
+* Task list is default sorted by status (i.e. undone to done), due date in ascending order and priority level
+in decreasing order of importance (i.e. high > medium > low), so that all the undone tasks appear first and completed tasks
+appear at the bottom.
+* Undone tasks: The due date and priority fields have varying display colours depending on duration left and priority level respectively.
+* Done tasks: The due date and priority fields are no longer displayed. However, a green tick is displayed to indicate the task as completed.
+* Text wrapping for variable length fields (e.g. name, description and category) so that longer text does not get truncated.
+****
+
+Examples:
+
+Behaviour of due date field for undone tasks:
+
+* Less than 0 day (i.e. overdue): Red color text with circular exclamation symbol
+* Less than 3 days: Red color text
+* Between 3 and 4 days: Orange color text
+* More than or equal to 5 days: Green color text
+
+Behaviour of priority field for undone tasks:
+
+* high: Red color display
+* medium: Orange color display
+* low: Green color display
+// end::TaskDisplay[]
+
 // tag::AddTask[]
 === Adding a task: `task-add` `[since v1.3]`
 
@@ -555,14 +588,6 @@ Returns any task having names `email`, `agenda` or `project`
 Shows a list of all tasks in the address book. +
 Format: `task-list`
 // end::ListTask[]
-
-// tag::SortTask[]
-=== Sorting all tasks by priority: `task-sort` `[since v1.4]`
-
-Sorts all tasks in the address book by priority in decreasing order of importance (i.e. high > medium > low)
-and list them. +
-Format: `task-sort`
-// end::SortTask[]
 
 // tag::FindByAddress[]
 === Find persons by address: `find a/` `[coming in v1.5]`

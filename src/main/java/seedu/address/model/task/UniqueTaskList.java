@@ -83,25 +83,20 @@ public class UniqueTaskList implements Iterable<Task> {
     }
 
     /**
-     * Sorts the task list by priority from high to low importance
+     * Sorts the task list by
+     * (1) status (i.e. undone to done,
+     * (2) due date in ascending order and
+     * (3) priority (i.e. high > medium > low)
      */
-    public void sortByPriority() {
-        // Sorts based on high to low priority
-        internalList.sort(Comparator.comparing(Task::getTaskPriority, (t1, t2) -> {
-            return TaskPriority.PRIORITY_ORDER.indexOf(t1.value.toLowerCase())
-                    - TaskPriority.PRIORITY_ORDER.indexOf(t2.value.toLowerCase());
-        }));
-    }
-
-    /**
-     * Sorts the task list by status from undone to done followed by due date in ascending order
-     */
-    public void sortByStatusAndDueDate() {
+    public void sortByStatusDueDateAndPriority() {
         internalList.sort(Comparator.comparing(Task::getTaskStatus, (s1, s2) -> {
             return TaskStatus.STATUS_ORDER.indexOf(s1.value.toLowerCase())
                     - TaskStatus.STATUS_ORDER.indexOf(s2.value.toLowerCase());
         }).thenComparing(Comparator.comparing(Task::getTaskDueDate, (dd1, dd2) -> {
             return dd1.value.compareTo(dd2.value);
+        })).thenComparing(Comparator.comparing(Task::getTaskPriority, (p1, p2) -> {
+            return TaskPriority.PRIORITY_ORDER.indexOf(p1.value.toLowerCase())
+                    - TaskPriority.PRIORITY_ORDER.indexOf(p2.value.toLowerCase());
         })));
     }
 

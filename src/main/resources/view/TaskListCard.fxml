@@ -20,16 +20,11 @@
             <padding>
                 <Insets top="5" right="5" bottom="5" left="15" />
             </padding>
-            <HBox spacing="5" alignment="CENTER_LEFT">
-                <Label fx:id="id" styleClass="cell_big_label">
-                    <minWidth>
-                        <!-- Ensures that the label text is never truncated -->
-                        <Region fx:constant="USE_PREF_SIZE" />
-                    </minWidth>
-                </Label>
+            <HBox spacing="5" alignment="CENTER_LEFT" maxWidth="225">
+                <Label fx:id="id" styleClass="cell_big_label" />
                 <Label fx:id="name" text="\$first" styleClass="cell_big_label" />
             </HBox>
-            <Label fx:id="description" styleClass="cell_small_label" text="\$description" />
+            <Label fx:id="description" styleClass="cell_small_label" text="\$description" maxWidth="225" />
             <FlowPane fx:id="categories" />
         </VBox>
         <VBox alignment="CENTER_RIGHT" minHeight="105" GridPane.columnIndex="1">
@@ -47,7 +42,6 @@
                 <ImageView fx:id="priorityImage"></ImageView>
                 <Label fx:id="priority" styleClass="cell_small_label" text="\$priority" />
             </HBox>
-            <!--<Label fx:id="priority" styleClass="cell_small_label" text="\$priority" />-->
         </VBox>
     </GridPane>
 </HBox>

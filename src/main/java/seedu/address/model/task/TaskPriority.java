@@ -21,7 +21,7 @@ public class TaskPriority {
             Arrays.asList(TASK_PRIORITY_HIGH, TASK_PRIORITY_MEDIUM, TASK_PRIORITY_LOW);
 
     public static final String MESSAGE_TASK_PRIORITY_CONSTRAINTS =
-            "Task priority can only be either high, medium or low";
+            "Task priority can only be either high, medium or low, and it should not be empty";
 
     /**
      * The first character of the task priority must not be a whitespace,

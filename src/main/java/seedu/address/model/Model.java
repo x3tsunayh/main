@@ -69,11 +69,6 @@ public interface Model {
     void addTask(Task task) throws DuplicateTaskException;
 
     /**
-     * Sorts the task list by priority from high to low importance
-     */
-    void sortTasksByPriority();
-
-    /**
      * Replaces the given task {@code target} with {@code editedTask}.
      *
      * @throws DuplicateTaskException if updating the task's details causes the task to be equivalent to

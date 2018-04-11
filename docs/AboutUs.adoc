@@ -70,7 +70,8 @@ image::nodp.jpg[width="100", align="left"]
 * Aspects/tools in charge of: Project Testing
 * Features implemented:
 ** Sort by Name
-** Task Functionality (Add, Delete, Find, Edit, Sort and List All Tasks)
+** Task display UI enhancement
+** Task Functionality (Add, Delete, Edit, Find, Sort and List All Tasks)
 * Code written: [https://github.com/CS2103JAN2018-T15-B4/main/tree/master/collated/functional/CYX28.md[functional code]][https://github.com/CS2103JAN2018-T15-B4/main/tree/master/collated/test/CYX28.md[test code]]
 
 '''
