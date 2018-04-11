@@ -1,7 +1,9 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.Arrays;
@@ -9,7 +11,9 @@ import java.util.List;
 
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.person.AddressContainsKeywordsPredicate;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
+import seedu.address.model.person.PhoneContainsKeywordsPredicate;
 import seedu.address.model.tag.TagContainsKeywordsPredicate;
 
 /**
@@ -39,6 +43,10 @@ public class FindCommandParser implements Parser<FindCommand> {
             return new FindCommand(new NameContainsKeywordsPredicate(Arrays.asList(keywords)));
         } else if (targetPrefix.equals(PREFIX_TAG.getPrefix())) {
             return new FindCommand(new TagContainsKeywordsPredicate(Arrays.asList(keywords)));
+        } else if (targetPrefix.equals(PREFIX_ADDRESS.getPrefix())) {
+            return new FindCommand(new AddressContainsKeywordsPredicate(Arrays.asList(keywords)));
+        } else if (targetPrefix.equals(PREFIX_PHONE.getPrefix())) {
+            return new FindCommand(new PhoneContainsKeywordsPredicate(Arrays.asList(keywords)));
         } else {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
@@ -47,9 +55,9 @@ public class FindCommandParser implements Parser<FindCommand> {
 
     //@@author jill858
     /**
-     * Extract the search type
+     * Extract the search type (
      * @param args command line input
-     * @return
+     * @return type of search field
      */
     private static String getPrefix(String args) {
         return args.substring(0, 2);
@@ -57,9 +65,9 @@ public class FindCommandParser implements Parser<FindCommand> {
 
     //@@author jill858
     /**
-     * Extract keywords out from the command
+     * Extract keywords out from the command input
      * @param args command line input
-     * @return
+     * @return list of keywords
      */
     private static String[] getKeywords(String args) {
         String[] keywords;
