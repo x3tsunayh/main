@@ -161,7 +161,7 @@ Format: `find t/KEYWORD [MORE_KEYWORDS]...`
 
 ****
 * The search is case insensitive. e.g `friends` will match `Friends`
-* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
+* The order of the keywords does not matter. e.g. `Friends Classmates` will match `Classmates Friends`
 * Only the tag is searched.
 * Partial words will be matched e.g. `fri` will match `Friends`
 * Tags matching at least one keyword will be returned (i.e. `OR` search). e.g. `Friends Classmates` will return person whose tag contains `Friends` or `Classmates`
@@ -175,6 +175,48 @@ Returns `friends` and `Friends`
 Returns any person having tag(s) `Friends`, or `Classmates`
 * `find t/f` +
 Returns any person having tag(s) `Friends`, or `Family`
+
+// tag::FindByAddress[]
+=== Find persons by address: `find a/` `[since in v1.5]`
+
+Finds persons whose address contain any of the given keywords. +
+Format: `find a/KEYWORD [MORE_KEYWORDS]...`
+
+****
+* The search is case insensitive. e.g `avenue` will match `Avenue`
+* The order of the keywords does not matter. e.g. `Loop Avenue` will match `Avenue Loop`
+* Only the address is searched.
+* Partial words will be matched e.g. `Ave` will match `Avenue`
+* Persons matching at least one keyword will be returned (i.e. `OR` search). e.g. `Loop Avenue` will return `Loop Street`, `5th Avenue`
+****
+
+Examples:
+
+* `find a/5TH` +
+Returns `5th` and `5TH`
+* `find a/Sixth Avenue` +
+Returns any person having address `Sixth` or `Avenue`
+* `find a/s` +
+Returns any person having address `street` or `sixth` or `square'
+// end::FindByAddress[]
+
+// tag::FindByPhone[]
+=== Find persons by phone: `find p/` `[since in v1.5]`
+
+Finds persons whose phone contain any of the given value. +
+Format: `find p/KEYWORD [MORE_KEYWORDS]...`
+
+****
+* Only the phone is searched.
+* Partial numbers will be matched e.g. `984` will match `98450293`
+* Persons matching at least one phone will be returned (i.e. `OR` search).
+****
+
+Examples:
+
+* `find p/982039` +
+Returns any person having phone `98203910` or `98203950`
+// end::FindByPhone[]
 
 === Listing all persons : `list`
 
@@ -704,6 +746,10 @@ e.g. `edit 2 n/James Lee e/jameslee@example.com`
 e.g. `find n/James Jake`
 * *Find persons by tag* : `find t/KEYWORD [MORE_KEYWORDS]...` +
 e.g. `find t/friends`
+* *Find persons by address* : `find a/KEYWORD [MORE_KEYWORDS]...` +
+e.g. `find a/5th Avenue`
+* *Find persons by phone* : `find p/KEYWORD [MORE_KEYWORDS]...` +
+e.g. `find p/96965000`
 * *List all persons* : `list`
 * *Select a person* : `select INDEX` +
 e.g.`select 2`
@@ -742,4 +788,4 @@ e.g. `task-edit 1 p/medium dd/2018-05-10`
 * *Find tasks by name* : `task-find KEYWORD [MORE_KEYWORDS]...` +
 e.g. `task-find project agenda`
 * *List all tasks* : `task-list`
-* *Sort all tasks* : `task-sort`
+
