@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <!-- @@author x3tsunayh -->
+<?import javafx.scene.image.ImageView?>
 <HBox xmlns:fx="http://javafx.com/fxml/1" id="cardPane" fx:id="cardPane" xmlns="http://javafx.com/javafx/8">
   <GridPane HBox.hgrow="ALWAYS">
     <columnConstraints>
@@ -30,6 +31,14 @@
       <Label fx:id="description" styleClass="cell_small_label" text="\$description"/>
       <Label fx:id="eventLocation" styleClass="cell_small_label" text="\$eventLocation"/>
       <Label fx:id="datetime" styleClass="cell_small_label" text="\$datetime"/>
+    </VBox>
+    <VBox alignment="CENTER_RIGHT" minHeight="105" GridPane.columnIndex="1">
+      <padding>
+        <Insets top="25" right="0" bottom="0" left="0" />
+      </padding>
+        <HBox fx:id="eventLabelPane" alignment="CENTER_RIGHT">
+          <Label fx:id="eventLabel" styleClass="cell_small_label" text="\$eventLabel" />
+        </HBox>
     </VBox>
   </GridPane>
 </HBox>

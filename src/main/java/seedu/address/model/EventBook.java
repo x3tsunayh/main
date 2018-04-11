@@ -41,8 +41,7 @@ public class EventBook implements ReadOnlyEventBook {
         events = new UniqueEventList();
     }
 
-    public EventBook() {
-    }
+    public EventBook() {}
 
     /**
      * Creates an EventBook using the Events in the {@code toBeCopied}
