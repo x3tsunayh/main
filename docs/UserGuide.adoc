@@ -94,6 +94,7 @@ Deletes the 2nd person in the address book.
 `delete 1` +
 Deletes the 1st person in the results of the `find` command.
 
+// tag::deletebyname[]
 === Deleting a person by name: `deletebyname` `[since v1.1]`
 
 Deletes the specified person from the address book by name. +
@@ -111,6 +112,7 @@ Examples:
 
 * `deletebyname john doe` +
 Deletes the contact whose name matches john doe.
+// tag::deletebyname[]
 
 === Editing a person : `edit`
 
@@ -365,7 +367,7 @@ Format: `exit`
 Address book data are saved in the hard disk automatically after any command that changes the data. +
 There is no need to save manually.
 
-// tag::AddPicture[]
+// tag::addpicture[]
 === Adding a profile picture to a person: `addpicture` `[since v1.3]`
 
 Adds a profile picture to a person +
@@ -380,9 +382,9 @@ Examples:
 
 * `addpicture 1 f/C://pictures/janeDoe.jpg` +
 Edits the profile picture of the 1st person to be the picture at C://pictures/janeDoe.jpg
-// end::AddPicture[]
+// end::addpicture[]
 
-// tag::AddTag[]
+// tag::addtag[]
 === Adding individual tags to a contact: `addtag` `[since v1.4]`
 
 Adds tag(s) to a person +
@@ -403,7 +405,7 @@ Examples:
 Adds the tag `newFriend` to the contact at index 12 of the last contact listing
 * `addtag 7 t/buddy t/CS2103 t/NUS` +
 Adds the tags `buddy`, `CS2103` and `NUS` to contact at index 7 of the last contact listing
-// end::AddTag[]
+// end::addtag[]
 
 // tag::ConvertCurrency[]
 === Converting from one currency to another: `convert` `[since v1.3]`
@@ -631,6 +633,23 @@ Shows a list of all tasks in the address book. +
 Format: `task-list`
 // end::ListTask[]
 
+// tag::resetpicture[]
+=== Find persons by phone: `find p/` `[since v1.5rc]`
+
+Reset a contact's picture to the default picture. +
+Format: `resetpicture INDEX`
+
+****
+* Will reset a person's picture to the default picture.
+* This command is irreversible!
+****
+
+Examples:
+
+* `resetpicture 1` +
+Resets the picture of the person at index 1 to the default picture.
+// end::resetpicture[]
+
 // tag::FindByAddress[]
 === Find persons by address: `find a/` `[coming in v1.5]`
 
@@ -739,7 +758,7 @@ e.g. `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 123466
 * *Delete a person* : `delete INDEX` +
 e.g. `delete 3`
 * *Delete a person by name* : `deletebyname NAME` +
-e.g. `delete John Appleseed`
+e.g. `deletebyname John Appleseed`
 * *Edit a person* : `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...` +
 e.g. `edit 2 n/James Lee e/jameslee@example.com`
 * *Find persons by name* : `find n/KEYWORD [MORE_KEYWORDS]...` +
@@ -788,4 +807,6 @@ e.g. `task-edit 1 p/medium dd/2018-05-10`
 * *Find tasks by name* : `task-find KEYWORD [MORE_KEYWORDS]...` +
 e.g. `task-find project agenda`
 * *List all tasks* : `task-list`
+* *Reset a contact's picture* : `resetpicture  INDEX` +
+e.g. `resetpicture 1`
 
