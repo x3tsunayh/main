@@ -9,7 +9,9 @@ import java.util.Arrays;
 import org.junit.Test;
 
 import seedu.address.logic.commands.FindCommand;
+import seedu.address.model.person.AddressContainsKeywordsPredicate;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
+import seedu.address.model.person.PhoneContainsKeywordsPredicate;
 import seedu.address.model.tag.TagContainsKeywordsPredicate;
 
 public class FindCommandParserTest {
@@ -38,6 +40,22 @@ public class FindCommandParserTest {
 
         // multiple whitespaces between keywords
         assertParseSuccess(parser, "t/owesMoney\t friends  \t", expectedFindTagCommand);
+
+        FindCommand expectedFindAddressCommand =
+                new FindCommand(new AddressContainsKeywordsPredicate(Arrays.asList("clementi", "avenue")));
+
+        assertParseSuccess(parser, "a/clementi avenue", expectedFindAddressCommand);
+
+        // multiple whitespaces between keywords
+        assertParseSuccess(parser, "a/clementi\t avenue  \t", expectedFindAddressCommand);
+
+        FindCommand expectedFindPhoneCommand =
+                new FindCommand(new PhoneContainsKeywordsPredicate(Arrays.asList("94945000")));
+
+        assertParseSuccess(parser, "p/94945000", expectedFindPhoneCommand);
+
+        // multiple whitespaces between keywords
+        assertParseSuccess(parser, "p/94945000 \t", expectedFindPhoneCommand);
     }
 
 }
