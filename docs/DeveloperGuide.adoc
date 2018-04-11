@@ -396,7 +396,8 @@ image::SortingSequenceDiagram.png[width="800"]
 ** Cons: Might be more difficult to implement as changes need to be made for every newly added field
 // end::sort[]
 
-=== Profile Picture feature
+// tag::addpicture[]
+=== Add Profile Picture feature
 
 ==== Current Implementation
 Right now, a contact's Profile Picture can be viewed at the right side of the contact's profile card.
@@ -429,6 +430,7 @@ Not store the images +
 No space requirement to store the images locally +
 **Cons:** +
 Need to ensure that the image is not deleted, or it won't display. +
+// end::addpicure[]
 
 === Find feature
 
