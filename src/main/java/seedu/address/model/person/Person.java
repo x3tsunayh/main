@@ -92,6 +92,13 @@ public class Person {
     }
 
     /**
+     * Resets the current picture to a default picture.
+     */
+    public void resetPicture() {
+        this.picture = new Picture();
+    }
+
+    /**
      * Set profile picture to that in path
      */
     public void setPicture(String path) throws IllegalValueException {
