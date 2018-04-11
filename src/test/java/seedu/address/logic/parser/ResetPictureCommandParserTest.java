@@ -19,10 +19,8 @@ public class ResetPictureCommandParserTest {
     private ResetPictureCommandParser parser = new ResetPictureCommandParser();
 
     @Test
-    public void parse_missingParts_failure() {
-
-        //no index specified
-        assertParseFailure(parser);
+    public void parse_validArgs_returnsResetPictureCommand() {
+        assertParseSuccess(parser, "1", new ResetPictureCommand(INDEX_FIRST_PERSON));
     }
 
     @Test
@@ -44,8 +42,5 @@ public class ResetPictureCommandParserTest {
         assertParseFailure(parser, "1 some random string", MESSAGE_INVALID_FORMAT);
 
     }
-
-
-
 
 }
