@@ -1,15 +1,11 @@
 package seedu.address.ui;
 
-import static seedu.address.commons.core.Messages.MESSAGE_INVALID_ARGUMENT;
-
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
-import seedu.address.commons.events.ui.NewResultAvailableEvent;
 import seedu.address.commons.util.DateUtil;
 import seedu.address.model.event.ReadOnlyEvent;
 

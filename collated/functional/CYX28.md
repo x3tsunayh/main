@@ -24,6 +24,18 @@ public class DateUtil {
     }
 
     /**
+     * Parse given dateTime into LocalDate format
+     * @param dateTimeToParse date must be in String format with hypens e.g. 2018-05-12 1800
+     * @return date in LocalDate format
+     */
+    public static LocalDate getParsedDateTime(String dateTimeToParse) {
+        String day = dateTimeToParse.substring(0, 2);
+        String month = dateTimeToParse.substring(2, 6);
+        String year = dateTimeToParse.substring(6, 10);
+        return LocalDate.parse(year + month + day);
+    }
+
+    /**
      * Get the number of days between the start and end date
      * @param startDate a date in LocalDate format
      * @param endDate a date in LocalDate format
@@ -2215,7 +2227,6 @@ public class TaskListPanel extends UiPart<Region> {
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
 <HBox id="cardPane" fx:id="cardPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">

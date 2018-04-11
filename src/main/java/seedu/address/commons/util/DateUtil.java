@@ -33,9 +33,9 @@ public class DateUtil {
      * @return date in LocalDate format
      */
     public static LocalDate getParsedDateTime(String dateTimeToParse) {
-        String day = dateTimeToParse.substring(0,2);
-        String month = dateTimeToParse.substring(2,6);
-        String year = dateTimeToParse.substring(6,10);
+        String day = dateTimeToParse.substring(0, 2);
+        String month = dateTimeToParse.substring(2, 6);
+        String year = dateTimeToParse.substring(6, 10);
         return LocalDate.parse(year + month + day);
     }
 

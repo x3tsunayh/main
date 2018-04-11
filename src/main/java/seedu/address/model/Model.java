@@ -26,6 +26,9 @@ public interface Model {
     /** Clears existing backing model for address book and replaces with the provided new data. */
     void resetData(ReadOnlyAddressBook newData);
 
+    /** Clears existing backing model for event book and replaces with the provided new data. */
+    void resetData(ReadOnlyEventBook newData);
+
     /** Returns the AddressBook */
     ReadOnlyAddressBook getAddressBook();
 
@@ -89,9 +92,6 @@ public interface Model {
     void addEvent(ReadOnlyEvent toAdd) throws CommandException, DuplicateEventException;
 
     void deleteEvent(ReadOnlyEvent eventToDelete) throws CommandException;
-
-    /** Clears existing backing model for event book and replaces with the provided new data. */
-    void resetData(ReadOnlyEventBook newData);
 
     ObservableList<ReadOnlyEvent> getFilteredEventList();
 

@@ -97,6 +97,11 @@ public class AddEventCommandTest {
         }
 
         @Override
+        public void resetData(ReadOnlyEventBook newData) {
+            fail("This method should not be called.");
+        }
+
+        @Override
         public ReadOnlyAddressBook getAddressBook() {
             fail("This method should not be called.");
             return null;
@@ -140,13 +145,11 @@ public class AddEventCommandTest {
 
         @Override
         public void deleteTask(Task target) {
-
             fail("This method should not be called.");
         }
 
         @Override
         public void updateTask(Task target, Task editedTask) {
-
             fail("This method should not be called.");
         }
 
@@ -168,11 +171,6 @@ public class AddEventCommandTest {
 
         @Override
         public void deleteEvent(ReadOnlyEvent eventToDelete) {
-            fail("This method should not be called.");
-        }
-
-        @Override
-        public void resetData(ReadOnlyEventBook newData) {
             fail("This method should not be called.");
         }
 

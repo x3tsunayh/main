@@ -99,6 +99,7 @@ public class AddCommandTest {
      * A default model stub that have all of the methods failing.
      */
     private class ModelStub implements Model {
+
         @Override
         public void addPerson(Person person) throws DuplicatePersonException {
             fail("This method should not be called.");
@@ -106,6 +107,11 @@ public class AddCommandTest {
 
         @Override
         public void resetData(ReadOnlyAddressBook newData) {
+            fail("This method should not be called.");
+        }
+
+        @Override
+        public void resetData(ReadOnlyEventBook newData) {
             fail("This method should not be called.");
         }
 
@@ -179,11 +185,6 @@ public class AddCommandTest {
 
         @Override
         public void deleteEvent(ReadOnlyEvent eventToDelete) {
-            fail("This method should not be called.");
-        }
-
-        @Override
-        public void resetData(ReadOnlyEventBook newData) {
             fail("This method should not be called.");
         }
 
