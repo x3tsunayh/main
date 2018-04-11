@@ -1,17 +1,14 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_FILEPATH;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.List;
 
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
-import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.person.Person;
-import seedu.address.model.person.Picture;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 
@@ -23,7 +20,7 @@ public class ResetPictureCommand extends Command {
 
     public static final String COMMAND_WORD = "resetpicture";
 
-    public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Picture for Person: %1$s";
+    public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Reset Picture for Person: %1$s";
     public static final String MESSAGE_NOT_EDITED = "A valid index must be specified.";
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Resets the picture of the person identified by the index number used in the last person listing "
@@ -77,6 +74,6 @@ public class ResetPictureCommand extends Command {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof ResetPictureCommand // instanceof handles nulls
-                && this.index.equals(((ResetPictureCommand) other).index); // state check
+                && this.index.equals(((ResetPictureCommand) other).index)); // state check
     }
 }

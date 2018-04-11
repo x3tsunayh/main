@@ -30,6 +30,7 @@ import seedu.address.logic.commands.JumpToCommand;
 import seedu.address.logic.commands.ListAllEventsCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.RedoCommand;
+import seedu.address.logic.commands.ResetPictureCommand;
 import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.SortCommand;
 import seedu.address.logic.commands.SwitchTabCommand;
@@ -188,6 +189,9 @@ public class AddressBookParser {
 
         case AddTagCommand.COMMAND_WORD:
             return new AddTagCommandParser().parse(arguments);
+
+        case ResetPictureCommand.COMMAND_WORD:
+            return new ResetPictureCommandParser().parse(arguments);
 
         default:
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
