@@ -11,7 +11,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 public class TaskDueDate {
 
     public static final String MESSAGE_TASK_DUE_DATE_CONSTRAINTS =
-            "Task due dates must be a valid date in the format yyyy-MM-dd";
+            "Task due dates must be a valid date in the format yyyy-MM-dd, and it should not be empty";
 
     /**
      * The first character of the task due date must not be a whitespace,

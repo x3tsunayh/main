@@ -121,11 +121,6 @@ public class AddEventCommandTest {
         }
 
         @Override
-        public void sortTasksByPriority() {
-            fail("This method should not be called.");
-        }
-
-        @Override
         public ObservableList<Task> getFilteredTaskList() {
             fail("This method should not be called.");
             return null;
@@ -622,6 +617,13 @@ public class FindEventCommandParserTest {
     }
 
     @Test
+    public void parse_invalidArgs_throwsParseException() {
+        // no prefixes given
+        assertParseFailure(parser, "CNY Christmas", String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                FindEventCommand.MESSAGE_USAGE));
+    }
+
+    @Test
     public void parse_validArgs_returnsFindCommand() {
         FindEventCommand expectedFindCommand =
                 new FindEventCommand(new TitleContainsKeywordsPredicate(Arrays.asList("CNY", "Christmas")));
@@ -631,6 +633,90 @@ public class FindEventCommandParserTest {
         // multiple whitespaces allowed
         assertParseSuccess(parser, "et/ \n CNY \n \t Christmas  \t", expectedFindCommand);
     }
+}
+```
+###### \java\seedu\address\logic\parser\GoogleCommandParserTest.java
+``` java
+
+public class GoogleCommandParserTest {
+
+    private GoogleCommandParser parser = new GoogleCommandParser();
+
+    @Test
+    public void parse_emptyArg_throwsParseException() {
+        // empty input not allowed
+        assertParseFailure(parser, " ", String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                GoogleCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_invalidArgs_returnsGoogleCommand() {
+        //invalid args that are not indexes
+        assertParseFailure(parser, "one", String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                GoogleCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_validArgs_returnsFindCommand() {
+        GoogleCommand expectedGoogleCommand =
+                new GoogleCommand(Index.fromOneBased(1));
+        assertParseSuccess(parser, "1", expectedGoogleCommand);
+    }
+
+}
+```
+###### \java\seedu\address\logic\parser\JumpToCommandParserTest.java
+``` java
+
+public class JumpToCommandParserTest {
+
+    private JumpToCommandParser parser = new JumpToCommandParser();
+
+    @Test
+    public void parse_emptyArg_throwsParseException() {
+        // empty input not allowed
+        assertParseFailure(parser, " ", String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                JumpToCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_invalidFormat_throwsParseException() {
+        // incorrect yyyy input
+        assertParseFailure(parser, "18999-12", String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                JumpToCommand.MESSAGE_USAGE));
+        // incorrect mm input
+        assertParseFailure(parser, "18999-112", String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                JumpToCommand.MESSAGE_USAGE));
+        // incorrect format
+        assertParseFailure(parser, "18999#12", String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                JumpToCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_invalidArgs_throwsParseException() {
+        // yyyy out of bounds
+        assertParseFailure(parser, "1899-12", String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                JumpToCommand.MESSAGE_USAGE));
+        // yyyy out of bounds
+        assertParseFailure(parser, "2301-01", String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                JumpToCommand.MESSAGE_USAGE));
+        // mm out of bounds
+        assertParseFailure(parser, "2105-00", String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                JumpToCommand.MESSAGE_USAGE));
+        // mm out of bounds
+        assertParseFailure(parser, "2109-13", String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                JumpToCommand.MESSAGE_USAGE));
+
+    }
+
+    @Test
+    public void parse_validArgs_returnsJumpToCommand() {
+        JumpToCommand expectedJumpToCommand =
+                new JumpToCommand(YearMonth.of(2018, 5));
+
+        assertParseSuccess(parser, " 2018-05", expectedJumpToCommand);
+    }
+
 }
 ```
 ###### \java\seedu\address\model\event\UniqueEventListTest.java

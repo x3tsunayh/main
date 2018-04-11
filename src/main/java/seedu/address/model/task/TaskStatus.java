@@ -19,7 +19,8 @@ public class TaskStatus {
     public static final List<String> STATUS_ORDER =
             Arrays.asList(TASK_STATUS_UNDONE, TASK_STATUS_DONE);
 
-    public static final String MESSAGE_TASK_STATUS_CONSTRAINTS = "Task status can only be either done or undone.";
+    public static final String MESSAGE_TASK_STATUS_CONSTRAINTS =
+            "Task status can only be either done or undone, and it should not be empty.";
 
     /**
      * The first character of the task status must not be a whitespace,

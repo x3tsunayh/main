@@ -262,17 +262,13 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     /**
-     * Sorts the task list by priority from high to low importance
+     * Sorts the task list by
+     * (1) status (i.e. undone to done,
+     * (2) due date in ascending order and
+     * (3) priority (i.e. high > medium > low)
      */
-    public void sortTasksByPriority() {
-        tasks.sortByPriority();
-    }
-
-    /**
-     * Sorts the task list by status from undone to done followed by due date in ascending order
-     */
-    public void sortTasksByStatusAndDueDate() {
-        tasks.sortByStatusAndDueDate();
+    public void sortTasksByStatusDueDateAndPriority() {
+        tasks.sortByStatusDueDateAndPriority();
     }
 
     //// taskCategory-level operations
@@ -310,7 +306,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     //@@author CYX28
     @Override
     public ObservableList<Task> getTaskList() {
-        sortTasksByStatusAndDueDate();
+        sortTasksByStatusDueDateAndPriority();
         return tasks.asObservableList();
     }
 

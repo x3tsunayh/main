@@ -102,12 +102,13 @@
     <tags>family</tags>
     <tags>friends</tags>
     <tasks>
-        <taskName>Discuss project</taskName>
+        <taskName>Discuss project with the group and department</taskName>
         <taskPriority>medium</taskPriority>
         <taskDescription>Finalise on project features</taskDescription>
         <taskDueDate>2018-03-30</taskDueDate>
         <taskStatus>undone</taskStatus>
-        <categorised>work</categorised>
+        <categorised>testinglongtags</categorised>
+        <categorised>thisisaverylongtagwhichwilloverflowtothenextline</categorised>
     </tasks>
     <tasks>
         <taskName>Questions for client</taskName>
@@ -116,6 +117,8 @@
         <taskDueDate>2018-04-11</taskDueDate>
         <taskStatus>undone</taskStatus>
         <categorised>work</categorised>
+        <categorised>project</categorised>
+        <categorised>clientmeeting</categorised>
     </tasks>
     <tasks>
         <taskName>Follow up with boss</taskName>
@@ -123,8 +126,11 @@
         <taskDescription>Present proposal to boss regarding project concerns</taskDescription>
         <taskDueDate>2018-04-13</taskDueDate>
         <taskStatus>undone</taskStatus>
+        <categorised>testingmultipletags</categorised>
         <categorised>work</categorised>
-        <categorised>meeting</categorised>
+        <categorised>meetingwithboss</categorised>
+        <categorised>overflowtonextline</categorised>
+        <categorised>moretags</categorised>
     </tasks>
     <tasks>
         <taskName>Buy birthday gift</taskName>
@@ -140,6 +146,7 @@
         <taskDescription>(1) Analyse requirements (2) Write programs (3) Testing (4) Documentation (5) Submit to boss</taskDescription>
         <taskDueDate>2018-04-20</taskDueDate>
         <taskStatus>undone</taskStatus>
+        <categorised>interest</categorised>
         <categorised>personal</categorised>
     </tasks>
     <tasks>
@@ -150,7 +157,18 @@
         <taskStatus>done</taskStatus>
         <categorised>meeting</categorised>
     </tasks>
+    <taskCategories>testingmultipletags</taskCategories>
+    <taskCategories>project</taskCategories>
+    <taskCategories>overflowtonextline</taskCategories>
+    <taskCategories>interest</taskCategories>
+    <taskCategories>thisisaverylongtag</taskCategories>
+    <taskCategories>meetingwithboss</taskCategories>
+    <taskCategories>meeting</taskCategories>
+    <taskCategories>thisisaverylongtagwhichwilloverflowtothenextline</taskCategories>
+    <taskCategories>reporttoboss</taskCategories>
     <taskCategories>work</taskCategories>
     <taskCategories>personal</taskCategories>
-    <taskCategories>meeting</taskCategories>
+    <taskCategories>clientmeeting</taskCategories>
+    <taskCategories>moretags</taskCategories>
+    <taskCategories>testinglongtags</taskCategories>
 </addressbook>
