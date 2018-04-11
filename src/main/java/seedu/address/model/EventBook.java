@@ -2,8 +2,10 @@ package seedu.address.model;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.collections.ObservableList;
@@ -13,6 +15,10 @@ import seedu.address.model.event.ReadOnlyEvent;
 import seedu.address.model.event.ReadOnlyEventBook;
 import seedu.address.model.event.UniqueEventList;
 import seedu.address.model.event.exceptions.DuplicateEventException;
+import seedu.address.model.person.Person;
+import seedu.address.model.person.exceptions.DuplicatePersonException;
+import seedu.address.model.task.Task;
+import seedu.address.model.task.exceptions.DuplicateTaskException;
 
 //@@author x3tsunayh
 
@@ -46,8 +52,6 @@ public class EventBook implements ReadOnlyEventBook {
         resetData(toBeCopied);
     }
 
-    //// list overwrite operations
-
     public void setEvents(List<? extends ReadOnlyEvent> events) throws CommandException {
         try {
             this.events.setEvents(events);
@@ -64,7 +68,7 @@ public class EventBook implements ReadOnlyEventBook {
         try {
             setEvents(newData.getEventList());
         } catch (CommandException e) {
-            throw new AssertionError("Eventbooks should not have duplicate events");
+            throw new AssertionError("Eventbooks should not have duplicated events");
         }
     }
 
@@ -76,18 +80,6 @@ public class EventBook implements ReadOnlyEventBook {
     public void addEvent(ReadOnlyEvent e) throws CommandException, DuplicateEventException {
         Event newEvent = new Event(e);
         events.add(newEvent);
-    }
-
-    /**
-     * Replaces the given event {@code target} in the list with {@code editedReadOnlyEvent}.
-     *
-     */
-    public void updateEvent(ReadOnlyEvent target, ReadOnlyEvent editedReadOnlyEvent)
-            throws CommandException {
-        requireNonNull(editedReadOnlyEvent);
-
-        Event editedPerson = new Event(editedReadOnlyEvent);
-        events.setEvent(target, editedPerson);
     }
 
     /**
@@ -107,8 +99,6 @@ public class EventBook implements ReadOnlyEventBook {
     public void orderList(String parameter) throws CommandException {
         events.orderBy(parameter);
     }
-
-    //// util methods
 
     @Override
     public int hashCode() {

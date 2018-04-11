@@ -182,6 +182,12 @@ public class ModelManager extends ComponentManager implements Model {
         indicateEventBookChanged();
     }
 
+    @Override
+    public void resetData(ReadOnlyEventBook newData) {
+        eventBook.resetData(newData);
+        indicateEventBookChanged();
+    }
+
     //=========== Filtered Task List Accessors =============================================================
 
     @Override
