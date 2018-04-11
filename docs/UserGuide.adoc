@@ -134,6 +134,7 @@ Edits the phone number and email address of the 1st person to be `91234567` and 
 * `edit 2 n/Betsy Crower t/` +
 Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
 
+//tag::findByName[]
 === Find persons by name: `find n/` `[since v1.4]`
 
 Finds persons whose names contain any of the given keywords. +
@@ -155,7 +156,9 @@ Returns `john` and `John Doe`
 Returns any person having names `Betsy`, `Tim`, or `John`
 * `find n/J +
 Returns any person having names `John`, `Jack`, or `Joanna`
+//end::findByName[]
 
+//tag::findByTag[]
 === Find persons by tag: `find t/` `[since v1.4]`
 
 Finds persons whose tag contain any of the given keywords. +
@@ -177,8 +180,9 @@ Returns `friends` and `Friends`
 Returns any person having tag(s) `Friends`, or `Classmates`
 * `find t/f` +
 Returns any person having tag(s) `Friends`, or `Family`
+//end::findByTag[]
 
-// tag::FindByAddress[]
+//tag::findByAddress[]
 === Find persons by address: `find a/` `[since in v1.5]`
 
 Finds persons whose address contain any of the given keywords. +
@@ -200,9 +204,9 @@ Returns `5th` and `5TH`
 Returns any person having address `Sixth` or `Avenue`
 * `find a/s` +
 Returns any person having address `street` or `sixth` or `square'
-// end::FindByAddress[]
+//end::findByAddress[]
 
-// tag::FindByPhone[]
+//tag::findByPhone[]
 === Find persons by phone: `find p/` `[since in v1.5]`
 
 Finds persons whose phone contain any of the given value. +
@@ -218,7 +222,7 @@ Examples:
 
 * `find p/982039` +
 Returns any person having phone `98203910` or `98203950`
-// end::FindByPhone[]
+//end::findByPhone[]
 
 === Listing all persons : `list`
 
@@ -411,7 +415,7 @@ Adds the tag `newFriend` to the contact at index 12 of the last contact listing
 Adds the tags `buddy`, `CS2103` and `NUS` to contact at index 7 of the last contact listing
 // end::addtag[]
 
-// tag::ConvertCurrency[]
+//tag::convertCurrency[]
 === Converting from one currency to another: `convert` `[since v1.3]`
 
 Convert any amount from SRC_CURRENCY_CODE to DST_CURRENCY_CODE +
@@ -459,7 +463,7 @@ Returns `Converted 10,000 JPY to USD 94.50`
 * `convert SGD MYR` +
 Get the rate of MYR given one unit of SGD +
 Returns `Converted 1 SGD to MYR 2.96`
-// end::ConvertCurrency[]
+//end::convertCurrency[]
 
 // tag::addevent[]
 === Adding an event: `addevent` `[since v1.3]`
@@ -681,46 +685,6 @@ Examples:
 * `resetpicture 1` +
 Resets the picture of the person at index 1 to the default picture.
 // end::resetpicture[]
-
-// tag::FindByAddress[]
-=== Find persons by address: `find a/` `[coming in v1.5]`
-
-Finds persons whose address contain any of the given keywords. +
-Format: `find a/KEYWORD [MORE_KEYWORDS]...`
-
-****
-* The search is case insensitive. e.g `hans` will match `Hans`
-* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
-* Only the tag is searched.
-* Partial words will be matched e.g. `Han` will match `Hans`
-* Persons matching at least one keyword will be returned (i.e. `OR` search). e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
-****
-
-Examples:
-
-* `find a/5TH` +
-Returns `5th` and `5TH`
-* `find a/` +
-Returns any person having tags `family` or `friends`
-// end::FindByAddress[]
-
-// tag::FindByPhone[]
-=== Find persons by phone: `find p/` `[coming in v1.5]`
-
-Finds persons whose names contain any of the given value. +
-Format: `find p/KEYWORD [MORE_KEYWORDS]...`
-
-****
-* Only the phone is searched.
-* Partial numbers will be matched e.g. `984` will match `98450293`
-* Persons matching at least one phone will be returned (i.e. `OR` search).
-****
-
-Examples:
-
-* `find p/982039` +
-Returns any person having phone `98203910` or `98203950`
-// end::FindByPhone[]
 
 === Autocomplete of command `[coming in v2.0]`
 
