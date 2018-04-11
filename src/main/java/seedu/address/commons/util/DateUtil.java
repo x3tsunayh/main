@@ -20,7 +20,7 @@ public class DateUtil {
 
     /**
      * Parse given date into LocalDate format
-     * @param dateToParse date in String format
+     * @param dateToParse date must be in String format with hypens e.g. 2018-05-12
      * @return date in LocalDate format
      */
     public static LocalDate getParsedDate(String dateToParse) {
