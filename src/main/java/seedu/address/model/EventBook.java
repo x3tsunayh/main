@@ -52,7 +52,9 @@ public class EventBook implements ReadOnlyEventBook {
         resetData(toBeCopied);
     }
 
-    public void setEvents(List<? extends ReadOnlyEvent> events) throws CommandException {
+    //// list overwrite operations
+
+    public void setEvents(List<? extends ReadOnlyEvent> events) {
         try {
             this.events.setEvents(events);
         } catch (DuplicateEventException dee) {
@@ -66,8 +68,8 @@ public class EventBook implements ReadOnlyEventBook {
     public void resetData(ReadOnlyEventBook newData) {
         requireNonNull(newData);
         try {
-            setEvents(newData.getEventList());
-        } catch (CommandException e) {
+            this.events.setEvents(newData.getEventList());
+        } catch (DuplicateEventException dee) {
             throw new AssertionError("Eventbooks should not have duplicated events");
         }
     }

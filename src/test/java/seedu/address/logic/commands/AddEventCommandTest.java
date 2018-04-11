@@ -169,6 +169,11 @@ public class AddEventCommandTest {
         }
 
         @Override
+        public void resetData(ReadOnlyEventBook newData) {
+            fail("This method should not be called.");
+        }
+
+        @Override
         public ObservableList<ReadOnlyEvent> getFilteredEventList() {
             return null;
         }

@@ -25,10 +25,7 @@ import seedu.address.model.event.ReadOnlyEvent;
 import seedu.address.model.event.ReadOnlyEventBook;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
-import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.task.Task;
-import seedu.address.model.task.exceptions.DuplicateTaskException;
-import seedu.address.model.task.exceptions.TaskNotFoundException;
 import seedu.address.testutil.PersonBuilder;
 
 public class AddCommandTest {
@@ -123,13 +120,12 @@ public class AddCommandTest {
         }
 
         @Override
-        public void deletePerson(Person target) throws PersonNotFoundException {
+        public void deletePerson(Person target) {
             fail("This method should not be called.");
         }
 
         @Override
-        public void updatePerson(Person target, Person editedPerson)
-                throws DuplicatePersonException {
+        public void updatePerson(Person target, Person editedPerson) {
             fail("This method should not be called.");
         }
 
@@ -150,17 +146,17 @@ public class AddCommandTest {
         }
 
         @Override
-        public void addTask(Task task) throws DuplicateTaskException {
+        public void addTask(Task task) {
             fail("This method should not be called.");
         }
 
         @Override
-        public void deleteTask(Task target) throws TaskNotFoundException {
+        public void deleteTask(Task target) {
             fail("This method should not be called.");
         }
 
         @Override
-        public void updateTask(Task target, Task editedTask) throws DuplicateTaskException, TaskNotFoundException {
+        public void updateTask(Task target, Task editedTask) {
             fail("This method should not be called.");
         }
 
@@ -176,13 +172,18 @@ public class AddCommandTest {
         }
 
         @Override
-        public void addEvent(ReadOnlyEvent toAdd) throws CommandException {
-
+        public void addEvent(ReadOnlyEvent toAdd) {
+            fail("This method should not be called.");
         }
 
         @Override
-        public void deleteEvent(ReadOnlyEvent eventToDelete) throws CommandException {
+        public void deleteEvent(ReadOnlyEvent eventToDelete) {
+            fail("This method should not be called.");
+        }
 
+        @Override
+        public void resetData(ReadOnlyEventBook newData) {
+            fail("This method should not be called.");
         }
 
         @Override
@@ -192,7 +193,7 @@ public class AddCommandTest {
 
         @Override
         public void updateFilteredEventList(Predicate<ReadOnlyEvent> predicate) {
-
+            fail("This method should not be called.");
         }
     }
 

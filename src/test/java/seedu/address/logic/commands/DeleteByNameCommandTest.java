@@ -40,7 +40,7 @@ public class DeleteByNameCommandTest {
     }
 
     @Test
-    public void execute_invalidNameUnfilteredList_throwsCommandException() throws Exception {
+    public void execute_invalidNameUnfilteredList_throwsCommandException() {
 
         Name randomName = new Name("Random Random Random 242neklw");
         DeleteByNameCommand deleteByNameCommand = prepareCommand(randomName);
