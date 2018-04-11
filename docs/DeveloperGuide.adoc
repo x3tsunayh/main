@@ -453,6 +453,22 @@ It is modify such that able to find by name and tag by specifying the type to be
 . The `FindCommand` object is created, and assisted by `TagContainsKeywordsPredicate` to obtain the result.
 . The  result is then return and displayed to the user.
 
+==== Implementation - Search by Address
+
+. The user executes the `find a/KEYWORD [MORE_KEYWORDS]...`, given the search type `a/` and with parameters `KEYWORD`
+. The `AddressBookParser` class parses the command and create a new `FindCommandParse` class.
+. The `FindCommandParse` will compare the search type to check if search is by tag and parse the keywords to `FindCommand`
+. The `FindCommand` object is created, and assisted by `AddressContainsKeywordsPredicate` to obtain the result.
+. The  result is then return and displayed to the user.
+
+==== Implementation - Search by Phone
+
+. The user executes the `find p/KEYWORD [MORE_KEYWORDS]...`, given the search type `p/` and with parameters `KEYWORD`
+. The `AddressBookParser` class parses the command and create a new `FindCommandParse` class.
+. The `FindCommandParse` will compare the search type to check if search is by tag and parse the keywords to `FindCommand`
+. The `FindCommand` object is created, and assisted by `PhoneContainsKeywordsPredicate` to obtain the result.
+. The  result is then return and displayed to the user.
+
 // tag::addtag[]
 === Add Tag to Contact
 

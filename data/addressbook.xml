@@ -5,7 +5,7 @@
         <phone>87390291</phone>
         <email>abc@gmail.com</email>
         <address>311, Clementi Ave 2, #02-43</address>
-        <picture>images/default.png</picture>
+        <picture>file:/C:\Users\Lee\Desktop\CS2103\main\AddressBook\1277893848.jpg</picture>
         <tagged>asdasd</tagged>
         <tagged>friends</tagged>
     </persons>
@@ -14,7 +14,7 @@
         <phone>87438807</phone>
         <email>alexyeoh@example.com</email>
         <address>Blk 30 Geylang Street 29, #06-40</address>
-        <picture>images/default.png</picture>
+        <picture>file:/C:\Users\Lee\Desktop\CS2103\main\AddressBook\495011192.jpg</picture>
         <tagged>friends</tagged>
     </persons>
     <persons>
