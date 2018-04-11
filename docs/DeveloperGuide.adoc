@@ -365,7 +365,15 @@ image::UndoRedoActivityDiagram.png[width="650"]
 The sort mechanism sorts the persons list alphabetically by name. It currently supports sorting in ascending order.
 
 The internal details of the sort mechanism is handled by the `sort` method in `UniquePersonList` class.
-The sort mechanism is implemented using a custom comparator in JavaFX ObservableList `sort` method.
+The sort mechanism is implemented using a custom comparator in JavaFX ObservableList `sort` method as follows:
+
+[source,java]
+----
+public void sort() {
+    internalList.sort((person1, person2) -> person1.getName().toString()
+            .compareToIgnoreCase(person2.getName().toString()));
+}
+----
 
 The following sequence diagram shows how the sort persons operation works.
 
@@ -637,31 +645,40 @@ image::TaskListSequenceDiagram.png[width="800"]
 === Sort Tasks feature
 ==== Current Implementation
 
-The sort mechanism sorts the tasks list based on priority.
-It currently supports sorting in descending order of importance (i.e. high > medium > low).
+This feature is implemented as a default behaviour of the task list display, rather than as a command.
 
-The internal details of the sort mechanism is handled by the `sortByPriority` method in `UniqueTaskList` class.
-The sort mechanism is implemented using a custom comparator in JavaFX ObservableList `sort` method.
+The sort mechanism sorts the tasks list based on status (i.e. undone to done), due date in ascending order
+and priority level (i.e. high > medium > low).
 
-The following sequence diagram shows how the sort tasks operation works.
+The internal details of the sort mechanism is handled by the `sortByStatusDueDateAndPriority` method in `UniqueTaskList` class.
+The sort mechanism is implemented using a custom comparator in JavaFX ObservableList `sort` method as follows:
 
-image::TaskSortSequenceDiagram.png[width="800"]
-
-. The user executes the `task-sort` command.
-. The `AddressBookParser` class parses the command and create a new `TaskSortCommand` class.
-. The `task-sort` command is executed and handled by the `ModelManager` class.
-. The sorted list is returned and displayed to the user.
+[source,java]
+----
+public void sortByStatusDueDateAndPriority() {
+    internalList.sort(Comparator.comparing(Task::getTaskStatus, (s1, s2) -> {
+        return TaskStatus.STATUS_ORDER.indexOf(s1.value.toLowerCase())
+                - TaskStatus.STATUS_ORDER.indexOf(s2.value.toLowerCase());
+    }).thenComparing(Comparator.comparing(Task::getTaskDueDate, (dd1, dd2) -> {
+        return dd1.value.compareTo(dd2.value);
+    })).thenComparing(Comparator.comparing(Task::getTaskPriority, (p1, p2) -> {
+        return TaskPriority.PRIORITY_ORDER.indexOf(p1.value.toLowerCase())
+                - TaskPriority.PRIORITY_ORDER.indexOf(p2.value.toLowerCase());
+    })));
+}
+----
 
 ==== Design Considerations
 
-===== Aspect: Implementation of `TaskSortCommand`
+===== Aspect: Implementation of `SortTasks` feature
 
-* **Alternative 1 (current choice):** Sort tasks by priority
-** Pros: Easy to implement and does not need to make changes for every newly added field
+* **Alternative 1 (current choice):** Sort tasks by status > due date > priority
+** Pros: Incomplete tasks are displayed at the top followed by tasks that are due first and those with higher priority
 ** Cons: Lack flexibility in sorting by other fields
-* **Alternative 2:** Sort tasks by other fields of a task such as name
+* **Alternative 2:** Sort tasks by individual fields
 ** Pros: Allows flexibility in sorting
-** Cons: Might be more difficult to implement as changes need to be made for every newly added field
+** Cons: Might be more difficult to implement as changes need to be made for every newly added field and it is
+not possible for user to sort by multiple criteria
 // end::task-sort[]
 
 === Convert currency feature
@@ -1115,13 +1132,13 @@ note down the tasks to be done, as well as a calendar for them to record importa
 *Value proposition*:
 
 * manage contacts faster than a typical mouse/GUI driven app
-* manage contacts, tasks and events from one place
+* manage contacts, tasks and events from one place to save time for the businessmen with busy schedule
 
 *Feature contribution*:
 
 * Chan Yin Xin
 
-Major: Implement task/to-do list feature to facilitate task management
+Major: Implement task feature to facilitate task management
 
 Every task will have a priority level and status, allowing the easy tracking of tasks.
 
@@ -1468,7 +1485,9 @@ _{More to be added}_
 
 .  Should work on any <<mainstream-os,mainstream OS>> as long as it has Java `1.8.0_60` or higher installed.
 .  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
-.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands)
+should be able to accomplish most of the tasks faster using commands than using the mouse.
+. Command query should not take too long to execute (i.e. more than 10 seconds.
 
 _{More to be added}_
 
