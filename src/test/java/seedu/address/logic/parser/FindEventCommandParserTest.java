@@ -25,6 +25,13 @@ public class FindEventCommandParserTest {
     }
 
     @Test
+    public void parse_invalidArgs_throwsParseException() {
+        // no prefixes given
+        assertParseFailure(parser, "CNY Christmas", String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                FindEventCommand.MESSAGE_USAGE));
+    }
+
+    @Test
     public void parse_validArgs_returnsFindCommand() {
         FindEventCommand expectedFindCommand =
                 new FindEventCommand(new TitleContainsKeywordsPredicate(Arrays.asList("CNY", "Christmas")));

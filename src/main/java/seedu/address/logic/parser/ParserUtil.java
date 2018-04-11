@@ -2,7 +2,9 @@ package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.commands.JumpToCommand.MESSAGE_USAGE;
 
+import java.time.YearMonth;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Optional;
@@ -40,6 +42,7 @@ public class ParserUtil {
 
     public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
     public static final String MESSAGE_INSUFFICIENT_PARTS = "Number of parts must be more than 1.";
+    public static final int JUMPTO_VALID_ARGS_LENGTH = 8;
 
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
@@ -361,7 +364,8 @@ public class ParserUtil {
         return taskCategorySet;
     }
 
-    //@@author
+    //@@author x3tsunayh
+
     /**
      * Parses a {@code Optional<String> datetime} into an {@code Optional<Datetime>} if {@code datetime} is present.
      * See header comment of this class regarding the use of {@code Optional} parameters.
@@ -369,5 +373,26 @@ public class ParserUtil {
     public static Optional<Datetime> parseDatetime(Optional<String> datetime) throws IllegalValueException {
         requireNonNull(datetime);
         return datetime.isPresent() ? Optional.of(new Datetime(datetime.get())) : Optional.empty();
+    }
+
+    /**
+     * Parses a {@code String yearmonth} into a {@code YearMonth} if {@code yearmonth} is present.
+     */
+    public static YearMonth parseYearmonth(String yearmonth) throws IllegalValueException {
+        requireNonNull(yearmonth);
+        if (yearmonth.length() != JUMPTO_VALID_ARGS_LENGTH) {
+            throw new IllegalValueException(MESSAGE_USAGE);
+        }
+
+        int year = Integer.parseInt(yearmonth.substring(1, 5));
+        String separator = yearmonth.substring(5, 6);
+        int month = Integer.parseInt(yearmonth.substring(6));
+
+        if (!separator.equals("-") || 1900 > year || year > 2300 || 1 > month || month > 12) {
+            throw new IllegalValueException(MESSAGE_USAGE);
+        }
+
+        YearMonth yearMonth = YearMonth.of(year, month);
+        return yearMonth;
     }
 }
