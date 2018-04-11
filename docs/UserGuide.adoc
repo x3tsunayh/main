@@ -272,25 +272,29 @@ Sorts all persons in the address book alphabetically by name in ascending order 
 Format: `sort`
 // end::sort[]
 
+// tag::export[]
 === Exporting addressbook data: `export` `[since v1.1]`
 
-Exports addressbook data into an XML file. +
+Exports addressbook data into an XML or CSV file. +
 Format: `export FILEPATH [MORE_KEYWORDS]`
 
 ****
-* Addressbook creates XML file if valid filepath and filename is given.
+* Addressbook creates XML or CSV file if valid filepath and filename is given.
 * If filename already exists, a warning message is displayed.
-* If file extension is not .xml, a warning message is displayed.
-* If filepath not given, XML file is auto-created under main folder.
-* If filepath is invalid, Addressbook creates folders to support the filepath defined by the user.
+* If file extension is not .xml nor .csv, a warning message is displayed.
+* If filepath not given, the file is auto-created under main folder.
+* If filepath is not found, Addressbook creates folders to support the filepath defined by the user.
 ****
 
 Examples:
 
 * `export C:\Users\John Doe\Documents\addressbook.xml` +
 Creates XML file in the user-defined filepath
+* `export C:\Users\John Doe\Documents\addressbook.csv` +
+Creates CSV file in the user-defined filepath
 * `export addressbook.xml` +
 Creates XML file in the main folder of the Addressbook
+// end::export[]
 
 === Listing entered commands : `history`
 
@@ -354,7 +358,7 @@ The `redo` command fails as there are no `undo` commands executed previously.
 
 === Clearing all entries : `clear`
 
-Clears all entries from the address book. +
+Clears all entries in contacts list and task list from the address book. +
 Format: `clear`
 
 === Exiting the program : `exit`
@@ -457,6 +461,7 @@ Get the rate of MYR given one unit of SGD +
 Returns `Converted 1 SGD to MYR 2.96`
 // end::ConvertCurrency[]
 
+// tag::addevent[]
 === Adding an event: `addevent` `[since v1.3]`
 
 Adds an event into event book. +
@@ -472,7 +477,9 @@ Examples:
 
 * `addevent et/Christmas Party ed/Celebrating Christmas 2018 el/Samuel's House edt/25-12-2018 1830` +
 Creates an event with the corresponding details and adds it into the event book; displays it on event list.
+// end::addevent[]
 
+// tag::deleteevent[]
 === Deleting an event: `deleteevent` `[since v1.3]`
 
 Deletes an event in the event book. +
@@ -480,34 +487,59 @@ Format: `deleteevent INDEX`
 
 ****
 * Deletes an event if given index is valid.
-* Does not delete event is given index is invalid.
+* Does not delete event if given index is invalid.
 ****
 
 Examples:
 
 * `deleteevent 2` +
 Deletes the second event on the displayed event list.
+// end::deleteevent[]
 
-// tag::FindEvent[]
+// tag::findevent[]
 === Finding an event: `findevent` `[since v1.4]`
 
 Shows a list of all events matching the given keywords. +
 Format: `findevent et/KEYWORD [MORE_KEYWORDS]... for title OR ed/KEYWORD [MORE_KEYWORDS]... for description`
-// end::FindEvent[]
+// end::findevent[]
 
-// tag::ListAllEvents[]
+// tag::listallevents[]
 === Listing all events: `listallevents` `[since v1.4]`
 
 Shows a list of all events in the address book. +
 Format: `listallevents`
-// end::ListAllEvents[]
+// end::listallevents[]
 
-// tag::SwitchTab[]
+// tag::clearevents[]
+=== Clears all events: `clearevents` `[since v1.5rc]`
+
+Clears all events in the event list. +
+Format: `clearevents`
+// end::clearevents[]
+
+// tag::jumpto[]
+=== Jumps to specified year and month: `jumpto` `[since v1.5rc]`
+
+Jumps to specified year and month on the calendar. +
+Format: `jumpto yyyy-mm`
+
+****
+* Calendar shows year and month input if valid.
+* Does not change calendar view if given input is invalid.
+****
+
+Examples:
+
+* `jumpto 2018-05` +
+Jumps to 2018 May on the calendar view.
+// end::jumpto[]
+
+// tag::switchtab[]
 === Switches between list tabs: `switchtab` `[since v1.4]`
 
 Switches between the Events and Tasks list tabs. +
 Format: `switchtab`
-// end::SwitchTab[]
+// end::switchtab[]
 
 // tag::TaskDisplay[]
 === Task Display `[since v1.5rc]`
@@ -780,7 +812,7 @@ e.g. `export C:\Users\John Doe\Documents\addressbook.xml`
 * *History* : `history`
 * *Undo* : `undo`
 * *Redo* : `redo`
-* *Clear contacts list* : `clear`
+* *Clear contacts list and task list* : `clear`
 * *Help* : `help`
 * *Exit program* : `exit`
 * *Add a profile picture to a person* : `addpicture INDEX f/FILENAME` +
@@ -796,6 +828,9 @@ e.g. `deleteevent 2`
 * *Find an event* : `findevent PREFIX/KEYWORD [MORE_KEYWORDS]...` +
 e.g. `findevent et/Christmas CNY Halloween`
 * *List all events* : `listallevents`
+* *Clear all events* : `clearevents`
+* *Jump to Year-Month* : `jumpto yyyy-mm` +
+e.g. `jumpto 2018-05`
 * *Click-to-view Events* : `Click the shaded days on the Calendar`
 * *Switch between events and tasks list* : `switchtab`
 * *Add a task* : `task-add n/NAME p/PRIORITY d/DESCRIPTION dd/DUE_DATE s/STATUS [c/CATEGORY]...` +
