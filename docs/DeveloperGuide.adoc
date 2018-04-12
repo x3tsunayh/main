@@ -432,6 +432,7 @@ No space requirement to store the images locally +
 Need to ensure that the image is not deleted, or it won't display. +
 // end::addpicure[]
 
+// tag::findFeature[]
 === Find feature
 
 ==== Current Implementation
@@ -470,6 +471,7 @@ It is modify such that able to find by name and tag by specifying the type to be
 . The `FindCommandParse` will compare the search type to check if search is by tag and parse the keywords to `FindCommand`
 . The `FindCommand` object is created, and assisted by `PhoneContainsKeywordsPredicate` to obtain the result.
 . The  result is then return and displayed to the user.
+//end::findFeature[]
 
 // tag::addtag[]
 === Add Tag to Contact
@@ -480,7 +482,7 @@ The `logic` component parses user inputs, while the `model` component updates th
 
 The following sequence diagram illustrates how the Add Tag command works:
 
-image::AddTagSequenceDiagram.png[width="800"]
+image::AddTagSequenceDiagram.PNG[width="800"]
 
 
 . The user executes the `addtag INDEX t/TAG1 t/TAG2 ...` command, with parameters `INDEX` and TAG1, TAG2, ...
