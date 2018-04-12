@@ -217,8 +217,7 @@ public class AddressBookParserTest {
 
     @Test
     public void parseCommand_sortEvent() throws Exception {
-        assertTrue(parser.parseCommand(SortEventCommand.COMMAND_WORD) instanceof SortEventCommand);
-        assertTrue(parser.parseCommand(SortEventCommand.COMMAND_WORD + " 3") instanceof SortEventCommand);
+        assertTrue(parser.parseCommand(SortEventCommand.COMMAND_WORD + " TITLE") instanceof SortEventCommand);
     }
 
     @Test

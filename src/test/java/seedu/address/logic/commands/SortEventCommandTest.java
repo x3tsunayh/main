@@ -5,7 +5,11 @@ import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.testutil.TypicalAddressBook.getTypicalAddressBook;
-import static seedu.address.testutil.TypicalEvents.*;
+import static seedu.address.testutil.TypicalEvents.CHRISTMAS;
+import static seedu.address.testutil.TypicalEvents.CNY;
+import static seedu.address.testutil.TypicalEvents.MOVIE;
+import static seedu.address.testutil.TypicalEvents.REUNION;
+import static seedu.address.testutil.TypicalEvents.getTypicalEventBook;
 
 import java.util.Arrays;
 import java.util.List;
