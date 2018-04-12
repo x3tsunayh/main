@@ -129,17 +129,17 @@ public class SampleDataUtil {
     public static Event[] getSampleEvents() throws IllegalValueException {
         return new Event[]{
             new Event(new String("Company Charity Event"), new String("Annual fund-raising event"),
-                new String("VivoCity"), new Datetime("31-10-2017 0930")),
+                new String("VivoCity"), new Datetime("2017-10-31 0930")),
             new Event(new String("Launch Marketing Campaign"), new String("New products to be released"),
-                new String("-"), new Datetime("14-03-2018 1000")),
+                new String("-"), new Datetime("2018-03-14 1000")),
             new Event(new String("Class Reunion"), new String("Catchup session with old classmates"),
-                new String("Tampines Hub"), new Datetime("15-04-2018 1745")),
+                new String("Tampines Hub"), new Datetime("2018-04-15 1745")),
             new Event(new String("CS2103 Demo Presentation"), new String("Flight to London"),
-                    new String("COM1-B103"), new Datetime("19-04-2018 1500")),
+                    new String("COM1-B103"), new Datetime("2018-04-19 1500")),
             new Event(new String("Marketing Department Meeting"), new String("Monthly Meeting"),
-                new String("Company Conference Room 2"), new Datetime("20-04-2018 1315")),
+                new String("Company Conference Room 2"), new Datetime("2018-04-20 1315")),
             new Event(new String("Flight to London"), new String("-"),
-                new String("Changi Airport"), new Datetime("12-05-2018 2250"))
+                new String("Changi Airport"), new Datetime("2018-05-12 2250"))
         };
     }
 }
