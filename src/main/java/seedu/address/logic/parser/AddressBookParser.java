@@ -152,6 +152,7 @@ public class AddressBookParser {
             return new ClearEventsCommand();
 
         case SortEventCommand.COMMAND_WORD:
+        case SortEventCommand.COMMAND_WORD_TWO:
             return new SortEventCommandParser().parse(arguments);
 
         case ListAllEventsCommand.COMMAND_WORD:

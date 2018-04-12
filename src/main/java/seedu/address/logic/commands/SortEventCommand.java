@@ -10,15 +10,16 @@ import seedu.address.logic.commands.exceptions.CommandException;
 public class SortEventCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "sortevent";
+    public static final String COMMAND_WORD_TWO = "sortevents";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Order the Event Book based on one/multiple parameter(s).\n"
+            + ": Order the Event Book based on a specified parameter.\n"
             + "Parameters:  TITLE, LOCATION, DATETIME\n"
             + "Example: " + COMMAND_WORD + " TITLE";
 
     public static final String MESSAGE_SORT_SUCCESS = "Event Book has been sorted by ";
     public static final String MESSAGE_SORT_WRONG_PARAMETER =
-            "The parameter(s) can only contain Title, Location or Datetime";
+            "The parameter can only contain Title, Location or Datetime";
 
     private String sortParameter;
 
