@@ -482,7 +482,7 @@ The `logic` component parses user inputs, while the `model` component updates th
 
 The following sequence diagram illustrates how the Add Tag command works:
 
-image::AddTagSequenceDiagram.png[width="800"]
+image::AddTagSequenceDiagram.PNG[width="800"]
 
 
 . The user executes the `addtag INDEX t/TAG1 t/TAG2 ...` command, with parameters `INDEX` and TAG1, TAG2, ...
