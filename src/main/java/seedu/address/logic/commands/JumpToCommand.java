@@ -18,7 +18,7 @@ public class JumpToCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Jumps to a specified year (between 1900 to 2300) and month (between 01 to 12) on the calendar.\n"
             + "Parameters: yyyy-mm\n"
-            + "Example: " + COMMAND_WORD + " 201802";
+            + "Example: " + COMMAND_WORD + " 2018-02";
 
     private final YearMonth yearMonth;
 

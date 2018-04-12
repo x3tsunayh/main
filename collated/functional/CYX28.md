@@ -16,7 +16,7 @@ public class DateUtil {
 
     /**
      * Parse given date into LocalDate format
-     * @param dateToParse date must be in String format with hypens e.g. 2018-05-12
+     * @param dateToParse date must be in String format with hyphens e.g. 2018-05-12
      * @return date in LocalDate format
      */
     public static LocalDate getParsedDate(String dateToParse) {
@@ -25,14 +25,11 @@ public class DateUtil {
 
     /**
      * Parse given dateTime into LocalDate format
-     * @param dateTimeToParse date must be in String format with hypens e.g. 2018-05-12 1800
+     * @param dateTimeToParse date must be in String format with hyphens e.g. 2018-05-12 1800
      * @return date in LocalDate format
      */
     public static LocalDate getParsedDateTime(String dateTimeToParse) {
-        String day = dateTimeToParse.substring(0, 2);
-        String month = dateTimeToParse.substring(2, 6);
-        String year = dateTimeToParse.substring(6, 10);
-        return LocalDate.parse(year + month + day);
+        return LocalDate.parse(dateTimeToParse.substring(0, 10));
     }
 
     /**

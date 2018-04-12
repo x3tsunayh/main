@@ -9,7 +9,7 @@ import seedu.address.model.EventBook;
 /**
  * Clears the event list.
  */
-public class ClearEventCommand extends UndoableCommand {
+public class ClearEventsCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "clearevents";
     public static final String MESSAGE_SUCCESS = "Event list has been cleared!";

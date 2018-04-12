@@ -101,4 +101,6 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredEventList(Predicate<ReadOnlyEvent> predicate);
+
+    void sortEventList(String parameter) throws CommandException;
 }

@@ -514,6 +514,21 @@ Shows a list of all events in the address book. +
 Format: `listallevents`
 // end::listallevents[]
 
+// tag::sortevent[]
+=== Sort all events: `sortevent` `[since v1.5]`
+
+Sorts event list according to the specified parameter. +
+Format: `sortevent PARAMETER`
+
+Examples:
+
+* `sortevent TITLE` +
+Sorts event list according to the event titles in alphabetical order.
+
+* `sortevent DATETIME` +
+Sorts event list according to the event datetimes in chronological order from latest to oldest.
+// end::sortevent[]
+
 // tag::clearevents[]
 === Clears all events: `clearevents` `[since v1.5rc]`
 
@@ -791,6 +806,8 @@ e.g. `addevent et/Christmas Party ed/Celebrating Christmas 2018 el/Samuel's Hous
 e.g. `deleteevent 2`
 * *Find an event* : `findevent PREFIX/KEYWORD [MORE_KEYWORDS]...` +
 e.g. `findevent et/Christmas CNY Halloween`
+* *Sort event list (case-insensitive)* : `sortevent PARAMETER` +
+e.g. `sortevent DATETIME`
 * *List all events* : `listallevents`
 * *Clear all events* : `clearevents`
 * *Jump to Year-Month* : `jumpto yyyy-mm` +

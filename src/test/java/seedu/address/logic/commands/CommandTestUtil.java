@@ -103,8 +103,8 @@ public class CommandTestUtil {
     public static final String VALID_DESCRIPTION_CHRISTMAS = "Christmas Party at SOC";
     public static final String VALID_LOCATION_CNY = "NUS S16 Level 3";
     public static final String VALID_LOCATION_CHRISTMAS = "NUS COM1";
-    public static final String VALID_DATETIME_CNY = "15-02-2018 1000";
-    public static final String VALID_DATETIME_CHRISTMAS = "24-12-2018 1830";
+    public static final String VALID_DATETIME_CNY = "2018-02-15 1000";
+    public static final String VALID_DATETIME_CHRISTMAS = "2018-12-24 1830";
 
     public static final String TITLE_DESC_CNY = " " + PREFIX_EVENT_TITLE + VALID_TITLE_CNY;
     public static final String TITLE_DESC_CHRISTMAS = " " + PREFIX_EVENT_TITLE + VALID_TITLE_CHRISTMAS;
@@ -116,12 +116,12 @@ public class CommandTestUtil {
     public static final String DATETIME_DESC_CNY = " " + PREFIX_EVENT_DATETIME + VALID_DATETIME_CNY;
     public static final String DATETIME_DESC_CHRISTMAS = " " + PREFIX_EVENT_DATETIME + VALID_DATETIME_CHRISTMAS;
 
-    public static final String VALID_DATETIME_01 = "01-12-2018 2359";
-    public static final String VALID_DATETIME_29 = "29-12-2018 2359";
-    public static final String VALID_DATETIME_30 = "30-12-2018 2359";
-    public static final String VALID_DATETIME_31 = "31-12-2018 2359";
-    public static final String INVALID_DATETIME_00 = "00-12-2018 2359"; //There is no 00 in the date
-    public static final String INVALID_DATETIME_32 = "32-12-2018 2359"; //There is no 32 in the date
+    public static final String VALID_DATETIME_01 = "2018-12-01 2359";
+    public static final String VALID_DATETIME_29 = "2018-12-29 2359";
+    public static final String VALID_DATETIME_30 = "2018-12-30 2359";
+    public static final String VALID_DATETIME_31 = "2018-12-31 2359";
+    public static final String INVALID_DATETIME_00 = "2018-12-00 2359"; //There is no 00 in the date
+    public static final String INVALID_DATETIME_32 = "2018-12-32 2359"; //There is no 32 in the date
 
     public static final String VALID_DATETIME_DESC_01 = " "
             + PREFIX_EVENT_DATETIME + VALID_DATETIME_01;

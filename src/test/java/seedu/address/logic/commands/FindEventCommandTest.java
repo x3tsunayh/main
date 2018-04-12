@@ -72,7 +72,7 @@ public class FindEventCommandTest {
     public void execute_multipleKeywords_multiplePersonsFound() {
         String expectedMessage = String.format(MESSAGE_EVENTS_LISTED_OVERVIEW, 3);
         FindEventCommand command = prepareCommand("CNY Christmas Movie");
-        assertCommandSuccess(command, expectedMessage, Arrays.asList(CNY, CHRISTMAS, MOVIE));
+        assertCommandSuccess(command, expectedMessage, Arrays.asList(CHRISTMAS, CNY, MOVIE));
     }
 
     /**

@@ -89,10 +89,10 @@ public class EventBook implements ReadOnlyEventBook {
     }
 
     /**
-     * Order list of all events in the event Book based on the parameter.
+     * Sorts list of all events in the event Book based on the specified parameter.
      */
-    public void orderList(String parameter) throws CommandException {
-        events.orderBy(parameter);
+    public void sortBy(String parameter) throws CommandException {
+        events.sortBy(parameter);
     }
 
     @Override

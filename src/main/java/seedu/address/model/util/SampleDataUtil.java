@@ -128,16 +128,18 @@ public class SampleDataUtil {
 
     public static Event[] getSampleEvents() throws IllegalValueException {
         return new Event[]{
-            new Event(new String("Halloween Party"), new String("-"),
-                new String("Andy's House"), new Datetime("31-10-2017 2000")),
-            new Event(new String("School Hall Concert"), new String("Catchup session w/ old classmates"),
-                new String("UCC"), new Datetime("14-03-2018 1900")),
+            new Event(new String("Company Charity Event"), new String("Annual fund-raising event"),
+                new String("VivoCity"), new Datetime("2017-10-31 0930")),
+            new Event(new String("Launch Marketing Campaign"), new String("New products to be released"),
+                new String("-"), new Datetime("2018-03-14 1000")),
             new Event(new String("Class Reunion"), new String("Catchup session with old classmates"),
-                new String("Tampines Hub"), new Datetime("15-04-2018 1745")),
-            new Event(new String("Tennis Game"), new String("Playing with friends"),
-                new String("NUS Tennis Court 7"), new Datetime("28-04-2018 0930")),
-            new Event(new String("JB Trip"), new String("Trip to Johor Bahru"),
-                new String("Woodlands"), new Datetime("12-05-2018 0900"))
+                new String("Tampines Hub"), new Datetime("2018-04-15 1745")),
+            new Event(new String("CS2103 Demo Presentation"), new String("Flight to London"),
+                    new String("COM1-B103"), new Datetime("2018-04-19 1500")),
+            new Event(new String("Marketing Department Meeting"), new String("Monthly Meeting"),
+                new String("Company Conference Room 2"), new Datetime("2018-04-20 1315")),
+            new Event(new String("Flight to London"), new String("-"),
+                new String("Changi Airport"), new Datetime("2018-05-12 2250"))
         };
     }
 }
