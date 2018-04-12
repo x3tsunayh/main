@@ -180,6 +180,13 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
+    public void sortEventList(String parameter) throws CommandException {
+        eventBook.sortBy(parameter);
+        updateFilteredEventList(PREDICATE_SHOW_ALL_EVENTS);
+        indicateEventBookChanged();
+    }
+
+    @Override
     public ReadOnlyEventBook getEventBook() {
         return eventBook;
     }
