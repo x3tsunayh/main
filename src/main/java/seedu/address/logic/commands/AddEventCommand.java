@@ -30,7 +30,7 @@ public class AddEventCommand extends UndoableCommand {
             + PREFIX_EVENT_TITLE + "Movie Outing "
             + PREFIX_EVENT_DESCRIPTION + "Watching Black Panther "
             + PREFIX_EVENT_LOCATION + "Suntec City GV "
-            + PREFIX_EVENT_DATETIME + "22-04-2018 1630";
+            + PREFIX_EVENT_DATETIME + "2018-04-22 1630";
 
     public static final String MESSAGE_SUCCESS = "New event added: %1$s";
     public static final String MESSAGE_DUPLICATE_EVENT = "This event already exists in the event book";

@@ -16,17 +16,17 @@ import seedu.address.model.event.exceptions.DuplicateEventException;
  */
 public class TypicalEvents {
 
+    public static final ReadOnlyEvent CHRISTMAS = new EventBuilder().withTitle("Christmas")
+            .withDescription("Christmas Party at SOC").withLocation("NUS COM1")
+            .withDatetime("2017-12-24 1830").build();
     public static final ReadOnlyEvent CNY = new EventBuilder().withTitle("CNY")
             .withDescription("CNY Celebration at FOS").withLocation("NUS S16 Level 3")
             .withDatetime("2018-02-15 1000").build();
-    public static final ReadOnlyEvent CHRISTMAS = new EventBuilder().withTitle("Christmas")
-            .withDescription("Christmas Party at SOC").withLocation("NUS COM1")
-            .withDatetime("2018-12-24 1830").build();
     public static final ReadOnlyEvent MOVIE = new EventBuilder().withTitle("Movie Outing")
             .withDescription("Black Panther Movie").withLocation("Suntec GV")
             .withDatetime("2018-04-21 1500").build();
-    public static final ReadOnlyEvent REUNION = new EventBuilder().withTitle("Class Reunion")
-            .withDescription("With Secondary School Classmates").withLocation("Samantha's House")
+    public static final ReadOnlyEvent REUNION = new EventBuilder().withTitle("Secondary School Class Reunion")
+            .withDescription("With Secondary School Classmates").withLocation("Vivian's House")
             .withDatetime("2018-05-06 1730").build();
 
     private TypicalEvents() {
@@ -51,6 +51,6 @@ public class TypicalEvents {
     }
 
     public static List<ReadOnlyEvent> getTypicalEvents() {
-        return new ArrayList<>(Arrays.asList(CNY, CHRISTMAS, MOVIE, REUNION));
+        return new ArrayList<>(Arrays.asList(CHRISTMAS, CNY, MOVIE, REUNION));
     }
 }

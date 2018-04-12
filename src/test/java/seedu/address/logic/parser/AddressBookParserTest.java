@@ -16,20 +16,29 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.AddCommand;
+import seedu.address.logic.commands.AddEventCommand;
 import seedu.address.logic.commands.ClearCommand;
+import seedu.address.logic.commands.ClearEventsCommand;
 import seedu.address.logic.commands.ConvertCommand;
 import seedu.address.logic.commands.DeleteCommand;
+import seedu.address.logic.commands.DeleteEventCommand;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FindCommand;
+import seedu.address.logic.commands.FindEventCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.HistoryCommand;
+import seedu.address.logic.commands.JumpToCommand;
+import seedu.address.logic.commands.ListAllEventsCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.SortCommand;
+import seedu.address.logic.commands.SortEventCommand;
+import seedu.address.logic.commands.SwitchTabCommand;
 import seedu.address.logic.commands.TaskAddCommand;
 import seedu.address.logic.commands.TaskDeleteCommand;
 import seedu.address.logic.commands.TaskEditCommand;
@@ -38,6 +47,8 @@ import seedu.address.logic.commands.TaskFindCommand;
 import seedu.address.logic.commands.TaskListCommand;
 import seedu.address.logic.commands.UndoCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.event.Event;
+import seedu.address.model.event.TitleContainsKeywordsPredicate;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
 import seedu.address.model.tag.TagContainsKeywordsPredicate;
@@ -45,6 +56,7 @@ import seedu.address.model.task.Task;
 import seedu.address.model.task.TaskNameContainsKeywordsPredicate;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.EditTaskDescriptorBuilder;
+import seedu.address.testutil.EventBuilder;
 import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.PersonUtil;
 import seedu.address.testutil.TaskBuilder;
@@ -176,6 +188,60 @@ public class AddressBookParserTest {
         thrown.expect(ParseException.class);
         thrown.expectMessage(MESSAGE_UNKNOWN_COMMAND);
         parser.parseCommand("unknownCommand");
+    }
+
+    //@@author x3tsunayh
+
+    @Test
+    public void parseCommand_addEvent() throws Exception {
+        Event event = new EventBuilder().build();
+        AddEventCommand command = (AddEventCommand) parser.parseCommand(AddEventCommand.COMMAND_WORD + " "
+                + event.getEventDetails());
+        assertEquals(new AddEventCommand(event), command);
+    }
+
+    @Test
+    public void parseCommand_deleteEvent() throws Exception {
+        DeleteEventCommand command = (DeleteEventCommand) parser.parseCommand(
+                DeleteEventCommand.COMMAND_WORD + " " + Index.fromOneBased(1).getOneBased());
+        assertEquals(new DeleteEventCommand(Index.fromOneBased(1)), command);
+    }
+
+    @Test
+    public void parseCommand_findEvent() throws Exception {
+        List<String> keywords = Arrays.asList("movie", "date", "party");
+        FindEventCommand command = (FindEventCommand) parser.parseCommand(
+                FindEventCommand.COMMAND_WORD + " et/" + keywords.stream().collect(Collectors.joining(" ")));
+        assertEquals(new FindEventCommand(new TitleContainsKeywordsPredicate(keywords)), command);
+    }
+
+    @Test
+    public void parseCommand_sortEvent() throws Exception {
+        assertTrue(parser.parseCommand(SortEventCommand.COMMAND_WORD) instanceof SortEventCommand);
+        assertTrue(parser.parseCommand(SortEventCommand.COMMAND_WORD + " 3") instanceof SortEventCommand);
+    }
+
+    @Test
+    public void parseCommand_clearEvents() throws Exception {
+        assertTrue(parser.parseCommand(ClearEventsCommand.COMMAND_WORD) instanceof ClearEventsCommand);
+        assertTrue(parser.parseCommand(ClearEventsCommand.COMMAND_WORD + " 3") instanceof ClearEventsCommand);
+    }
+
+    @Test
+    public void parseCommand_listAllEvents() throws Exception {
+        assertTrue(parser.parseCommand(ListAllEventsCommand.COMMAND_WORD) instanceof ListAllEventsCommand);
+        assertTrue(parser.parseCommand(ListAllEventsCommand.COMMAND_WORD + " 3") instanceof ListAllEventsCommand);
+    }
+
+    @Test
+    public void parseCommand_jumpto() throws Exception {
+        assertTrue(parser.parseCommand(JumpToCommand.COMMAND_WORD + " 2018-05") instanceof JumpToCommand);
+    }
+
+    @Test
+    public void parseCommand_switchtab() throws Exception {
+        assertTrue(parser.parseCommand(SwitchTabCommand.COMMAND_WORD) instanceof SwitchTabCommand);
+        assertTrue(parser.parseCommand(SwitchTabCommand.COMMAND_WORD + " 3") instanceof SwitchTabCommand);
     }
 
     //@@author CYX28
