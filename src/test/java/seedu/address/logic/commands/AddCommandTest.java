@@ -197,6 +197,11 @@ public class AddCommandTest {
         public void updateFilteredEventList(Predicate<ReadOnlyEvent> predicate) {
             fail("This method should not be called.");
         }
+
+        @Override
+        public void sortEventList(String parameter) throws CommandException {
+            fail("This method should not be called.");
+        }
     }
 
     /**

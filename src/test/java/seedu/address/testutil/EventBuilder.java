@@ -5,6 +5,8 @@ import seedu.address.model.event.Datetime;
 import seedu.address.model.event.Event;
 import seedu.address.model.event.ReadOnlyEvent;
 
+//@@author x3tsunayh
+
 /**
  * A utility class to help with building Event objects.
  */
@@ -12,8 +14,8 @@ public class EventBuilder {
 
     public static final String DEFAULT_TITLE = "Halloween Horror Night";
     public static final String DEFAULT_DESCRIPTION = "Terrifying Night";
-    public static final String DEFAULT_LOCATION = "Univsersal Studio";
-    public static final String DEFAULT_DATETIME = "13-10-2017 2359";
+    public static final String DEFAULT_LOCATION = "Universal Studio";
+    public static final String DEFAULT_DATETIME = "2017-10-13 2359";
 
     private Event event;
 

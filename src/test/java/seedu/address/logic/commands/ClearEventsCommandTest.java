@@ -12,25 +12,25 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 
-public class ClearEventCommandTest {
+public class ClearEventsCommandTest {
 
     @Test
     public void execute_emptyEventBook_success() {
         Model model = new ModelManager();
-        assertCommandSuccess(prepareCommand(model), model, ClearEventCommand.MESSAGE_SUCCESS, model);
+        assertCommandSuccess(prepareCommand(model), model, ClearEventsCommand.MESSAGE_SUCCESS, model);
     }
 
     @Test
     public void execute_nonEmptyEventBook_success() {
         Model model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
-        assertCommandSuccess(prepareCommand(model), model, ClearEventCommand.MESSAGE_SUCCESS, model);
+        assertCommandSuccess(prepareCommand(model), model, ClearEventsCommand.MESSAGE_SUCCESS, model);
     }
 
     /**
      * Generates a new {@code ClearCommand} which upon execution, clears the contents in {@code model}.
      */
-    private ClearEventCommand prepareCommand(Model model) {
-        ClearEventCommand command = new ClearEventCommand();
+    private ClearEventsCommand prepareCommand(Model model) {
+        ClearEventsCommand command = new ClearEventsCommand();
         command.setData(model, new CommandHistory(), new UndoRedoStack());
         return command;
     }

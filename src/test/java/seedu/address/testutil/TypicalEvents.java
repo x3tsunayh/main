@@ -18,16 +18,16 @@ public class TypicalEvents {
 
     public static final ReadOnlyEvent CNY = new EventBuilder().withTitle("CNY")
             .withDescription("CNY Celebration at FOS").withLocation("NUS S16 Level 3")
-            .withDatetime("15-02-2018 1000").build();
+            .withDatetime("2018-02-15 1000").build();
     public static final ReadOnlyEvent CHRISTMAS = new EventBuilder().withTitle("Christmas")
             .withDescription("Christmas Party at SOC").withLocation("NUS COM1")
-            .withDatetime("24-12-2018 1830").build();
+            .withDatetime("2018-12-24 1830").build();
     public static final ReadOnlyEvent MOVIE = new EventBuilder().withTitle("Movie Outing")
             .withDescription("Black Panther Movie").withLocation("Suntec GV")
-            .withDatetime("21-04-2018 1500").build();
+            .withDatetime("2018-04-21 1500").build();
     public static final ReadOnlyEvent REUNION = new EventBuilder().withTitle("Class Reunion")
             .withDescription("With Secondary School Classmates").withLocation("Samantha's House")
-            .withDatetime("06-05-2018 1730").build();
+            .withDatetime("2018-05-06 1730").build();
 
     private TypicalEvents() {
         // prevents instantiation

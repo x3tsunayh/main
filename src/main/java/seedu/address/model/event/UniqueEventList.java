@@ -49,25 +49,6 @@ public class UniqueEventList implements Iterable<Event> {
     }
 
     /**
-     * Replaces the event {@code target} in the list with {@code editedEvent}.
-     */
-    public void setEvent(ReadOnlyEvent target, ReadOnlyEvent editedEvent)
-            throws CommandException {
-        requireNonNull(editedEvent);
-
-        int index = internalList.indexOf(target);
-        if (index == -1) {
-            throw new CommandException("");
-        }
-
-        if (!target.equals(editedEvent) && internalList.contains(editedEvent)) {
-            throw new CommandException("");
-        }
-
-        internalList.set(index, new Event(editedEvent));
-    }
-
-    /**
      * Removes the equivalent event from the list.
      *
      * @throws CommandException if no such event could be found in the list.
@@ -101,9 +82,9 @@ public class UniqueEventList implements Iterable<Event> {
     }
 
     /**
-     * Orders the list.
+     * Sorts the list.
      */
-    public void orderBy(String parameter) throws CommandException {
+    public void sortBy(String parameter) throws CommandException {
         requireNonNull(parameter);
         Comparator<Event> orderByTitle = (Event a, Event b) -> a.getTitle().toString()
                 .compareToIgnoreCase(b.getTitle().toString());
@@ -111,7 +92,7 @@ public class UniqueEventList implements Iterable<Event> {
                 .compareToIgnoreCase(b.getLocation().toString());
         Comparator<Event> orderByDatetime = (Event a, Event b) -> {
 
-            SimpleDateFormat formatDate = new SimpleDateFormat("dd-MM-yyyy hhmm");
+            SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd hhmm");
             try {
                 Date datetime1 = formatDate.parse(a.getDatetime().value);
                 Date datetime2 = formatDate.parse(b.getDatetime().value);
