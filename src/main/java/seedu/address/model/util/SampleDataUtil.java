@@ -8,6 +8,8 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.EventBook;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.ReadOnlyTaskBook;
+import seedu.address.model.TaskBook;
 import seedu.address.model.category.TaskCategory;
 import seedu.address.model.event.Datetime;
 import seedu.address.model.event.Event;
@@ -77,14 +79,9 @@ public class SampleDataUtil {
             for (Person samplePerson : getSamplePersons()) {
                 sampleAb.addPerson(samplePerson);
             }
-            for (Task sampleTask : getSampleTasks()) {
-                sampleAb.addTask(sampleTask);
-            }
             return sampleAb;
         } catch (DuplicatePersonException e) {
             throw new AssertionError("sample data cannot contain duplicate persons", e);
-        } catch (DuplicateTaskException e) {
-            throw new AssertionError("sample data cannot contain duplicate tasks", e);
         }
     }
 
@@ -99,6 +96,18 @@ public class SampleDataUtil {
             throw new AssertionError("sample data cannot contain duplicate events", e);
         } catch (IllegalValueException e) {
             throw new AssertionError("Invalid input given!");
+        }
+    }
+
+    public static ReadOnlyTaskBook getSampleTaskBook() {
+        try {
+            TaskBook sampleTb = new TaskBook();
+            for (Task sampleTask : getSampleTasks()) {
+                sampleTb.addTask(sampleTask);
+            }
+            return sampleTb;
+        } catch (DuplicateTaskException dte) {
+            throw new AssertionError("sample data cannot contain duplicate tasks", dte);
         }
     }
 
