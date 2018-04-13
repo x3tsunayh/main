@@ -11,6 +11,7 @@ import static seedu.address.testutil.TypicalAddressBook.getTypicalAddressBook;
 import static seedu.address.testutil.TypicalEvents.getTypicalEventBook;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
+import static seedu.address.testutil.TypicalTasks.getTypicalTaskBook;
 
 import org.junit.Test;
 
@@ -26,7 +27,8 @@ import seedu.address.model.person.Person;
 //@@author dezhanglee
 public class AddPictureCommandTest {
 
-    private ModelManager model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
+    private ModelManager model =
+            new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), getTypicalTaskBook(), new UserPrefs());
     private Index index = INDEX_FIRST_PERSON;
 
     @Test
@@ -39,7 +41,8 @@ public class AddPictureCommandTest {
         updatedPerson.setPicture(VALID_LOCAL_IMAGE_JPG);
         AddPictureCommand addPictureCommand = prepareCommand(index, VALID_LOCAL_IMAGE_JPG);
         String expectedMessage = String.format(AddPictureCommand.MESSAGE_EDIT_PERSON_SUCCESS, index.getOneBased());
-        Model expectedModel = new ModelManager(model.getAddressBook(), getTypicalEventBook(), new UserPrefs());
+        Model expectedModel =
+                new ModelManager(model.getAddressBook(), getTypicalEventBook(), getTypicalTaskBook(), new UserPrefs());
         expectedModel.updatePerson(model.getFilteredPersonList().get(0), updatedPerson);
 
         assertCommandSuccess(addPictureCommand, model, expectedMessage, expectedModel);
@@ -57,7 +60,8 @@ public class AddPictureCommandTest {
         updatedPerson.setPicture(VALID_LOCAL_IMAGE_JPG);
         AddPictureCommand addPictureCommand = prepareCommand(index, VALID_LOCAL_IMAGE_JPG);
         String expectedMessage = String.format(AddPictureCommand.MESSAGE_EDIT_PERSON_SUCCESS, index.getOneBased());
-        Model expectedModel = new ModelManager(model.getAddressBook(), getTypicalEventBook(), new UserPrefs());
+        Model expectedModel =
+                new ModelManager(model.getAddressBook(), getTypicalEventBook(), getTypicalTaskBook(), new UserPrefs());
         expectedModel.updatePerson(model.getFilteredPersonList().get(0), updatedPerson);
 
         assertCommandSuccess(addPictureCommand, model, expectedMessage, expectedModel);

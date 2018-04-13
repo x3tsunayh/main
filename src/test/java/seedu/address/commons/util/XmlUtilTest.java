@@ -15,11 +15,13 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import seedu.address.model.AddressBook;
+import seedu.address.model.TaskBook;
 import seedu.address.storage.XmlAdaptedPerson;
 import seedu.address.storage.XmlAdaptedTag;
 import seedu.address.storage.XmlAdaptedTask;
 import seedu.address.storage.XmlAdaptedTaskCategory;
 import seedu.address.storage.XmlSerializableAddressBook;
+import seedu.address.storage.XmlSerializableTaskBook;
 import seedu.address.testutil.AddressBookBuilder;
 import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.TestUtil;
@@ -30,6 +32,7 @@ public class XmlUtilTest {
     private static final File EMPTY_FILE = new File(TEST_DATA_FOLDER + "empty.xml");
     private static final File MISSING_FILE = new File(TEST_DATA_FOLDER + "missing.xml");
     private static final File VALID_FILE = new File(TEST_DATA_FOLDER + "validAddressBook.xml");
+    private static final File VALID_TASKBOOK_FILE = new File(TEST_DATA_FOLDER + "validTaskBook.xml");
     private static final File MISSING_PERSON_FIELD_FILE = new File(TEST_DATA_FOLDER + "missingPersonField.xml");
     private static final File MISSING_TASK_FIELD_FILE = new File(TEST_DATA_FOLDER + "missingTaskField.xml");
     private static final File INVALID_PERSON_FIELD_FILE = new File(TEST_DATA_FOLDER + "invalidPersonField.xml");
@@ -53,7 +56,7 @@ public class XmlUtilTest {
     private static final String VALID_TASK_DUE_DATE = "2018-05-25";
     private static final String VALID_TASK_STATUS = "undone";
     private static final List<XmlAdaptedTaskCategory> VALID_TASK_CATEGORIES =
-            Collections.singletonList(new XmlAdaptedTaskCategory("Work"));
+            Collections.singletonList(new XmlAdaptedTaskCategory("work"));
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -87,8 +90,6 @@ public class XmlUtilTest {
         AddressBook dataFromFile = XmlUtil.getDataFromFile(VALID_FILE, XmlSerializableAddressBook.class).toModelType();
         assertEquals(9, dataFromFile.getPersonList().size());
         assertEquals(0, dataFromFile.getTagList().size());
-        assertEquals(2, dataFromFile.getTaskList().size());
-        assertEquals(2, dataFromFile.getTaskCategoryList().size());
     }
 
     @Test
@@ -101,6 +102,38 @@ public class XmlUtilTest {
     }
 
     //@@author CYX28
+    @Test
+    public void geDataFromFile_nullTaskFile_throwsNullPointerException() throws Exception {
+        thrown.expect(NullPointerException.class);
+        XmlUtil.getDataFromFile(null, TaskBook.class);
+    }
+
+    @Test
+    public void getTaskDataFromFile_nullTaskClass_throwsNullPointerException() throws Exception {
+        thrown.expect(NullPointerException.class);
+        XmlUtil.getDataFromFile(VALID_TASKBOOK_FILE, null);
+    }
+
+    @Test
+    public void getDataFromFile_missingTaskFile_fileNotFoundException() throws Exception {
+        thrown.expect(FileNotFoundException.class);
+        XmlUtil.getDataFromFile(MISSING_FILE, TaskBook.class);
+    }
+
+    @Test
+    public void getDataFromFile_emptyTaskFile_dataFormatMismatchException() throws Exception {
+        thrown.expect(JAXBException.class);
+        XmlUtil.getDataFromFile(EMPTY_FILE, TaskBook.class);
+    }
+
+    @Test
+    public void getDataFromFile_validTaskFile_validResult() throws Exception {
+        TaskBook dataFromFile =
+                XmlUtil.getDataFromFile(VALID_TASKBOOK_FILE, XmlSerializableTaskBook.class).toModelType();
+        assertEquals(3, dataFromFile.getTaskList().size());
+        assertEquals(2, dataFromFile.getTaskCategoryList().size());
+    }
+
     @Test
     public void xmlAdaptedTaskFromFile_fileWithMissingTaskField_validResult() throws Exception {
         XmlAdaptedTask actualTask = XmlUtil.getDataFromFile(
@@ -184,6 +217,25 @@ public class XmlUtilTest {
         XmlUtil.saveDataToFile(TEMP_FILE, dataToWrite);
         dataFromFile = XmlUtil.getDataFromFile(TEMP_FILE, XmlSerializableAddressBook.class);
         assertEquals(dataToWrite, dataFromFile);
+    }
+
+    //@@author CYX28
+    @Test
+    public void saveDataToFile_nullTaskFile_throwsNullPointerException() throws Exception {
+        thrown.expect(NullPointerException.class);
+        XmlUtil.saveDataToFile(null, new TaskBook());
+    }
+
+    @Test
+    public void saveDataToFile_nullTaskClass_throwsNullPointerException() throws Exception {
+        thrown.expect(NullPointerException.class);
+        XmlUtil.saveDataToFile(VALID_TASKBOOK_FILE, null);
+    }
+
+    @Test
+    public void saveDataToFile_missingTaskFile_fileNotFoundException() throws Exception {
+        thrown.expect(FileNotFoundException.class);
+        XmlUtil.saveDataToFile(MISSING_FILE, new TaskBook());
     }
 
     /**

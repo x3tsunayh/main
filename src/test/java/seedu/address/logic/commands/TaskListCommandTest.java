@@ -3,6 +3,7 @@ package seedu.address.logic.commands;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.testutil.TypicalAddressBook.getTypicalAddressBook;
 import static seedu.address.testutil.TypicalEvents.getTypicalEventBook;
+import static seedu.address.testutil.TypicalTasks.getTypicalTaskBook;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -25,8 +26,9 @@ public class TaskListCommandTest {
 
     @Before
     public void setUp() {
-        model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
-        expectedModel = new ModelManager(model.getAddressBook(), model.getEventBook(), new UserPrefs());
+        model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), getTypicalTaskBook(), new UserPrefs());
+        expectedModel =
+                new ModelManager(model.getAddressBook(), model.getEventBook(), model.getTaskBook(), new UserPrefs());
 
         taskListCommand = new TaskListCommand();
         taskListCommand.setData(model, new CommandHistory(), new UndoRedoStack());

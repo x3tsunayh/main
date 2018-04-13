@@ -6,6 +6,7 @@ import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.testutil.TypicalAddressBook.getTypicalAddressBook;
 import static seedu.address.testutil.TypicalEvents.getTypicalEventBook;
+import static seedu.address.testutil.TypicalTasks.getTypicalTaskBook;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -29,14 +30,15 @@ public class TaskAddCommandTest {
 
     @Before
     public void setUp() {
-        model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
+        model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), getTypicalTaskBook(), new UserPrefs());
     }
 
     @Test
     public void execute_newTask_success() throws Exception {
         Task validTask = new TaskBuilder().build();
 
-        Model expectedModel = new ModelManager(model.getAddressBook(), getTypicalEventBook(), new UserPrefs());
+        Model expectedModel =
+                new ModelManager(model.getAddressBook(), getTypicalEventBook(), model.getTaskBook(), new UserPrefs());
         expectedModel.addTask(validTask);
 
         assertCommandSuccess(prepareCommand(validTask, model), model,
@@ -45,7 +47,7 @@ public class TaskAddCommandTest {
 
     @Test
     public void execute_duplicateTask_throwsCommandException() {
-        Task taskInList = model.getAddressBook().getTaskList().get(0);
+        Task taskInList = model.getTaskBook().getTaskList().get(0);
         assertCommandFailure(prepareCommand(taskInList, model), model, TaskAddCommand.MESSAGE_DUPLICATE_TASK);
     }
 

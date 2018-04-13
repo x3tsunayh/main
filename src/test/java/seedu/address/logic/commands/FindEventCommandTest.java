@@ -9,6 +9,7 @@ import static seedu.address.testutil.TypicalEvents.CHRISTMAS;
 import static seedu.address.testutil.TypicalEvents.CNY;
 import static seedu.address.testutil.TypicalEvents.MOVIE;
 import static seedu.address.testutil.TypicalEvents.getTypicalEventBook;
+import static seedu.address.testutil.TypicalTasks.getTypicalTaskBook;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -32,7 +33,8 @@ import seedu.address.model.event.TitleContainsKeywordsPredicate;
  */
 public class FindEventCommandTest {
 
-    private Model model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
+    private Model model =
+            new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), getTypicalTaskBook(), new UserPrefs());
 
     @Test
     public void equals() {

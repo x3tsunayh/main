@@ -16,6 +16,7 @@ import static seedu.address.testutil.TypicalPersons.GEORGE;
 import static seedu.address.testutil.TypicalPersons.HARRY;
 import static seedu.address.testutil.TypicalPersons.IAN;
 import static seedu.address.testutil.TypicalPersons.KEITH;
+import static seedu.address.testutil.TypicalTasks.getTypicalTaskBook;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -37,7 +38,8 @@ import seedu.address.model.tag.TagContainsKeywordsPredicate;
  * Contains integration tests (interaction with the Model) for {@code FindCommand}.
  */
 public class FindCommandTest {
-    private Model model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
+    private Model model =
+            new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), getTypicalTaskBook(), new UserPrefs());
     //@@author jill858
     @Test
     public void equals() {

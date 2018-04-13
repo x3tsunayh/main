@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!-- AddressBook save file which contains the same Task values as in
 {@code TypicalTasks#getTypicalTasks()}-->
-<addressbook>
+<taskbook>
     <tasks>
         <taskName>TaskOne</taskName>
         <taskPriority>medium</taskPriority>
@@ -28,4 +28,4 @@
     </tasks>
     <taskCategories>Work</taskCategories>
     <taskCategories>personal</taskCategories>
-</addressbook>
+</taskbook>
