@@ -40,6 +40,7 @@ import seedu.address.logic.commands.SortCommand;
 import seedu.address.logic.commands.SortEventCommand;
 import seedu.address.logic.commands.SwitchTabCommand;
 import seedu.address.logic.commands.TaskAddCommand;
+import seedu.address.logic.commands.TaskClearCommand;
 import seedu.address.logic.commands.TaskDeleteCommand;
 import seedu.address.logic.commands.TaskEditCommand;
 import seedu.address.logic.commands.TaskEditCommand.EditTaskDescriptor;
@@ -249,6 +250,12 @@ public class AddressBookParserTest {
         Task task = new TaskBuilder().build();
         TaskAddCommand command = (TaskAddCommand) parser.parseCommand(TaskUtil.getTaskAddCommand(task));
         assertEquals(new TaskAddCommand(task), command);
+    }
+
+    @Test
+    public void parseCommand_taskClear() throws Exception {
+        assertTrue(parser.parseCommand(TaskClearCommand.COMMAND_WORD) instanceof TaskClearCommand);
+        assertTrue(parser.parseCommand(TaskClearCommand.COMMAND_WORD + " 5") instanceof TaskClearCommand);
     }
 
     @Test
