@@ -60,10 +60,4 @@ public class SampleDataTest extends AddressBookSystemTest {
         assertListMatching(getPersonListPanel(), expectedPersonList);
     }
 
-    @Test
-    public void addressBook_eventsDataFileDoesNotExist_loadSampleData() throws IllegalValueException {
-        Event[] expectedEventList = SampleDataUtil.getSampleEvents();
-        assertListMatching(getEventListPanel(), expectedEventList);
-    }
-
 }

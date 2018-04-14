@@ -66,7 +66,7 @@ public abstract class AddressBookSystemTest {
     @Before
     public void setUp() {
         setupHelper = new SystemTestSetupHelper();
-        testApp = setupHelper.setupApplication(this::getInitialData, this::getInitialEventData, getDataFileLocation());
+        testApp = setupHelper.setupApplication(this::getInitialData, getDataFileLocation());
         mainWindowHandle = setupHelper.setupMainWindowHandle();
 
         assertApplicationStartingStateIsCorrect();

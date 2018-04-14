@@ -103,7 +103,7 @@ public class SampleDataUtil {
             }
             return sampleEb;
         } catch (CommandException e) {
-            throw new AssertionError("sample data cannot contain duplicate events", e);
+            throw new AssertionError("sample data cannot contain duplicate events ", e);
         } catch (IllegalValueException e) {
             throw new AssertionError("Invalid input given!");
         }

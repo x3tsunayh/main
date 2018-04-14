@@ -513,7 +513,7 @@ image::ExportCommandSequenceDiagram.png[width="800"]
 ** Pros: Allows greater flexibility as CSV files can be catered to importing of contacts into Google Contacts.
 ** Cons: Need to manually cater to popular file formats and this may require constant maintenance on the developers' end.
 * **Alternative 2:** Only allows exporting of data as XML files.
-** Pros: Simplified export into a file that is readable and understandable by humans, is completely compatible with Java and 100% portable.
+** Pros: Simplified export into a file that is readable and understandable by users, is completely compatible with Java and 100% portable.
 ** Cons: Users may not know the benefits or uses of an XML file.
 // end::export[]
 
@@ -757,11 +757,46 @@ image::ConvertCurrencySequenceDiagram.png[width="800"]
 . The `AddressBookParser` class parses the command creates a new `ConvertCommand` class.
 . The `convert` command is executed and assisted by the `Currency` class.
 . The converted value is returned and displayed to the user.
+@@@
+// tag::editevent[]
+=== [Proposed] Edit an Event
+
+The edit event feature allows user to edit an event in the Event Book by specifying the index of the displayed Event List.
+Allows easy editing of an event just by using the event index given in the Event list.
+
+This is how the edit event command will work under LogicManager.
+
+image::EditEventCommandSequenceDiagram.png[width="800"]
+
+. User executes `editevent` command with the required arguments.
+. `AddressBookParser` class creates a new `EditEventCommandParser` object to parse the command arguments.
+. This `EditEventCommandParser` object parses the arguments and create a new `EditEventCommand` object.
+. The `editevent` command is then executed and handled by the `ModelManager` class.
+. The specified event is updated from the Event list in Address Book and the updated details are then displayed to the user.
+
+// end::editevent[]
+
+// tag::eventnotifications[]
+=== [Proposed] Event Notifications
+
+The app will send out notifications for an event, if the user sets the datetime for that particular event.
+The `eventnotify` command takes in the event index shown on the list, and the datetime for the app to send the notification.
+Using the same command again with a datetime will reset the notification datetime (i.e. only one notification for each event).
+
+// end::eventnotifications[]
 
 // tag::dataencryption[]
 === [Proposed] Data Encryption
 
-_{Explain here how the data encryption feature will be implemented}_
+The login feature helps to protect data files by encrypting them with the user's password as the secret key.
+User's access is restricted until the user logs in with the username and password.
+Upon correct credential input, data files are decrypted and the user will have full access to the app's features.
+
+. User executes `login` command with the required arguments.
+. `AddressBookParser` class creates a new `LogInCommandParser` object to parse the command arguments.
+. This `LogInCommandParser` object parses the arguments and create a new `LogInCommand` object.
+. The `login` command is then executed and handled by the `ModelManager` class.
+. The `ModelManager` class will then check for the validity of the credentials and return the corresponding command message.
 
 // end::dataencryption[]
 
@@ -1638,7 +1673,7 @@ Use case ends.
 .  A user with above average typing speed for regular English text (i.e. not code, not system admin commands)
 should be able to accomplish most of the tasks faster using commands than using the mouse.
 . Command query should not take too long to execute (i.e. more than 10 seconds).
-. User should not have to remember frequently used command formats (i.e. can refer to command examples).
+. User should not have to remember frequently used command formats (i.e. can refer to command examples for easy reminder).
 
 [appendix]
 == Glossary

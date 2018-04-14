@@ -44,21 +44,14 @@ public class TestApp extends MainApp {
     public TestApp() {
     }
 
-    public TestApp(Supplier<ReadOnlyAddressBook> initialDataSupplier,
-                   Supplier<ReadOnlyEventBook> initialEventDataSupplier, String saveFileLocation) {
+    public TestApp(Supplier<ReadOnlyAddressBook> initialDataSupplier, String saveFileLocation) {
         super();
         this.initialDataSupplier = initialDataSupplier;
-        this.initialEventDataSupplier = initialEventDataSupplier;
         this.saveFileLocation = saveFileLocation;
 
         // If some initial local data has been provided, write those to the file
         if (initialDataSupplier.get() != null) {
             createDataFileWithData(new XmlSerializableAddressBook(this.initialDataSupplier.get()),
-                    this.saveFileLocation);
-        }
-
-        if (initialEventDataSupplier.get() != null) {
-            createDataFileWithData(new XmlSerializableEventBook(this.initialEventDataSupplier.get()),
                     this.saveFileLocation);
         }
     }

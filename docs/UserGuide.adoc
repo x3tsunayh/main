@@ -286,7 +286,7 @@ Format: `export FILEPATH [MORE_KEYWORDS]`
 * Addressbook creates XML or CSV file if valid filepath and filename is given.
 * If filename already exists, a warning message is displayed.
 * If file extension is not .xml nor .csv, a warning message is displayed.
-* If filepath not given, the file is auto-created under main folder.
+* If filepath not given, the file is auto-generated in the same filepath as the JAR file.
 * If filepath is not found, Addressbook creates folders to support the filepath defined by the user.
 ****
 
@@ -297,7 +297,7 @@ Creates XML file in the user-defined filepath
 * `export C:\Users\John Doe\Documents\addressbook.csv` +
 Creates CSV file in the user-defined filepath
 * `export addressbook.xml` +
-Creates XML file in the main folder of the Addressbook
+Creates XML file in the same folder as the JAR file
 // end::export[]
 
 === Listing entered commands : `history`
@@ -787,14 +787,15 @@ Format: `eventnotify INDEX DATETIME`
 // tag::dataencryption[]
 === Encrypting data files `[coming in v2.0]`
 
-Encrypts XML files with a password so that unauthoried users cannot view the encrypted files without the password. +
-Format: `encryptfiles PASSWORD`
-Format: `decryptfiles PASSWORD`
+Encrypts all data files until user logs in with correct credentials. +
+Format: `login u/USERNAME p/PASSWORD
 
 ****
-* Encrypts the XML files with user-defined password
-* Decrypts XML files if same password is provided
-* Error message appears if password is incorrect
+* All data files are encrypted until the user logs in
+* Files are decrypted and accessible by the user and the app if the credentials are correct
+* Error message appears if credentials are incorrect
+* Before logging in, user features are restricted
+* User is logged out if the user exits the app
 ****
 // end::dataencryption[]
 

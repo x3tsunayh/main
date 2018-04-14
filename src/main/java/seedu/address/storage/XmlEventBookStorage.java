@@ -47,7 +47,8 @@ public class XmlEventBookStorage implements EventBookStorage {
     }
 
     @Override
-    public Optional<ReadOnlyEventBook> readEventBook(String filePath) throws FileNotFoundException, JAXBException, DataConversionException {
+    public Optional<ReadOnlyEventBook> readEventBook(String filePath)
+            throws FileNotFoundException, JAXBException, DataConversionException {
         requireNonNull(filePath);
 
         File eventBookFile = new File(filePath);
