@@ -20,6 +20,7 @@ import org.junit.ClassRule;
 
 import guitests.guihandles.BrowserPanelHandle;
 import guitests.guihandles.CommandBoxHandle;
+import guitests.guihandles.EventListPanelHandle;
 import guitests.guihandles.MainMenuHandle;
 import guitests.guihandles.MainWindowHandle;
 import guitests.guihandles.PersonListPanelHandle;
@@ -34,8 +35,10 @@ import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.SelectCommand;
 import seedu.address.model.AddressBook;
+import seedu.address.model.EventBook;
 import seedu.address.model.Model;
 import seedu.address.testutil.TypicalAddressBook;
+import seedu.address.testutil.TypicalEventBook;
 import seedu.address.ui.BrowserPanel;
 import seedu.address.ui.CommandBox;
 
@@ -70,7 +73,7 @@ public abstract class AddressBookSystemTest {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         setupHelper.tearDownStage();
         EventsCenter.clearSubscribers();
     }
@@ -105,11 +108,18 @@ public abstract class AddressBookSystemTest {
         return mainWindowHandle.getMainMenu();
     }
 
-    /*
-    public BrowserPanelHandle getBrowserPanel() {
-        return mainWindowHandle.getBrowserPanel();
+
+    public EventListPanelHandle getEventListPanel() {
+        return mainWindowHandle.getEventListPanel();
     }
-    */
+
+    /**
+     * Returns the data to be loaded into the file in {@link #getDataFileLocation()}.
+     */
+    protected EventBook getInitialEventData() {
+        return TypicalEventBook.getTypicalEventBook();
+    }
+
 
     public StatusBarFooterHandle getStatusBarFooter() {
         return mainWindowHandle.getStatusBarFooter();

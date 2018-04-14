@@ -54,11 +54,11 @@ was required to ensure the functionality of this feature
 
 * *Other contributions*:
 ** Documentation:
-*** Wrote use cases for implemented features
+*** Wrote use cases, explainations and diagrams for implemented features.
 *** Wrote user stories, project description in Project Portfolio with team
 
 ** Community:
-*** Reported bugs and suggestions for other teams in the class (examples:  https://github.com/CS2103JAN2018-T09-B4/main/issues/140, https://github.com/CS2103JAN2018-T09-B4/main/issues/143, https://github.com/CS2103JAN2018-T09-B4/main/issues/153)
+*** Reported bugs and suggestions for team T11-B4. Submitted 18 bug reports (examples:  https://github.com/CS2103JAN2018-T11-B4/main/issues/139, https://github.com/CS2103JAN2018-T11-B4/main/issues/131, https://github.com/CS2103JAN2018-T11-B4/main/issues/110)
 
 == Contributions to the User Guide
 

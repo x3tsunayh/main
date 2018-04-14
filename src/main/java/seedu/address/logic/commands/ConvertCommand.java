@@ -1,6 +1,8 @@
 package seedu.address.logic.commands;
 
+import seedu.address.commons.util.DateUtil;
 import seedu.address.model.Currency;
+
 
 //@@author jill858
 /**
@@ -24,7 +26,7 @@ public class ConvertCommand extends Command {
             + "TWD - New Taiwan dollar\n"
             + "USD - United States dollar\n";
 
-    public static final String MESSAGE_COMPLETE = "Converted %s %,.2f to %s %,.2f";
+    public static final String MESSAGE_COMPLETE = "Converted %s %,.2f to %s %,.2f as of %s";
 
     private Currency currency = new Currency();
 
@@ -40,26 +42,14 @@ public class ConvertCommand extends Command {
 
     @Override
     public CommandResult execute() {
-        double convertedValue;
 
-        if (fromCurrencyCode.equals("SGD")) {
-            //rate is already in the form of base rate
-            //therefore multiply to the rate to be converted
-            double rate = currency.getCurrencyRate(toCurrencyCode);
+        double convertedValue = currency.convert(fromCurrencyCode, toCurrencyCode, value);
 
-            convertedValue = value * rate;
-        } else {
-            //convert the value to the base rate (SGD)
-            //followed by multiplying the rate to be converted
-            double fromRate = currency.getCurrencyRate(fromCurrencyCode);
-            double toRate = currency.getCurrencyRate(toCurrencyCode);
-
-            double toSgd = value / fromRate;
-            convertedValue = toSgd * toRate;
-        }
+        String dateString = currency.getDate();
+        String dateFormat = DateUtil.dateFormatter(dateString);
 
         return new CommandResult(String.format(MESSAGE_COMPLETE,
-                fromCurrencyCode, value, toCurrencyCode, convertedValue));
+                fromCurrencyCode, value, toCurrencyCode, convertedValue, dateFormat));
     }
 
     @Override

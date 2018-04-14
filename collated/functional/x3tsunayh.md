@@ -481,11 +481,11 @@ public class SortEventCommand extends UndoableCommand {
     }
 
     @Override
-    public CommandResult executeUndoableCommand() throws CommandException {
+    public CommandResult executeUndoableCommand() {
         try {
             model.sortEventList(sortParameter);
 
-        } catch (Exception e) {
+        } catch (CommandException e) {
             return new CommandResult(MESSAGE_SORT_WRONG_PARAMETER);
         }
         return new CommandResult(String.format(MESSAGE_SORT_SUCCESS + sortParameter));
@@ -1529,6 +1529,49 @@ public class EventBook implements ReadOnlyEventBook {
     }
 
 ```
+###### \java\seedu\address\model\util\SampleDataUtil.java
+``` java
+
+    public static Event[] getSampleEvents() throws IllegalValueException {
+        return new Event[]{
+            new Event("Company Charity Event", "Annual fund-raising event",
+                "VivoCity", new Datetime("2017-10-31 0930")),
+            new Event("Launch Marketing Campaign", "New products to be released",
+                "-", new Datetime("2018-03-14 1000")),
+            new Event("Class Reunion", "Catchup session with old classmates",
+                "Tampines Hub", new Datetime("2018-04-15 1745")),
+            new Event("CS2103 Demo Presentation", "Flight to London",
+                "COM1-B103", new Datetime("2018-04-19 1500")),
+            new Event("Marketing Department Meeting", "Monthly Meeting",
+                "Company Conference Room 2", new Datetime("2018-04-20 1315")),
+            new Event("Flight to London", "-",
+                "Changi Airport", new Datetime("2018-05-12 2250")),
+            new Event("Company Tour", "Checking out company operations in London",
+                "ABC Company (London)", new Datetime("2018-05-14 0930")),
+            new Event("Overseas Meeting", "Discussion w/ London representatives",
+                "ABC Conference Hall 1", new Datetime("2018-05-18 1300")),
+            new Event("Flight back to Singapore", "-",
+                "Heathrow Airport", new Datetime("2018-05-21 1420")),
+            new Event("Musical Concert", "Friend's performance",
+                "NUS UCC", new Datetime("2018-05-23 1900"))
+        };
+    }
+
+    public static ReadOnlyEventBook getSampleEventBook() {
+        try {
+            EventBook sampleEb = new EventBook();
+            for (Event sampleEvent : getSampleEvents()) {
+                sampleEb.addEvent(sampleEvent);
+            }
+            return sampleEb;
+        } catch (CommandException e) {
+            throw new AssertionError("sample data cannot contain duplicate events ", e);
+        } catch (IllegalValueException e) {
+            throw new AssertionError("Invalid input given!");
+        }
+    }
+
+```
 ###### \java\seedu\address\storage\CsvFileStorage.java
 ``` java
 
@@ -1656,7 +1699,8 @@ public class XmlEventBookStorage implements EventBookStorage {
     }
 
     @Override
-    public Optional<ReadOnlyEventBook> readEventBook(String filePath) throws FileNotFoundException, JAXBException {
+    public Optional<ReadOnlyEventBook> readEventBook(String filePath)
+            throws FileNotFoundException, JAXBException, DataConversionException {
         requireNonNull(filePath);
 
         File eventBookFile = new File(filePath);
@@ -1666,9 +1710,16 @@ public class XmlEventBookStorage implements EventBookStorage {
             return Optional.empty();
         }
 
-        ReadOnlyEventBook eventBookOptional = XmlFileStorage.loadEventDataFromSaveFile(new File(filePath));
-
-        return Optional.of(eventBookOptional);
+        XmlSerializableEventBook eventBookOptional = XmlFileStorage.loadEventDataFromSaveFile(new File(filePath));
+        try {
+            return Optional.of(eventBookOptional.toModelType());
+        } catch (IllegalValueException ive) {
+            logger.info("Illegal values found in " + eventBookOptional + ": " + ive.getMessage());
+            throw new DataConversionException(ive);
+        } catch (CommandException e) {
+            logger.info("Invalid command in " + eventBookOptional + ": " + e.getMessage());
+        }
+        return Optional.empty();
     }
 
     @Override
@@ -1694,6 +1745,65 @@ public class XmlEventBookStorage implements EventBookStorage {
     @Override
     public void exportEventBook() throws ParserConfigurationException, IOException {
         //TODO BY V2.0
+    }
+}
+```
+###### \java\seedu\address\storage\XmlSerializableEventBook.java
+``` java
+
+/**
+ * An Immutable EventBook that is serializable to XML format
+ */
+@XmlRootElement(name = "eventbook")
+public class XmlSerializableEventBook {
+
+    private static final Logger logger = LogsCenter.getLogger(XmlEventBookStorage.class);
+
+    @XmlElement
+    private List<XmlAdaptedEvent> events;
+
+    /**
+     * Creates an empty XmlSerializableEventBook.
+     * This empty constructor is required for marshalling.
+     */
+    public XmlSerializableEventBook() {
+        events = new ArrayList<>();
+    }
+
+    /**
+     * Conversion
+     */
+    public XmlSerializableEventBook(ReadOnlyEventBook src) {
+        this();
+        events.addAll(src.getEventList().stream().map(XmlAdaptedEvent::new).collect(Collectors.toList()));
+    }
+
+    /**
+     * Converts this eventbook into the model's {@code EventBook} object.
+     *
+     * @throws IllegalValueException if there were any data constraints violated or duplicates in the
+     *                               {@code XmlAdaptedEvent}.
+     */
+    public EventBook toModelType() throws IllegalValueException, CommandException {
+        EventBook eventBook = new EventBook();
+        for (XmlAdaptedEvent e : events) {
+            eventBook.addEvent(e.toModelType());
+        }
+        return eventBook;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        if (!(other instanceof XmlSerializableEventBook)) {
+            return false;
+        }
+
+        XmlSerializableEventBook otherAb = (XmlSerializableEventBook) other;
+        return events.equals(otherAb.events);
     }
 }
 ```
@@ -2180,9 +2290,9 @@ public class EventCard extends UiPart<Region> {
     @FXML
     private HBox cardPane;
     @FXML
-    private Label title;
-    @FXML
     private Label id;
+    @FXML
+    private Label title;
     @FXML
     private Label description;
     @FXML
@@ -2404,6 +2514,25 @@ public class LinkedInWindow extends UiPart<Stage> {
     public void show() {
         logger.fine("Showing the LinkedIn page.");
         getRoot().show();
+    }
+}
+```
+###### \java\seedu\address\ui\StatusBarFooter.java
+``` java
+    @Subscribe
+    public void handleEventBookChangedEvent(EventBookChangedEvent ebce) {
+        long now = clock.millis();
+        String lastUpdated = new Date(now).toString();
+        logger.info(LogsCenter.getEventHandlingLogMessage(ebce, "Setting last updated status to " + lastUpdated));
+        setSyncStatus(String.format(SYNC_STATUS_UPDATED, lastUpdated));
+    }
+
+    @Subscribe
+    public void handleTaskBookChangedEvent(TaskBookChangedEvent tbce) {
+        long now = clock.millis();
+        String lastUpdated = new Date(now).toString();
+        logger.info(LogsCenter.getEventHandlingLogMessage(tbce, "Setting last updated status to " + lastUpdated));
+        setSyncStatus(String.format(SYNC_STATUS_UPDATED, lastUpdated));
     }
 }
 ```

@@ -35,7 +35,7 @@
         <tagged>neighbours</tagged>
     </persons>
     <persons>
-        <name>David Li</name>
+        <name>test</name>
         <phone>91031282</phone>
         <email>lidavid@example.com</email>
         <address>Blk 436 Serangoon Gardens Street 26, #16-43</address>
@@ -87,6 +87,15 @@
     </persons>
     <persons>
         <name>John Deoe</name>
+        <phone>98765432</phone>
+        <email>johnd@example.com</email>
+        <address>311, Clementi Ave 2, #02-25</address>
+        <picture>images/default.png</picture>
+        <tagged>owesMoney</tagged>
+        <tagged>friends</tagged>
+    </persons>
+    <persons>
+        <name>John D3oe</name>
         <phone>98765432</phone>
         <email>johnd@example.com</email>
         <address>311, Clementi Ave 2, #02-25</address>

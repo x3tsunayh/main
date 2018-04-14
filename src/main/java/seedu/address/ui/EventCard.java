@@ -31,9 +31,9 @@ public class EventCard extends UiPart<Region> {
     @FXML
     private HBox cardPane;
     @FXML
-    private Label title;
-    @FXML
     private Label id;
+    @FXML
+    private Label title;
     @FXML
     private Label description;
     @FXML

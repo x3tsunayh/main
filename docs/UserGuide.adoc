@@ -326,7 +326,7 @@ Format: `export FILEPATH [MORE_KEYWORDS]`
 * Addressbook creates XML or CSV file if valid filepath and filename is given.
 * If filename already exists, a warning message is displayed.
 * If file extension is not .xml nor .csv, a warning message is displayed.
-* If filepath not given, the file is auto-created under main folder.
+* If filepath not given, the file is auto-generated in the same filepath as the JAR file.
 * If filepath is not found, Addressbook creates folders to support the filepath defined by the user.
 ****
 
@@ -337,7 +337,7 @@ Creates XML file in the user-defined filepath
 * `export C:\Users\John Doe\Documents\addressbook.csv` +
 Creates CSV file in the user-defined filepath
 * `export addressbook.xml` +
-Creates XML file in the main folder of the Addressbook
+Creates XML file in the same folder as the JAR file
 // end::export[]
 
 === Listing entered commands : `history`
@@ -469,7 +469,7 @@ Format: `addevent et/NAME ed/DESCRIPTION el/LOCATION edt/DATETIME`
 
 Examples:
 
-* `addevent et/Christmas Party ed/Celebrating Christmas 2018 el/Samuel's House edt/25-12-2018 1830` +
+* `addevent et/Christmas Party ed/Celebrating Christmas 2018 el/Samuel's House edt/2018-12-25 1830` +
 Creates an event with the corresponding details and adds it into the event book; displays it on event list.
 // end::addevent[]
 
@@ -689,7 +689,7 @@ Format: `task-clear`
 // end::ClearTask[]
 
 // tag::resetpicture[]
-=== Find persons by phone: `find p/` `[since v1.5rc]`
+=== Reset a person's profile picture: `resetpicture INDEX` `[since v1.5rc]`
 
 Reset a contact's picture to the default picture. +
 Format: `resetpicture INDEX`
@@ -764,11 +764,43 @@ Return feedback to ask user to input name +
 * `convert 10 SGD` +
 Returns feedback to input the currency code to be converted to +
 
+// tag::editevent[]
+=== Editing an event `[coming in v2.0]`
+
+Edits an existing event in the event list. +
+Format: `editevent 3 et/NEW_TITLE edt/NEW_DATETIME`
+
+****
+* Edits event is given index and prefix is valid
+* Error message if given index or prefix is invalid
+****
+// end::editevent[]
+
+// tag::eventnotifications[]
+=== Setting event notifications `[coming in v2.0]`
+
+A notification for the indexed event will pop up at the specified datetime. +
+Format: `eventnotify INDEX DATETIME`
+
+****
+* Sets notification for event if given index and datetime is valid
+* Error message if given index or datetime is invalid
+****
+// end::eventnotifications[]
 
 // tag::dataencryption[]
 === Encrypting data files `[coming in v2.0]`
 
-_{explain how the user can enable/disable data encryption}_
+Encrypts all data files until user logs in with correct credentials. +
+Format: `login u/USERNAME p/PASSWORD
+
+****
+* All data files are encrypted until the user logs in
+* Files are decrypted and accessible by the user and the app if the credentials are correct
+* Error message appears if credentials are incorrect
+* Before logging in, user features are restricted
+* User is logged out if the user exits the app
+****
 // end::dataencryption[]
 
 // tag::autoremovecompletedTasks[]
@@ -821,7 +853,7 @@ e.g. `export C:\Users\John Doe\Documents\addressbook.xml`
 * *Convert currency* : `convert [VALUE] SRC_CURRENCY_CODE DST_CURRENCY_CODE` +
 e.g. `convert 10000 JPY USD`
 * *Add an event* : `addevent et/TITLE ed/DESCRIPTION el/LOCATION edt/DATETIME` +
-e.g. `addevent et/Christmas Party ed/Celebrating Christmas 2018 el/Samuel's House edt/25-12-2018 1830`
+e.g. `addevent et/Christmas Party ed/Celebrating Christmas 2018 el/Samuel's House edt/2018-12-25 1830`
 * *Delete an event* : `deleteevent INDEX` +
 e.g. `deleteevent 2`
 * *Find an event* : `findevent PREFIX/KEYWORD [MORE_KEYWORDS]...` +
