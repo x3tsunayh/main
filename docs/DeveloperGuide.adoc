@@ -430,7 +430,54 @@ Not store the images +
 No space requirement to store the images locally +
 **Cons:** +
 Need to ensure that the image is not deleted, or it won't display. +
+
+**Aspect:** Putting a limit on profile picture size +
+
+**Chosen Implementation:** +
+Set a limit of 5mb for each picture
+**Pros:** +
+Prevents a malicious user from trying to crash the app by putting a large image.
+**Cons:** +
+Some pictures may be larger than 5mb. But there are various image compression services available.
+
+**Alternative:** +
+Not put a limit +
+**Pros:** +
+User can upload any image. +
+**Cons:** +
+App may be unstable if too many large images.
+
 // end::addpicure[]
+
+// tag::resetpicture[]
+=== Reset Profile Picture feature
+
+==== Current Implementation
+We implemented a feature which allows a user to reset the profile picture back to default.
+
+The following sequence diagram shows how the `resetpicture` command works
+
+image::ResetPictureCommandSequenceDiagram.PNG[width="800"]
+
+. The user executes the `resetpicture INDEX` command, with parameters `INDEX`
+. The `AddressBookParser` class parses the command and create a new `ResetPictureCommand` class.
+. The `ResetPicture` command is executed and handled by the `ModelManager` class.
+. A new `Picture` object is created, containing the default image.
+. The new `Picture` is attached to the `Person` at `INDEX`
+. The new picture is displayed
+
+==== Design Considerations
+
+**Aspect:** Reset mechanism - Reset path of the existing Picture object
+or create a new Picture object altogether.
+
+**Chosen Implementation:** +
+Create a new picture object. +
+**Pros:** +
+Easier if developer decides to change the path of the default picture, or the properties of the Picture class +
+**Cons:** +
+Creating a new object each time may incur some overhead, but probably insignificant on a modern PC.
+// end::resetpicure[]
 
 // tag::findFeature[]
 === Find feature
@@ -493,6 +540,27 @@ image::AddTagSequenceDiagram.PNG[width="800"]
 . `updatePerson` in `ModelManager` updates the person at `INDEX` with a new person with the added tags.
 
 // end::addtag[]
+
+// tag::deletebyname[]
+=== Delete Contact by Name
+==== Current Implementation
+The Delete Contact by Name command inherits from `UndoableCommand`.
+
+The `logic` component parses user inputs, while the `model` component removes the person in the address book.
+
+The following sequence diagram illustrates how the Delete By Name command works:
+
+image::DeletePersonByNameSequenceDiagram.png[width="800"]
+
+
+. The user executes the `deletebyname name` command, with parameter `nane`
+. The `AddressBookParser` class parses the command and create a new `DeleteByNameCommand` class.
+. The `DeleteByNameCommand` command is executed and handled by the `ModelManager` class.
+. The person refered to by `name` is searched using the `searchForPersonByName()` method.
+. If the person is found, that person is deleted
+. `ModelManager` removes the person from the addressbook.
+
+// end::deletebyname[]
 
 // tag::export[]
 === Export feature
