@@ -46,7 +46,6 @@ public class ConvertCommand extends Command {
         double convertedValue = currency.convert(fromCurrencyCode, toCurrencyCode, value);
 
         String dateString = currency.getDate();
-
         String dateFormat = DateUtil.dateFormatter(dateString);
 
         return new CommandResult(String.format(MESSAGE_COMPLETE,
