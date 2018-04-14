@@ -50,7 +50,7 @@ public class TaskCard extends UiPart<Region> {
         super(FXML);
         this.task = task;
 
-        setLabelTextStyle(id, displayedIndex + ". ");
+        id.setText(displayedIndex + ". ");
         setLabelTextStyle(name, task.getTaskName().value);
         setLabelTextStyle(description, task.getTaskDescription().value);
         setTaskCategoryStyle(task.getTaskCategories());
