@@ -20,11 +20,6 @@ public class TaskBookChangedEvent extends BaseEvent {
 ```
 ###### \java\seedu\address\commons\util\DateUtil.java
 ``` java
-/**
- * A container for Date specific utility functions
- */
-public class DateUtil {
-
     /**
      * Get today's date in LocalDate format
      * @return today's date in LocalDate format
@@ -61,7 +56,6 @@ public class DateUtil {
         return (int) DAYS.between(startDate, endDate);
     }
 
-}
 ```
 ###### \java\seedu\address\logic\commands\SortCommand.java
 ``` java
@@ -105,7 +99,7 @@ public class TaskAddCommand extends UndoableCommand {
             + PREFIX_TASK_DESCRIPTION + "Discuss proposal details "
             + PREFIX_TASK_DUE_DATE + "2018-04-29 "
             + PREFIX_TASK_STATUS + "undone "
-            + PREFIX_TASK_CATEGORY + "Meeting";
+            + PREFIX_TASK_CATEGORY + "meeting";
 
     public static final String MESSAGE_SUCCESS = "New task added: %1$s";
     public static final String MESSAGE_DUPLICATE_TASK = "This task already exists in the address book";
@@ -2382,7 +2376,7 @@ public class TaskCard extends UiPart<Region> {
         super(FXML);
         this.task = task;
 
-        setLabelTextStyle(id, displayedIndex + ". ");
+        id.setText(displayedIndex + ". ");
         setLabelTextStyle(name, task.getTaskName().value);
         setLabelTextStyle(description, task.getTaskDescription().value);
         setTaskCategoryStyle(task.getTaskCategories());
@@ -2629,6 +2623,7 @@ public class TaskListPanel extends UiPart<Region> {
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
 <HBox id="cardPane" fx:id="cardPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
@@ -2636,12 +2631,17 @@ public class TaskListPanel extends UiPart<Region> {
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10" prefWidth="150" />
         </columnConstraints>
-        <VBox alignment="CENTER_LEFT" minHeight="105" GridPane.columnIndex="0">
+        <VBox alignment="TOP_LEFT" minHeight="105" GridPane.columnIndex="0">
             <padding>
                 <Insets top="5" right="5" bottom="5" left="15" />
             </padding>
-            <HBox spacing="5" alignment="CENTER_LEFT" maxWidth="225">
-                <Label fx:id="id" styleClass="cell_big_label" />
+            <HBox spacing="5" alignment="TOP_LEFT" maxWidth="225">
+                <Label fx:id="id" styleClass="cell_big_label">
+                    <minWidth>
+                        <!-- Ensures that the label text is never truncated -->
+                        <Region fx:constant="USE_PREF_SIZE" />
+                    </minWidth>
+                </Label>
                 <Label fx:id="name" text="\$first" styleClass="cell_big_label" />
             </HBox>
             <Label fx:id="description" styleClass="cell_small_label" text="\$description" maxWidth="225" />
