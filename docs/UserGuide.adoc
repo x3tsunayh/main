@@ -249,6 +249,46 @@ Selects the 2nd person in the address book.
 `select 1` +
 Selects the 1st person in the results of the `find` command.
 
+// tag::addpicture[]
+=== Adding a profile picture to a person: `addpicture` `[since v1.3]`
+
+Adds a profile picture to a person +
+Format: `addpicture INDEX f/FILENAME`
+
+****
+* Adds a picture at location `FILENAME` to person at the specified `INDEX`. The index refers to the index number shown in the last person listing. The index *must be a positive integer* 1, 2, 3, ...
+* `FILENAME` must point to a valid image file.
+****
+
+Examples:
+
+* `addpicture 1 f/C://pictures/janeDoe.jpg` +
+Edits the profile picture of the 1st person to be the picture at C://pictures/janeDoe.jpg
+// end::addpicture[]
+
+// tag::addtag[]
+=== Adding individual tags to a contact: `addtag` `[since v1.4]`
+
+Adds tag(s) to a person +
+Format: `addtag INDEX t/TAG t/TAG ...`
+
+****
+* Edits the tag of the contact at the specified `INDEX`.
+The index refers to the index number shown in the last task listing. The index *must be a positive integer* 1, 2, 3, ...
+* At least one tag must be provided.
+* All input tags must be new and unique to the contact. For example, if tag `friend` exists for contact
+at index 1, then both `addtag 1 t/friend` and `addtag 1 t/friend t/schoolmate` will not work as all tags must be new
+
+****
+
+Examples:
+
+* `addtag 12 t/newFriend` +
+Adds the tag `newFriend` to the contact at index 12 of the last contact listing
+* `addtag 7 t/buddy t/CS2103 t/NUS` +
+Adds the tags `buddy`, `CS2103` and `NUS` to contact at index 7 of the last contact listing
+// end::addtag[]
+
 === Googling a person's name : `google` `[since v1.5rc]`
 
 Google searches the person's name identified by the index number used in the latest person listing. +
@@ -360,60 +400,10 @@ The `redo` command fails as there are no `undo` commands executed previously.
 `redo` (reapplies the `clear` command) +
 // end::undoredo[]
 
-=== Clearing all entries : `clear`
+=== Clearing all contacts : `clear`
 
 Clears all entries in contacts list from the address book. +
 Format: `clear`
-
-=== Exiting the program : `exit`
-
-Exits the program. +
-Format: `exit`
-
-=== Saving the data
-
-Address book data are saved in the hard disk automatically after any command that changes the data. +
-There is no need to save manually.
-
-// tag::addpicture[]
-=== Adding a profile picture to a person: `addpicture` `[since v1.3]`
-
-Adds a profile picture to a person +
-Format: `addpicture INDEX f/FILENAME`
-
-****
-* Adds a picture at location `FILENAME` to person at the specified `INDEX`. The index refers to the index number shown in the last person listing. The index *must be a positive integer* 1, 2, 3, ...
-* `FILENAME` must point to a valid image file.
-****
-
-Examples:
-
-* `addpicture 1 f/C://pictures/janeDoe.jpg` +
-Edits the profile picture of the 1st person to be the picture at C://pictures/janeDoe.jpg
-// end::addpicture[]
-
-// tag::addtag[]
-=== Adding individual tags to a contact: `addtag` `[since v1.4]`
-
-Adds tag(s) to a person +
-Format: `addtag INDEX t/TAG t/TAG ...`
-
-****
-* Edits the tag of the contact at the specified `INDEX`.
-The index refers to the index number shown in the last task listing. The index *must be a positive integer* 1, 2, 3, ...
-* At least one tag must be provided.
-* All input tags must be new and unique to the contact. For example, if tag `friend` exists for contact
-at index 1, then both `addtag 1 t/friend` and `addtag 1 t/friend t/schoolmate` will not work as all tags must be new
-
-****
-
-Examples:
-
-* `addtag 12 t/newFriend` +
-Adds the tag `newFriend` to the contact at index 12 of the last contact listing
-* `addtag 7 t/buddy t/CS2103 t/NUS` +
-Adds the tags `buddy`, `CS2103` and `NUS` to contact at index 7 of the last contact listing
-// end::addtag[]
 
 //tag::convertCurrency[]
 === Converting from one currency to another: `convert` `[since v1.3]`
@@ -590,7 +580,7 @@ Behaviour of priority field for undone tasks:
 * medium: Orange color display
 * low: Green color display
 
-image::UG_TaskDisplay.PNG[width="350"]
+image::UG_TaskDisplay.PNG[width="300"]
 The task due dates displayed are computed based on the current date of 2018-04-14.
 // end::TaskDisplay[]
 
@@ -602,8 +592,9 @@ Format: `task-add n/NAME p/PRIORITY d/DESCRIPTION dd/DUE_DATE s/STATUS [c/CATEGO
 
 ****
 * Adds a task if all fields have valid inputs.
-* The valid values of priority are : high, medium and low.
-* The valid values of status are : undone and done.
+* The valid values of priority are : high, medium and low (only lowercase accepted).
+* The valid values of status are : undone and done (only lowercase accepted).
+* Input for category can be in uppercase or lowercase, but it will be displayed in lowercase.
 ****
 
 [TIP]
@@ -612,7 +603,7 @@ A task can have any number of categories (including 0)
 Examples:
 
 * `task-add n/Task 1 p/medium d/Description for task 1 dd/2018-05-10 s/undone`
-* `task-add n/Agenda for meeting p/high d/Discuss proposal details dd/2018-04-29 s/undone c/Meeting`
+* `task-add n/Agenda for meeting p/high d/Discuss proposal details dd/2018-04-29 s/undone c/meeting`
 // end::AddTask[]
 
 // tag::DeleteTask[]
@@ -625,6 +616,7 @@ Format: `task-delete INDEX`
 * Deletes the task at the specified `INDEX`.
 * The index refers to the index number shown in the most recent listing.
 * The index *must be a positive integer* 1, 2, 3, ...
+* The index must not be more than the maximum size of the task list.
 ****
 
 Examples:
@@ -674,10 +666,12 @@ e.g. `Agenda gift` will return `Agenda for meeting`, `Buy gift`
 
 Examples:
 
-* `task-find agenda`
-Returns `Agenda for meeting` and `Project agenda`
-* `task-find email agenda project`
+* `task-find agenda` +
+Returns the tasks `Agenda for meeting` and `Project agenda`
+* `task-find email agenda project` +
 Returns any task having names `email`, `agenda` or `project`
+* `task-find nt` +
+Returns any task having names containing `nt` like `department` or `client`
 // end::FindTask[]
 
 // tag::ListTask[]
@@ -710,6 +704,16 @@ Examples:
 * `resetpicture 1` +
 Resets the picture of the person at index 1 to the default picture.
 // end::resetpicture[]
+
+=== Exiting the program : `exit`
+
+Exits the program. +
+Format: `exit`
+
+=== Saving the data
+
+Address book data are saved in the hard disk automatically after any command that changes the data. +
+There is no need to save manually.
 
 === Autocomplete of command `[coming in v2.0]`
 
@@ -767,6 +771,12 @@ Returns feedback to input the currency code to be converted to +
 _{explain how the user can enable/disable data encryption}_
 // end::dataencryption[]
 
+// tag::autoremovecompletedTasks[]
+=== Automatically remove completed tasks `[coming in v2.0]`
+
+// end::autoremovecompletedTasks[]
+
+
 == FAQ
 
 *Q*: How do I transfer my data to another Computer? +
@@ -793,6 +803,12 @@ e.g. `find p/96965000`
 * *List all persons* : `list`
 * *Select a person* : `select INDEX` +
 e.g.`select 2`
+* *Add a profile picture to a person* : `addpicture INDEX f/FILENAME` +
+e.g. `addpicture 1 f/C://pictures/janeDoe.jpg`
+* *Reset a contact's picture* : `resetpicture  INDEX` +
+e.g. `resetpicture 1`
+* *Add tag(s) to a person* : `addtag INDEX t/TAG [t/TAG]...` +
+e.g. `addtag 12 t/newFriend`
 * *Google search a person's name* : `google INDEX` +
 e.g.`google 3`
 * *Sort all persons by name* : `sort`
@@ -801,13 +817,7 @@ e.g. `export C:\Users\John Doe\Documents\addressbook.xml`
 * *History* : `history`
 * *Undo* : `undo`
 * *Redo* : `redo`
-* *Clear contacts list and task list* : `clear`
-* *Help* : `help`
-* *Exit program* : `exit`
-* *Add a profile picture to a person* : `addpicture INDEX f/FILENAME` +
-e.g. `addpicture 1 f/C://pictures/janeDoe.jpg`
-* *Add tag(s) to a person* : `addtag INDEX t/TAG [t/TAG]...` +
-e.g. `addtag 12 t/newFriend`
+* *Clear all contacts* : `clear`
 * *Convert currency* : `convert [VALUE] SRC_CURRENCY_CODE DST_CURRENCY_CODE` +
 e.g. `convert 10000 JPY USD`
 * *Add an event* : `addevent et/TITLE ed/DESCRIPTION el/LOCATION edt/DATETIME` +
@@ -834,6 +844,5 @@ e.g. `task-edit 1 p/medium dd/2018-05-10`
 e.g. `task-find project agenda`
 * *List all tasks* : `task-list`
 * *Clear all tasks* : `task-clear`
-* *Reset a contact's picture* : `resetpicture  INDEX` +
-e.g. `resetpicture 1`
-
+* *Help* : `help`
+* *Exit program* : `exit`

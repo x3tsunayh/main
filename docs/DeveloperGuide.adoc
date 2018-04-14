@@ -605,6 +605,10 @@ image::TaskAddSequenceDiagram.png[width="800"]
 . The `TaskAddCommandParser` class parses the arguments and create a new `TaskAddCommand` class.
 . The `task-add` command is executed and handled by the `ModelManager` class.
 . The task is added to the list of tasks in Address Book and displayed to the user.
+
+The following activity diagram summarise what happens when a user executes the `task-add` command:
+
+image::TaskAddActivityDiagram.png[width="700"]
 // end::task-add[]
 
 // tag::task-delete[]
@@ -650,6 +654,10 @@ image::TaskEditSequenceDiagram.png[width="800"]
 . The `TaskEditCommandParser` class parses the arguments and create a new `TaskEditCommand` class.
 . The `task-edit` command is executed and handled by the `ModelManager` class.
 . The task is updated with the new values and the updated task list is displayed to the user.
+
+The following activity diagram summarise what happens when a user executes the `task-edit` command:
+
+image::TaskEditActivityDiagram.png[width="700"]
 // end::task-edit[]
 
 // tag::task-find[]
@@ -669,6 +677,17 @@ image::TaskFindSequenceDiagram.png[width="800"]
 . The `TaskFindCommandParser` class parses the argument(s) and create a new `TaskFindCommand` class.
 . The `task-find` command is executed and handled by the `ModelManager` class.
 . The list of tasks in Address Book matching the keywords is returned and displayed to the user.
+
+==== Design Considerations
+
+===== Aspect: Implementation of `FindTasks` feature
+
+* **Alternative 1 (current choice):** Find task by name
+** Pros: Easy to implement and does not need to make changes for every newly added field
+** Cons: Lack flexibility in finding by other fields
+* **Alternative 2:** Find tasks by other fields
+** Pros: Allows flexibility in searching
+** Cons: Might be more difficult to implement as changes need to be made for every newly added field to enable searching using those fields
 // end::task-find[]
 
 // tag::task-list[]
@@ -720,8 +739,8 @@ public void sortByStatusDueDateAndPriority() {
 
 ===== Aspect: Implementation of `SortTasks` feature
 
-* **Alternative 1 (current choice):** Sort tasks by status > due date > priority
-** Pros: Incomplete tasks are displayed at the top followed by tasks that are due first and those with higher priority
+* **Alternative 1 (current choice):** Sort tasks by multiple fields (status > due date > priority)
+** Pros: Easy identification of tasks to be done as those at the top are incomplete tasks that are due first and with higher priority
 ** Cons: Lack flexibility in sorting by other fields
 * **Alternative 2:** Sort tasks by individual fields
 ** Pros: Allows flexibility in sorting
@@ -765,6 +784,14 @@ image::ConvertCurrencySequenceDiagram.png[width="800"]
 _{Explain here how the data encryption feature will be implemented}_
 
 // end::dataencryption[]
+
+// tag::autoremovecompletedtasks[]
+=== [Proposed] Automatically Remove Completed Tasks
+
+
+// end::autoremovecompletedtasks[]
+
+
 
 === Logging
 
@@ -1566,23 +1593,6 @@ Windows, Linux, Unix, OS-X
 A contact detail that is not meant to be shared with others
 
 [appendix]
-== Product Survey
-
-*Product Name*
-
-Author: ...
-
-Pros:
-
-* ...
-* ...
-
-Cons:
-
-* ...
-* ...
-
-[appendix]
 == Instructions for Manual Testing
 
 Given below are instructions to test the app manually.
@@ -1596,7 +1606,7 @@ These instructions only provide a starting point for testers to work on; testers
 
 .. Download the jar file and copy into an empty folder
 .. Double-click the jar file +
-   Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+   Expected: Shows the GUI with a set of sample contacts, events and tasks. The window size may not be optimum.
 
 . Saving window preferences
 
@@ -1627,3 +1637,165 @@ _{ more test cases ... }_
 .. _{explain how to simulate a missing/corrupted file and the expected behavior}_
 
 _{ more test cases ... }_
+
+=== Sorting all persons by name
+
+. Sorting all persons alphabetically by name in ascending order and list them
+
+.. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+.. Test case: `sort` +
+   Expected: All contacts in the list are sorted alphabetically by name in ascending order.
+   Listed all persons sorted alphabetically by name is shown in the status message.
+.. Test case: `sort extraString` +
+   Expected: All contacts in the list are sorted alphabetically by name in ascending order.
+.. Test case: `sort 123` +
+   Expected: All contacts in the list are sorted alphabetically by name in ascending order.
+
+.. Other correct sort commands: Adding any character or number after the command separated with a whitespace +
+   Expected: All contacts in the list are sorted alphabetically by name in ascending order.
+
+=== Adding a task
+
+. Adds a new task
+
+.. Test case: `task-add n/Agenda for meeting p/high d/Discuss proposal details dd/2018-04-29 s/undone c/meeting` +
+   Expected: The new task is added to the list. Details of the added contact shown in the status message. Timestamp in the status bar is updated.
+.. Test case: `task-add n/Task 1 p/medium d/Description for task 1 dd/2018-05-10 s/undone` +
+   Expected: The new task is added to the list. Details of the added contact shown in the status message. Timestamp in the status bar is updated.
+
+.. Test case: `task-add n/ p/medium d/Description for task 1 dd/2018-05-10 s/undone` +
+   Expected: No task is added. Error details shown in the status message. Status bar remains the same.
+
+.. Test case: `task-add n/Task 1 p/ d/Description for task 1 dd/2018-05-10 s/undone` +
+   Expected: No task is added. Error details shown in the status message. Status bar remains the same.
+.. Test case: `task-add n/Task 1 p/randomString d/ dd/2018-05-10 s/undone` +
+   Expected: No task is added. Error details shown in the status message. Status bar remains the same.
+.. Test case: `task-add n/Task 1 p/123 d/ dd/2018-05-10 s/undone` +
+   Expected: No task is added. Error details shown in the status message. Status bar remains the same.
+
+.. Test case: `task-add n/Task 1 p/medium d/ dd/2018-05-10 s/undone` +
+   Expected: No task is added. Error details shown in the status message. Status bar remains the same.
+
+.. Test case: `task-add n/Task 1 p/medium d/Description for task 1 dd/ s/undone` +
+   Expected: No task is added. Error details shown in the status message. Status bar remains the same.
+.. Test case: `task-add n/Task 1 p/medium d/Description for task 1 dd/2018 05 10 s/undone` +
+   Expected: No task is added. Error details shown in the status message. Status bar remains the same.
+.. Test case: `task-add n/Task 1 p/medium d/Description for task 1 dd/20180510 s/undone` +
+   Expected: No task is added. Error details shown in the status message. Status bar remains the same.
+.. Test case: `task-add n/Task 1 p/medium d/Description for task 1 dd/randomString s/undone` +
+   Expected: No task is added. Error details shown in the status message. Status bar remains the same.
+.. Test case: `task-add n/Task 1 p/medium d/Description for task 1 dd/123 s/undone` +
+   Expected: No task is added. Error details shown in the status message. Status bar remains the same.
+
+.. Test case: `task-add n/Task 1 p/medium d/Description for task 1 dd/2018-05-10 s/` +
+   Expected: No task is added. Error details shown in the status message. Status bar remains the same.
+.. Test case: `task-add n/Task 1 p/medium d/Description for task 1 dd/2018-05-10 s/randomString` +
+   Expected: No task is added. Error details shown in the status message. Status bar remains the same.
+.. Test case: `task-add n/Task 1 p/medium d/Description for task 1 dd/2018-05-10 s/123` +
+   Expected: No task is added. Error details shown in the status message. Status bar remains the same.
+
+.. Other incorrect task-add commands to try: `task-add` +
+   Expected: No task is added. Error details shown in the status message. Status bar remains the same.
+.. Test case: `task-add p/medium d/Description for task 1 dd/2018-05-10 s/undone` +
+   Expected: Similar to previous
+.. Test case: `task-add n/Task 1 d/Description for task 1 dd/2018-05-10 s/undone` +
+   Expected: Similar to previous
+.. Test case: `task-add n/Task 1 p/medium dd/2018-05-10 s/undone` +
+   Expected: Similar to previous
+.. Test case: `task-add n/Task 1 p/medium d/Description for task 1 s/undone` +
+   Expected: Similar to previous
+.. Test case: `task-add n/Task 1 p/medium d/Description for task 1 dd/2018-05-10` +
+   Expected: Similar to previous
+
+=== Deleting a task
+
+. Deleting a task while all tasks are listed
+
+.. Prerequisites: List all tasks using the `task-list` command. Multiple tasks in the list.
+.. Test case: `task-delete 1` +
+   Expected: First task is deleted from the list. Details of the deleted task shown in the status message. Timestamp in the status bar is updated.
+
+.. Other incorrect task-delete commands to try: `task-delete`, `task-delete x` (where x is larger than the list size) +
+   Expected: No task is deleted. Error details shown in the status message. Status bar remains the same.
+.. Test case: `task-delete 0` +
+   Expected: Similar to previous.
+
+=== Editing a task
+
+. Editing a task while all tasks are listed
+
+.. Prerequisites: List all tasks using the `task-list` command. Multiple tasks in the list.
+.. Test case: `task-edit 1 n/Project meeting` +
+   Expected: Name of first task from the list is edited. Details of the edited task shown in the status message. Timestamp in the status bar is updated.
+
+.. Test case: `task-edit 1 p/high` +
+   Expected: Priority of first task from the list is edited. Details of the edited task shown in the status message. Timestamp in the status bar is updated.
+
+.. Test case: `task-edit 1 d/editedDesc` +
+   Expected: Description of first task from the list is edited. Details of the edited task shown in the status message. Timestamp in the status bar is updated.
+
+.. Test case: `task-edit 1 dd/2018-05-10` +
+   Expected: Due date of first task from the list is edited. Details of the edited task shown in the status message. Timestamp in the status bar is updated.
+
+.. Test case: `task-edit 1 s/done` +
+   Expected: Status of first task from the list is edited. Details of the edited task shown in the status message. Timestamp in the status bar is updated.
+
+.. Test case: `task-edit 1 c/meeting c/boss` +
+   Expected: Category of first task from the list is edited. Details of the edited task shown in the status message. Timestamp in the status bar is updated.
+
+.. Other incorrect task-edit commands to try: `task-edit`, `task-edit x` (where x is larger than the list size) +
+   Expected: No task is edited. Error details shown in the status message. Status bar remains the same.
+.. Test case: `task-edit 0` +
+   Expected: Similar to previous.
+
+=== Finding tasks by name
+
+. Finding tasks whose name contain any of the given keywords
+
+.. Test case: `task-find project` +
+   Expected: Returns any task having names that contain `project`. X tasks listed shown in the status message (where X is the number of tasks found).
+
+.. Test case: `task-find PROJECT` +
+   Expected: Returns any task having names that contain `project` or `PROJECT`. X tasks listed shown in the status message (where X is the number of tasks found).
+
+.. Test case: `task-find pro` +
+   Expected: Returns any task having names that contain `pro` e.g. `project`. X tasks listed shown in the status message (where X is the number of tasks found).
+
+.. Test case: `task-find meet project` +
+   Expected: Returns any task having names that contain `meet` or `project`. X tasks listed shown in the status message (where X is the number of tasks found).
+
+.. Test case: `task-find 123` +
+   Expected: Returns any task having names that contain `123`. X tasks listed shown in the status message (where X is the number of tasks found).
+
+.. Other incorrect task-find commands to try: `task-find` +
+   Expected: No task is found. Error details shown in the status message. Status bar remains the same.
+
+=== Listing all tasks
+
+. Lists all tasks
+
+.. Test case: `task-list` +
+   Expected: All tasks in the list are displayed. Listed all tasks shown in the status message.
+.. Test case: `task-list extraString` +
+   Expected: All tasks in the list are displayed. Listed all tasks shown in the status message.
+.. Test case: `task-list 123` +
+   Expected: All tasks in the list are displayed. Listed all tasks shown in the status message.
+
+.. Other correct task-list commands: Adding any character or number after the command separated with a whitespace +
+   Expected: All tasks in the list are displayed. Listed all tasks shown in the status message.
+
+=== Clearing all tasks
+
+. Clears all tasks
+
+.. Test case: `task-clear` +
+   Expected: All tasks removed from the list. Task book has been cleared! shown in the status message. Timestamp in the status bar is updated.
+
+.. Test case: `task-clear extraString` +
+   Expected: All tasks removed from the list. Task book has been cleared! shown in the status message. Timestamp in the status bar is updated.
+
+.. Test case: `task-clear 123` +
+   Expected: All tasks removed from the list. Task book has been cleared! shown in the status message. Timestamp in the status bar is updated.
+
+.. Other correct task-clear commands: Adding any character or number after the command separated with a whitespace +
+   Expected: All tasks removed from the list. Task book has been cleared! shown in the status message. Timestamp in the status bar is updated.
