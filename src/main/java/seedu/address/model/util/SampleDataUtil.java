@@ -58,18 +58,30 @@ public class SampleDataUtil {
 
     public static Task[] getSampleTasks() {
         return new Task[] {
-            new Task(new TaskName("Task XYZ"), new TaskPriority("medium"),
-                new TaskDescription("Task description XYZ"),
+            new Task(new TaskName("Programming Project"), new TaskPriority("low"),
+                new TaskDescription("(1) Analyse requirements (2) Write programs (3) Testing (4) Documentation "
+                        + "(5) Submit to boss"), new TaskDueDate("2018-04-10"), new TaskStatus("undone"),
+                    getTaskCategorySet("personal", "interest")),
+            new Task(new TaskName("Project meeting with the group and department"), new TaskPriority("high"),
+                new TaskDescription("Finalise on project features"),
+                new TaskDueDate("2018-04-18"), new TaskStatus("undone"),
+                getTaskCategorySet("meeting", "ahighprofileprojectthatcannotbedelayedanymore")),
+            new Task(new TaskName("Follow up with boss"), new TaskPriority("medium"),
+                new TaskDescription("Present proposal to boss regarding project concerns"),
+                new TaskDueDate("2018-04-25"), new TaskStatus("undone"),
+                getTaskCategorySet("business", "work", "meeting", "boss", "proposal")),
+            new Task (new TaskName("Agenda for business meeting"), new TaskPriority("high"),
+                new TaskDescription("Discuss proposal details"),
+                new TaskDueDate("2018-04-27"), new TaskStatus("undone"),
+                getTaskCategorySet("meeting")),
+            new Task(new TaskName("Clarify with client"), new TaskPriority("medium"),
+                new TaskDescription("Clarify client's expectation of the project"),
                 new TaskDueDate("2018-04-28"), new TaskStatus("undone"),
-                getTaskCategorySet("work")),
-            new Task(new TaskName("Essay research"), new TaskPriority("low"),
-                new TaskDescription("Google for interesting points on essay topic"),
-                new TaskDueDate("2018-05-29"), new TaskStatus("undone"),
-                getTaskCategorySet("personal")),
-            new Task(new TaskName("Formulate meeting agenda"), new TaskPriority("high"),
-                new TaskDescription("(1) Analyse the project requirements (2) Record meeting agenda"),
-                new TaskDueDate("2018-04-20"), new TaskStatus("undone"),
-                getTaskCategorySet("meeting"))
+                getTaskCategorySet("work", "meeting", "client")),
+            new Task(new TaskName("Buy birthday gift"), new TaskPriority("low"),
+                new TaskDescription("Buy a gift for cousin's birthday"),
+                new TaskDueDate("2018-04-30"), new TaskStatus("undone"),
+                getTaskCategorySet("personal"))
         };
     }
 

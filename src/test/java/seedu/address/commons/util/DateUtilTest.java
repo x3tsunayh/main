@@ -18,6 +18,14 @@ public class DateUtilTest {
     public ExpectedException thrown = ExpectedException.none();
 
     @Test
+    public void getTodayDate_success() {
+        LocalDate expectedDate = DateUtil.getTodayDate();
+        LocalDate actualDate = LocalDate.now();
+
+        assertEquals(expectedDate, actualDate);
+    }
+
+    @Test
     public void getParsedDate_correctFormatDate_success() {
         String dateToParse = "2018-05-12";
         LocalDate expectedParsedDate = LocalDate.parse(dateToParse);
@@ -34,6 +42,25 @@ public class DateUtilTest {
         LocalDate actualParsedDate = DateUtil.getParsedDate(dateToParse);
 
         assertNotEquals(expectedParsedDate, actualParsedDate);
+    }
+
+    @Test
+    public void getParsedDateTime_correctFormatDateTime_success() {
+        String dateTimeToParse = "2018-05-12 1800";
+        LocalDate expectedParsedDateTime = LocalDate.parse(dateTimeToParse.substring(0, 10));
+        LocalDate actualParsedDateTime = DateUtil.getParsedDateTime(dateTimeToParse);
+
+        assertEquals(expectedParsedDateTime, actualParsedDateTime);
+    }
+
+    @Test
+    public void getParsedDateTime_wrongFormatDateTime_fail() {
+        thrown.expect(DateTimeParseException.class);
+        String dateTimeToParse = "2018 05 12 1800";
+        LocalDate expectedParsedDateTime = LocalDate.parse(dateTimeToParse.substring(0, 10));
+        LocalDate actualParsedDateTime = DateUtil.getParsedDateTime(dateTimeToParse);
+
+        assertNotEquals(expectedParsedDateTime, actualParsedDateTime);
     }
 
     @Test

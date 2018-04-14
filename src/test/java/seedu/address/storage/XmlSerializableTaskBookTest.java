@@ -1,6 +1,8 @@
 package seedu.address.storage;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
@@ -50,6 +52,26 @@ public class XmlSerializableTaskBookTest {
                 XmlSerializableTaskBook.class);
         thrown.expect(IllegalValueException.class);
         dataFromFile.toModelType();
+    }
+
+    @Test
+    public void equals() {
+        XmlSerializableTaskBook taskBook = new XmlSerializableTaskBook();
+        XmlSerializableTaskBook taskBookCopy = new XmlSerializableTaskBook();
+        XmlSerializableAddressBook addressbook = new XmlSerializableAddressBook();
+
+        // same object -> returns true
+        assertTrue(taskBook.equals(taskBook));
+
+        // same values -> returns true
+        assertTrue(taskBook.equals(taskBookCopy));
+
+        // different types -> returns false
+        assertFalse(taskBook.equals(addressbook));
+        assertFalse(taskBook.equals(5));
+
+        // null -> returns false
+        assertFalse(taskBook.equals(null));
     }
 
 }
