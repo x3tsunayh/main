@@ -1,14 +1,12 @@
 package guitests.guihandles;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Region;
+
+//@@author x3tsunayh
 
 /**
- * Provides a handle to a person card in the person list panel.
+ * Provides a handle to an event card in the event list panel.
  */
 public class EventCardHandle extends NodeHandle<Node> {
     private static final String ID_FIELD_ID = "#id";

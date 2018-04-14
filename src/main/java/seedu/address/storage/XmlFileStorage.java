@@ -7,7 +7,6 @@ import javax.xml.bind.JAXBException;
 
 import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.commons.util.XmlUtil;
-import seedu.address.model.event.ReadOnlyEventBook;
 
 /**
  * Stores addressbook, taskbook data in an XML file
@@ -64,7 +63,7 @@ public class XmlFileStorage {
     /**
      * Loads the given eventbook data from the specified file.
      */
-    public static ReadOnlyEventBook loadEventDataFromSaveFile(File file)
+    public static XmlSerializableEventBook loadEventDataFromSaveFile(File file)
             throws FileNotFoundException, JAXBException {
 
         return XmlUtil.getDataFromFile(file, XmlSerializableEventBook.class);

@@ -5,12 +5,12 @@ import java.util.Optional;
 
 import javafx.scene.control.ListView;
 import seedu.address.model.event.Event;
-import seedu.address.model.person.Person;
 import seedu.address.ui.EventCard;
-import seedu.address.ui.PersonCard;
+
+//@@author x3tsunayh
 
 /**
- * Provides a handle for {@code PersonListPanel} containing the list of {@code PersonCard}.
+ * Provides a handle for {@code EventListPanel} containing the list of {@code EventCard}.
  */
 public class EventListPanelHandle extends NodeHandle<ListView<EventCard>> {
     public static final String EVENT_LIST_VIEW_ID = "#eventListView";
@@ -22,7 +22,7 @@ public class EventListPanelHandle extends NodeHandle<ListView<EventCard>> {
     }
 
     /**
-     * Returns a handle to the selected {@code PersonCardHandle}.
+     * Returns a handle to the selected {@code EventCardHandle}.
      * A maximum of 1 item can be selected at any time.
      * @throws AssertionError if no card is selected, or more than 1 card is selected.
      */
@@ -57,7 +57,7 @@ public class EventListPanelHandle extends NodeHandle<ListView<EventCard>> {
     }
 
     /**
-     * Navigates the listview to display and select the person.
+     * Navigates the listview to display and select the event.
      */
     public void navigateToCard(Event event) {
         List<EventCard> cards = getRootNode().getItems();
@@ -75,14 +75,14 @@ public class EventListPanelHandle extends NodeHandle<ListView<EventCard>> {
     }
 
     /**
-     * Returns the person card handle of a person associated with the {@code index} in the list.
+     * Returns the event card handle of an event associated with the {@code index} in the list.
      */
     public EventCardHandle getEventCardHandle(int index) {
         return getEventCardHandle((Event) getRootNode().getItems().get(index).event);
     }
 
     /**
-     * Returns the {@code PersonCardHandle} of the specified {@code person} in the list.
+     * Returns the {@code EventCardHandle} of the specified {@code event} in the list.
      */
     public EventCardHandle getEventCardHandle(Event event) {
         Optional<EventCardHandle> handle = getRootNode().getItems().stream()
@@ -93,14 +93,14 @@ public class EventListPanelHandle extends NodeHandle<ListView<EventCard>> {
     }
 
     /**
-     * Selects the {@code PersonCard} at {@code index} in the list.
+     * Selects the {@code EventCard} at {@code index} in the list.
      */
     public void select(int index) {
         getRootNode().getSelectionModel().select(index);
     }
 
     /**
-     * Remembers the selected {@code PersonCard} in the list.
+     * Remembers the selected {@code EventCard} in the list.
      */
     public void rememberSelectedEventCard() {
         List<EventCard> selectedItems = getRootNode().getSelectionModel().getSelectedItems();
@@ -113,8 +113,8 @@ public class EventListPanelHandle extends NodeHandle<ListView<EventCard>> {
     }
 
     /**
-     * Returns true if the selected {@code PersonCard} is different from the value remembered by the most recent
-     * {@code rememberSelectedPersonCard()} call.
+     * Returns true if the selected {@code EventCard} is different from the value remembered by the most recent
+     * {@code rememberSelectedEventCard()} call.
      */
     public boolean isSelectedEventCardChanged() {
         List<EventCard> selectedItems = getRootNode().getSelectionModel().getSelectedItems();
