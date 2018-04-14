@@ -11,6 +11,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_CSV_FILEPATH;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_XML_FILEPATH;
 import static seedu.address.testutil.TypicalAddressBook.getTypicalAddressBook;
 import static seedu.address.testutil.TypicalEvents.getTypicalEventBook;
+import static seedu.address.testutil.TypicalTasks.getTypicalTaskBook;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,9 +38,11 @@ import seedu.address.storage.AddressBookStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
 import seedu.address.storage.Storage;
 import seedu.address.storage.StorageManager;
+import seedu.address.storage.TaskBookStorage;
 import seedu.address.storage.UserPrefsStorage;
 import seedu.address.storage.XmlAddressBookStorage;
 import seedu.address.storage.XmlEventBookStorage;
+import seedu.address.storage.XmlTaskBookStorage;
 
 //@@author x3tsunayh
 
@@ -54,10 +57,11 @@ public class ExportCommandTest {
     public void setUp() {
         AddressBookStorage addressBookStorage = new XmlAddressBookStorage(getFilePath("addressbook.xml"));
         XmlEventBookStorage eventBookStorage = new XmlEventBookStorage(getFilePath("eb.xml"));
+        TaskBookStorage taskBookStorage = new XmlTaskBookStorage(getFilePath("tb.xml"));
         UserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(getFilePath("preferences.json"));
 
-        storage = new StorageManager(addressBookStorage, eventBookStorage, userPrefsStorage);
-        model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
+        storage = new StorageManager(addressBookStorage, eventBookStorage, taskBookStorage, userPrefsStorage);
+        model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), getTypicalTaskBook(), new UserPrefs());
     }
 
     @Test

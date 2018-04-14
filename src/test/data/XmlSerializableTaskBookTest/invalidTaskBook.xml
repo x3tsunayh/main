@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addressbook>
+<taskbook>
     <!-- Task with invalid taskPriority field -->
     <tasks>
         <taskName>TASK 1</taskName>
@@ -8,4 +8,4 @@
         <taskDueDate>2018-06-15</taskDueDate>
         <taskStatus>undone</taskStatus>
     </tasks>
-</addressbook>
+</taskbook>

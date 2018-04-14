@@ -8,6 +8,7 @@ import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;
 import static seedu.address.testutil.TypicalEvents.getTypicalEventBook;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
+import static seedu.address.testutil.TypicalTasks.getTypicalTaskBook;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,6 +25,7 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.EventBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
+import seedu.address.model.TaskBook;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
@@ -40,7 +42,7 @@ public class AddTagCommandTest {
     private static final ArrayList<String> toAdd = new ArrayList<String>(Arrays.asList(VALID_TAG_1, VALID_TAG_2));
 
     private Model model = new ModelManager(TypicalAddressBook.getTypicalAddressBook(), getTypicalEventBook(),
-            new UserPrefs());
+            getTypicalTaskBook(), new UserPrefs());
 
     @Test
     public void execute_unfilteredList_success() throws Exception {
@@ -57,7 +59,7 @@ public class AddTagCommandTest {
         String expectedMessage = String.format(AddTagCommand.MESSAGE_ADD_TAG_PERSON_SUCCESS, editedPerson);
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
-                new EventBook(model.getEventBook()), new UserPrefs());
+                new EventBook(model.getEventBook()), new TaskBook(model.getTaskBook()), new UserPrefs());
         expectedModel.updatePerson(lastPerson, editedPerson);
 
         assertCommandSuccess(addTagCommand, model, expectedMessage, expectedModel);
@@ -78,7 +80,7 @@ public class AddTagCommandTest {
         String expectedMessage = String.format(AddTagCommand.MESSAGE_ADD_TAG_PERSON_SUCCESS, editedPerson);
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
-                new EventBook(model.getEventBook()), new UserPrefs());
+                new EventBook(model.getEventBook()), new TaskBook(model.getTaskBook()), new UserPrefs());
         expectedModel.updatePerson(model.getFilteredPersonList().get(0), editedPerson);
 
         assertCommandSuccess(addTagCommand, model, expectedMessage, expectedModel);

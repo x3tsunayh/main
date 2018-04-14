@@ -85,6 +85,8 @@ include::../UserGuide.adoc[tag=FindTask]
 
 include::../UserGuide.adoc[tag=ListTask]
 
+include::../UserGuide.adoc[tag=ClearTask]
+
 == Contributions to the Developer Guide
 
 |===
@@ -104,3 +106,5 @@ include::../DeveloperGuide.adoc[tag=task-find]
 include::../DeveloperGuide.adoc[tag=task-list]
 
 include::../DeveloperGuide.adoc[tag=task-sort]
+
+include::../DeveloperGuide.adoc[tag=task-clear]

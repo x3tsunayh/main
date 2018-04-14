@@ -24,6 +24,7 @@ import seedu.address.storage.Storage;
 import seedu.address.storage.StorageManager;
 import seedu.address.storage.XmlAddressBookStorage;
 import seedu.address.storage.XmlEventBookStorage;
+import seedu.address.storage.XmlTaskBookStorage;
 
 
 public class LogicManagerTest {
@@ -35,6 +36,7 @@ public class LogicManagerTest {
 
     private XmlAddressBookStorage addressBookStorage;
     private JsonUserPrefsStorage userPrefsStorage;
+    private XmlTaskBookStorage taskBookStorage;
     private Model model;
     private Storage storage;
     private Logic logic;
@@ -44,10 +46,11 @@ public class LogicManagerTest {
     public void setUp() {
         addressBookStorage = new XmlAddressBookStorage(getFilePath("ab.xml"));
         XmlEventBookStorage eventBookStorage = new XmlEventBookStorage(getFilePath("eb.xml"));
+        taskBookStorage = new XmlTaskBookStorage(getFilePath("tb.xml"));
         userPrefsStorage = new JsonUserPrefsStorage(getFilePath("prefs.json"));
 
         model = new ModelManager();
-        storage = new StorageManager(addressBookStorage, eventBookStorage, userPrefsStorage);
+        storage = new StorageManager(addressBookStorage, eventBookStorage, taskBookStorage, userPrefsStorage);
         logic = new LogicManager(model, storage, userPrefs);
     }
 
@@ -112,7 +115,8 @@ public class LogicManagerTest {
      * @see #assertCommandBehavior(Class, String, String, Model)
      */
     private void assertCommandFailure(String inputCommand, Class<?> expectedException, String expectedMessage) {
-        Model expectedModel = new ModelManager(model.getAddressBook(), model.getEventBook(), new UserPrefs());
+        Model expectedModel =
+                new ModelManager(model.getAddressBook(), model.getEventBook(), model.getTaskBook(), new UserPrefs());
         assertCommandBehavior(expectedException, inputCommand, expectedMessage, expectedModel);
     }
 

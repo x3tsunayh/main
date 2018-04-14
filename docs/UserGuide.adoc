@@ -362,7 +362,7 @@ The `redo` command fails as there are no `undo` commands executed previously.
 
 === Clearing all entries : `clear`
 
-Clears all entries in contacts list and task list from the address book. +
+Clears all entries in contacts list from the address book. +
 Format: `clear`
 
 === Exiting the program : `exit`
@@ -589,6 +589,9 @@ Behaviour of priority field for undone tasks:
 * high: Red color display
 * medium: Orange color display
 * low: Green color display
+
+image::UG_TaskDisplay.PNG[width="350"]
+The task due dates displayed are computed based on the current date of 2018-04-14.
 // end::TaskDisplay[]
 
 // tag::AddTask[]
@@ -683,6 +686,13 @@ Returns any task having names `email`, `agenda` or `project`
 Shows a list of all tasks in the address book. +
 Format: `task-list`
 // end::ListTask[]
+
+// tag::ClearTask[]
+=== Clearing all tasks : `task-clear` `[since v1.5]`
+
+Clears all entries in tasks list from the address book. +
+Format: `task-clear`
+// end::ClearTask[]
 
 // tag::resetpicture[]
 === Find persons by phone: `find p/` `[since v1.5rc]`
@@ -823,6 +833,7 @@ e.g. `task-edit 1 p/medium dd/2018-05-10`
 * *Find tasks by name* : `task-find KEYWORD [MORE_KEYWORDS]...` +
 e.g. `task-find project agenda`
 * *List all tasks* : `task-list`
+* *Clear all tasks* : `task-clear`
 * *Reset a contact's picture* : `resetpicture  INDEX` +
 e.g. `resetpicture 1`
 

@@ -17,7 +17,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import seedu.address.model.TaskBook;
 import seedu.address.model.task.Task;
+import seedu.address.model.task.exceptions.DuplicateTaskException;
 
 //@@author CYX28
 /**
@@ -62,6 +64,22 @@ public class TypicalTasks {
             .withTaskStatus("undone").build();
 
     private TypicalTasks() {} // prevents instantiation
+
+    /**
+     * Returns a {@code TaskBook} with all the typical tasks.
+     */
+    public static TaskBook getTypicalTaskBook() {
+        TaskBook tb = new TaskBook();
+        for (Task task : TypicalTasks.getTypicalTasks()) {
+            try {
+                tb.addTask(task);
+            } catch (DuplicateTaskException dte) {
+                throw new AssertionError("not possible");
+            }
+        }
+
+        return tb;
+    }
 
     public static List<Task> getTypicalTasks() {
         return new ArrayList<>(Arrays.asList(TASKONE, TASKTWO, TASKTHREE));

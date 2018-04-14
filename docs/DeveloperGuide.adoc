@@ -581,6 +581,21 @@ The add task feature allows user to add a new task into the Address Book by spec
 It allows the adding of the following fields: name, priority, description, due date, status and category.
 All of the fields are compulsory except category.
 
+Format: `task-add n/NAME p/PRIORITY d/DESCRIPTION dd/DUE_DATE s/STATUS [c/CATEGORY]...`
+
+Validations are performed for each of the fields to ensure that invalid values will result in appropriate error messages.
+Some examples are as follows:
+
+image::DG_AddTask_1.PNG[width="800"]
+Task with invalid priority value.
+
+image::DG_AddTask_2.PNG[width="800"]
+Task with invalid due date format.
+
+Furthermore, if the task to be added already exist in the Address Book, it will result in the following error message.
+
+image::DG_AddTask_3.PNG[width="800"]
+
 The following sequence diagram shows how the add task operation works.
 
 image::TaskAddSequenceDiagram.png[width="800"]
@@ -598,6 +613,13 @@ image::TaskAddSequenceDiagram.png[width="800"]
 
 The delete task feature allows user to delete any done, overdue or unwanted task from the Address Book by specifying
 the task's index in the displayed Task List.
+
+Format: `task-delete INDEX`
+
+Similarly, validation is performed on the supplied index to ensure its validity.
+
+image::DG_DeleteTask_1.PNG[width="350"]
+There are 7 tasks in the list for this case.
 
 The following sequence diagram shows how the delete task operation works.
 
@@ -617,6 +639,8 @@ image::TaskDeleteSequenceDiagram.png[width="800"]
 The edit task feature allows user to edit any fields of an existing task in the AddressBook by specifying
 the task's index in the displayed Task List followed by the parameters of the fields to be edited.
 
+Format: `task-edit INDEX [n/NAME] [p/PRIORITY] [d/DESCRIPTION] [dd/DUE_DATE] [s/STATUS] [c/CATEGORY]...`
+
 The following sequence diagram shows how the edit task operation works.
 
 image::TaskEditSequenceDiagram.png[width="800"]
@@ -635,6 +659,8 @@ image::TaskEditSequenceDiagram.png[width="800"]
 The find tasks feature allows user to search for any task whose names contains any of the specified keywords in the Address Book.
 The search is case-insensitive and matches partial keyword.
 
+Format: `task-find KEYWORD [MORE_KEYWORDS]...`
+
 The following sequence diagram shows how the find tasks operation works.
 
 image::TaskFindSequenceDiagram.png[width="800"]
@@ -650,6 +676,8 @@ image::TaskFindSequenceDiagram.png[width="800"]
 ==== Current Implementation
 
 The list tasks feature allows user to display all the tasks in the Address Book.
+
+Format: `task-list`
 
 The following sequence diagram shows how the list tasks operation works.
 
@@ -700,6 +728,22 @@ public void sortByStatusDueDateAndPriority() {
 ** Cons: Might be more difficult to implement as changes need to be made for every newly added field and it is
 not possible for user to sort by multiple criteria
 // end::task-sort[]
+
+// tag::task-clear[]
+=== Clear Tasks feature
+==== Current Implementation
+
+The clear tasks feature allows user to clear all the tasks in the Address Book.
+
+The following sequence diagram shows how the clear tasks operation works.
+
+image::TaskClearSequenceDiagram.png[width="800"]
+
+. The user executes the `task-clear` command.
+. The `AddressBookParser` class parses the command and creates a new `TaskClearCommand` class.
+. The `task-clear` command is executed and handled by the `ModelManager` class.
+. The tasks are removed from the Address Book and an empty list is displayed to the user.
+// end::task-clear[]
 
 === Convert currency feature
 ==== Current Implementation
@@ -1250,11 +1294,13 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *` |traveler and businessman |delete a task | remove completed tasks
 
-|`* * *` |traveler and businessman |sort all tasks by priority  | easily view all the tasks by importance.
+|`* * *` |traveler and businessman |see all tasks sorted according to status, due date and priority by default  | easily view all the tasks by importance level.
 
 |`* * *` |traveler and businessman |find a task by name  | easily locate tasks without having to go through the entire task list.
 
 |`* * *` |traveler and businessman |edit a task  | keep it updated.
+
+|`* * *` |traveler and businessman |clear all tasks  | conveniently remove all the tasks at once and start with a new list.
 
 |`* * *` |traveler and businessman |convert a sentence or word from one language to another |understand both language at the same time
 
@@ -1481,13 +1527,12 @@ Use case ends.
 Use case ends.
 
 [discrete]
-=== Use case: Sort all tasks by priority
+=== Use case: Clear all tasks
 
 *MSS*
 
-1.  User requests to sort all tasks in AddressBook
-2.  AddressBook sorts the list of tasks by priority in decreasing order of importance (i.e. high > medium > low)
-3.  AddressBook shows a list of sorted tasks
+1.  User requests to clear tasks
+2.  AddressBook clears all the tasks
 +
 Use case ends.
 
