@@ -695,7 +695,7 @@ Format: `task-clear`
 // end::ClearTask[]
 
 // tag::resetpicture[]
-=== Find persons by phone: `find p/` `[since v1.5rc]`
+=== Reset a person's profile picture: `resetpicture INDEX` `[since v1.5rc]`
 
 Reset a contact's picture to the default picture. +
 Format: `resetpicture INDEX`
