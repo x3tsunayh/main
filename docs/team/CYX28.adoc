@@ -16,7 +16,7 @@ thus the above features will be useful for them as they can access all of them i
 of a separate application for each individual purpose.
 
 At any point in time, the businessman can refer to the calendar and its event list to keep track of upcoming major events, thereby allowing a clear idea on
-what his current schedule is like. In addition, the task list comes in handy to update the user of pending tasks and the tasks’ urgency.
+what his current schedule is like. In addition, the task list comes in handy to update the businessman of pending tasks and the tasks’ urgency.
 This helps them prioritise what needs to be done first.
 
 Besides that, traveling in foreign countries also involves the hassle of not knowing the appropriate amount of money to change.
@@ -37,19 +37,19 @@ It allows the businessman to add, delete, edit, find tasks by name and list all 
 default sorted by status (i.e. undone to done), due date in ascending order and priority level (high > medium > low).
 
 ** *Justification*:
-This feature improves the product as it allows the user to manage their tasks easily.
-Tasks can contain minor information e.g. remove unnecessary comments in program to nitty-gritty details like
-e.g. agenda for meeting listed explicitly. Sometimes, an implementation idea might just pop up and the businessman
+This feature improves the address book as it allows the businessman to manage their tasks easily.
+Tasks can contain minor details e.g. buy office stationary to nitty-gritty details like
+e.g. listing agenda for meeting explicitly. Sometimes, an implementation idea might just pop up and the businessman
 need to record it down somewhere so that the idea is not forgotten. +
 This is where the task management comes into place as it allows the businessman to add any task together with its
-information such as the due date and priority effortlessly to facilitate tracking of tasks, without having to worry
-about forgetting any information. +
+details such as the due date and priority effortlessly to facilitate tracking of tasks, without having to worry
+about forgetting any details. +
 In addition, other functions like edit and delete enables the businessman to update any task details and remove any
 completed task respectively. This helps to keep the task list up-to-date with the current schedule of the businessman.
 
-** *Highlights*: This enhancement allows for the management of tasks together with other features like contacts and
-events in the same application. Furthermore, after the enhancements to the task display to make it more user-friendly,
-the businessman can quickly identify the incomplete tasks with its due date and status at one glance without having to
+** *Highlights*: This feature allows for the management of tasks together with other features like contacts and
+events in the same application. Furthermore, with a more user-friendly task display, the businessman can
+quickly identify the incomplete tasks with its due date and status at one glance without having to
 search with difficulty, thus helping to save time in their busy schedule.
 
 * *Minor enhancement*: Added a sort contacts by name command. It allows the businessman to easily find and view
@@ -58,9 +58,13 @@ multiple contacts spanning across different alphabets in sequential order.
 * *Code contributed*: [https://github.com/CS2103JAN2018-T15-B4/main/tree/master/collated/functional/CYX28.md[Functional code]] [https://github.com/CS2103JAN2018-T15-B4/main/tree/master/collated/test/CYX28.md[Test code]]
 
 * *Other contributions*:
+** Project management:
+*** Usage of issue tracker (issues, milestones) to manage project tasks
 ** Documentation:
+*** Updated UI, model and storage component class diagrams
 *** Wrote use cases for implemented features
-*** Wrote user stories, project description in Project Portfolio with team
+*** Wrote relevant sections of Testing Manual, User Guide and Developer Guide
+*** Wrote project description in Project Portfolio with team
 
 ** Community:
 *** Reported bugs and suggestions for other teams in the class (examples:  https://github.com/CS2103JAN2018-T09-B4/main/issues/140, https://github.com/CS2103JAN2018-T09-B4/main/issues/143, https://github.com/CS2103JAN2018-T09-B4/main/issues/153)
@@ -87,6 +91,8 @@ include::../UserGuide.adoc[tag=ListTask]
 
 include::../UserGuide.adoc[tag=ClearTask]
 
+include::../UserGuide.adoc[tag=autoremovecompletedTasks]
+
 == Contributions to the Developer Guide
 
 |===
@@ -108,3 +114,5 @@ include::../DeveloperGuide.adoc[tag=task-list]
 include::../DeveloperGuide.adoc[tag=task-sort]
 
 include::../DeveloperGuide.adoc[tag=task-clear]
+
+include::../DeveloperGuide.adoc[tag=autoremovecompletedtasks]

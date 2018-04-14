@@ -1,8 +1,6 @@
 # CYX28
 ###### \java\seedu\address\commons\util\DateUtilTest.java
 ``` java
-public class DateUtilTest {
-
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
@@ -165,7 +163,6 @@ public class DateUtilTest {
 
     }
 
-}
 ```
 ###### \java\seedu\address\commons\util\XmlUtilTest.java
 ``` java
