@@ -21,7 +21,6 @@ import seedu.address.model.UserPrefs;
 import seedu.address.model.event.ReadOnlyEventBook;
 import seedu.address.storage.UserPrefsStorage;
 import seedu.address.storage.XmlSerializableAddressBook;
-import seedu.address.storage.XmlSerializableEventBook;
 import seedu.address.testutil.TestUtil;
 import systemtests.ModelHelper;
 

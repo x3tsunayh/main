@@ -204,7 +204,7 @@ public class AddEventCommandTest {
     }
 
     /**
-     * A Model stub that always accept the event being added.
+     * A Model stub with working addEvent method but fails irrelevant methods.
      */
     private class ModelStubAcceptingEventAdded extends ModelStub {
         final ArrayList<ReadOnlyEvent> eventsAdded = new ArrayList<>();

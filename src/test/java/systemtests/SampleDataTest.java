@@ -8,10 +8,8 @@ import java.nio.file.Paths;
 
 import org.junit.Test;
 
-import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.EventBook;
-import seedu.address.model.event.Event;
 import seedu.address.model.person.Person;
 import seedu.address.model.util.SampleDataUtil;
 import seedu.address.testutil.TestUtil;

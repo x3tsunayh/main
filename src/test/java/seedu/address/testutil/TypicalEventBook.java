@@ -1,13 +1,9 @@
 package seedu.address.testutil;
 
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.AddressBook;
 import seedu.address.model.EventBook;
-import seedu.address.model.event.Event;
 import seedu.address.model.event.ReadOnlyEvent;
 import seedu.address.model.event.exceptions.DuplicateEventException;
-import seedu.address.model.person.Person;
-import seedu.address.model.person.exceptions.DuplicatePersonException;
 
 /**
  * A utility class containing a list of {@code EventBook} objects to be used in tests.

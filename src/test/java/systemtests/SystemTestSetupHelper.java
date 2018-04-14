@@ -9,7 +9,6 @@ import guitests.guihandles.MainWindowHandle;
 import javafx.stage.Stage;
 import seedu.address.TestApp;
 import seedu.address.model.ReadOnlyAddressBook;
-import seedu.address.model.event.ReadOnlyEventBook;
 
 /**
  * Contains helper methods that system tests require.

@@ -571,6 +571,24 @@ image::DeleteEventSequenceDiagram.png[width="800"]
 
 // end::deleteevent[]
 
+// tag::switchtab[]
+=== Switch Tab feature
+==== Current Implementation
+
+The switch tab functionality allows the user to use CLI to switch between the Event and Task tabs as shown below.
+This provides additional support for users who prefer CLI to mouse controls.
+
+Format: `switchtab`
+
+image::SwitchTab.PNG[width="200"]
+
+And this is how SwitchTab works!
+
+. The user executes the `switchtab` command.
+. The `SwitchTabCommand` class creates a new `SingleSelectionModel<Tab>` object using the TabPane displaying Events and Tasks list.
+. The selected tab-index for the `SingleSelectionModel<Tab>` object is updated and displayed to the user.
+// end::switchtab[]
+
 // tag::task-add[]
 === Add Task feature
 ==== Current Implementation
@@ -757,7 +775,7 @@ image::ConvertCurrencySequenceDiagram.png[width="800"]
 . The `AddressBookParser` class parses the command creates a new `ConvertCommand` class.
 . The `convert` command is executed and assisted by the `Currency` class.
 . The converted value is returned and displayed to the user.
-@@@
+
 // tag::editevent[]
 === [Proposed] Edit an Event
 
