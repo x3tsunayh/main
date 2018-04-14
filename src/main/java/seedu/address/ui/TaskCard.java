@@ -12,6 +12,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import seedu.address.commons.events.ui.NewResultAvailableEvent;
+import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.DateUtil;
 import seedu.address.model.category.TaskCategory;
 import seedu.address.model.task.Task;
@@ -50,42 +51,22 @@ public class TaskCard extends UiPart<Region> {
         super(FXML);
         this.task = task;
 
-        setTaskIdStyle(displayedIndex);
-        setTaskNameStyle(task.getTaskName().value);
-        setTaskDescriptionStyle(task.getTaskDescription().value);
+        setLabelTextStyle(id, displayedIndex + ". ");
+        setLabelTextStyle(name, task.getTaskName().value);
+        setLabelTextStyle(description, task.getTaskDescription().value);
         setTaskCategoryStyle(task.getTaskCategories());
         setTaskPriorityDueDateAndStatusStyle(task.getTaskPriority().value, task.getTaskDueDate().value,
                 task.getTaskStatus().value);
     }
 
     /**
-     * Set the style for task id field
-     * Ensure that task id does not get truncated
-     * @param taskDisplayedIndex index of displayed task
+     * Set the style for different task fields
+     * @param labelName label to set the style to
+     * @param taskFieldValue value to set
      */
-    private void setTaskIdStyle(int taskDisplayedIndex) {
-        id.setText(taskDisplayedIndex + ". ");
-        id.setWrapText(true);
-    }
-
-    /**
-     * Set the style for task name field
-     * Ensure that longer task name does not get truncated or overlap with other fields
-     * @param taskName name of task
-     */
-    private void setTaskNameStyle(String taskName) {
-        name.setText(task.getTaskName().value);
-        name.setWrapText(true);
-    }
-
-    /**
-     * Set the style for task description field
-     * Ensure that longer task description does not get truncated or overlap with other fields
-     * @param taskDescription description of task
-     */
-    private void setTaskDescriptionStyle(String taskDescription) {
-        description.setText(task.getTaskDescription().value);
-        description.setWrapText(true);
+    private void setLabelTextStyle(Label labelName, String taskFieldValue) {
+        labelName.setText(taskFieldValue);
+        labelName.setWrapText(true);
     }
 
     /**
@@ -110,9 +91,9 @@ public class TaskCard extends UiPart<Region> {
      */
     private void setTaskPriorityDueDateAndStatusStyle(String taskPriority, String taskDueDate, String taskStatus) {
         if (taskStatus.equals("done")) {
-            setTaskPriorityLabelText("");
-            setTaskDueDateLabelText("");
-            setTaskStatusImageForDoneTasks("images/taskStatusDone.png", 50, 50);
+            setLabelText(priority, "");
+            setLabelText(dueDate, "");
+            setImage(statusImage, "images/taskStatusDone.png", 50, 50, "status");
         } else { // undone tasks
             setTaskPriorityStyleForUndoneTasks(taskPriority);
             setTaskDueDateStyleForUndoneTasks(taskDueDate);
@@ -129,16 +110,19 @@ public class TaskCard extends UiPart<Region> {
     private void setTaskPriorityStyleForUndoneTasks(String taskPriority) {
         if (taskPriority.equals("high")) {
             setTaskPriorityPaneStyle(68, "#FF0000");
-            setTaskPriorityImage("images/taskPriorityHigh.png");
+            setImage(priorityImage, "images/taskPriorityHigh.png", 15, 15,
+                    "priority");
 
         } else if (taskPriority.equals("medium")) {
             setTaskPriorityPaneStyle(88, "#FFC000");
-            setTaskPriorityImage("images/taskPriorityMedium.png");
+            setImage(priorityImage, "images/taskPriorityMedium.png", 15, 15,
+                    "priority");
         } else {
             setTaskPriorityPaneStyle(65, "#00FF00");
-            setTaskPriorityImage("images/taskPriorityLow.png");
+            setImage(priorityImage, "images/taskPriorityLow.png", 15, 15,
+                    "priority");
         }
-        setTaskPriorityLabelText(taskPriority.toUpperCase());
+        setLabelText(priority, taskPriority.toUpperCase());
     }
 
     /**
@@ -149,26 +133,6 @@ public class TaskCard extends UiPart<Region> {
     private void setTaskPriorityPaneStyle(int maxWidth, String colorCode) {
         priorityPane.setMaxWidth(maxWidth);
         priorityPane.setStyle("-fx-border-color: " + colorCode + ";");
-    }
-
-    /**
-     * Set the image to be displayed at task priority field
-     * @param imageUrl url of the image to be displayed
-     */
-    private void setTaskPriorityImage(String imageUrl) {
-        try {
-            priorityImage.setImage(new Image(imageUrl, 15, 15, true, true));
-        } catch (IllegalArgumentException iae) {
-            raise(new NewResultAvailableEvent(String.format(MESSAGE_INVALID_ARGUMENT, "priority")));
-        }
-    }
-
-    /**
-     * Set the text to be displayed at task priority label
-     * @param taskPriority text to be displayed
-     */
-    private void setTaskPriorityLabelText(String taskPriority) {
-        priority.setText(taskPriority);
     }
 
     /**
@@ -186,12 +150,7 @@ public class TaskCard extends UiPart<Region> {
                 DateUtil.getParsedDate(taskDueDate));
 
         if (remainingDays < 0) { // overdue tasks
-            try {
-                dueDateImage.setImage(new Image("images/taskOverdue.png", 20, 20,
-                        true, true));
-            } catch (IllegalArgumentException iae) {
-                raise(new NewResultAvailableEvent(String.format(MESSAGE_INVALID_ARGUMENT, "due date")));
-            }
+            setImage(dueDateImage, "images/taskOverdue.png", 20, 20, "due date");
             dueDate.setStyle("-fx-text-fill: #FF0000;");
         } else if (remainingDays < 3) {
             dueDate.setStyle("-fx-text-fill: #FF0000;");
@@ -201,28 +160,31 @@ public class TaskCard extends UiPart<Region> {
             dueDate.setStyle("-fx-text-fill: #00FF00;");
         }
 
-        setTaskDueDateLabelText(taskDueDate);
+        setLabelText(dueDate, taskDueDate);
     }
 
     /**
-     * Set the text to be displayed at task due date label
-     * @param taskDueDate text to be displayed
+     * Set the text to be display at task field label
+     * @param labelName label to set the text to
+     * @param valueToSet
      */
-    private void setTaskDueDateLabelText(String taskDueDate) {
-        dueDate.setText(taskDueDate);
+    private void setLabelText(Label labelName, String valueToSet) {
+        labelName.setText(valueToSet);
     }
 
     /**
-     * Set the image of the task status field for completed tasks
+     * Set the image of the task field
+     * @param imgViewName image view to set the image to
      * @param taskStatusImageUrl url of the image to be displayed
-     * @param width width of the image
-     * @param height height of the image
+     * @param width width of image
+     * @param height height of image
+     * @param fieldName task field name e.g. priority, status
      */
-    private void setTaskStatusImageForDoneTasks(String taskStatusImageUrl, int width, int height) {
+    private void setImage(ImageView imgViewName, String taskStatusImageUrl, int width, int height, String fieldName) {
         try {
-            statusImage.setImage(new Image(taskStatusImageUrl, width, height, true, true));
+            imgViewName.setImage(new Image(taskStatusImageUrl, width, height, true, true));
         } catch (IllegalArgumentException iae) {
-            raise(new NewResultAvailableEvent(String.format(MESSAGE_INVALID_ARGUMENT, "status")));
+            raise(new NewResultAvailableEvent(String.format(MESSAGE_INVALID_ARGUMENT, fieldName)));
         }
     }
 
