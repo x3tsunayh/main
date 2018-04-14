@@ -495,10 +495,9 @@ image::AddTagSequenceDiagram.PNG[width="800"]
 // end::addtag[]
 
 // tag::export[]
-=== Import/Export feature
+=== Export feature
 
 ==== Current Implementation
-Right now, only Export functionality is implemented.
 It makes use of `ExportCommand` which extends `UndoableCommand`.
 When the Export functionality is called on the `AddressBookParser`, it parses the given input as a FILEPATH using `ExportCommandParser` which eventually creates the `ExportCommand` instance.
 The `ModelManager` then invokes methods involving `Storage` under the `Model` instance in order to store the data into a user-defined location. If such a location was not well-defined, then the XML file exported will be directly saved in your local repository's main folder.
@@ -514,7 +513,7 @@ image::ExportCommandSequenceDiagram.png[width="800"]
 ** Pros: Allows greater flexibility as CSV files can be catered to importing of contacts into Google Contacts.
 ** Cons: Need to manually cater to popular file formats and this may require constant maintenance on the developers' end.
 * **Alternative 2:** Only allows exporting of data as XML files.
-** Pros: Simplified export into a file that is readable and understandable by humans, is completely compatible with Java and 100% portable.
+** Pros: Simplified export into a file that is readable and understandable by users, is completely compatible with Java and 100% portable.
 ** Cons: Users may not know the benefits or uses of an XML file.
 // end::export[]
 
@@ -571,6 +570,24 @@ The following sequence diagram illustrates how the event is removed under ModelM
 image::DeleteEventSequenceDiagram.png[width="800"]
 
 // end::deleteevent[]
+
+// tag::switchtab[]
+=== Switch Tab feature
+==== Current Implementation
+
+The switch tab functionality allows the user to use CLI to switch between the Event and Task tabs as shown below.
+This provides additional support for users who prefer CLI to mouse controls.
+
+Format: `switchtab`
+
+image::SwitchTab.PNG[width="200"]
+
+And this is how SwitchTab works!
+
+. The user executes the `switchtab` command.
+. The `SwitchTabCommand` class creates a new `SingleSelectionModel<Tab>` object using the TabPane displaying Events and Tasks list.
+. The selected tab-index for the `SingleSelectionModel<Tab>` object is updated and displayed to the user.
+// end::switchtab[]
 
 // tag::task-add[]
 === Add Task feature
@@ -759,10 +776,45 @@ image::ConvertCurrencySequenceDiagram.png[width="800"]
 . The `convert` command is executed and assisted by the `Currency` class.
 . The converted value is returned and displayed to the user.
 
+// tag::editevent[]
+=== [Proposed] Edit an Event
+
+The edit event feature allows user to edit an event in the Event Book by specifying the index of the displayed Event List.
+Allows easy editing of an event just by using the event index given in the Event list.
+
+This is how the edit event command will work under LogicManager.
+
+image::EditEventCommandSequenceDiagram.png[width="800"]
+
+. User executes `editevent` command with the required arguments.
+. `AddressBookParser` class creates a new `EditEventCommandParser` object to parse the command arguments.
+. This `EditEventCommandParser` object parses the arguments and create a new `EditEventCommand` object.
+. The `editevent` command is then executed and handled by the `ModelManager` class.
+. The specified event is updated from the Event list in Address Book and the updated details are then displayed to the user.
+
+// end::editevent[]
+
+// tag::eventnotifications[]
+=== [Proposed] Event Notifications
+
+The app will send out notifications for an event, if the user sets the datetime for that particular event.
+The `eventnotify` command takes in the event index shown on the list, and the datetime for the app to send the notification.
+Using the same command again with a datetime will reset the notification datetime (i.e. only one notification for each event).
+
+// end::eventnotifications[]
+
 // tag::dataencryption[]
 === [Proposed] Data Encryption
 
-_{Explain here how the data encryption feature will be implemented}_
+The login feature helps to protect data files by encrypting them with the user's password as the secret key.
+User's access is restricted until the user logs in with the username and password.
+Upon correct credential input, data files are decrypted and the user will have full access to the app's features.
+
+. User executes `login` command with the required arguments.
+. `AddressBookParser` class creates a new `LogInCommandParser` object to parse the command arguments.
+. This `LogInCommandParser` object parses the arguments and create a new `LogInCommand` object.
+. The `login` command is then executed and handled by the `ModelManager` class.
+. The `ModelManager` class will then check for the validity of the credentials and return the corresponding command message.
 
 // end::dataencryption[]
 
@@ -1224,9 +1276,12 @@ It is more convenient to delete the contacts by name when there are a lot of con
 
 * Tan Yong He
 
-Major: Calendar view feature to check summarised schedule for the month.
+Major: Implemented Event features to aid event managements
+Major: Calendar view that provides visuals to users, as well as work hand-in-hand with Event features when clicked on
 
-Minor: Export and Import features for address book portability to google contacts.
+Minor: Export functionality for address book portability to Google Contacts or other address books
+Minor: Google Search function for users to know more about a particular person in the contacts list
+Minor: Addition of LinkedIn and Google Chrome pages for easier accessibility to social networking sites.
 
 
 * Jillian Wee
@@ -1264,13 +1319,17 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *` |businessman with many contacts |sort persons by tag |easily view the details of persons with tag of interest
 
-|`* * *` |traveler |add event to my calender|receive a reminder on those dates (eg. Birthdays, Meetings)
+|`* * *` |eventful businessman |add event to my calender|receive a reminder on those dates (eg. Birthdays, Meetings)
 
-|`* * *` |traveler |edit event |so that it is up-to-date
+|`* * *` |eventful businessman |edit event |so that it is up-to-date
 
-|`* * *` |traveler |receive email notification |get reminded before the event is about to occur
+|`* * *` |eventful businessman |delete event |to remove unwanted events
 
-|`* * *` |traveler |receive in-app notification |get reminder before the event is about to occur
+|`* * *` |eventful businessman |find events with keywords |so that it is easier to search for an event or related events
+
+|`* * *` |eventful businessman |receive in-app notifications |to get reminders for incoming events
+
+|`* * *` |well-prepared businessman |google search about a particular contact |to understand more about that person's background
 
 |`* * *` |traveler and businessman|can convert from one currency to another | calculate the amount needed to exchange
 
@@ -1310,17 +1369,14 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* *` |businessman |convert from one timezone to another |know the working hours of a person in a different time zone to facilitate business communication
 
-|`* *` |traveler |display a motivational code |keeps motivated and going
+|`* *` |traveler |display a motivational quote |keeps user motivated and going
 
 |`* *` |traveler and businessman |hide <<private-contact-detail,private contact details>> by default |minimize chance of someone else seeing them by accident
 
-|`* *` |careful businessman|export data |to keep as emergency backup
+|`* *` |careful businessman|export data |to keep as emergency backup or import to external facilities like Google Contacts
 
-|`* *` |impatient businessman |import data | to port over different devices easily
 
 |=======================================================================
-
-_{More to be added}_
 
 [appendix]
 == Use Cases
@@ -1376,7 +1432,7 @@ Use case ends.
 * 1b. Only filename is given.
 +
 [none]
-** 1b1. XML file is exported to Addressbook's main folder.
+** 1b1. XML file is exported to Addressbook's folder (same location as the JAR file).
 +
 Use case ends.
 
@@ -1393,6 +1449,90 @@ Use case ends.
 ** 1d1. AddressBook warns the user with an error message.
 +
 Use case ends.
+
+[discrete]
+=== Use case: Adding an event
+
+*MSS*
+
+1.  User requests to add a new event
+2.  User enters command with required parameters
+3.  AddressBook adds the new event and updates the event list
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The command is incorrectly entered.
++
+[none]
+** 2a1. AddressBook shows an error message.
++
+Use case resumes at step 2.
+
+[discrete]
+=== Use case: Deleting an event
+
+*MSS*
+
+1.  User requests to list all events
+2.  AddressBook shows a list of events
+3.  User requests to delete a specific event in the list
+4.  AddressBook deletes the event
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The list is empty.
++
+Use case ends.
+
+* 3a. The given index is invalid.
++
+[none]
+** 3a1. AddressBook shows an error message.
++
+Use case resumes at step 2.
+
+[discrete]
+=== Use case: Sort all events by a specific field
+
+*MSS*
+
+1.  User requests to sort all events in AddressBook via a specific field
+2.  AddressBook sorts the list of events
+3.  AddressBook shows the list of sorted events
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The list is empty.
++
+Use case ends.
+
+[discrete]
+=== Use case: Jumping to specified year-month of calendar
+
+*MSS*
+
+1.  User requests calendar to jump to specific year-month
+2.  Calendar view shows that year-month
++
+Use case ends.
+
+*Extensions*.
+
+* 1a. The given year-month is invalid.
++
+[none]
+** 1a1. AddressBook shows an error message.
++
+Use case resumes at step 2.
 
 [discrete]
 === Use case: Sort all persons by name
@@ -1543,8 +1683,6 @@ Use case ends.
 +
 Use case ends.
 
-_{More to be added}_
-
 [appendix]
 == Non Functional Requirements
 
@@ -1552,9 +1690,8 @@ _{More to be added}_
 .  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
 .  A user with above average typing speed for regular English text (i.e. not code, not system admin commands)
 should be able to accomplish most of the tasks faster using commands than using the mouse.
-. Command query should not take too long to execute (i.e. more than 10 seconds.
-
-_{More to be added}_
+. Command query should not take too long to execute (i.e. more than 10 seconds).
+. User should not have to remember frequently used command formats (i.e. can refer to command examples for easy reminder).
 
 [appendix]
 == Glossary
@@ -1604,8 +1741,6 @@ These instructions only provide a starting point for testers to work on; testers
 .. Re-launch the app by double-clicking the jar file. +
    Expected: The most recent window size and location is retained.
 
-_{ more test cases ... }_
-
 === Deleting a person
 
 . Deleting a person while all persons are listed
@@ -1618,12 +1753,8 @@ _{ more test cases ... }_
 .. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size) _{give more}_ +
    Expected: Similar to previous.
 
-_{ more test cases ... }_
-
 === Saving data
 
 . Dealing with missing/corrupted data files
 
 .. _{explain how to simulate a missing/corrupted file and the expected behavior}_
-
-_{ more test cases ... }_

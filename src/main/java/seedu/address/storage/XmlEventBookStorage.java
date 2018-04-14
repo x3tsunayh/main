@@ -13,7 +13,9 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.exceptions.DataConversionException;
+import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.FileUtil;
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.event.ReadOnlyEventBook;
 
 //@@author x3tsunayh
@@ -45,7 +47,8 @@ public class XmlEventBookStorage implements EventBookStorage {
     }
 
     @Override
-    public Optional<ReadOnlyEventBook> readEventBook(String filePath) throws FileNotFoundException, JAXBException {
+    public Optional<ReadOnlyEventBook> readEventBook(String filePath)
+            throws FileNotFoundException, JAXBException, DataConversionException {
         requireNonNull(filePath);
 
         File eventBookFile = new File(filePath);
@@ -55,9 +58,16 @@ public class XmlEventBookStorage implements EventBookStorage {
             return Optional.empty();
         }
 
-        ReadOnlyEventBook eventBookOptional = XmlFileStorage.loadEventDataFromSaveFile(new File(filePath));
-
-        return Optional.of(eventBookOptional);
+        XmlSerializableEventBook eventBookOptional = XmlFileStorage.loadEventDataFromSaveFile(new File(filePath));
+        try {
+            return Optional.of(eventBookOptional.toModelType());
+        } catch (IllegalValueException ive) {
+            logger.info("Illegal values found in " + eventBookOptional + ": " + ive.getMessage());
+            throw new DataConversionException(ive);
+        } catch (CommandException e) {
+            logger.info("Invalid command in " + eventBookOptional + ": " + e.getMessage());
+        }
+        return Optional.empty();
     }
 
     @Override

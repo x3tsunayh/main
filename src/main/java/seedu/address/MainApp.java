@@ -110,6 +110,9 @@ public class MainApp extends Application {
             if (!addressBookOptional.isPresent()) {
                 logger.info("Data file not found. Will be starting with a sample AddressBook");
             }
+            if (!eventBookOptional.isPresent()) {
+                logger.info("Event file not found. Will be starting with a sample AddressBook");
+            }
             if (!taskBookOptional.isPresent()) {
                 logger.info("Task data file not found. Will be starting with a sample TaskBook");
             }

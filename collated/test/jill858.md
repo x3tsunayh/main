@@ -26,32 +26,6 @@
     </persons>
     <tags>friends</tags>
     <tags>owesMoney</tags>
-    <tasks>
-        <taskName>TaskOne</taskName>
-        <taskPriority>medium</taskPriority>
-        <taskDescription>Tasks to be done for task 1</taskDescription>
-        <taskDueDate>2018-06-15</taskDueDate>
-        <taskStatus>undone</taskStatus>
-        <categorised>work</categorised>
-    </tasks>
-    <tasks>
-        <taskName>TaskTwo</taskName>
-        <taskPriority>high</taskPriority>
-        <taskDescription>Agenda for task 2</taskDescription>
-        <taskDueDate>2018-03-28</taskDueDate>
-        <taskStatus>undone</taskStatus>
-        <categorised>personal</categorised>
-    </tasks>
-    <tasks>
-        <taskName>TaskThree</taskName>
-        <taskPriority>low</taskPriority>
-        <taskDescription>Purchase office supplies</taskDescription>
-        <taskDueDate>2018-04-10</taskDueDate>
-        <taskStatus>done</taskStatus>
-        <categorised>work</categorised>
-    </tasks>
-    <taskCategories>work</taskCategories>
-    <taskCategories>personal</taskCategories>
 </addressbook>
 ```
 ###### \java\seedu\address\logic\commands\ConvertCommandTest.java

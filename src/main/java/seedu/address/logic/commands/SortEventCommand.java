@@ -36,11 +36,11 @@ public class SortEventCommand extends UndoableCommand {
     }
 
     @Override
-    public CommandResult executeUndoableCommand() throws CommandException {
+    public CommandResult executeUndoableCommand() {
         try {
             model.sortEventList(sortParameter);
 
-        } catch (Exception e) {
+        } catch (CommandException e) {
             return new CommandResult(MESSAGE_SORT_WRONG_PARAMETER);
         }
         return new CommandResult(String.format(MESSAGE_SORT_SUCCESS + sortParameter));

@@ -1,4 +1,206 @@
 # x3tsunayh
+###### \java\guitests\guihandles\EventCardHandle.java
+``` java
+
+/**
+ * Provides a handle to an event card in the event list panel.
+ */
+public class EventCardHandle extends NodeHandle<Node> {
+    private static final String ID_FIELD_ID = "#id";
+    private static final String TITLE_FIELD_ID = "#title";
+    private static final String DESCRIPTION_FIELD_ID = "#description";
+    private static final String LOCATION_FIELD_ID = "#eventLocation";
+    private static final String DATETIME_FIELD_ID = "#datetime";
+
+    private final Label idLabel;
+    private final Label titleLabel;
+    private final Label descriptionLabel;
+    private final Label locationLabel;
+    private final Label datetimeLabel;
+
+    public EventCardHandle(Node cardNode) {
+        super(cardNode);
+
+        this.idLabel = getChildNode(ID_FIELD_ID);
+        this.titleLabel = getChildNode(TITLE_FIELD_ID);
+        this.descriptionLabel = getChildNode(DESCRIPTION_FIELD_ID);
+        this.locationLabel = getChildNode(LOCATION_FIELD_ID);
+        this.datetimeLabel = getChildNode(DATETIME_FIELD_ID);
+
+    }
+
+    public String getId() {
+        return idLabel.getText();
+    }
+
+    public String getTitle() {
+        return titleLabel.getText();
+    }
+
+    public String getDescription() {
+        return descriptionLabel.getText();
+    }
+
+    public String getLocation() {
+        return locationLabel.getText();
+    }
+
+    public String getDatetime() {
+        return datetimeLabel.getText();
+    }
+
+}
+```
+###### \java\guitests\guihandles\EventListPanelHandle.java
+``` java
+
+/**
+ * Provides a handle for {@code EventListPanel} containing the list of {@code EventCard}.
+ */
+public class EventListPanelHandle extends NodeHandle<ListView<EventCard>> {
+    public static final String EVENT_LIST_VIEW_ID = "#eventListView";
+
+    private Optional<EventCard> lastRememberedSelectedEventCard;
+
+    public EventListPanelHandle(ListView<EventCard> eventListPanelNode) {
+        super(eventListPanelNode);
+    }
+
+    /**
+     * Returns a handle to the selected {@code EventCardHandle}.
+     * A maximum of 1 item can be selected at any time.
+     * @throws AssertionError if no card is selected, or more than 1 card is selected.
+     */
+    public EventCardHandle getHandleToSelectedCard() {
+        List<EventCard> eventList = getRootNode().getSelectionModel().getSelectedItems();
+
+        if (eventList.size() != 1) {
+            throw new AssertionError("Event list size expected 1.");
+        }
+
+        return new EventCardHandle(eventList.get(0).getRoot());
+    }
+
+    /**
+     * Returns the index of the selected card.
+     */
+    public int getSelectedCardIndex() {
+        return getRootNode().getSelectionModel().getSelectedIndex();
+    }
+
+    /**
+     * Returns true if a card is currently selected.
+     */
+    public boolean isAnyCardSelected() {
+        List<EventCard> selectedCardsList = getRootNode().getSelectionModel().getSelectedItems();
+
+        if (selectedCardsList.size() > 1) {
+            throw new AssertionError("Card list size expected 0 or 1.");
+        }
+
+        return !selectedCardsList.isEmpty();
+    }
+
+    /**
+     * Navigates the listview to display and select the event.
+     */
+    public void navigateToCard(Event event) {
+        List<EventCard> cards = getRootNode().getItems();
+        Optional<EventCard> matchingCard = cards.stream().filter(card -> card.event.equals(event)).findFirst();
+
+        if (!matchingCard.isPresent()) {
+            throw new IllegalArgumentException("Event does not exist.");
+        }
+
+        guiRobot.interact(() -> {
+            getRootNode().scrollTo(matchingCard.get());
+            getRootNode().getSelectionModel().select(matchingCard.get());
+        });
+        guiRobot.pauseForHuman();
+    }
+
+    /**
+     * Returns the event card handle of an event associated with the {@code index} in the list.
+     */
+    public EventCardHandle getEventCardHandle(int index) {
+        return getEventCardHandle((Event) getRootNode().getItems().get(index).event);
+    }
+
+    /**
+     * Returns the {@code EventCardHandle} of the specified {@code event} in the list.
+     */
+    public EventCardHandle getEventCardHandle(Event event) {
+        Optional<EventCardHandle> handle = getRootNode().getItems().stream()
+                .filter(card -> card.event.equals(event))
+                .map(card -> new EventCardHandle(card.getRoot()))
+                .findFirst();
+        return handle.orElseThrow(() -> new IllegalArgumentException("Event does not exist."));
+    }
+
+    /**
+     * Selects the {@code EventCard} at {@code index} in the list.
+     */
+    public void select(int index) {
+        getRootNode().getSelectionModel().select(index);
+    }
+
+    /**
+     * Remembers the selected {@code EventCard} in the list.
+     */
+    public void rememberSelectedEventCard() {
+        List<EventCard> selectedItems = getRootNode().getSelectionModel().getSelectedItems();
+
+        if (selectedItems.size() == 0) {
+            lastRememberedSelectedEventCard = Optional.empty();
+        } else {
+            lastRememberedSelectedEventCard = Optional.of(selectedItems.get(0));
+        }
+    }
+
+    /**
+     * Returns true if the selected {@code EventCard} is different from the value remembered by the most recent
+     * {@code rememberSelectedEventCard()} call.
+     */
+    public boolean isSelectedEventCardChanged() {
+        List<EventCard> selectedItems = getRootNode().getSelectionModel().getSelectedItems();
+
+        if (selectedItems.size() == 0) {
+            return lastRememberedSelectedEventCard.isPresent();
+        } else {
+            return !lastRememberedSelectedEventCard.isPresent()
+                    || !lastRememberedSelectedEventCard.get().equals(selectedItems.get(0));
+        }
+    }
+
+    /**
+     * Returns the size of the list.
+     */
+    public int getListSize() {
+        return getRootNode().getItems().size();
+    }
+}
+```
+###### \java\seedu\address\commons\util\XmlUtilTest.java
+``` java
+    @Test
+    public void saveDataToFile_nullEventFile_throwsNullPointerException() throws Exception {
+        thrown.expect(NullPointerException.class);
+        XmlUtil.saveDataToFile(null, new EventBook());
+    }
+
+    @Test
+    public void saveDataToFile_nullEventClass_throwsNullPointerException() throws Exception {
+        thrown.expect(NullPointerException.class);
+        XmlUtil.saveDataToFile(VALID_TASKBOOK_FILE, null);
+    }
+
+    @Test
+    public void saveDataToFile_missingEventFile_fileNotFoundException() throws Exception {
+        thrown.expect(FileNotFoundException.class);
+        XmlUtil.saveDataToFile(MISSING_FILE, new EventBook());
+    }
+
+```
 ###### \java\seedu\address\logic\commands\AddEventCommandTest.java
 ``` java
 
@@ -74,6 +276,11 @@ public class AddEventCommandTest {
         }
 
         @Override
+        public void resetData(ReadOnlyTaskBook newDate) {
+            fail("This method should not be called.");
+        }
+
+        @Override
         public ReadOnlyAddressBook getAddressBook() {
             fail("This method should not be called.");
             return null;
@@ -81,6 +288,11 @@ public class AddEventCommandTest {
 
         @Override
         public ReadOnlyEventBook getEventBook() {
+            return null;
+        }
+
+        @Override
+        public ReadOnlyTaskBook getTaskBook() {
             return null;
         }
 
@@ -163,7 +375,7 @@ public class AddEventCommandTest {
     }
 
     /**
-     * A Model stub that always accept the event being added.
+     * A Model stub with working addEvent method but fails irrelevant methods.
      */
     private class ModelStubAcceptingEventAdded extends ModelStub {
         final ArrayList<ReadOnlyEvent> eventsAdded = new ArrayList<>();
@@ -182,6 +394,11 @@ public class AddEventCommandTest {
         @Override
         public ReadOnlyEventBook getEventBook() {
             return new EventBook();
+        }
+
+        @Override
+        public ReadOnlyTaskBook getTaskBook() {
+            return new TaskBook();
         }
     }
 
@@ -243,7 +460,8 @@ public class AddEventCommandTest {
  */
 public class DeleteEventCommandTest {
 
-    private Model model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
+    private Model model =
+            new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), getTypicalTaskBook(), new UserPrefs());
 
     @Test
     public void execute_validIndexUnfilteredList_success() throws Exception {
@@ -252,7 +470,8 @@ public class DeleteEventCommandTest {
 
         String expectedMessage = String.format(DeleteEventCommand.MESSAGE_DELETE_EVENT_SUCCESS, eventToDelete);
 
-        ModelManager expectedModel = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
+        ModelManager expectedModel =
+                new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), getTypicalTaskBook(), new UserPrefs());
         ReadOnlyEvent expectedEventToDelete = expectedModel.getFilteredEventList()
                 .get(Index.fromOneBased(1).getZeroBased());
         expectedModel.deleteEvent(expectedEventToDelete);
@@ -280,7 +499,8 @@ public class DeleteEventCommandTest {
 
         String expectedMessage = String.format(DeleteEventCommand.MESSAGE_DELETE_EVENT_SUCCESS, eventToDelete);
 
-        Model expectedModel = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
+        Model expectedModel =
+                new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), getTypicalTaskBook(), new UserPrefs());
         ReadOnlyEvent expectedEventToDelete = expectedModel.getFilteredEventList()
                 .get(Index.fromOneBased(1).getZeroBased());
         expectedModel.deleteEvent(expectedEventToDelete);
@@ -360,10 +580,11 @@ public class ExportCommandTest {
     public void setUp() {
         AddressBookStorage addressBookStorage = new XmlAddressBookStorage(getFilePath("addressbook.xml"));
         XmlEventBookStorage eventBookStorage = new XmlEventBookStorage(getFilePath("eb.xml"));
+        TaskBookStorage taskBookStorage = new XmlTaskBookStorage(getFilePath("tb.xml"));
         UserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(getFilePath("preferences.json"));
 
-        storage = new StorageManager(addressBookStorage, eventBookStorage, userPrefsStorage);
-        model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
+        storage = new StorageManager(addressBookStorage, eventBookStorage, taskBookStorage, userPrefsStorage);
+        model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), getTypicalTaskBook(), new UserPrefs());
     }
 
     @Test
@@ -486,7 +707,8 @@ public class ExportCommandTest {
  */
 public class FindEventCommandTest {
 
-    private Model model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
+    private Model model =
+            new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), getTypicalTaskBook(), new UserPrefs());
 
     @Test
     public void equals() {
@@ -570,8 +792,9 @@ public class ListAllEventsCommandTest {
 
     @Before
     public void setUp() {
-        model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
-        expectedModel = new ModelManager(model.getAddressBook(), model.getEventBook(), new UserPrefs());
+        model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), getTypicalTaskBook(), new UserPrefs());
+        expectedModel =
+                new ModelManager(model.getAddressBook(), model.getEventBook(), model.getTaskBook(), new UserPrefs());
 
         listEventCommand = new ListAllEventsCommand();
         listEventCommand.setData(model, new CommandHistory(), new UndoRedoStack());
@@ -616,8 +839,9 @@ public class SortEventCommandTest {
         secondParameter = "LOCATION";
         thirdParameter = "DATETIME";
 
-        model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
-        expectedModel = new ModelManager(model.getAddressBook(), model.getEventBook(), new UserPrefs());
+        model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), getTypicalTaskBook(), new UserPrefs());
+        expectedModel =
+                new ModelManager(model.getAddressBook(), model.getEventBook(), model.getTaskBook(), new UserPrefs());
 
     }
 
@@ -1142,10 +1366,11 @@ public class XmlEventBookStorageTest {
     }
 
     @Test
-    public void getEventList_modifyList_throwsUnsupportedOperationException() {
+    public void getEventList_modifyList_throwsUnsupportedOperationException()
+            throws IllegalValueException, CommandException {
         XmlSerializableEventBook eventBook = new XmlSerializableEventBook();
         thrown.expect(UnsupportedOperationException.class);
-        eventBook.getEventList().remove(0);
+        eventBook.toModelType().getEventList().remove(0);
     }
 
     /**
