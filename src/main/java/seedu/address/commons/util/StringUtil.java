@@ -5,6 +5,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.StringJoiner;
 
 /**
  * Helper functions for handling strings.
@@ -67,5 +68,21 @@ public class StringUtil {
         } catch (NumberFormatException nfe) {
             return false;
         }
+    }
+
+    //@@author jill858
+    /**
+     * Joins the words together by space
+     * @param args List of String arguement
+     * @return words join with space
+     */
+    public static String concatenateStringWithSpace(String... args) {
+        StringJoiner sj = new StringJoiner(" ");
+
+        for (String word : args) {
+            sj.add(word);
+        }
+
+        return sj.toString();
     }
 }
