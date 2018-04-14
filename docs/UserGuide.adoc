@@ -805,7 +805,15 @@ Format: `login u/USERNAME p/PASSWORD
 
 // tag::autoremovecompletedTasks[]
 === Automatically remove completed tasks `[coming in v2.0]`
+Automatically remove any unmarked completed tasks so that the task list does not get too lengthy.
+It will be merged into the `task-add` and `task-edit` command with additional parameters. +
 
+New format for task-add: `task-add n/NAME p/PRIORITY d/DESCRIPTION dd/DUE_DATE s/STATUS tl/TIME_LIMIT_DAYS ms/MARK_STATUS [c/CATEGORY]...` +
+
+New format for task-edit: `task-edit INDEX [n/NAME] [p/PRIORITY] [d/DESCRIPTION] [dd/DUE_DATE] [s/STATUS] [tl/TIME_LIMIT_DAYS] [ms/MARK_STATUS] [c/CATEGORY]...` +
+
+TIME_LIMIT_DAYS : Number of days to keep a task after its completion +
+MARK_STATUS : Indicate whether the completed task needs to be kept after time limit is over
 // end::autoremovecompletedTasks[]
 
 

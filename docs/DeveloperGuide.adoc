@@ -907,15 +907,14 @@ Upon correct credential input, data files are decrypted and the user will have f
 
 // tag::autoremovecompletedtasks[]
 === [Proposed] Automatically Remove Completed Tasks
-
 This feature allows user to set a time limit to remove the completed tasks, so that the task list does not get too lengthy.
 However, the user can also mark completed tasks to be kept in order to retain them.
 After the specified time, the unmarked completed tasks will be removed permanently from the list.
 
-Three new fields need to be added to the Task, namely `completionDate`, `timeLimit` and `markStatus`.
-`completionDate` is to store the date when the task is completed, it has a default date when a task is first created.
-`timeLimit` is to store the number of days after the completionDate before a completed task is removed from the task list.
-`markStatus` is for user to indicate if they want to continue keeping the completed task after the time limit
+Three new fields need to be added to the Task, namely `completionDate`, `timeLimit` and `markStatus`. +
+`completionDate` : Date when the task is completed (i.e. changes status from undone to done), it has a default date when first created
+`timeLimit` : Number of days to keep a task after its completion before it is removed from the task list.
+`markStatus` : Indicate whether the completed task needs to be kept after time limit is over
 
 This feature can be merged into the current task features (e.g. task-add, task-edit)
 For instance, the user can directly specify the time limit and markStatus during task addition,
@@ -927,8 +926,6 @@ This feature works as follows:
 . Every time the application is opened, it will check the current date and automatically remove any unmarked
   completed task scheduled for removal on today's date.
 // end::autoremovecompletedtasks[]
-
-
 
 === Logging
 
@@ -1474,6 +1471,8 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 |`* * *` |traveler and businessman |clear all tasks  | conveniently remove all the tasks at once and start with a new list.
 
 |`* * *` |traveler and businessman |convert a sentence or word from one language to another |understand both language at the same time
+
+|`* *` |traveler and businessman |remove unimportant completed tasks automatically |keep an updated succinct task list without unimportant completed tasks for easy viewing
 
 |`* *` |traveler and businessman |subscribe to event |get more information about the event
 

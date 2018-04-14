@@ -63,7 +63,7 @@ multiple contacts spanning across different alphabets in sequential order.
 ** Documentation:
 *** Updated UI, model and storage component class diagrams
 *** Wrote use cases for implemented features
-*** Wrote Testing Manual, User Guide and Developer Guide
+*** Wrote relevant sections of Testing Manual, User Guide and Developer Guide
 *** Wrote project description in Project Portfolio with team
 
 ** Community:
@@ -91,6 +91,8 @@ include::../UserGuide.adoc[tag=ListTask]
 
 include::../UserGuide.adoc[tag=ClearTask]
 
+include::../UserGuide.adoc[tag=autoremovecompletedTasks]
+
 == Contributions to the Developer Guide
 
 |===
@@ -112,3 +114,5 @@ include::../DeveloperGuide.adoc[tag=task-list]
 include::../DeveloperGuide.adoc[tag=task-sort]
 
 include::../DeveloperGuide.adoc[tag=task-clear]
+
+include::../DeveloperGuide.adoc[tag=autoremovecompletedtasks]
