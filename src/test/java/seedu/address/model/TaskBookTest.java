@@ -2,6 +2,7 @@ package seedu.address.model;
 
 import static org.junit.Assert.assertEquals;
 import static seedu.address.testutil.TypicalTasks.TASKONE;
+import static seedu.address.testutil.TypicalTasks.TASKTWO;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,6 +18,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.model.category.TaskCategory;
 import seedu.address.model.task.Task;
+import seedu.address.model.task.exceptions.TaskNotFoundException;
 
 //@@author CYX28
 public class TaskBookTest {
@@ -47,6 +49,16 @@ public class TaskBookTest {
 
         thrown.expect(AssertionError.class);
         taskBook.resetData(newData);
+    }
+
+    @Test
+    public void removeTask_taskNotFound_throwsTaskNotFoundException() throws TaskNotFoundException {
+        List<Task> newTasks = Arrays.asList(TASKONE);
+        List<TaskCategory> newTaskCategories = new ArrayList<>(TASKONE.getTaskCategories());
+        TaskBookStub newData = new TaskBookStub(newTasks, newTaskCategories);
+
+        thrown.expect(TaskNotFoundException.class);
+        taskBook.removeTask(TASKTWO);
     }
 
     @Test
