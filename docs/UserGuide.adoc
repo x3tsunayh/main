@@ -580,8 +580,8 @@ Behaviour of priority field for undone tasks:
 * medium: Orange color display
 * low: Green color display
 
-image::UG_TaskDisplay.PNG[width="300"]
-The task due dates displayed are computed based on the current date of 2018-04-14.
+image::UG_TaskDisplay.PNG[width="250"]
+The task due dates displayed are computed against the current date of 2018-04-14.
 // end::TaskDisplay[]
 
 // tag::AddTask[]

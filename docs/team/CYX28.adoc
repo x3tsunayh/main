@@ -9,24 +9,18 @@
 == Overview
 
 BizConnect Journal is a dedicated application catered to busy businessmen, especially those who travel a lot.
-This app helps to manage their wide range of contacts, events and tasks. It also uses Command Line Interface (CLI) as the primary source of input.
+This app helps to manage their wide range of contacts, events and tasks. It also uses Command Line Interface (CLI)
+as the primary source of input.
 
-Businessmen tend to have a lot of meetings and networking sessions with new people which includes the exchange of contacts,
-thus the above features will be useful for them as they can access all of them in one application without the trouble
-of a separate application for each individual purpose.
-
-At any point in time, the businessman can refer to the calendar and its event list to keep track of upcoming major events, thereby allowing a clear idea on
-what his current schedule is like. In addition, the task list comes in handy to update the businessman of pending tasks and the tasks’ urgency.
-This helps them prioritise what needs to be done first.
-
-Besides that, traveling in foreign countries also involves the hassle of not knowing the appropriate amount of money to change.
-Hence, the currency converter aims to facilitate the fast and accurate knowledge of the amount to change without the need of a separate online converter application.
+The contacts, events and tasks features are especially useful during exchanging of contacts during meetings
+and networking sessions, keeping track of upcoming major events for businessmen to know their current schedules and
+also to help them prioritise their tasks by keeping track of the pending tasks and their urgency respectively.
+Besides that, the currency converter aims to facilitate the fast and accurate knowledge of the amount to change
+without the need for a separate converter application.
 
 A simple day-to-day life of a businessman can be packed with many schedules and having a single tool to manage
-all their necessary work information makes things easier, as well as save them valuable time and effort.
+all their necessary work information makes things easier, and save them valuable time and effort.
 With all these goals in mind, BizConnect Journal is developed to ease the management of the busy schedules of businessmen.
-
-image::Ui.png[width="790"]
 
 == Summary of contributions
 
@@ -37,37 +31,32 @@ It allows the businessman to add, delete, edit, find tasks by name and list all 
 default sorted by status (i.e. undone to done), due date in ascending order and priority level (high > medium > low).
 
 ** *Justification*:
-This feature improves the address book as it allows the businessman to manage their tasks easily.
-Tasks can contain minor details e.g. buy office stationary to nitty-gritty details like
-e.g. listing agenda for meeting explicitly. Sometimes, an implementation idea might just pop up and the businessman
-need to record it down somewhere so that the idea is not forgotten. +
-This is where the task management comes into place as it allows the businessman to add any task together with its
-details such as the due date and priority effortlessly to facilitate tracking of tasks, without having to worry
-about forgetting any details. +
-In addition, other functions like edit and delete enables the businessman to update any task details and remove any
-completed task respectively. This helps to keep the task list up-to-date with the current schedule of the businessman.
+This feature allows the management of task conveniently. This is especially useful when the businessman needs to quickly
+note down any task, without the worry of missing out important details. Furthermore, edit and delete allows the
+businessman to update any task details and remove any completed task respectively. This helps to keep the task list
+up-to-date with the businessman's current schedule.
 
-** *Highlights*: This feature allows for the management of tasks together with other features like contacts and
-events in the same application. Furthermore, with a more user-friendly task display, the businessman can
-quickly identify the incomplete tasks with its due date and status at one glance without having to
-search with difficulty, thus helping to save time in their busy schedule.
+** *Highlights*: This feature allows tasks to be managed together with contacts in the same application. Also,
+a more user-friendly task display enables the businessmen to quickly identify the incomplete tasks details,
+hence helping to save precious time in their busy schedule.
 
 * *Minor enhancement*: Added a sort contacts by name command. It allows the businessman to easily find and view
 multiple contacts spanning across different alphabets in sequential order.
 
-* *Code contributed*: [https://github.com/CS2103JAN2018-T15-B4/main/tree/master/collated/functional/CYX28.md[Functional code]] [https://github.com/CS2103JAN2018-T15-B4/main/tree/master/collated/test/CYX28.md[Test code]]
+* *Code contributed*: [https://github.com/CS2103JAN2018-T15-B4/main/tree/master/collated/functional/CYX28.md[Functional code]]
+ [https://github.com/CS2103JAN2018-T15-B4/main/tree/master/collated/test/CYX28.md[Test code]]
 
 * *Other contributions*:
 ** Project management:
 *** Usage of issue tracker (issues, milestones) to manage project tasks
 ** Documentation:
 *** Updated UI, model and storage component class diagrams
-*** Wrote use cases for implemented features
-*** Wrote relevant sections of Testing Manual, User Guide and Developer Guide
+*** Wrote use cases and Testing Manual for implemented features
 *** Wrote project description in Project Portfolio with team
 
 ** Community:
-*** Reported bugs and suggestions for other teams in the class (examples:  https://github.com/CS2103JAN2018-T09-B4/main/issues/140, https://github.com/CS2103JAN2018-T09-B4/main/issues/143, https://github.com/CS2103JAN2018-T09-B4/main/issues/153)
+*** Reported bugs and suggestions for other teams in the class (examples: https://github.com/CS2103JAN2018-T09-B4/main/issues/140,
+https://github.com/CS2103JAN2018-T09-B4/main/issues/143, https://github.com/CS2103JAN2018-T09-B4/main/issues/153)
 
 == Contributions to the User Guide
 
@@ -75,7 +64,9 @@ multiple contacts spanning across different alphabets in sequential order.
 |_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
 |===
 
+////
 include::../UserGuide.adoc[tag=sort]
+////
 
 include::../UserGuide.adoc[tag=TaskDisplay]
 
@@ -87,11 +78,11 @@ include::../UserGuide.adoc[tag=EditTask]
 
 include::../UserGuide.adoc[tag=FindTask]
 
+////
 include::../UserGuide.adoc[tag=ListTask]
 
 include::../UserGuide.adoc[tag=ClearTask]
-
-include::../UserGuide.adoc[tag=autoremovecompletedTasks]
+////
 
 == Contributions to the Developer Guide
 
@@ -103,16 +94,20 @@ include::../DeveloperGuide.adoc[tag=sort]
 
 include::../DeveloperGuide.adoc[tag=task-add]
 
+////
 include::../DeveloperGuide.adoc[tag=task-delete]
+////
 
 include::../DeveloperGuide.adoc[tag=task-edit]
 
 include::../DeveloperGuide.adoc[tag=task-find]
 
+////
 include::../DeveloperGuide.adoc[tag=task-list]
+////
 
 include::../DeveloperGuide.adoc[tag=task-sort]
 
+////
 include::../DeveloperGuide.adoc[tag=task-clear]
-
-include::../DeveloperGuide.adoc[tag=autoremovecompletedtasks]
+////

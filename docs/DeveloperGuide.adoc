@@ -363,21 +363,12 @@ image::UndoRedoActivityDiagram.png[width="650"]
 ==== Current Implementation
 
 The sort mechanism sorts the persons list alphabetically by name. It currently supports sorting in ascending order.
-
 The internal details of the sort mechanism is handled by the `sort` method in `UniquePersonList` class.
-The sort mechanism is implemented using a custom comparator in JavaFX ObservableList `sort` method as follows:
-
-[source,java]
-----
-public void sort() {
-    internalList.sort((person1, person2) -> person1.getName().toString()
-            .compareToIgnoreCase(person2.getName().toString()));
-}
-----
+The sort mechanism is implemented using a custom comparator in JavaFX ObservableList `sort` method.
 
 The following sequence diagram shows how the sort persons operation works.
 
-image::SortingSequenceDiagram.png[width="800"]
+image::SortingSequenceDiagram.png[width="600"]
 
 . The user executes the `sort` command.
 . The `AddressBookParser` class parses the command and create a new `SortCommand` class.
@@ -668,22 +659,9 @@ All of the fields are compulsory except category.
 
 Format: `task-add n/NAME p/PRIORITY d/DESCRIPTION dd/DUE_DATE s/STATUS [c/CATEGORY]...`
 
-Validations are performed for each of the fields to ensure that invalid values will result in appropriate error messages.
-Some examples are as follows:
-
-image::DG_AddTask_1.PNG[width="800"]
-Task with invalid priority value.
-
-image::DG_AddTask_2.PNG[width="800"]
-Task with invalid due date format.
-
-Furthermore, if the task to be added already exist in the Address Book, it will result in the following error message.
-
-image::DG_AddTask_3.PNG[width="800"]
-
 The following sequence diagram shows how the add task operation works.
 
-image::TaskAddSequenceDiagram.png[width="800"]
+image::TaskAddSequenceDiagram.png[width="600"]
 
 . The user executes the `task-add` command and specify the required parameters.
 . The `AddressBookParser` class creates a new `TaskAddCommandParser` class to parse the command parameters.
@@ -691,9 +669,12 @@ image::TaskAddSequenceDiagram.png[width="800"]
 . The `task-add` command is executed and handled by the `ModelManager` class.
 . The task is added to the list of tasks in Address Book and displayed to the user.
 
+////
 The following activity diagram summarise what happens when a user executes the `task-add` command:
 
-image::TaskAddActivityDiagram.png[width="700"]
+image::TaskAddActivityDiagram.png[width="400"]
+////
+
 // end::task-add[]
 
 // tag::task-delete[]
@@ -705,14 +686,9 @@ the task's index in the displayed Task List.
 
 Format: `task-delete INDEX`
 
-Similarly, validation is performed on the supplied index to ensure its validity.
-
-image::DG_DeleteTask_1.PNG[width="350"]
-There are 7 tasks in the list for this case.
-
 The following sequence diagram shows how the delete task operation works.
 
-image::TaskDeleteSequenceDiagram.png[width="800"]
+image::TaskDeleteSequenceDiagram.png[width="600"]
 
 . The user executes the `task-delete` command and specify the required parameter.
 . The `AddressBookParser` class creates a new `TaskDeleteCommandParser` class to parse the command parameter.
@@ -732,7 +708,7 @@ Format: `task-edit INDEX [n/NAME] [p/PRIORITY] [d/DESCRIPTION] [dd/DUE_DATE] [s/
 
 The following sequence diagram shows how the edit task operation works.
 
-image::TaskEditSequenceDiagram.png[width="800"]
+image::TaskEditSequenceDiagram.png[width="600"]
 
 . The user executes the `task-edit` command and specify the required parameters.
 . The `AddressBookParser` class creates a new `TaskEditCommandParser` class to parse the command parameters.
@@ -742,7 +718,7 @@ image::TaskEditSequenceDiagram.png[width="800"]
 
 The following activity diagram summarise what happens when a user executes the `task-edit` command:
 
-image::TaskEditActivityDiagram.png[width="700"]
+image::TaskEditActivityDiagram.png[width="400"]
 // end::task-edit[]
 
 // tag::task-find[]
@@ -756,7 +732,7 @@ Format: `task-find KEYWORD [MORE_KEYWORDS]...`
 
 The following sequence diagram shows how the find tasks operation works.
 
-image::TaskFindSequenceDiagram.png[width="800"]
+image::TaskFindSequenceDiagram.png[width="600"]
 . The user executes the `task-find` command and specify the required parameter(s).
 . The `AddressBookParser` class creates a new `TaskFindCommandParser` class to parse the command parameter(s).
 . The `TaskFindCommandParser` class parses the parameter(s) and create a new `TaskFindCommand` class.
@@ -785,7 +761,7 @@ Format: `task-list`
 
 The following sequence diagram shows how the list tasks operation works.
 
-image::TaskListSequenceDiagram.png[width="800"]
+image::TaskListSequenceDiagram.png[width="600"]
 
 . The user executes the `task-list` command.
 . The `AddressBookParser` class parses the command and creates a new `TaskListCommand` class.
@@ -800,10 +776,9 @@ image::TaskListSequenceDiagram.png[width="800"]
 This feature is implemented as a default behaviour of the task list display, rather than as a command.
 
 The sort mechanism sorts the tasks list based on status (i.e. undone to done), due date in ascending order
-and priority level (i.e. high > medium > low).
-
-The internal details of the sort mechanism is handled by the `sortByStatusDueDateAndPriority` method in `UniqueTaskList` class.
-The sort mechanism is implemented using a custom comparator in JavaFX ObservableList `sort` method as follows:
+and priority level (i.e. high > medium > low). The internal details of the sort mechanism is handled by the
+`sortByStatusDueDateAndPriority` method in `UniqueTaskList` class. The sort mechanism is implemented using a
+custom comparator in JavaFX ObservableList `sort` method as follows:
 
 [source,java]
 ----
@@ -841,7 +816,7 @@ The clear tasks feature allows user to clear all the tasks in the Address Book.
 
 The following sequence diagram shows how the clear tasks operation works.
 
-image::TaskClearSequenceDiagram.png[width="800"]
+image::TaskClearSequenceDiagram.png[width="600"]
 
 . The user executes the `task-clear` command.
 . The `AddressBookParser` class parses the command and creates a new `TaskClearCommand` class.

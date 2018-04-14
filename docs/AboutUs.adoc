@@ -50,7 +50,7 @@ image::dezhanglee.jpg[width="100", align="left"]
 '''
 
 === Jillian Wee
-image::nodp.jpg[width="100", align="left"]
+image::jill858.jpeg[width="100", align="left"]
 {empty}[https://github.com/jill858[github]] [<<jill858#, portfolio>>]
 
 * Components in charge of: Model
@@ -63,7 +63,7 @@ image::nodp.jpg[width="100", align="left"]
 '''
 
 === Chan Yin Xin
-image::nodp.jpg[width="100", align="left"]
+image::CYX28.jpg[width="100", align="left"]
 {empty}[https://github.com/CYX28[github]] [<<CYX28#, portfolio>>]
 
 * Components in charge of: UI
