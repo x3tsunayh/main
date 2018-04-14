@@ -22,6 +22,8 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.EventBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.ReadOnlyTaskBook;
+import seedu.address.model.TaskBook;
 import seedu.address.model.event.Event;
 import seedu.address.model.event.ReadOnlyEvent;
 import seedu.address.model.event.ReadOnlyEventBook;
@@ -103,6 +105,11 @@ public class AddEventCommandTest {
         }
 
         @Override
+        public void resetData(ReadOnlyTaskBook newDate) {
+            fail("This method should not be called.");
+        }
+
+        @Override
         public ReadOnlyAddressBook getAddressBook() {
             fail("This method should not be called.");
             return null;
@@ -110,6 +117,11 @@ public class AddEventCommandTest {
 
         @Override
         public ReadOnlyEventBook getEventBook() {
+            return null;
+        }
+
+        @Override
+        public ReadOnlyTaskBook getTaskBook() {
             return null;
         }
 
@@ -211,6 +223,11 @@ public class AddEventCommandTest {
         @Override
         public ReadOnlyEventBook getEventBook() {
             return new EventBook();
+        }
+
+        @Override
+        public ReadOnlyTaskBook getTaskBook() {
+            return new TaskBook();
         }
     }
 

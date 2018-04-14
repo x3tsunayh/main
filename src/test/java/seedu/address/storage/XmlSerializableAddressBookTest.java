@@ -21,9 +21,6 @@ public class XmlSerializableAddressBookTest {
     private static final File TYPICAL_ADDRESS_BOOK_FILE = new File(TEST_DATA_FOLDER + "typicalAddressBook.xml");
     private static final File INVALID_PERSON_FILE = new File(TEST_DATA_FOLDER + "invalidPersonAddressBook.xml");
     private static final File INVALID_TAG_FILE = new File(TEST_DATA_FOLDER + "invalidTagAddressBook.xml");
-    private static final File INVALID_TASK_FILE = new File(TEST_DATA_FOLDER + "invalidTaskAddressBook.xml");
-    private static final File INVALID_TASK_CATEGORY_FILE =
-            new File(TEST_DATA_FOLDER + "invalidTaskCategoryAddressBook.xml");
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -53,20 +50,4 @@ public class XmlSerializableAddressBookTest {
         dataFromFile.toModelType();
     }
 
-    //@@author CYX28
-    @Test
-    public void toModelType_invalidTaskFile_throwsIllegalValueException() throws Exception {
-        XmlSerializableAddressBook dataFromFile = XmlUtil.getDataFromFile(INVALID_TASK_FILE,
-                XmlSerializableAddressBook.class);
-        thrown.expect(IllegalValueException.class);
-        dataFromFile.toModelType();
-    }
-
-    @Test
-    public void toModelType_invalidTaskCategoryFile_throwsIllegalValueException() throws Exception {
-        XmlSerializableAddressBook dataFromFile = XmlUtil.getDataFromFile(INVALID_TASK_CATEGORY_FILE,
-                XmlSerializableAddressBook.class);
-        thrown.expect(IllegalValueException.class);
-        dataFromFile.toModelType();
-    }
 }

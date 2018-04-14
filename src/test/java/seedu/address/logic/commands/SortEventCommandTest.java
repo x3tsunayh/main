@@ -10,6 +10,7 @@ import static seedu.address.testutil.TypicalEvents.CNY;
 import static seedu.address.testutil.TypicalEvents.MOVIE;
 import static seedu.address.testutil.TypicalEvents.REUNION;
 import static seedu.address.testutil.TypicalEvents.getTypicalEventBook;
+import static seedu.address.testutil.TypicalTasks.getTypicalTaskBook;
 
 import java.util.Arrays;
 import java.util.List;
@@ -42,8 +43,9 @@ public class SortEventCommandTest {
         secondParameter = "LOCATION";
         thirdParameter = "DATETIME";
 
-        model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
-        expectedModel = new ModelManager(model.getAddressBook(), model.getEventBook(), new UserPrefs());
+        model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), getTypicalTaskBook(), new UserPrefs());
+        expectedModel =
+                new ModelManager(model.getAddressBook(), model.getEventBook(), model.getTaskBook(), new UserPrefs());
 
     }
 

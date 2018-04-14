@@ -14,11 +14,13 @@ import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
 import seedu.address.commons.events.model.EventBookChangedEvent;
+import seedu.address.commons.events.model.TaskBookChangedEvent;
 import seedu.address.commons.events.storage.DataSavingExceptionEvent;
 import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.commons.exceptions.ExistingFileException;
 import seedu.address.commons.exceptions.InvalidFileException;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.ReadOnlyTaskBook;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.event.ReadOnlyEventBook;
 
@@ -30,14 +32,16 @@ public class StorageManager extends ComponentManager implements Storage {
     private static final Logger logger = LogsCenter.getLogger(StorageManager.class);
     private AddressBookStorage addressBookStorage;
     private EventBookStorage eventBookStorage;
+    private TaskBookStorage taskBookStorage;
     private UserPrefsStorage userPrefsStorage;
 
 
     public StorageManager(AddressBookStorage addressBookStorage, EventBookStorage eventBookStorage,
-                          UserPrefsStorage userPrefsStorage) {
+                          TaskBookStorage taskBookStorage, UserPrefsStorage userPrefsStorage) {
         super();
         this.addressBookStorage = addressBookStorage;
         this.eventBookStorage = eventBookStorage;
+        this.taskBookStorage = taskBookStorage;
         this.userPrefsStorage = userPrefsStorage;
     }
 
@@ -116,7 +120,6 @@ public class StorageManager extends ComponentManager implements Storage {
         addressBookStorage.exportAddressBookCsv(addressBook, filePath);
     }
 
-
     @Override
     @Subscribe
     public void handleAddressBookChangedEvent(AddressBookChangedEvent event) {
@@ -187,4 +190,64 @@ public class StorageManager extends ComponentManager implements Storage {
             raise(new DataSavingExceptionEvent(e));
         }
     }
+
+    // ================ TaskBook methods ==============================
+
+    @Override
+    public String getTaskBookFilePath() {
+        return taskBookStorage.getTaskBookFilePath();
+    }
+
+    @Override
+    public Optional<ReadOnlyTaskBook> readTaskBook() throws DataConversionException, IOException {
+        return readTaskBook(taskBookStorage.getTaskBookFilePath());
+    }
+
+    @Override
+    public Optional<ReadOnlyTaskBook> readTaskBook(String filePath) throws DataConversionException, IOException {
+        logger.fine("Attempting to read data from file: " + filePath);
+        try {
+            return taskBookStorage.readTaskBook(filePath);
+        } catch (JAXBException e) {
+            throw new AssertionError("JAXBException");
+        }
+    }
+
+    @Override
+    public void saveTaskBook(ReadOnlyTaskBook taskBook) throws IOException {
+        saveTaskBook(taskBook, taskBookStorage.getTaskBookFilePath());
+    }
+
+    @Override
+    public void saveTaskBook(ReadOnlyTaskBook taskBook, String filePath)
+            throws IOException {
+        logger.fine("Attempting to write to data file: " + filePath);
+        taskBookStorage.saveTaskBook(taskBook, filePath);
+    }
+
+    @Override
+    public void exportTaskBook() throws ParserConfigurationException, IOException {
+        try {
+            taskBookStorage.exportTaskBook();
+        } catch (TransformerException e) {
+            throw new AssertionError("Not supposed to have errors!");
+        }
+    }
+
+    @Override
+    public void backupTaskBook(ReadOnlyTaskBook taskBook) throws IOException, InvalidFileException {
+        taskBookStorage.backupTaskBook(taskBook);
+    }
+
+    @Override
+    @Subscribe
+    public void handleTaskBookChangedEvent(TaskBookChangedEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event, "Local data changed, saving to file"));
+        try {
+            saveTaskBook(event.data);
+        } catch (IOException e) {
+            raise(new DataSavingExceptionEvent(e));
+        }
+    }
+
 }

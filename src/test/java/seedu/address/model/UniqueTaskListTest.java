@@ -16,7 +16,6 @@ import seedu.address.model.task.Task;
 import seedu.address.model.task.TaskPriority;
 import seedu.address.model.task.TaskStatus;
 import seedu.address.model.task.UniqueTaskList;
-import seedu.address.testutil.TypicalAddressBook;
 import seedu.address.testutil.TypicalTasks;
 
 //@@author CYX28
@@ -34,9 +33,9 @@ public class UniqueTaskListTest {
     @Test
     public void sortByStatusDueDateAndPriority_undoneToDoneDateInAscOrderAndPriorityHighToLow_success() {
         // Setup actual result
-        AddressBook addressBook = TypicalAddressBook.getTypicalAddressBook();
-        addressBook.sortTasksByStatusDueDateAndPriority();
-        ObservableList<Task> actualTaskList = addressBook.getOriginalTaskList();
+        TaskBook taskBook = TypicalTasks.getTypicalTaskBook();
+        taskBook.sortTasksByStatusDueDateAndPriority();
+        ObservableList<Task> actualTaskList = taskBook.getOriginalTaskList();
 
         // Setup expected result
         List<Task> taskList = TypicalTasks.getTypicalTasks();
@@ -59,9 +58,9 @@ public class UniqueTaskListTest {
     @Test
     public void sortByStatusDueDateAndPriority_doneToUndoneDateInAscOrderAndPriorityHighToLow_fail() {
         // Setup actual result
-        AddressBook addressBook = TypicalAddressBook.getTypicalAddressBook();
-        addressBook.sortTasksByStatusDueDateAndPriority();
-        ObservableList<Task> actualTaskList = addressBook.getOriginalTaskList();
+        TaskBook taskBook = TypicalTasks.getTypicalTaskBook();
+        taskBook.sortTasksByStatusDueDateAndPriority();
+        ObservableList<Task> actualTaskList = taskBook.getOriginalTaskList();
 
         // Setup expected result
         List<Task> taskList = TypicalTasks.getTypicalTasks();
@@ -84,9 +83,9 @@ public class UniqueTaskListTest {
     @Test
     public void sortByStatusDueDateAndPriority_undoneToDoneDateInDscOrderAndPriorityHighToLow_fail() {
         // Setup actual result
-        AddressBook addressBook = TypicalAddressBook.getTypicalAddressBook();
-        addressBook.sortTasksByStatusDueDateAndPriority();
-        ObservableList<Task> actualTaskList = addressBook.getOriginalTaskList();
+        TaskBook taskBook = TypicalTasks.getTypicalTaskBook();
+        taskBook.sortTasksByStatusDueDateAndPriority();
+        ObservableList<Task> actualTaskList = taskBook.getOriginalTaskList();
 
         // Setup expected result
         List<Task> taskList = TypicalTasks.getTypicalTasks();
@@ -109,9 +108,9 @@ public class UniqueTaskListTest {
     @Test
     public void sortByStatusDueDateAndPriority_undoneToDoneDateInAscOrderAndPriorityLowToHigh_fail() {
         // Setup actual result
-        AddressBook addressBook = TypicalAddressBook.getTypicalAddressBook();
-        addressBook.sortTasksByStatusDueDateAndPriority();
-        ObservableList<Task> actualTaskList = addressBook.getOriginalTaskList();
+        TaskBook taskBook = TypicalTasks.getTypicalTaskBook();
+        taskBook.sortTasksByStatusDueDateAndPriority();
+        ObservableList<Task> actualTaskList = taskBook.getOriginalTaskList();
 
         // Setup expected result
         List<Task> taskList = TypicalTasks.getTypicalTasks();
