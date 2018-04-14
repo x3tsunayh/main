@@ -5,9 +5,12 @@ import static org.junit.Assert.assertEquals;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import guitests.guihandles.EventCardHandle;
+import guitests.guihandles.EventListPanelHandle;
 import guitests.guihandles.PersonCardHandle;
 import guitests.guihandles.PersonListPanelHandle;
 import guitests.guihandles.ResultDisplayHandle;
+import seedu.address.model.event.Event;
 import seedu.address.model.person.Person;
 
 /**
@@ -39,6 +42,16 @@ public class GuiTestAssert {
     }
 
     /**
+     * Asserts that {@code actualCard} displays the details of {@code expectedEvent}.
+     */
+    public static void assertCardDisplaysEvent(Event expectedEvent, EventCardHandle actualCard) {
+        assertEquals(expectedEvent.getTitle(), actualCard.getTitle());
+        assertEquals(expectedEvent.getDescription(), actualCard.getDescription());
+        assertEquals(expectedEvent.getLocation(), actualCard.getLocation());
+        assertEquals(expectedEvent.getDatetime().value, actualCard.getDatetime());
+    }
+
+    /**
      * Asserts that the list in {@code personListPanelHandle} displays the details of {@code persons} correctly and
      * in the correct order.
      */
@@ -52,8 +65,26 @@ public class GuiTestAssert {
      * Asserts that the list in {@code personListPanelHandle} displays the details of {@code persons} correctly and
      * in the correct order.
      */
+    public static void assertListMatching(EventListPanelHandle eventListPanelHandle, Event... events) {
+        for (int i = 0; i < events.length; i++) {
+            assertCardDisplaysEvent(events[i], eventListPanelHandle.getEventCardHandle(i));
+        }
+    }
+
+    /**
+     * Asserts that the list in {@code personListPanelHandle} displays the details of {@code persons} correctly and
+     * in the correct order.
+     */
     public static void assertListMatching(PersonListPanelHandle personListPanelHandle, List<Person> persons) {
         assertListMatching(personListPanelHandle, persons.toArray(new Person[0]));
+    }
+
+    /**
+     * Asserts that the list in {@code eventListPanelHandle} displays the details of {@code events} correctly and
+     * in the correct order.
+     */
+    public static void assertListMatching(EventListPanelHandle eventListPanelHandle, List<Event> events) {
+        assertListMatching(eventListPanelHandle, events.toArray(new Event[0]));
     }
 
     /**

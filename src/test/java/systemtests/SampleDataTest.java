@@ -8,7 +8,10 @@ import java.nio.file.Paths;
 
 import org.junit.Test;
 
+import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.AddressBook;
+import seedu.address.model.EventBook;
+import seedu.address.model.event.Event;
 import seedu.address.model.person.Person;
 import seedu.address.model.util.SampleDataUtil;
 import seedu.address.testutil.TestUtil;
@@ -19,6 +22,14 @@ public class SampleDataTest extends AddressBookSystemTest {
      */
     @Override
     protected AddressBook getInitialData() {
+        return null;
+    }
+
+    /**
+     * Returns null to force test app to load data of the file in {@code getDataFileLocation()}.
+     */
+    @Override
+    protected EventBook getInitialEventData() {
         return null;
     }
 
@@ -47,6 +58,12 @@ public class SampleDataTest extends AddressBookSystemTest {
     public void addressBook_personDataFileDoesNotExist_loadSampleData() {
         Person[] expectedPersonList = SampleDataUtil.getSamplePersons();
         assertListMatching(getPersonListPanel(), expectedPersonList);
+    }
+
+    @Test
+    public void addressBook_eventsDataFileDoesNotExist_loadSampleData() throws IllegalValueException {
+        Event[] expectedEventList = SampleDataUtil.getSampleEvents();
+        assertListMatching(getEventListPanel(), expectedEventList);
     }
 
 }

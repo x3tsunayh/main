@@ -15,7 +15,9 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import seedu.address.model.AddressBook;
+import seedu.address.model.EventBook;
 import seedu.address.model.TaskBook;
+import seedu.address.storage.XmlAdaptedEvent;
 import seedu.address.storage.XmlAdaptedPerson;
 import seedu.address.storage.XmlAdaptedTag;
 import seedu.address.storage.XmlAdaptedTask;
@@ -40,6 +42,7 @@ public class XmlUtilTest {
     private static final File VALID_PERSON_FILE = new File(TEST_DATA_FOLDER + "validPerson.xml");
     private static final File VALID_TASK_FILE = new File(TEST_DATA_FOLDER + "validTask.xml");
     private static final File TEMP_FILE = new File(TestUtil.getFilePathInSandboxFolder("tempAddressBook.xml"));
+    private static final File TEMP_EVENT_FILE = new File(TestUtil.getFilePathInSandboxFolder("tempEventBook.xml"));
 
     private static final String INVALID_PHONE = "9482asf424";
     private static final String INVALID_TASK_DUE_DATE = "2018-02-31";
@@ -219,6 +222,25 @@ public class XmlUtilTest {
         assertEquals(dataToWrite, dataFromFile);
     }
 
+    //@@author x3tsunayh
+    @Test
+    public void saveDataToFile_nullEventFile_throwsNullPointerException() throws Exception {
+        thrown.expect(NullPointerException.class);
+        XmlUtil.saveDataToFile(null, new EventBook());
+    }
+
+    @Test
+    public void saveDataToFile_nullEventClass_throwsNullPointerException() throws Exception {
+        thrown.expect(NullPointerException.class);
+        XmlUtil.saveDataToFile(VALID_TASKBOOK_FILE, null);
+    }
+
+    @Test
+    public void saveDataToFile_missingEventFile_fileNotFoundException() throws Exception {
+        thrown.expect(FileNotFoundException.class);
+        XmlUtil.saveDataToFile(MISSING_FILE, new EventBook());
+    }
+
     //@@author CYX28
     @Test
     public void saveDataToFile_nullTaskFile_throwsNullPointerException() throws Exception {
@@ -244,6 +266,13 @@ public class XmlUtilTest {
      */
     @XmlRootElement(name = "person")
     private static class XmlAdaptedPersonWithRootElement extends XmlAdaptedPerson {}
+
+    /**
+     * Test class annotated with {@code XmlRootElement} to allow unmarshalling of .xml data to {@code XmlAdaptedEvent}
+     * objects.
+     */
+    @XmlRootElement(name = "event")
+    private static class XmlAdaptedEventWithRootElement extends XmlAdaptedEvent {}
 
     /**
      * Test class annotated with {@code XmlRootElement} to allow unmarshalling of .xml data to {@code XmlAdaptedTask}

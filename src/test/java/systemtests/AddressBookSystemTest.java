@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import guitests.guihandles.EventListPanelHandle;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -34,8 +35,10 @@ import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.SelectCommand;
 import seedu.address.model.AddressBook;
+import seedu.address.model.EventBook;
 import seedu.address.model.Model;
 import seedu.address.testutil.TypicalAddressBook;
+import seedu.address.testutil.TypicalEventBook;
 import seedu.address.ui.BrowserPanel;
 import seedu.address.ui.CommandBox;
 
@@ -63,14 +66,14 @@ public abstract class AddressBookSystemTest {
     @Before
     public void setUp() {
         setupHelper = new SystemTestSetupHelper();
-        testApp = setupHelper.setupApplication(this::getInitialData, getDataFileLocation());
+        testApp = setupHelper.setupApplication(this::getInitialData, this::getInitialEventData, getDataFileLocation());
         mainWindowHandle = setupHelper.setupMainWindowHandle();
 
         assertApplicationStartingStateIsCorrect();
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         setupHelper.tearDownStage();
         EventsCenter.clearSubscribers();
     }
@@ -105,11 +108,18 @@ public abstract class AddressBookSystemTest {
         return mainWindowHandle.getMainMenu();
     }
 
-    /*
-    public BrowserPanelHandle getBrowserPanel() {
-        return mainWindowHandle.getBrowserPanel();
+
+    public EventListPanelHandle getEventListPanel() {
+        return mainWindowHandle.getEventListPanel();
     }
-    */
+
+    /**
+     * Returns the data to be loaded into the file in {@link #getDataFileLocation()}.
+     */
+    protected EventBook getInitialEventData() {
+        return TypicalEventBook.getTypicalEventBook();
+    }
+
 
     public StatusBarFooterHandle getStatusBarFooter() {
         return mainWindowHandle.getStatusBarFooter();
