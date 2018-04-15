@@ -639,6 +639,24 @@ image::DeleteEventSequenceDiagram.png[width="800"]
 
 // end::deleteevent[]
 
+// tag::jumpto[]
+
+=== Jump To Year-Month feature
+==== Current Implementation
+
+Aside from using the mouse cursor, users can jump to a particular year-month using the CLI.
+This saves a lot of time, especially when the user wishes to jump a few months back or forth.
+
+Format: `jumpto yyyy-mm`
+
+. User executes `jumpto` command with the required arguments.
+. `AddressBookParser` class creates a new `JumpToCommandParser` object to parse the command arguments.
+. This `JumpToCommandParser` object parses the arguments and create a new `JumpToCommand` object.
+. The `jumpto` command is then executed by creating a new `JumpToCalendarRequestEvent` that triggers the `EventsCenter`.
+. `EventsCenter` dispatches the event to be handled by `CalendarView` because it has to `populateCalendar` method that displays the calendar by taking `YearMonth` as an input.
+. `popularCalendar` finally displays the new `CalendarView` state to the user.
+// end::jumpto[]
+
 // tag::switchtab[]
 === Switch Tab feature
 ==== Current Implementation

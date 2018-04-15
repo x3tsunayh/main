@@ -465,6 +465,20 @@ Get the rate of MYR given one unit of SGD +
 Returns `Converted 1 SGD to MYR 2.96`
 //end::convertCurrency[]
 
+// tag::linkedinhotkey[]
+=== Adding an event: `F2` `[since v1.5rc]`
+
+Displays a LinkedIn page. +
+Format: Press `F2` hotkey on keyboard
+// end::linkedinhotkey[]
+
+// tag::googlehotkey[]
+=== Adding an event: `F3` `[since v1.5rc]`
+
+Displays a Google Chrome browser page. +
+Format: Press `F3` hotkey on keyboard
+// end::googlehotkey[]
+
 // tag::addevent[]
 === Adding an event: `addevent` `[since v1.3]`
 
@@ -842,6 +856,8 @@ e.g. `addpicture 1 f/C://pictures/janeDoe.jpg`
 e.g. `addtag 12 t/newFriend`
 * *Convert currency* : `convert [VALUE] SRC_CURRENCY_CODE DST_CURRENCY_CODE` +
 e.g. `convert 10000 JPY USD`
+* *LinkedIn Page* : Press `F2` hotkey
+* *Google Page* : Press `F3` hotkey
 * *Add an event* : `addevent et/TITLE ed/DESCRIPTION el/LOCATION edt/DATETIME` +
 e.g. `addevent et/Christmas Party ed/Celebrating Christmas 2018 el/Samuel's House edt/2018-12-25 1830`
 * *Delete an event* : `deleteevent INDEX` +
