@@ -43,8 +43,9 @@ image::dezhanglee.jpg[width="100", align="left"]
 * Features implemented:
 ** Shorthand Commands
 ** Delete Person by Name Enhancement
-** Delete Tag Method
+** Add Tag Feature
 ** Display Picture Feature
+** Reset Picture to Default Feature
 * Code written: [https://github.com/CS2103JAN2018-T15-B4/main/tree/master/collated/functional/dezhanglee.md[functional code]][https://github.com/CS2103JAN2018-T15-B4/main/tree/master/collated/test/dezhanglee.md[test code]]
 
 '''
