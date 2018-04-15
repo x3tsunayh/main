@@ -33,22 +33,24 @@ image::Ui.png[width="790"]
 * *Major enhancement: Converting of currencies*
 ** What it does: Allows the user to convert from one currency to another
 ** Justification: User will be able to get the standard exchange rate or convert from one currency to another currency easily without
-having to leave the application.
-** Highlights: Able to convert up to 17 different currencies!
+having to leave the application. This provides convenience to the user. In addition, rates are live and are updated daily!
+** Highlights: Able to convert up to 16 different currencies!
 
 * *Minor enhancement*: Modify find function such that able to find partial words instead of keywords
+** Justification: Instead of finding keywords, finding by partial words able to help users to narrow down their search, providing flexibility in searching.
 * *Minor enhancement*: Modify find function such that able to find specifically by name, by tag, by address, or by phone
+** Justification: Search is being categorized. This helps to narrow down their search based on the category.
 
 * *Other contributions*:
 
 ** Project management:
-*** Provide feedback and suggestion to team members
+*** Provide feedback and suggestions to team members
 ** Documentation:
 *** Wrote user stories, project description in Project Portfolio with team
 ** Community:
 *** Reported bugs and suggestions for other teams in the class (examples:  https://github.com/CS2103JAN2018-W09-B4/main/issues/164, https://github.com/CS2103JAN2018-W09-B4/main/issues/159)
 ** Tools:
-*** Integrated a third party library (https://fixer.io/[Fixer]) to the project
+*** Integrated a third party library (https://fixer.io/[Fixer]) to the project (https://fixer.io/[#42])
 
 * *Code contributed*: [https://github.com/CS2103JAN2018-T15-B4/main/tree/master/collated/functional/jill858.md[Functional code]] [https://github.com/CS2103JAN2018-T15-B4/main/tree/master/collated/test/jill858.md[Test code]]
 
@@ -62,11 +64,17 @@ include::../UserGuide.adoc[tag=findByName]
 
 include::../UserGuide.adoc[tag=findByTag]
 
-include::../UserGuide.adoc[tag=findByAddres]
+include::../UserGuide.adoc[tag=findByAddress]
 
 include::../UserGuide.adoc[tag=findByPhone]
 
 include::../UserGuide.adoc[tag=convertCurrency]
+
+include::../UserGuide.adoc[tag=autoComplete]
+
+include::../UserGuide.adoc[tag=listOutPossibleCommand]
+
+include::../UserGuide.adoc[tag=hintPossibleCommand]
 
 == Contributions to the Developer Guide
 
@@ -74,6 +82,6 @@ include::../UserGuide.adoc[tag=convertCurrency]
 |_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
 |===
 
-include::../DeveloperGuide.adoc[tag=findFeature]
+include::../DeveloperGuide.adoc[tag=FindFeature]
 
-include::../DeveloperGuide.adoc[tag=dataencryption]
+include::../DeveloperGuide.adoc[tag=ConvertCurrency]
