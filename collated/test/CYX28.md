@@ -252,27 +252,6 @@
         XmlUtil.saveDataToFile(MISSING_FILE, new TaskBook());
     }
 
-    /**
-     * Test class annotated with {@code XmlRootElement} to allow unmarshalling of .xml data to {@code XmlAdaptedPerson}
-     * objects.
-     */
-    @XmlRootElement(name = "person")
-    private static class XmlAdaptedPersonWithRootElement extends XmlAdaptedPerson {}
-
-    /**
-     * Test class annotated with {@code XmlRootElement} to allow unmarshalling of .xml data to {@code XmlAdaptedEvent}
-     * objects.
-     */
-    @XmlRootElement(name = "event")
-    private static class XmlAdaptedEventWithRootElement extends XmlAdaptedEvent {}
-
-    /**
-     * Test class annotated with {@code XmlRootElement} to allow unmarshalling of .xml data to {@code XmlAdaptedTask}
-     * objects.
-     */
-    @XmlRootElement(name = "task")
-    private static class XmlAdaptedTaskWithRootElement extends XmlAdaptedTask {}
-}
 ```
 ###### \java\seedu\address\logic\commands\CommandTestUtil.java
 ``` java
@@ -442,7 +421,7 @@ public class SortCommandTest {
 ###### \java\seedu\address\logic\commands\TaskAddCommandTest.java
 ``` java
 /**
- * Contains integration tests (interaction with the Model, UndoCommand and RedoCommand) and unit tests for
+ * Contains integration tests (interaction with the Model) and unit tests for
  * {@code TaskAddCommand}.
  */
 public class TaskAddCommandTest {
