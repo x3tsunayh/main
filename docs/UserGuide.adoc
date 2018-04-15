@@ -27,7 +27,7 @@ BizConnect Journal is catered towards businessmen and travelers who *prefer to u
 Having any Java 8 version is not enough. +
 This app will not work with earlier versions of Java 8.
 +
-.  Download the latest `addressbook.jar` link:{repoURL}/releases[here].
+.  Download the latest `[T15-B4][BizConnect Journal].jar` link:https://github.com/CS2103JAN2018-T15-B4/main/releases[here].
 .  Copy the file to the folder you want to use as the home folder for your Address Book.
 .  Double-click the file to start the app. The GUI should appear in a few seconds.
 +
