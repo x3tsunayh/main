@@ -163,13 +163,15 @@ public class DeleteByNameCommand extends UndoableCommand {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Deletes the person identified by the input NAME. Non case sensitive.\n"
+            + "NAME must be the full name of the person.\n"
             + "Parameters: NAME\n"
-            + "Example: " + COMMAND_WORD + " John";
+            + "Example: " + COMMAND_WORD + " John Doe";
 
     public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted Person: %1$s";
 
     public static final String MESSAGE_NAME_NOT_FOUND = "Person with input name not found. "
-            + "Please check if the person exists using the list command - \n"
+            + "Please ensure that you typed the full name of the person, and "
+            + "check if the person exists using the list command - \n"
             + ListCommand.MESSAGE_USAGE;
 
     public static final String MESSAGE_MULTIPLE_SAME_NAME = "There are several people with the same name."

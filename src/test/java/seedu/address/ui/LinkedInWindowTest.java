@@ -1,16 +1,17 @@
 package seedu.address.ui;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static seedu.address.ui.LinkedInWindow.LINKEDIN_URL;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import guitests.guihandles.LinkedInWindowHandle;
-import javafx.stage.Stage;
 import org.junit.Before;
 import org.junit.Test;
 import org.testfx.api.FxToolkit;
+
+import guitests.guihandles.LinkedInWindowHandle;
+import javafx.stage.Stage;
 
 //@@author x3tsunayh
 
@@ -22,7 +23,8 @@ public class LinkedInWindowTest extends GuiUnitTest {
     @Before
     public void setUp() throws Exception {
         guiRobot.interact(() -> linkedInWindow = new LinkedInWindow());
-        Stage linkedInWindowStage = FxToolkit.setupStage((stage) -> stage.setScene(linkedInWindow.getRoot().getScene()));
+        Stage linkedInWindowStage = FxToolkit.setupStage((stage)
+            -> stage.setScene(linkedInWindow.getRoot().getScene()));
         FxToolkit.showStage();
         linkedInWindowHandle = new LinkedInWindowHandle(linkedInWindowStage);
     }

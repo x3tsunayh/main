@@ -204,7 +204,18 @@ public class ConvertCommandParser implements Parser<ConvertCommand> {
 ```
 ###### \java\seedu\address\logic\parser\FindCommandParser.java
 ``` java
+        if (!isValidPrefixFormat(trimmedArgs)) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+        }
+
         String targetPrefix = getPrefix(trimmedArgs);
+
+        if (isEmptyKeywords(trimmedArgs)) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+        }
+
         String[] keywords = getKeywords(trimmedArgs);
 
         if (targetPrefix.equals(PREFIX_NAME.getPrefix())) {
@@ -225,7 +236,19 @@ public class ConvertCommandParser implements Parser<ConvertCommand> {
 ###### \java\seedu\address\logic\parser\FindCommandParser.java
 ``` java
     /**
-     * Extract the search type (
+     * Check if valid prefix format is provided by the user
+     * @param args command line input by the user
+     * @return true if it is a valid prefix provided by the user
+     */
+    private static boolean isValidPrefixFormat(String args) {
+        return args.length() > 2;
+    }
+
+```
+###### \java\seedu\address\logic\parser\FindCommandParser.java
+``` java
+    /**
+     * Extract the search type
      * @param args command line input
      * @return type of search field
      */
@@ -237,17 +260,31 @@ public class ConvertCommandParser implements Parser<ConvertCommand> {
 ###### \java\seedu\address\logic\parser\FindCommandParser.java
 ``` java
     /**
+     * Check if there is keyword input provided by the user
+     * @param keywords keywords input by the user
+     * @return true is there is no keywords entered by the user
+     */
+    private static boolean isEmptyKeywords(String keywords) {
+        return (keywords.substring(2)).length() == 0;
+    }
+
+```
+###### \java\seedu\address\logic\parser\FindCommandParser.java
+``` java
+    /**
      * Extract keywords out from the command input
      * @param args command line input
      * @return list of keywords
      */
     private static String[] getKeywords(String args) {
-        String[] keywords;
-
         String removePrefixKeywords = args.substring(2);
 
-        return keywords = removePrefixKeywords.split("\\s+");
+        String trimKeywords = removePrefixKeywords.trim();
+
+        return trimKeywords.split("\\s+");
     }
+
+
 
 }
 ```

@@ -354,7 +354,7 @@ public class GoogleCommand extends Command {
     public static final String COMMAND_WORD = "google";
     public static final String COMMAND_ALIAS = "g";
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Googles the person's name identified by the index number used in the last person listing.\n"
+            + ": Googles the person's name identified by the index number used in the latest person listing.\n"
             + "Parameters: INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
 
@@ -701,18 +701,16 @@ public class FindEventCommandParser implements Parser<FindEventCommand> {
      */
     public FindEventCommand parse(String args) throws ParseException {
         String trimmedArgs = args.trim();
-        if (trimmedArgs.isEmpty()) {
+        if (trimmedArgs.isEmpty() || trimmedArgs.length() < 3) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindEventCommand.MESSAGE_USAGE));
         }
-        if (trimmedArgs.substring(0, 2).equals("et")) {
+        if (trimmedArgs.substring(0, 3).equals("et/")) {
             TitleContainsKeywordsPredicate.setPredicateType("et");
-        } else if (trimmedArgs.substring(0, 3).equals("edt")) {
-            TitleContainsKeywordsPredicate.setPredicateType("edt");
-        } else if (trimmedArgs.substring(0, 2).equals("ed")) {
+        } else if (trimmedArgs.substring(0, 3).equals("ed/")) {
             TitleContainsKeywordsPredicate.setPredicateType("ed");
-        } else if (trimmedArgs.substring(0, 2).equals("em")) {
-            TitleContainsKeywordsPredicate.setPredicateType("em");
+        } else if (trimmedArgs.length() > 3 && trimmedArgs.substring(0, 4).equals("edt/")) {
+            TitleContainsKeywordsPredicate.setPredicateType("edt");
         } else {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindEventCommand.MESSAGE_USAGE));
@@ -722,6 +720,11 @@ public class FindEventCommandParser implements Parser<FindEventCommand> {
             trimmedArgs = trimmedArgs.substring(4).trim();
         } else {
             trimmedArgs = trimmedArgs.substring(3).trim();
+        }
+
+        if (trimmedArgs.equals("")) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindEventCommand.MESSAGE_USAGE));
         }
 
         String[] titleKeywords = trimmedArgs.split("\\s+");
@@ -1529,6 +1532,84 @@ public class EventBook implements ReadOnlyEventBook {
     }
 
 ```
+###### \java\seedu\address\model\ModelManager.java
+``` java
+
+    @Override
+    public ObservableList<ReadOnlyEvent> getFilteredEventList() {
+        return FXCollections.unmodifiableObservableList(filteredEvents);
+    }
+
+    @Override
+    public void updateFilteredEventList(Predicate<ReadOnlyEvent> predicate) {
+        requireNonNull(predicate);
+        filteredEvents.setPredicate(predicate);
+    }
+
+    @Override
+    public void addEvent(ReadOnlyEvent eventToAdd) throws CommandException, DuplicateEventException {
+        eventBook.addEvent(eventToAdd);
+        updateFilteredEventList(PREDICATE_SHOW_ALL_EVENTS);
+        indicateEventBookChanged();
+    }
+
+    private void indicateEventBookChanged() {
+        raise(new EventBookChangedEvent(eventBook));
+    }
+
+    @Override
+    public void deleteEvent(ReadOnlyEvent eventToDelete) throws CommandException {
+        eventBook.removeEvent(eventToDelete);
+        indicateEventBookChanged();
+    }
+
+    @Override
+    public void sortEventList(String parameter) throws CommandException {
+        eventBook.sortBy(parameter);
+        updateFilteredEventList(PREDICATE_SHOW_ALL_EVENTS);
+        indicateEventBookChanged();
+    }
+
+    @Override
+    public ReadOnlyEventBook getEventBook() {
+        return eventBook;
+    }
+
+    //=========== Filtered Task List Accessors =============================================================
+
+    @Override
+    public ObservableList<Task> getFilteredTaskList() {
+        return FXCollections.unmodifiableObservableList(filteredTasks);
+    }
+
+    @Override
+    public void updateFilteredTaskList(Predicate<Task> predicate) {
+        requireNonNull(predicate);
+        filteredTasks.setPredicate(predicate);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        // short circuit if same object
+        if (obj == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(obj instanceof ModelManager)) {
+            return false;
+        }
+
+        // state check
+        ModelManager other = (ModelManager) obj;
+        return addressBook.equals(other.addressBook)
+                && taskBook.equals(other.taskBook)
+                && filteredPersons.equals(other.filteredPersons)
+                && filteredTasks.equals(other.filteredTasks);
+    }
+
+}
+```
 ###### \java\seedu\address\model\util\SampleDataUtil.java
 ``` java
 
@@ -1846,7 +1927,7 @@ public class AnchorPaneNode extends AnchorPane {
  */
 public class BrowserPanel extends UiPart<Stage> {
 
-    public static final String GOOGLE_URL = "https://www.google.com.sg";
+    public static final String GOOGLE_URL = "https://www.google.com.sg/";
     public static final String SEARCH_PAGE_URL =
             "https://www.google.com.sg/search?q=";
 
@@ -2468,7 +2549,7 @@ public class EventListPanel extends UiPart<Region> {
  */
 public class LinkedInWindow extends UiPart<Stage> {
 
-    public static final String LINKEDIN_URL = "https://www.linkedin.com";
+    public static final String LINKEDIN_URL = "https://www.linkedin.com/";
 
     private static final Logger logger = LogsCenter.getLogger(LinkedInWindow.class);
     private static final String FXML = "LinkedInWindow.fxml";

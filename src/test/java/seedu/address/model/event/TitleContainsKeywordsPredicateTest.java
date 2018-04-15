@@ -10,7 +10,6 @@ import java.util.List;
 import org.junit.Test;
 
 import seedu.address.testutil.EventBuilder;
-import seedu.address.testutil.TaskBuilder;
 
 //@@author x3tsunayh
 

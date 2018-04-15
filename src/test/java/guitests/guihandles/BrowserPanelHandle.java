@@ -4,11 +4,9 @@ import java.net.URL;
 
 import guitests.GuiRobot;
 import javafx.concurrent.Worker;
-import javafx.scene.Node;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
-import seedu.address.ui.BrowserPanel;
 
 //@@author x3tsunayh
 

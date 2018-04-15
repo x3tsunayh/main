@@ -1,17 +1,17 @@
 package seedu.address.ui;
 
-
-import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.assertEquals;
 import static seedu.address.ui.BrowserPanel.GOOGLE_URL;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import guitests.guihandles.BrowserPanelHandle;
-import javafx.stage.Stage;
 import org.junit.Before;
 import org.junit.Test;
 import org.testfx.api.FxToolkit;
+
+import guitests.guihandles.BrowserPanelHandle;
+import javafx.stage.Stage;
 
 //@@author x3tsunayh
 
