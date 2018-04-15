@@ -19,7 +19,7 @@ public class GoogleCommand extends Command {
     public static final String COMMAND_WORD = "google";
     public static final String COMMAND_ALIAS = "g";
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Googles the person's name identified by the index number used in the last person listing.\n"
+            + ": Googles the person's name identified by the index number used in the latest person listing.\n"
             + "Parameters: INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
 
