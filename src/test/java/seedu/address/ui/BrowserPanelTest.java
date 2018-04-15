@@ -29,7 +29,7 @@ public class BrowserPanelTest extends GuiUnitTest {
     }
 
     @Test
-    public void display() {
+    public void displayGoogleChromeBrowser() {
         URL expectedGooglePage = null;
         try {
             expectedGooglePage = new URL(GOOGLE_URL);

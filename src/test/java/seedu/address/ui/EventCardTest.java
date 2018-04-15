@@ -5,6 +5,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static seedu.address.ui.testutil.GuiTestAssert.assertCardDisplaysEvent;
 
+import java.time.LocalDateTime;
+
 import org.junit.Test;
 
 import guitests.guihandles.EventCardHandle;
@@ -18,10 +20,31 @@ public class EventCardTest extends GuiUnitTest {
     @Test
     public void display() {
 
-        Event eventToBeDisplayed = new EventBuilder().withTitle("Event Title").build();
-        EventCard eventCard = new EventCard(eventToBeDisplayed, 1);
-        uiPartRule.setUiPart(eventCard);
-        assertCardDisplay(eventCard, eventToBeDisplayed, 1);
+        // past event
+        Event pastEvent = new EventBuilder().withTitle("Event Title").build();
+        EventCard pastEventCard = new EventCard(pastEvent, 1);
+        uiPartRule.setUiPart(pastEventCard);
+        assertCardDisplay(pastEventCard, pastEvent, 1);
+
+        // present event
+        String presentDatetime = LocalDateTime.now().toString().substring(0, 10) + " 2000";
+        Event presentEvent = new EventBuilder().withDatetime(presentDatetime).build();
+        EventCard presentEventCard = new EventCard(presentEvent, 1);
+        uiPartRule.setUiPart(presentEventCard);
+        assertCardDisplay(presentEventCard, presentEvent, 1);
+
+        // incoming event (within 3 days)
+        String incomingDatetime = LocalDateTime.now().plusDays(1).toString().substring(0, 10) + " 2000";
+        Event incomingEvent = new EventBuilder().withDatetime(incomingDatetime).build();
+        EventCard incomingEventCard = new EventCard(incomingEvent, 1);
+        uiPartRule.setUiPart(incomingEventCard);
+        assertCardDisplay(incomingEventCard, incomingEvent, 1);
+
+        // future event
+        Event futureEvent = new EventBuilder().withDatetime("2020-05-21 1800").build();
+        EventCard futureEventCard = new EventCard(futureEvent, 1);
+        uiPartRule.setUiPart(futureEventCard);
+        assertCardDisplay(futureEventCard, futureEvent, 1);
 
     }
 
