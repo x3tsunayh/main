@@ -172,6 +172,8 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     //=========== Filtered Event List Accessors =============================================================
+    //@@author x3tsunayh
+
     @Override
     public ObservableList<ReadOnlyEvent> getFilteredEventList() {
         return FXCollections.unmodifiableObservableList(filteredEvents);

@@ -17,7 +17,7 @@ import seedu.address.model.person.Person;
  */
 public class BrowserPanel extends UiPart<Stage> {
 
-    public static final String GOOGLE_URL = "https://www.google.com.sg";
+    public static final String GOOGLE_URL = "https://www.google.com.sg/";
     public static final String SEARCH_PAGE_URL =
             "https://www.google.com.sg/search?q=";
 
