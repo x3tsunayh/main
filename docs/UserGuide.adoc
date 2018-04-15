@@ -715,6 +715,7 @@ Format: `exit`
 Address book data are saved in the hard disk automatically after any command that changes the data. +
 There is no need to save manually.
 
+// tag::autoComplete[]
 === Autocomplete of command `[coming in v2.0]`
 
 Finds persons whose names contain any of the given value. +
@@ -727,7 +728,9 @@ Examples:
 
 * `fin` +
 Returns any command `find` +
+//end::autoComplete[]
 
+//tag::listOutPossibleCommand[]
 === List out possible command `[coming in v2.0]`
 
 List out possible commands as one types on the command line +
@@ -746,7 +749,9 @@ Returns commands started with `f` such as `findEvent`, `find' +
 
 * `find` +
 Returns commands started with `find` such as `find' +
+//end::listOutPossibleCommand[]
 
+//tag::hintPossibleCommand[]
 === Hint out the possible command syntax `[coming in v2.0]`
 
 Guide user on the command sytnax +
@@ -763,6 +768,7 @@ Return feedback to ask user to input name +
 
 * `convert 10 SGD` +
 Returns feedback to input the currency code to be converted to +
+//end::hintPossibleCommand[]
 
 // tag::editevent[]
 === Editing an event `[coming in v2.0]`

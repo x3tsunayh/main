@@ -471,7 +471,7 @@ Creating a new object each time may incur some overhead, but probably insignific
 
 // end::resetpicture[]
 
-// tag::findFeature[]
+// tag::FindFeature[]
 === Find feature
 
 ==== Current Implementation
@@ -511,7 +511,7 @@ It is modify such that able to find by name and tag by specifying the type to be
 . The `FindCommand` object is created, and assisted by `PhoneContainsKeywordsPredicate` to obtain the result.
 . The  result is then return and displayed to the user.
 
-// end::findFeature[]
+// end::FindFeature[]
 
 // tag::addTAG[]
 
@@ -828,6 +828,7 @@ image::TaskClearSequenceDiagram.png[width="590"]
 . The tasks are removed from the Address Book and an empty list is displayed to the user.
 // end::task-clear[]
 
+//tag::ConvertCurrency[]
 === Convert currency feature
 ==== Current Implementation
 
@@ -841,6 +842,7 @@ image::ConvertCurrencySequenceDiagram.png[width="800"]
 . The `AddressBookParser` class parses the command creates a new `ConvertCommand` class.
 . The `convert` command is executed and assisted by the `Currency` class.
 . The converted value is returned and displayed to the user.
+//end::ConvertCurrency[]
 
 // tag::editevent[]
 === [Proposed] Edit an Event
