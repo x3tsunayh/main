@@ -1,58 +1,75 @@
 # jill858
-###### \data\XmlSerializableAddressBookTest\typicalAddressBook.xml
-``` xml
-    <persons>
-        <name>Harry Styles</name>
-        <phone>84821222</phone>
-        <email>harry@example.com</email>
-        <address>chinatown street</address>
-        <tagged>colleagues</tagged>
-        <tagged>family</tagged>
-    </persons>
-    <persons>
-        <name>Ian Kurz</name>
-        <phone>94839221</phone>
-        <email>ian@example.com</email>
-        <address>cross road 10</address>
-        <tagged>classmates</tagged>
-        <tagged>owesMoney</tagged>
-    </persons>
-    <persons>
-        <name>Keith Loh</name>
-        <phone>84123922</phone>
-        <email>keith@example.com</email>
-        <address>5th avenue</address>
-        <tagged>classmates</tagged>
-    </persons>
-    <tags>friends</tags>
-    <tags>owesMoney</tags>
-    <tasks>
-        <taskName>TaskOne</taskName>
-        <taskPriority>medium</taskPriority>
-        <taskDescription>Tasks to be done for task 1</taskDescription>
-        <taskDueDate>2018-06-15</taskDueDate>
-        <taskStatus>undone</taskStatus>
-        <categorised>work</categorised>
-    </tasks>
-    <tasks>
-        <taskName>TaskTwo</taskName>
-        <taskPriority>high</taskPriority>
-        <taskDescription>Agenda for task 2</taskDescription>
-        <taskDueDate>2018-03-28</taskDueDate>
-        <taskStatus>undone</taskStatus>
-        <categorised>personal</categorised>
-    </tasks>
-    <tasks>
-        <taskName>TaskThree</taskName>
-        <taskPriority>low</taskPriority>
-        <taskDescription>Purchase office supplies</taskDescription>
-        <taskDueDate>2018-04-10</taskDueDate>
-        <taskStatus>done</taskStatus>
-        <categorised>work</categorised>
-    </tasks>
-    <taskCategories>work</taskCategories>
-    <taskCategories>personal</taskCategories>
-</addressbook>
+###### \java\seedu\address\commons\util\DateUtilTest.java
+``` java
+    @Test
+    public void getDateOfMonth_validDate_success() {
+        LocalDate dateToParse = LocalDate.parse("2012-02-12");
+        int expectedParsedDate = dateToParse.getDayOfMonth();
+        int actualParsedDate = DateUtil.getDateOfMonth(dateToParse);
+
+        assertEquals(expectedParsedDate, actualParsedDate);
+    }
+
+    @Test
+    public void getMonthOfDate_validDate_success() {
+        Locale locale = Locale.getDefault();
+        LocalDate dateToParse = LocalDate.parse("2012-02-12");
+
+        Month month  = dateToParse.getMonth();
+        String expectedParsedDate = month.getDisplayName(TextStyle.SHORT, locale);
+        String actualParsedDate = DateUtil.getMonthOfDate(dateToParse);
+
+        assertEquals(expectedParsedDate, actualParsedDate);
+    }
+
+    @Test
+    public void getYearOfDate_validDate_success() {
+        LocalDate dateToParse = LocalDate.parse("2012-02-12");
+        int expectedParsedDate = dateToParse.getYear();
+        int actualParsedDate = DateUtil.getYearOfDate(dateToParse);
+
+        assertEquals(expectedParsedDate, actualParsedDate);
+    }
+
+    @Test
+    public void getDateFormatter_correctFormatDate_success() {
+        String dateToParse = "2018-05-12";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d-MMM-yyyy");
+        LocalDate localDate = LocalDate.parse(dateToParse);
+
+        String expectedParsedDate = formatter.format(localDate);
+        String actualParsedDate = DateUtil.dateFormatter(dateToParse);
+
+        assertEquals(expectedParsedDate, actualParsedDate);
+    }
+
+    @Test
+    public void getDateFormatter_wrongFormatDate_failure() {
+        thrown.expect(DateTimeParseException.class);
+        String dateToParse = "2018 05 12";
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d-MMM-yyyy");
+        LocalDate localDate = LocalDate.parse(dateToParse);
+
+        String expectedParsedDate = formatter.format(localDate);
+        String actualParsedDate = DateUtil.dateFormatter(dateToParse);
+
+        assertEquals(expectedParsedDate, actualParsedDate);
+
+        assertNotEquals(expectedParsedDate, actualParsedDate);
+    }
+
+}
+```
+###### \java\seedu\address\commons\util\StringUtilTest.java
+``` java
+    @Test
+    public void concatenateStringWithSpace_validOutput() {
+        String expectedString = "Apple Pear Orange";
+        String actualString = StringUtil.concatenateStringWithSpace("Apple", "Pear", "Orange");
+        assertEquals(expectedString, actualString);
+    }
+}
 ```
 ###### \java\seedu\address\logic\commands\ConvertCommandTest.java
 ``` java
@@ -84,89 +101,17 @@ public class ConvertCommandTest {
         double baseRate = 1.00;
 
         //convert 1 SGD to USD
-        String expectedMessage = String.format(ConvertCommand.MESSAGE_COMPLETE, "SGD", baseRate, "USD", 0.76);
+        String expectedMessage = String.format(
+                ConvertCommand.MESSAGE_COMPLETE, "SGD", baseRate, "USD", 0.76, "13-Apr-2018");
         ConvertCommand command = new ConvertCommand("SGD", "USD", 1.00);
         assertCommandResult(command, expectedMessage);
 
-        //convert 1 SGD to AUD
-        expectedMessage = String.format(ConvertCommand.MESSAGE_COMPLETE, "SGD", baseRate, "AUD", 0.991);
-        command = new ConvertCommand("SGD", "AUD", 1.00);
-        assertCommandResult(command, expectedMessage);
-
-        //convert 1 SGD to CAD
-        expectedMessage = String.format(ConvertCommand.MESSAGE_COMPLETE, "SGD", baseRate, "CAD", 0.981);
-        command = new ConvertCommand("SGD", "CAD", 1.00);
-        assertCommandResult(command, expectedMessage);
-
-        //convert 1 SGD to CHF
-        expectedMessage = String.format(ConvertCommand.MESSAGE_COMPLETE, "SGD", baseRate, "CHF", 0.724);
-        command = new ConvertCommand("SGD", "CHF", 1.00);
-        assertCommandResult(command, expectedMessage);
-
-        //convert 1 SGD to CNY
-        expectedMessage = String.format(ConvertCommand.MESSAGE_COMPLETE, "SGD", baseRate, "CNY", 4.801);
-        command = new ConvertCommand("SGD", "CNY", 1.00);
-        assertCommandResult(command, expectedMessage);
-
-        //convert 1 SGD to GBP
-        expectedMessage = String.format(ConvertCommand.MESSAGE_COMPLETE, "SGD", baseRate, "GBP", 0.539);
-        command = new ConvertCommand("SGD", "GBP", 1.00);
-        assertCommandResult(command, expectedMessage);
-
-        //convert 1 SGD to HKG
-        expectedMessage = String.format(ConvertCommand.MESSAGE_COMPLETE, "SGD", baseRate, "HKD", 5.998);
-        command = new ConvertCommand("SGD", "HKD", 1.00);
-        assertCommandResult(command, expectedMessage);
-
-        //convert 1 SGD to ILS
-        expectedMessage = String.format(ConvertCommand.MESSAGE_COMPLETE, "SGD", baseRate, "ILS", 2.662);
-        command = new ConvertCommand("SGD", "ILS", 1.00);
-        assertCommandResult(command, expectedMessage);
-
-        //convert 1 SGD to INR
-        expectedMessage = String.format(ConvertCommand.MESSAGE_COMPLETE, "SGD", baseRate, "INR", 49.587);
-        command = new ConvertCommand("SGD", "INR", 1.00);
-        assertCommandResult(command, expectedMessage);
-
-        //convert 1 SGD to JPY
-        expectedMessage = String.format(ConvertCommand.MESSAGE_COMPLETE, "SGD", baseRate, "JPY", 80.847);
-        command = new ConvertCommand("SGD", "JPY", 1.00);
-        assertCommandResult(command, expectedMessage);
-
-        //convert 1 SGD to MYR
-        expectedMessage = String.format(ConvertCommand.MESSAGE_COMPLETE, "SGD", baseRate, "MYR", 2.962);
-        command = new ConvertCommand("SGD", "MYR", 1.00);
-        assertCommandResult(command, expectedMessage);
-
-        //convert 1 SGD to NZD
-        expectedMessage = String.format(ConvertCommand.MESSAGE_COMPLETE, "SGD", baseRate, "NZD", 1.049);
-        command = new ConvertCommand("SGD", "NZD", 1.00);
-        assertCommandResult(command, expectedMessage);
-
-        //convert 1 SGD to PHP
-        expectedMessage = String.format(ConvertCommand.MESSAGE_COMPLETE, "SGD", baseRate, "PHP", 40.063);
-        command = new ConvertCommand("SGD", "PHP", 1.00);
-        assertCommandResult(command, expectedMessage);
-
-        //convert 1 SGD to SEK
-        expectedMessage = String.format(ConvertCommand.MESSAGE_COMPLETE, "SGD", baseRate, "SEK", 6.279);
-        command = new ConvertCommand("SGD", "SEK", 1.00);
-        assertCommandResult(command, expectedMessage);
-
-        //convert 1 SGD to THB
-        expectedMessage = String.format(ConvertCommand.MESSAGE_COMPLETE, "SGD", baseRate, "THB", 23.840);
-        command = new ConvertCommand("SGD", "THB", 1.00);
-        assertCommandResult(command, expectedMessage);
-
         //convert 1 SGD to TWD
-        expectedMessage = String.format(ConvertCommand.MESSAGE_COMPLETE, "SGD", baseRate, "TWD", 22.285);
+        expectedMessage = String.format(
+                ConvertCommand.MESSAGE_COMPLETE, "SGD", baseRate, "TWD", 22.285, "13-Apr-2018");
         command = new ConvertCommand("SGD", "TWD", 1.00);
         assertCommandResult(command, expectedMessage);
 
-        //convert 10,000 JPY to USD
-        expectedMessage = String.format(ConvertCommand.MESSAGE_COMPLETE, "JPY", 10000.00, "USD", 94.5);
-        command = new ConvertCommand("JPY", "USD", 10000.00);
-        assertCommandResult(command, expectedMessage);
     }
 
     /**
@@ -433,6 +378,120 @@ public class ConvertCommandParserTest {
         assertParseSuccess(parser, "p/94945000 \t", expectedFindPhoneCommand);
     }
 
+}
+```
+###### \java\seedu\address\model\CurrencyTest.java
+``` java
+public class CurrencyTest {
+
+    private Currency currency = new Currency();
+
+    @Test
+    public void execute_convertByFixedValue_validOutput() {
+        double baseRate = 1.00;
+
+        //convert 1 SGD to USD
+        double expectedRate = 0.762;
+        double actualRate = currency.convertByFixedValue("SGD", "USD", baseRate);
+        assertEquals(expectedRate, actualRate, 0);
+
+        //convert 1 SGD to SGD
+        expectedRate = 1.000;
+        actualRate = currency.convertByFixedValue("SGD", "SGD", baseRate);
+        assertEquals(expectedRate, actualRate, 0);
+
+        //convert 1 SGD to AUD
+        expectedRate = 0.977;
+        actualRate = currency.convertByFixedValue("SGD", "AUD", baseRate);
+        assertEquals(expectedRate, actualRate, 0);
+
+        //convert 1 SGD to CAD
+        expectedRate = 0.958;
+        actualRate = currency.convertByFixedValue("SGD", "CAD", baseRate);
+        assertEquals(expectedRate, actualRate, 0);
+
+        //convert 1 SGD to CHF
+        expectedRate = 0.733;
+        actualRate = currency.convertByFixedValue("SGD", "CHF", baseRate);
+        assertEquals(expectedRate, actualRate, 0);
+
+        //convert 1 SGD to CNY
+        expectedRate = 4.787;
+        actualRate = currency.convertByFixedValue("SGD", "CNY", baseRate);
+        assertEquals(expectedRate, actualRate, 0);
+
+        //convert 1 SGD to GBP
+        expectedRate = 0.534;
+        actualRate = currency.convertByFixedValue("SGD", "GBP", baseRate);
+        assertEquals(expectedRate, actualRate, 0);
+
+        //convert 1 SGD to HKD
+        expectedRate = 5.983;
+        actualRate = currency.convertByFixedValue("SGD", "HKD", baseRate);
+        assertEquals(expectedRate, actualRate, 0);
+
+        //convert 1 SGD to ILS
+        expectedRate = 2.680;
+        actualRate = currency.convertByFixedValue("SGD", "ILS", baseRate);
+        assertEquals(expectedRate, actualRate, 0);
+
+        //convert 1 SGD to INR
+        expectedRate = 49.707;
+        actualRate = currency.convertByFixedValue("SGD", "INR", baseRate);
+        assertEquals(expectedRate, actualRate, 0);
+
+        //convert 1 SGD to JPY
+        expectedRate = 82.089;
+        actualRate = currency.convertByFixedValue("SGD", "JPY", baseRate);
+        assertEquals(expectedRate, actualRate, 0);
+
+        //convert 1 SGD to MYR
+        expectedRate = 2.953;
+        actualRate = currency.convertByFixedValue("SGD", "MYR", baseRate);
+        assertEquals(expectedRate, actualRate, 0);
+
+        //convert 1 SGD to NZD
+        expectedRate = 1.033;
+        actualRate = currency.convertByFixedValue("SGD", "NZD", baseRate);
+        assertEquals(expectedRate, actualRate, 0);
+
+        //convert 1 SGD to PHP
+        expectedRate = 39.590;
+        actualRate = currency.convertByFixedValue("SGD", "PHP", baseRate);
+        assertEquals(expectedRate, actualRate, 0);
+
+        //convert 1 SGD to SEK
+        expectedRate = 6.424;
+        actualRate = currency.convertByFixedValue("SGD", "SEK", baseRate);
+        assertEquals(expectedRate, actualRate, 0);
+
+        //convert 1 SGD to THB
+        expectedRate = 23.745;
+        actualRate = currency.convertByFixedValue("SGD", "THB", baseRate);
+        assertEquals(expectedRate, actualRate, 0);
+
+        //convert 1 SGD to TWD
+        expectedRate = 22.285;
+        actualRate = currency.convertByFixedValue("SGD", "TWD", baseRate);
+        assertEquals(expectedRate, actualRate, 0);
+    }
+
+    @Test
+    public void execute_containsCurrencyCode_success() {
+        assertTrue(currency.containsCurrencyCode("USD"));
+    }
+
+    @Test
+    public void execute_containsCurrencyCode_failure() {
+        //empty argument
+        assertFalse(currency.containsCurrencyCode(""));
+        assertFalse(currency.containsCurrencyCode(" "));
+
+        //invalid currency code
+        assertFalse(currency.containsCurrencyCode("US"));
+
+
+    }
 }
 ```
 ###### \java\seedu\address\model\person\AddressContainsKeywordsPredicateTest.java

@@ -17,10 +17,13 @@ import org.junit.rules.ExpectedException;
 import javafx.collections.ObservableList;
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.UndoRedoStack;
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.EventBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.ReadOnlyTaskBook;
+import seedu.address.model.TaskBook;
 import seedu.address.model.event.Event;
 import seedu.address.model.event.ReadOnlyEvent;
 import seedu.address.model.event.ReadOnlyEventBook;
@@ -102,6 +105,11 @@ public class AddEventCommandTest {
         }
 
         @Override
+        public void resetData(ReadOnlyTaskBook newDate) {
+            fail("This method should not be called.");
+        }
+
+        @Override
         public ReadOnlyAddressBook getAddressBook() {
             fail("This method should not be called.");
             return null;
@@ -109,6 +117,11 @@ public class AddEventCommandTest {
 
         @Override
         public ReadOnlyEventBook getEventBook() {
+            return null;
+        }
+
+        @Override
+        public ReadOnlyTaskBook getTaskBook() {
             return null;
         }
 
@@ -183,10 +196,15 @@ public class AddEventCommandTest {
         public void updateFilteredEventList(Predicate<ReadOnlyEvent> predicate) {
             fail("This method should not be called.");
         }
+
+        @Override
+        public void sortEventList(String parameter) throws CommandException {
+            fail("This method should not be called.");
+        }
     }
 
     /**
-     * A Model stub that always accept the event being added.
+     * A Model stub with working addEvent method but fails irrelevant methods.
      */
     private class ModelStubAcceptingEventAdded extends ModelStub {
         final ArrayList<ReadOnlyEvent> eventsAdded = new ArrayList<>();
@@ -205,6 +223,11 @@ public class AddEventCommandTest {
         @Override
         public ReadOnlyEventBook getEventBook() {
             return new EventBook();
+        }
+
+        @Override
+        public ReadOnlyTaskBook getTaskBook() {
+            return new TaskBook();
         }
     }
 

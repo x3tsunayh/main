@@ -22,6 +22,8 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.EventBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.ReadOnlyTaskBook;
+import seedu.address.model.TaskBook;
 import seedu.address.model.event.ReadOnlyEvent;
 import seedu.address.model.event.ReadOnlyEventBook;
 import seedu.address.model.person.Person;
@@ -116,6 +118,11 @@ public class AddCommandTest {
         }
 
         @Override
+        public void resetData(ReadOnlyTaskBook newData) {
+            fail("This method should not be called.");
+        }
+
+        @Override
         public ReadOnlyAddressBook getAddressBook() {
             fail("This method should not be called.");
             return null;
@@ -123,6 +130,12 @@ public class AddCommandTest {
 
         @Override
         public ReadOnlyEventBook getEventBook() {
+            return null;
+        }
+
+        @Override
+        public ReadOnlyTaskBook getTaskBook() {
+            fail("This method should not be called.");
             return null;
         }
 
@@ -197,6 +210,11 @@ public class AddCommandTest {
         public void updateFilteredEventList(Predicate<ReadOnlyEvent> predicate) {
             fail("This method should not be called.");
         }
+
+        @Override
+        public void sortEventList(String parameter) throws CommandException {
+            fail("This method should not be called.");
+        }
     }
 
     /**
@@ -216,6 +234,11 @@ public class AddCommandTest {
         @Override
         public ReadOnlyEventBook getEventBook() {
             return new EventBook();
+        }
+
+        @Override
+        public ReadOnlyTaskBook getTaskBook() {
+            return new TaskBook();
         }
     }
 
@@ -239,6 +262,11 @@ public class AddCommandTest {
         @Override
         public ReadOnlyEventBook getEventBook() {
             return new EventBook();
+        }
+
+        @Override
+        public ReadOnlyTaskBook getTaskBook() {
+            return new TaskBook();
         }
     }
 

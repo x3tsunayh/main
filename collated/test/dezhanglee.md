@@ -3,7 +3,8 @@
 ``` java
 public class AddPictureCommandTest {
 
-    private ModelManager model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
+    private ModelManager model =
+            new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), getTypicalTaskBook(), new UserPrefs());
     private Index index = INDEX_FIRST_PERSON;
 
     @Test
@@ -16,7 +17,8 @@ public class AddPictureCommandTest {
         updatedPerson.setPicture(VALID_LOCAL_IMAGE_JPG);
         AddPictureCommand addPictureCommand = prepareCommand(index, VALID_LOCAL_IMAGE_JPG);
         String expectedMessage = String.format(AddPictureCommand.MESSAGE_EDIT_PERSON_SUCCESS, index.getOneBased());
-        Model expectedModel = new ModelManager(model.getAddressBook(), getTypicalEventBook(), new UserPrefs());
+        Model expectedModel =
+                new ModelManager(model.getAddressBook(), getTypicalEventBook(), getTypicalTaskBook(), new UserPrefs());
         expectedModel.updatePerson(model.getFilteredPersonList().get(0), updatedPerson);
 
         assertCommandSuccess(addPictureCommand, model, expectedMessage, expectedModel);
@@ -34,7 +36,8 @@ public class AddPictureCommandTest {
         updatedPerson.setPicture(VALID_LOCAL_IMAGE_JPG);
         AddPictureCommand addPictureCommand = prepareCommand(index, VALID_LOCAL_IMAGE_JPG);
         String expectedMessage = String.format(AddPictureCommand.MESSAGE_EDIT_PERSON_SUCCESS, index.getOneBased());
-        Model expectedModel = new ModelManager(model.getAddressBook(), getTypicalEventBook(), new UserPrefs());
+        Model expectedModel =
+                new ModelManager(model.getAddressBook(), getTypicalEventBook(), getTypicalTaskBook(), new UserPrefs());
         expectedModel.updatePerson(model.getFilteredPersonList().get(0), updatedPerson);
 
         assertCommandSuccess(addPictureCommand, model, expectedMessage, expectedModel);
@@ -102,7 +105,7 @@ public class AddTagCommandTest {
     private static final ArrayList<String> toAdd = new ArrayList<String>(Arrays.asList(VALID_TAG_1, VALID_TAG_2));
 
     private Model model = new ModelManager(TypicalAddressBook.getTypicalAddressBook(), getTypicalEventBook(),
-            new UserPrefs());
+            getTypicalTaskBook(), new UserPrefs());
 
     @Test
     public void execute_unfilteredList_success() throws Exception {
@@ -119,7 +122,7 @@ public class AddTagCommandTest {
         String expectedMessage = String.format(AddTagCommand.MESSAGE_ADD_TAG_PERSON_SUCCESS, editedPerson);
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
-                new EventBook(model.getEventBook()), new UserPrefs());
+                new EventBook(model.getEventBook()), new TaskBook(model.getTaskBook()), new UserPrefs());
         expectedModel.updatePerson(lastPerson, editedPerson);
 
         assertCommandSuccess(addTagCommand, model, expectedMessage, expectedModel);
@@ -140,7 +143,7 @@ public class AddTagCommandTest {
         String expectedMessage = String.format(AddTagCommand.MESSAGE_ADD_TAG_PERSON_SUCCESS, editedPerson);
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
-                new EventBook(model.getEventBook()), new UserPrefs());
+                new EventBook(model.getEventBook()), new TaskBook(model.getTaskBook()), new UserPrefs());
         expectedModel.updatePerson(model.getFilteredPersonList().get(0), editedPerson);
 
         assertCommandSuccess(addTagCommand, model, expectedMessage, expectedModel);
@@ -241,7 +244,8 @@ public class AddTagCommandTest {
 ``` java
 public class DeleteByNameCommandTest {
 
-    private Model model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
+    private Model model =
+            new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), getTypicalTaskBook(), new UserPrefs());
 
     @Test
     public void execute_validNameUnfilteredList_success() throws Exception {
@@ -251,7 +255,8 @@ public class DeleteByNameCommandTest {
 
         String expectedMessage = String.format(DeleteByNameCommand.MESSAGE_DELETE_PERSON_SUCCESS, personToDelete);
 
-        ModelManager expectedModel = new ModelManager(model.getAddressBook(), getTypicalEventBook(), new UserPrefs());
+        ModelManager expectedModel =
+                new ModelManager(model.getAddressBook(), getTypicalEventBook(), getTypicalTaskBook(), new UserPrefs());
         expectedModel.deletePerson(personToDelete);
 
         assertCommandSuccess(deleteByNameCommand, model, expectedMessage, expectedModel);
@@ -341,7 +346,8 @@ public class DeleteByNameCommandTest {
 ``` java
 public class ResetPictureCommandTest {
 
-    private ModelManager model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
+    private ModelManager model =
+            new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), getTypicalTaskBook(), new UserPrefs());
     private Index index = INDEX_FIRST_PERSON;
 
     @Test
@@ -354,7 +360,8 @@ public class ResetPictureCommandTest {
         updatedPerson.resetPicture();
         ResetPictureCommand resetPictureCommand = prepareCommand(index);
         String expectedMessage = String.format(ResetPictureCommand.MESSAGE_EDIT_PERSON_SUCCESS, index.getOneBased());
-        Model expectedModel = new ModelManager(model.getAddressBook(), getTypicalEventBook(), new UserPrefs());
+        Model expectedModel =
+                new ModelManager(model.getAddressBook(), getTypicalEventBook(), getTypicalTaskBook(), new UserPrefs());
         expectedModel.updatePerson(model.getFilteredPersonList().get(0), updatedPerson);
 
         assertCommandSuccess(resetPictureCommand, model, expectedMessage, expectedModel);
@@ -372,7 +379,8 @@ public class ResetPictureCommandTest {
         updatedPerson.resetPicture();
         ResetPictureCommand resetPictureCommand = prepareCommand(index);
         String expectedMessage = String.format(ResetPictureCommand.MESSAGE_EDIT_PERSON_SUCCESS, index.getOneBased());
-        Model expectedModel = new ModelManager(model.getAddressBook(), getTypicalEventBook(), new UserPrefs());
+        Model expectedModel =
+                new ModelManager(model.getAddressBook(), getTypicalEventBook(), getTypicalTaskBook(), new UserPrefs());
         expectedModel.updatePerson(model.getFilteredPersonList().get(0), updatedPerson);
 
         assertCommandSuccess(resetPictureCommand, model, expectedMessage, expectedModel);

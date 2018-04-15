@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addressbook>
+<taskbook>
     <!-- Valid Task -->
     <tasks>
         <taskName>Agenda for meeting</taskName>
@@ -18,4 +18,4 @@
         <taskStatus>undone</taskStatus>
         <categorised>work</categorised>
     </tasks>
-</addressbook>
+</taskbook>

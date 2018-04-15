@@ -13,6 +13,7 @@ import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
 import seedu.address.commons.events.model.EventBookChangedEvent;
+import seedu.address.commons.events.model.TaskBookChangedEvent;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.event.ReadOnlyEvent;
 import seedu.address.model.event.ReadOnlyEventBook;
@@ -33,28 +34,32 @@ public class ModelManager extends ComponentManager implements Model {
 
     private final AddressBook addressBook;
     private final EventBook eventBook;
+    private final TaskBook taskBook;
     private final FilteredList<ReadOnlyEvent> filteredEvents;
     private final FilteredList<Person> filteredPersons;
     private final FilteredList<Task> filteredTasks;
 
     /**
-     * Initializes a ModelManager with the given addressBook and userPrefs.
+     * Initializes a ModelManager with the given addressBook, taskBook and userPrefs.
      */
-    public ModelManager(ReadOnlyAddressBook addressBook, ReadOnlyEventBook eventBook, UserPrefs userPrefs) {
+    public ModelManager(ReadOnlyAddressBook addressBook, ReadOnlyEventBook eventBook, ReadOnlyTaskBook taskBook,
+                        UserPrefs userPrefs) {
         super();
         requireAllNonNull(addressBook, userPrefs);
 
-        logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
+        logger.fine("Initializing with address book: " + addressBook + ", task book " + taskBook
+                + " and user prefs " + userPrefs);
 
         this.addressBook = new AddressBook(addressBook);
         this.eventBook = new EventBook(eventBook);
+        this.taskBook = new TaskBook(taskBook);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
         filteredEvents = new FilteredList<>(this.eventBook.getEventList());
-        filteredTasks = new FilteredList<>(this.addressBook.getTaskList());
+        filteredTasks = new FilteredList<>(this.taskBook.getTaskList());
     }
 
     public ModelManager() {
-        this(new AddressBook(), new EventBook(), new UserPrefs());
+        this(new AddressBook(), new EventBook(), new TaskBook(), new UserPrefs());
     }
 
     @Override
@@ -68,6 +73,13 @@ public class ModelManager extends ComponentManager implements Model {
     public void resetData(ReadOnlyEventBook newData) {
         eventBook.resetData(newData);
         indicateEventBookChanged();
+    }
+
+    //@@author CYX28
+    @Override
+    public void resetData(ReadOnlyTaskBook newData) {
+        taskBook.resetData(newData);
+        indicateTaskBookChanged();
     }
 
     //@@author
@@ -111,25 +123,34 @@ public class ModelManager extends ComponentManager implements Model {
         indicateAddressBookChanged();
     }
 
-    @Override
-    public synchronized void deleteTask(Task target) throws TaskNotFoundException {
-        addressBook.removeTask(target);
-        indicateAddressBookChanged();
+    public ReadOnlyTaskBook getTaskBook() {
+        return taskBook;
+    }
+
+    /** Raises an event to indicate the model has changed */
+    private void indicateTaskBookChanged() {
+        raise(new TaskBookChangedEvent(taskBook));
     }
 
     @Override
     public synchronized void addTask(Task task) throws DuplicateTaskException {
-        addressBook.addTask(task);
+        taskBook.addTask(task);
         updateFilteredTaskList(PREDICATE_SHOW_ALL_TASKS);
-        indicateAddressBookChanged();
+        indicateTaskBookChanged();
+    }
+
+    @Override
+    public synchronized void deleteTask(Task target) throws TaskNotFoundException {
+        taskBook.removeTask(target);
+        indicateTaskBookChanged();
     }
 
     @Override
     public void updateTask(Task target, Task editedTask) throws DuplicateTaskException, TaskNotFoundException {
         requireAllNonNull(target, editedTask);
 
-        addressBook.updateTask(target, editedTask);
-        indicateAddressBookChanged();
+        taskBook.updateTask(target, editedTask);
+        indicateTaskBookChanged();
     }
 
     //@@author
@@ -180,6 +201,13 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
+    public void sortEventList(String parameter) throws CommandException {
+        eventBook.sortBy(parameter);
+        updateFilteredEventList(PREDICATE_SHOW_ALL_EVENTS);
+        indicateEventBookChanged();
+    }
+
+    @Override
     public ReadOnlyEventBook getEventBook() {
         return eventBook;
     }
@@ -212,6 +240,7 @@ public class ModelManager extends ComponentManager implements Model {
         // state check
         ModelManager other = (ModelManager) obj;
         return addressBook.equals(other.addressBook)
+                && taskBook.equals(other.taskBook)
                 && filteredPersons.equals(other.filteredPersons)
                 && filteredTasks.equals(other.filteredTasks);
     }

@@ -132,7 +132,7 @@ public class AddEventCommand extends UndoableCommand {
             + PREFIX_EVENT_TITLE + "Movie Outing "
             + PREFIX_EVENT_DESCRIPTION + "Watching Black Panther "
             + PREFIX_EVENT_LOCATION + "Suntec City GV "
-            + PREFIX_EVENT_DATETIME + "22-04-2018 1630";
+            + PREFIX_EVENT_DATETIME + "2018-04-22 1630";
 
     public static final String MESSAGE_SUCCESS = "New event added: %1$s";
     public static final String MESSAGE_DUPLICATE_EVENT = "This event already exists in the event book";
@@ -166,13 +166,13 @@ public class AddEventCommand extends UndoableCommand {
     }
 }
 ```
-###### \java\seedu\address\logic\commands\ClearEventCommand.java
+###### \java\seedu\address\logic\commands\ClearEventsCommand.java
 ``` java
 
 /**
  * Clears the event list.
  */
-public class ClearEventCommand extends UndoableCommand {
+public class ClearEventsCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "clearevents";
     public static final String MESSAGE_SUCCESS = "Event list has been cleared!";
@@ -402,7 +402,7 @@ public class JumpToCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Jumps to a specified year (between 1900 to 2300) and month (between 01 to 12) on the calendar.\n"
             + "Parameters: yyyy-mm\n"
-            + "Example: " + COMMAND_WORD + " 201802";
+            + "Example: " + COMMAND_WORD + " 2018-02";
 
     private final YearMonth yearMonth;
 
@@ -444,6 +444,60 @@ public class ListAllEventsCommand extends Command {
         return new CommandResult("All "
                 + getMessageForEventListShownSummary(model.getFilteredEventList().size()));
     }
+}
+```
+###### \java\seedu\address\logic\commands\SortEventCommand.java
+``` java
+
+/**
+ * Sorts the event list according to the specified parameter
+ */
+public class SortEventCommand extends UndoableCommand {
+
+    public static final String COMMAND_WORD = "sortevent";
+    public static final String COMMAND_WORD_TWO = "sortevents";
+
+    public static final String MESSAGE_USAGE = COMMAND_WORD
+            + ": Order the Event Book based on a specified parameter.\n"
+            + "Parameters:  TITLE, LOCATION, DATETIME\n"
+            + "Example: " + COMMAND_WORD + " TITLE";
+
+    public static final String MESSAGE_SORT_SUCCESS = "Event Book has been sorted by ";
+    public static final String MESSAGE_SORT_WRONG_PARAMETER =
+            "The parameter can only contain Title, Location or Datetime";
+
+    private String sortParameter;
+
+    public SortEventCommand(String sortParameter) {
+        this.sortParameter = sortParameter;
+    }
+
+    public static String getCommandWord() {
+        return COMMAND_WORD;
+    }
+
+    public String getSortParameter() {
+        return sortParameter;
+    }
+
+    @Override
+    public CommandResult executeUndoableCommand() {
+        try {
+            model.sortEventList(sortParameter);
+
+        } catch (CommandException e) {
+            return new CommandResult(MESSAGE_SORT_WRONG_PARAMETER);
+        }
+        return new CommandResult(String.format(MESSAGE_SORT_SUCCESS + sortParameter));
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof SortEventCommand // instanceof handles nulls
+                && this.sortParameter.equals(((SortEventCommand) other).sortParameter)); // state check
+    }
+
 }
 ```
 ###### \java\seedu\address\logic\commands\SwitchTabCommand.java
@@ -589,7 +643,7 @@ public class CalendarViewStateParser {
                 || commandWord.equals(UndoCommand.COMMAND_ALIAS)
                 || commandWord.equals(RedoCommand.COMMAND_WORD)
                 || commandWord.equals(RedoCommand.COMMAND_ALIAS)
-                || commandWord.equals(ClearEventCommand.COMMAND_WORD)) {
+                || commandWord.equals(ClearEventsCommand.COMMAND_WORD)) {
             CalendarViewUpdate.updateViewState(calendarView);
         } else if (commandWord.equals(FindEventCommand.COMMAND_WORD)) {
             CalendarViewUpdate.updateFindState(calendarView, model);
@@ -758,6 +812,32 @@ public class JumpToCommandParser implements Parser<JumpToCommand> {
     }
 }
 ```
+###### \java\seedu\address\logic\parser\SortEventCommandParser.java
+``` java
+
+/**
+ * Parses input arguments and creates a new SortEventCommand object
+ */
+public class SortEventCommandParser implements Parser<SortEventCommand> {
+
+    /**
+     * Parses the given {@code String} of arguments
+     * and returns a SortEventCommand object for execution.
+     *
+     * @throws ParseException if the user input does not conform the expected format
+     */
+    public SortEventCommand parse(String args) throws ParseException {
+        requireNonNull(args);
+        String trimmedArgs = args.trim();
+        if (trimmedArgs.isEmpty()) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortEventCommand.MESSAGE_USAGE));
+        }
+        String upperCaseParameter = trimmedArgs.toUpperCase();
+        return new SortEventCommand(upperCaseParameter);
+    }
+}
+```
 ###### \java\seedu\address\model\event\Datetime.java
 ``` java
 
@@ -768,7 +848,7 @@ public class JumpToCommandParser implements Parser<JumpToCommand> {
 public class Datetime {
 
     public static final String MESSAGE_DATETIME_CONSTRAINTS =
-            "Event datetime should be in the format: dd-mm-yyyy hhmm\n"
+            "Event datetime should be in the format: yyyy-mm-dd hhmm\n"
             + "Datetime values should also be logical (eg. hhmm should be between 0000 to 2359)";
 
     private static final int VALID_DATETIME_LENGTH = 15;
@@ -803,14 +883,14 @@ public class Datetime {
         }
 
         try {
-            int day = Integer.parseInt(datetime.substring(0, 2));
-            int month = Integer.parseInt(datetime.substring(3, 5));
-            int year = Integer.parseInt(datetime.substring(6, 10));
+            int year = Integer.parseInt(datetime.substring(0, 4));
+            int month = Integer.parseInt(datetime.substring(5, 7));
+            int day = Integer.parseInt(datetime.substring(8, 10));
             int hour = Integer.parseInt(datetime.substring(11, 13));
             int min = Integer.parseInt(datetime.substring(13, 15));
 
-            String firstSeperator = datetime.substring(2, 3);
-            String secondSeperator = datetime.substring(5, 6);
+            String firstSeperator = datetime.substring(4, 5);
+            String secondSeperator = datetime.substring(7, 8);
             String thirdSeperator = datetime.substring(10, 11);
 
             //Format Validation
@@ -1036,7 +1116,7 @@ public interface ReadOnlyEvent {
     }
 
     /**
-     * Formats the person as text, showing all contact details.
+     * Formats the event as text, showing all event details.
      */
     default String getAsText() {
         final StringBuilder builder = new StringBuilder();
@@ -1046,9 +1126,23 @@ public interface ReadOnlyEvent {
                 .append(" Location: ")
                 .append(getLocation())
                 .append(" Datetime: ")
-                .append(getDatetime());
+                .append(getDatetime().value);
         return builder.toString();
     }
+
+    /**
+     * Returns the part of command string for the given {@code event}'s details.
+     */
+    default String getEventDetails() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(PREFIX_EVENT_TITLE + getTitle() + " ");
+        sb.append(PREFIX_EVENT_DESCRIPTION + getDescription() + " ");
+        sb.append(PREFIX_EVENT_LOCATION + getLocation() + " ");
+        sb.append(PREFIX_EVENT_DATETIME + getDatetime().value + " ");
+
+        return sb.toString();
+    }
+
 }
 ```
 ###### \java\seedu\address\model\event\ReadOnlyEventBook.java
@@ -1186,25 +1280,6 @@ public class UniqueEventList implements Iterable<Event> {
     }
 
     /**
-     * Replaces the event {@code target} in the list with {@code editedEvent}.
-     */
-    public void setEvent(ReadOnlyEvent target, ReadOnlyEvent editedEvent)
-            throws CommandException {
-        requireNonNull(editedEvent);
-
-        int index = internalList.indexOf(target);
-        if (index == -1) {
-            throw new CommandException("");
-        }
-
-        if (!target.equals(editedEvent) && internalList.contains(editedEvent)) {
-            throw new CommandException("");
-        }
-
-        internalList.set(index, new Event(editedEvent));
-    }
-
-    /**
      * Removes the equivalent event from the list.
      *
      * @throws CommandException if no such event could be found in the list.
@@ -1238,9 +1313,9 @@ public class UniqueEventList implements Iterable<Event> {
     }
 
     /**
-     * Orders the list.
+     * Sorts the list.
      */
-    public void orderBy(String parameter) throws CommandException {
+    public void sortBy(String parameter) throws CommandException {
         requireNonNull(parameter);
         Comparator<Event> orderByTitle = (Event a, Event b) -> a.getTitle().toString()
                 .compareToIgnoreCase(b.getTitle().toString());
@@ -1248,7 +1323,7 @@ public class UniqueEventList implements Iterable<Event> {
                 .compareToIgnoreCase(b.getLocation().toString());
         Comparator<Event> orderByDatetime = (Event a, Event b) -> {
 
-            SimpleDateFormat formatDate = new SimpleDateFormat("dd-MM-yyyy hhmm");
+            SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd hhmm");
             try {
                 Date datetime1 = formatDate.parse(a.getDatetime().value);
                 Date datetime2 = formatDate.parse(b.getDatetime().value);
@@ -1376,10 +1451,10 @@ public class EventBook implements ReadOnlyEventBook {
     }
 
     /**
-     * Order list of all events in the event Book based on the parameter.
+     * Sorts list of all events in the event Book based on the specified parameter.
      */
-    public void orderList(String parameter) throws CommandException {
-        events.orderBy(parameter);
+    public void sortBy(String parameter) throws CommandException {
+        events.sortBy(parameter);
     }
 
     @Override
@@ -1451,6 +1526,49 @@ public class EventBook implements ReadOnlyEventBook {
     public void resetData(ReadOnlyEventBook newData) {
         eventBook.resetData(newData);
         indicateEventBookChanged();
+    }
+
+```
+###### \java\seedu\address\model\util\SampleDataUtil.java
+``` java
+
+    public static Event[] getSampleEvents() throws IllegalValueException {
+        return new Event[]{
+            new Event("Company Charity Event", "Annual fund-raising event",
+                "VivoCity", new Datetime("2017-10-31 0930")),
+            new Event("Launch Marketing Campaign", "New products to be released",
+                "-", new Datetime("2018-03-14 1000")),
+            new Event("Class Reunion", "Catchup session with old classmates",
+                "Tampines Hub", new Datetime("2018-04-15 1745")),
+            new Event("CS2103 Demo Presentation", "Flight to London",
+                "COM1-B103", new Datetime("2018-04-19 1500")),
+            new Event("Marketing Department Meeting", "Monthly Meeting",
+                "Company Conference Room 2", new Datetime("2018-04-20 1315")),
+            new Event("Flight to London", "-",
+                "Changi Airport", new Datetime("2018-05-12 2250")),
+            new Event("Company Tour", "Checking out company operations in London",
+                "ABC Company (London)", new Datetime("2018-05-14 0930")),
+            new Event("Overseas Meeting", "Discussion w/ London representatives",
+                "ABC Conference Hall 1", new Datetime("2018-05-18 1300")),
+            new Event("Flight back to Singapore", "-",
+                "Heathrow Airport", new Datetime("2018-05-21 1420")),
+            new Event("Musical Concert", "Friend's performance",
+                "NUS UCC", new Datetime("2018-05-23 1900"))
+        };
+    }
+
+    public static ReadOnlyEventBook getSampleEventBook() {
+        try {
+            EventBook sampleEb = new EventBook();
+            for (Event sampleEvent : getSampleEvents()) {
+                sampleEb.addEvent(sampleEvent);
+            }
+            return sampleEb;
+        } catch (CommandException e) {
+            throw new AssertionError("sample data cannot contain duplicate events ", e);
+        } catch (IllegalValueException e) {
+            throw new AssertionError("Invalid input given!");
+        }
     }
 
 ```
@@ -1581,7 +1699,8 @@ public class XmlEventBookStorage implements EventBookStorage {
     }
 
     @Override
-    public Optional<ReadOnlyEventBook> readEventBook(String filePath) throws FileNotFoundException, JAXBException {
+    public Optional<ReadOnlyEventBook> readEventBook(String filePath)
+            throws FileNotFoundException, JAXBException, DataConversionException {
         requireNonNull(filePath);
 
         File eventBookFile = new File(filePath);
@@ -1591,9 +1710,16 @@ public class XmlEventBookStorage implements EventBookStorage {
             return Optional.empty();
         }
 
-        ReadOnlyEventBook eventBookOptional = XmlFileStorage.loadEventDataFromSaveFile(new File(filePath));
-
-        return Optional.of(eventBookOptional);
+        XmlSerializableEventBook eventBookOptional = XmlFileStorage.loadEventDataFromSaveFile(new File(filePath));
+        try {
+            return Optional.of(eventBookOptional.toModelType());
+        } catch (IllegalValueException ive) {
+            logger.info("Illegal values found in " + eventBookOptional + ": " + ive.getMessage());
+            throw new DataConversionException(ive);
+        } catch (CommandException e) {
+            logger.info("Invalid command in " + eventBookOptional + ": " + e.getMessage());
+        }
+        return Optional.empty();
     }
 
     @Override
@@ -1619,6 +1745,65 @@ public class XmlEventBookStorage implements EventBookStorage {
     @Override
     public void exportEventBook() throws ParserConfigurationException, IOException {
         //TODO BY V2.0
+    }
+}
+```
+###### \java\seedu\address\storage\XmlSerializableEventBook.java
+``` java
+
+/**
+ * An Immutable EventBook that is serializable to XML format
+ */
+@XmlRootElement(name = "eventbook")
+public class XmlSerializableEventBook {
+
+    private static final Logger logger = LogsCenter.getLogger(XmlEventBookStorage.class);
+
+    @XmlElement
+    private List<XmlAdaptedEvent> events;
+
+    /**
+     * Creates an empty XmlSerializableEventBook.
+     * This empty constructor is required for marshalling.
+     */
+    public XmlSerializableEventBook() {
+        events = new ArrayList<>();
+    }
+
+    /**
+     * Conversion
+     */
+    public XmlSerializableEventBook(ReadOnlyEventBook src) {
+        this();
+        events.addAll(src.getEventList().stream().map(XmlAdaptedEvent::new).collect(Collectors.toList()));
+    }
+
+    /**
+     * Converts this eventbook into the model's {@code EventBook} object.
+     *
+     * @throws IllegalValueException if there were any data constraints violated or duplicates in the
+     *                               {@code XmlAdaptedEvent}.
+     */
+    public EventBook toModelType() throws IllegalValueException, CommandException {
+        EventBook eventBook = new EventBook();
+        for (XmlAdaptedEvent e : events) {
+            eventBook.addEvent(e.toModelType());
+        }
+        return eventBook;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        if (!(other instanceof XmlSerializableEventBook)) {
+            return false;
+        }
+
+        XmlSerializableEventBook otherAb = (XmlSerializableEventBook) other;
+        return events.equals(otherAb.events);
     }
 }
 ```
@@ -1875,7 +2060,7 @@ public class CalendarView {
             if (eventExist) {
                 ap.setOnMouseClicked(ev -> {
                     String commandText = FindEventCommand.getCommandWord()
-                            + " " + PREFIX_EVENT_DATETIME + getFormatDate(dayValue, monthValue, yearValue);
+                            + " " + PREFIX_EVENT_DATETIME + getFormatDate(yearValue, monthValue, dayValue);
                     try {
                         CommandResult commandResult = logic.execute(commandText);
                         logger.info("Command Result: " + commandResult.feedbackToUser);
@@ -1958,9 +2143,9 @@ public class CalendarView {
      */
     private boolean checkEventDay(ReadOnlyEvent event, String dayValue) {
         if (dayValue.length() == 1) {
-            return event.getDatetime().value.substring(0, 2).equals("0" + dayValue);
+            return event.getDatetime().value.substring(8, 10).equals("0" + dayValue);
         } else {
-            return event.getDatetime().value.substring(0, 2).equals(dayValue);
+            return event.getDatetime().value.substring(8, 10).equals(dayValue);
         }
     }
 
@@ -1972,9 +2157,9 @@ public class CalendarView {
      */
     private boolean checkEventMonth(ReadOnlyEvent event, String monthValue) {
         if (monthValue.length() == 1) {
-            return event.getDatetime().value.substring(3, 5).equals("0" + monthValue);
+            return event.getDatetime().value.substring(5, 7).equals("0" + monthValue);
         } else {
-            return event.getDatetime().value.substring(3, 5).equals(monthValue);
+            return event.getDatetime().value.substring(5, 7).equals(monthValue);
         }
     }
 
@@ -1985,17 +2170,17 @@ public class CalendarView {
      * @return
      */
     private boolean checkEventYear(ReadOnlyEvent event, String yearValue) {
-        return event.getDatetime().value.substring(6, 10).equals(yearValue);
+        return event.getDatetime().value.substring(0, 4).equals(yearValue);
     }
 
-    private String getFormatDate(String day, String month, String year) {
+    private String getFormatDate(String year, String month, String day) {
         if (day.length() == 1) {
             day = "0" + day;
         }
         if (month.length() == 1) {
             month = "0" + month;
         }
-        return day + "-" + month + "-" + year;
+        return year + "-" + month + "-" + day;
     }
 
     @Subscribe
@@ -2068,14 +2253,14 @@ public class CalendarViewUpdate {
     public static void updateFindState(CalendarView calendarView, Model model) {
         List<ReadOnlyEvent> events = model.getFilteredEventList();
         if (events.size() != 0) {
-            String findYearMonth = events.get(0).getDatetime().value.substring(3, 10);
+            String findYearMonth = events.get(0).getDatetime().value.substring(0, 7);
             // If every event in the filtered list is on the same day, Calendar View jumps to that day.
             boolean changeSelectedYearMonth = events.stream()
-                    .allMatch(e -> e.getDatetime().value.substring(3, 10).equals(findYearMonth));
+                    .allMatch(e -> e.getDatetime().value.substring(0, 7).equals(findYearMonth));
 
             if (changeSelectedYearMonth) {
                 calendarView.setCurrentYearMonth(YearMonth.parse(findYearMonth,
-                        DateTimeFormatter.ofPattern("MM-yyyy")));
+                        DateTimeFormatter.ofPattern("yyyy-MM")));
                 calendarView.populateCalendar(calendarView.getCurrentYearMonth(), null);
             }
         }
@@ -2105,9 +2290,9 @@ public class EventCard extends UiPart<Region> {
     @FXML
     private HBox cardPane;
     @FXML
-    private Label title;
-    @FXML
     private Label id;
+    @FXML
+    private Label title;
     @FXML
     private Label description;
     @FXML
@@ -2329,6 +2514,25 @@ public class LinkedInWindow extends UiPart<Stage> {
     public void show() {
         logger.fine("Showing the LinkedIn page.");
         getRoot().show();
+    }
+}
+```
+###### \java\seedu\address\ui\StatusBarFooter.java
+``` java
+    @Subscribe
+    public void handleEventBookChangedEvent(EventBookChangedEvent ebce) {
+        long now = clock.millis();
+        String lastUpdated = new Date(now).toString();
+        logger.info(LogsCenter.getEventHandlingLogMessage(ebce, "Setting last updated status to " + lastUpdated));
+        setSyncStatus(String.format(SYNC_STATUS_UPDATED, lastUpdated));
+    }
+
+    @Subscribe
+    public void handleTaskBookChangedEvent(TaskBookChangedEvent tbce) {
+        long now = clock.millis();
+        String lastUpdated = new Date(now).toString();
+        logger.info(LogsCenter.getEventHandlingLogMessage(tbce, "Setting last updated status to " + lastUpdated));
+        setSyncStatus(String.format(SYNC_STATUS_UPDATED, lastUpdated));
     }
 }
 ```

@@ -176,7 +176,7 @@ public class CalendarView {
             if (eventExist) {
                 ap.setOnMouseClicked(ev -> {
                     String commandText = FindEventCommand.getCommandWord()
-                            + " " + PREFIX_EVENT_DATETIME + getFormatDate(dayValue, monthValue, yearValue);
+                            + " " + PREFIX_EVENT_DATETIME + getFormatDate(yearValue, monthValue, dayValue);
                     try {
                         CommandResult commandResult = logic.execute(commandText);
                         logger.info("Command Result: " + commandResult.feedbackToUser);
@@ -259,9 +259,9 @@ public class CalendarView {
      */
     private boolean checkEventDay(ReadOnlyEvent event, String dayValue) {
         if (dayValue.length() == 1) {
-            return event.getDatetime().value.substring(0, 2).equals("0" + dayValue);
+            return event.getDatetime().value.substring(8, 10).equals("0" + dayValue);
         } else {
-            return event.getDatetime().value.substring(0, 2).equals(dayValue);
+            return event.getDatetime().value.substring(8, 10).equals(dayValue);
         }
     }
 
@@ -273,9 +273,9 @@ public class CalendarView {
      */
     private boolean checkEventMonth(ReadOnlyEvent event, String monthValue) {
         if (monthValue.length() == 1) {
-            return event.getDatetime().value.substring(3, 5).equals("0" + monthValue);
+            return event.getDatetime().value.substring(5, 7).equals("0" + monthValue);
         } else {
-            return event.getDatetime().value.substring(3, 5).equals(monthValue);
+            return event.getDatetime().value.substring(5, 7).equals(monthValue);
         }
     }
 
@@ -286,17 +286,17 @@ public class CalendarView {
      * @return
      */
     private boolean checkEventYear(ReadOnlyEvent event, String yearValue) {
-        return event.getDatetime().value.substring(6, 10).equals(yearValue);
+        return event.getDatetime().value.substring(0, 4).equals(yearValue);
     }
 
-    private String getFormatDate(String day, String month, String year) {
+    private String getFormatDate(String year, String month, String day) {
         if (day.length() == 1) {
             day = "0" + day;
         }
         if (month.length() == 1) {
             month = "0" + month;
         }
-        return day + "-" + month + "-" + year;
+        return year + "-" + month + "-" + day;
     }
 
     @Subscribe

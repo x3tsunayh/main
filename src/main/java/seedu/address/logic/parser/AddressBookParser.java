@@ -13,7 +13,7 @@ import seedu.address.logic.commands.AddEventCommand;
 import seedu.address.logic.commands.AddPictureCommand;
 import seedu.address.logic.commands.AddTagCommand;
 import seedu.address.logic.commands.ClearCommand;
-import seedu.address.logic.commands.ClearEventCommand;
+import seedu.address.logic.commands.ClearEventsCommand;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.ConvertCommand;
 import seedu.address.logic.commands.DeleteByNameCommand;
@@ -34,8 +34,10 @@ import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.ResetPictureCommand;
 import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.SortCommand;
+import seedu.address.logic.commands.SortEventCommand;
 import seedu.address.logic.commands.SwitchTabCommand;
 import seedu.address.logic.commands.TaskAddCommand;
+import seedu.address.logic.commands.TaskClearCommand;
 import seedu.address.logic.commands.TaskDeleteCommand;
 import seedu.address.logic.commands.TaskEditCommand;
 import seedu.address.logic.commands.TaskFindCommand;
@@ -147,8 +149,12 @@ public class AddressBookParser {
         case FindEventCommand.COMMAND_WORD:
             return new FindEventCommandParser().parse(arguments);
 
-        case ClearEventCommand.COMMAND_WORD:
-            return new ClearEventCommand();
+        case ClearEventsCommand.COMMAND_WORD:
+            return new ClearEventsCommand();
+
+        case SortEventCommand.COMMAND_WORD:
+        case SortEventCommand.COMMAND_WORD_TWO:
+            return new SortEventCommandParser().parse(arguments);
 
         case ListAllEventsCommand.COMMAND_WORD:
         case ListAllEventsCommand.COMMAND_WORD_TWO:
@@ -185,6 +191,10 @@ public class AddressBookParser {
         case TaskListCommand.COMMAND_WORD:
         case TaskListCommand.COMMAND_ALIAS:
             return new TaskListCommand();
+
+        case TaskClearCommand.COMMAND_WORD:
+        case TaskClearCommand.COMMAND_ALIAS:
+            return new TaskClearCommand();
 
         case AddTagCommand.COMMAND_WORD:
             return new AddTagCommandParser().parse(arguments);

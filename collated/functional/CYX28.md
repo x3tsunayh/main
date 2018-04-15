@@ -1,11 +1,25 @@
 # CYX28
+###### \java\seedu\address\commons\events\model\TaskBookChangedEvent.java
+``` java
+/** Indicates the TaskBook in the model has changed */
+public class TaskBookChangedEvent extends BaseEvent {
+
+    public final ReadOnlyTaskBook data;
+
+    public TaskBookChangedEvent(ReadOnlyTaskBook data) {
+        this.data = data;
+    }
+
+    @Override
+    public String toString() {
+        return "number of tasks " + data.getTaskList().size() + ", number of categories "
+                + data.getTaskCategoryList().size();
+    }
+
+}
+```
 ###### \java\seedu\address\commons\util\DateUtil.java
 ``` java
-/**
- * A container for Date specific utility functions
- */
-public class DateUtil {
-
     /**
      * Get today's date in LocalDate format
      * @return today's date in LocalDate format
@@ -16,7 +30,7 @@ public class DateUtil {
 
     /**
      * Parse given date into LocalDate format
-     * @param dateToParse date must be in String format with hypens e.g. 2018-05-12
+     * @param dateToParse date must be in String format with hyphens e.g. 2018-05-12
      * @return date in LocalDate format
      */
     public static LocalDate getParsedDate(String dateToParse) {
@@ -25,14 +39,11 @@ public class DateUtil {
 
     /**
      * Parse given dateTime into LocalDate format
-     * @param dateTimeToParse date must be in String format with hypens e.g. 2018-05-12 1800
+     * @param dateTimeToParse date must be in String format with hyphens e.g. 2018-05-12 1800
      * @return date in LocalDate format
      */
     public static LocalDate getParsedDateTime(String dateTimeToParse) {
-        String day = dateTimeToParse.substring(0, 2);
-        String month = dateTimeToParse.substring(2, 6);
-        String year = dateTimeToParse.substring(6, 10);
-        return LocalDate.parse(year + month + day);
+        return LocalDate.parse(dateTimeToParse.substring(0, 10));
     }
 
     /**
@@ -45,7 +56,6 @@ public class DateUtil {
         return (int) DAYS.between(startDate, endDate);
     }
 
-}
 ```
 ###### \java\seedu\address\logic\commands\SortCommand.java
 ``` java
@@ -89,7 +99,7 @@ public class TaskAddCommand extends UndoableCommand {
             + PREFIX_TASK_DESCRIPTION + "Discuss proposal details "
             + PREFIX_TASK_DUE_DATE + "2018-04-29 "
             + PREFIX_TASK_STATUS + "undone "
-            + PREFIX_TASK_CATEGORY + "Meeting";
+            + PREFIX_TASK_CATEGORY + "meeting";
 
     public static final String MESSAGE_SUCCESS = "New task added: %1$s";
     public static final String MESSAGE_DUPLICATE_TASK = "This task already exists in the address book";
@@ -120,6 +130,26 @@ public class TaskAddCommand extends UndoableCommand {
         return other == this
                 || (other instanceof TaskAddCommand
                 && toAdd.equals(((TaskAddCommand) other).toAdd));
+    }
+
+}
+```
+###### \java\seedu\address\logic\commands\TaskClearCommand.java
+``` java
+/**
+ * Clears the task book.
+ */
+public class TaskClearCommand extends UndoableCommand {
+
+    public static final String COMMAND_WORD = "task-clear";
+    public static final String COMMAND_ALIAS = "tc";
+    public static final String MESSAGE_SUCCESS = "Task book has been cleared!";
+
+    @Override
+    public CommandResult executeUndoableCommand() {
+        requireNonNull(model);
+        model.resetData(new TaskBook());
+        return new CommandResult(MESSAGE_SUCCESS);
     }
 
 }
@@ -821,109 +851,6 @@ public class TaskFindCommandParser implements Parser<TaskFindCommand> {
     }
 
 ```
-###### \java\seedu\address\model\AddressBook.java
-``` java
-    //// task-level operations
-    /**
-     * Adds a task to the address book.
-     * Also checks the new task's categories and updates {@link #taskCategories} with any new taskCategories found,
-     * and updates the TaskCategory objects in the task to point to those in {@link #taskCategories}.
-     *
-     * @throws DuplicateTaskException if an equivalent task already exists.
-     */
-    public void addTask(Task t) throws DuplicateTaskException {
-        Task task = syncWithMasterTaskCategoryList(t);
-        // TODO: the taskCategories master list will be updated even though the below line fails.
-        // This can cause the taskCategories master list to have additional taskCategories that are not tagged to
-        // any task in the task list.
-        tasks.add(task);
-    }
-
-    /**
-     * Replaces the given task {@code target} in the list with {@code editedTask}.
-     * {@code AddressBook}'s taskCategory list will be updated with the taskCategories of {@code editedTask}.
-     *
-     * @throws DuplicateTaskException if updating the task's details causes the task to be equivalent to
-     * another existing task in the list.
-     * @throws TaskNotFoundException if {@code target} could not be found in the list.
-     *
-     * @see #syncWithMasterTaskCategoryList(Task)
-     */
-    public void updateTask(Task target, Task editedTask) throws DuplicateTaskException, TaskNotFoundException {
-        requireNonNull(editedTask);
-
-        Task syncedEditedTask = syncWithMasterTaskCategoryList(editedTask);
-        // TODO: the taskCategories master list will be updated even though the below line fails.
-        // This can cause the taskCategories master list to have additional taskCategories that are not tagged to
-        // any task in the person list.
-        tasks.setTask(target, syncedEditedTask);
-    }
-
-    /**
-     * Updates the master taskCategory list to include taskCategories in {@code task} that are not in the list.
-     * @return a copy of this {@code task} such that every taskCategory in this task points to a TaskCategory object
-     * in the master list.
-     */
-    private Task syncWithMasterTaskCategoryList(Task task) {
-        final UniqueTaskCategoryList categories = new UniqueTaskCategoryList(task.getTaskCategories());
-        taskCategories.mergeFrom(categories);
-
-        // Create map with values = taskCategory object references in the master list
-        // Used for checking task category references
-        final Map<TaskCategory, TaskCategory> masterTaskCategoryObjects = new HashMap<>();
-        taskCategories.forEach(taskCategory -> masterTaskCategoryObjects.put(taskCategory, taskCategory));
-
-        // Rebuild the list of task categories to point to the relevant taskCategories in the master taskCategory list.
-        final Set<TaskCategory> correctTaskCategoryReferences = new HashSet<>();
-        categories.forEach(taskCategory -> correctTaskCategoryReferences.add(
-                masterTaskCategoryObjects.get(taskCategory)));
-        return new Task(task.getTaskName(), task.getTaskPriority(), task.getTaskDescription(), task.getTaskDueDate(),
-                task.getTaskStatus(), correctTaskCategoryReferences);
-    }
-
-    /**
-     * Removes {@code key} from this {@code AddressBook}.
-     * @throws TaskNotFoundException if the {@code key} is not in this {@code AddressBook}.
-     */
-    public boolean removeTask(Task key) throws TaskNotFoundException {
-        if (tasks.remove(key)) {
-            return true;
-        } else {
-            throw new TaskNotFoundException();
-        }
-    }
-
-    /**
-     * Sorts the task list by
-     * (1) status (i.e. undone to done,
-     * (2) due date in ascending order and
-     * (3) priority (i.e. high > medium > low)
-     */
-    public void sortTasksByStatusDueDateAndPriority() {
-        tasks.sortByStatusDueDateAndPriority();
-    }
-
-    //// taskCategory-level operations
-
-    public void addTaskCategory(TaskCategory tc) throws UniqueTaskCategoryList.DuplicateTaskCategoryException {
-        taskCategories.add(tc);
-    }
-
-```
-###### \java\seedu\address\model\AddressBook.java
-``` java
-    @Override
-    public ObservableList<Task> getTaskList() {
-        sortTasksByStatusDueDateAndPriority();
-        return tasks.asObservableList();
-    }
-
-    @Override
-    public ObservableList<TaskCategory> getTaskCategoryList() {
-        return taskCategories.asObservableList();
-    }
-
-```
 ###### \java\seedu\address\model\category\TaskCategory.java
 ``` java
 /**
@@ -1111,30 +1038,48 @@ public class UniqueTaskCategoryList implements Iterable<TaskCategory> {
 ###### \java\seedu\address\model\ModelManager.java
 ``` java
     @Override
+    public void resetData(ReadOnlyTaskBook newData) {
+        taskBook.resetData(newData);
+        indicateTaskBookChanged();
+    }
+
+```
+###### \java\seedu\address\model\ModelManager.java
+``` java
+    @Override
     public void sortPersons() {
         this.addressBook.sortPersons();
         indicateAddressBookChanged();
     }
 
-    @Override
-    public synchronized void deleteTask(Task target) throws TaskNotFoundException {
-        addressBook.removeTask(target);
-        indicateAddressBookChanged();
+    public ReadOnlyTaskBook getTaskBook() {
+        return taskBook;
+    }
+
+    /** Raises an event to indicate the model has changed */
+    private void indicateTaskBookChanged() {
+        raise(new TaskBookChangedEvent(taskBook));
     }
 
     @Override
     public synchronized void addTask(Task task) throws DuplicateTaskException {
-        addressBook.addTask(task);
+        taskBook.addTask(task);
         updateFilteredTaskList(PREDICATE_SHOW_ALL_TASKS);
-        indicateAddressBookChanged();
+        indicateTaskBookChanged();
+    }
+
+    @Override
+    public synchronized void deleteTask(Task target) throws TaskNotFoundException {
+        taskBook.removeTask(target);
+        indicateTaskBookChanged();
     }
 
     @Override
     public void updateTask(Task target, Task editedTask) throws DuplicateTaskException, TaskNotFoundException {
         requireAllNonNull(target, editedTask);
 
-        addressBook.updateTask(target, editedTask);
-        indicateAddressBookChanged();
+        taskBook.updateTask(target, editedTask);
+        indicateTaskBookChanged();
     }
 
 ```
@@ -1148,6 +1093,34 @@ public class UniqueTaskCategoryList implements Iterable<TaskCategory> {
                 .compareToIgnoreCase(person2.getName().toString()));
     }
 
+```
+###### \java\seedu\address\model\ReadOnlyTaskBook.java
+``` java
+/**
+ * Unmodifiable view of a task book
+ */
+public interface ReadOnlyTaskBook {
+
+    /**
+     * Returns an unmodifiable view of the tasks list before sorting.
+     * This list will not contain any duplicate tasks.
+     */
+    ObservableList<Task> getOriginalTaskList();
+
+    /**
+     * Returns an unmodifiable view of the tasks list sorted by task status (i.e. undone and done)
+     * followed by taskDueDate.
+     * This list will not contain any duplicate tasks.
+     */
+    ObservableList<Task> getTaskList();
+
+    /**
+     * Returns an unmodifiable view of the taskCategories list.
+     * This list will not contain any duplicate taskCategories.
+     */
+    ObservableList<TaskCategory> getTaskCategoryList();
+
+}
 ```
 ###### \java\seedu\address\model\task\Task.java
 ``` java
@@ -1705,6 +1678,324 @@ public class UniqueTaskList implements Iterable<Task> {
 
 }
 ```
+###### \java\seedu\address\model\TaskBook.java
+``` java
+/**
+ * Wraps all data at the task-book level
+ * Duplicates are not allowed (by .equals comparison)
+ */
+public class TaskBook implements ReadOnlyTaskBook {
+
+    private final UniqueTaskList tasks;
+    private final UniqueTaskCategoryList taskCategories;
+
+    /*
+     * The 'unusual' code block below is an non-static initialization block, sometimes used to avoid duplication
+     * between constructors. See https://docs.oracle.com/javase/tutorial/java/javaOO/initial.html
+     *
+     * Note that non-static init blocks are not recommended to use. There are other ways to avoid duplication
+     *   among constructors.
+     */
+    {
+        tasks = new UniqueTaskList();
+        taskCategories = new UniqueTaskCategoryList();
+    }
+
+    public TaskBook() {}
+
+    /**
+     * Creates a TaskBook using the Tasks and TaskCategories in the {@code toBeCopied}
+     */
+    public TaskBook(ReadOnlyTaskBook toBeCopied) {
+        this();
+        resetData(toBeCopied);
+    }
+
+    //// list overwrite operations
+
+    public void setTasks(List<Task> tasks) throws DuplicateTaskException {
+        this.tasks.setTasks(tasks);
+    }
+
+    public void setTaskCategories(Set<TaskCategory> taskCategories) {
+        this.taskCategories.setTaskCategories(taskCategories);
+    }
+
+    /**
+     * Resets the existing data of this {@code TaskBook} with {@code newData}.
+     */
+    public void resetData(ReadOnlyTaskBook newData) {
+        requireNonNull(newData);
+        setTaskCategories(new HashSet<>(newData.getTaskCategoryList()));
+        List<Task> syncedTaskList = newData.getTaskList().stream()
+                .map(this::syncWithMasterTaskCategoryList)
+                .collect(Collectors.toList());
+
+        try {
+            setTasks(syncedTaskList);
+        } catch (DuplicateTaskException e) {
+            throw new AssertionError("Taskbooks should not have duplicate tasks");
+        }
+    }
+
+    //// task-level operations
+
+    /**
+     * Adds a task to the task book.
+     * Also checks the new task's categories and updates {@link #taskCategories} with any new taskCategories found,
+     * and updates the TaskCategory objects in the task to point to those in {@link #taskCategories}.
+     *
+     * @throws DuplicateTaskException if an equivalent task already exists.
+     */
+    public void addTask(Task t) throws DuplicateTaskException {
+        Task task = syncWithMasterTaskCategoryList(t);
+        tasks.add(task);
+    }
+
+    /**
+     * Replaces the given task {@code target} in the list with {@code editedTask}.
+     * {@code TaskBook}'s taskCategory list will be updated with the taskCategories of {@code editedTask}.
+     *
+     * @throws DuplicateTaskException if updating the task's details causes the task to be equivalent to
+     * another existing task in the list.
+     * @throws TaskNotFoundException if {@code target} could not be found in the list.
+     *
+     * @see #syncWithMasterTaskCategoryList(Task)
+     */
+    public void updateTask(Task target, Task editedTask) throws DuplicateTaskException, TaskNotFoundException {
+        requireNonNull(editedTask);
+
+        Task syncedEditedTask = syncWithMasterTaskCategoryList(editedTask);
+        tasks.setTask(target, syncedEditedTask);
+    }
+
+    /**
+     * Updates the master taskCategory list to include taskCategories in {@code task} that are not in the list.
+     * @return a copy of this {@code task} such that every taskCategory in this task points to a TaskCategory object
+     * in the master list.
+     */
+    private Task syncWithMasterTaskCategoryList(Task task) {
+        final UniqueTaskCategoryList categories = new UniqueTaskCategoryList(task.getTaskCategories());
+        taskCategories.mergeFrom(categories);
+
+        // Create map with values = taskCategory object references in the master list
+        // Used for checking task category references
+        final Map<TaskCategory, TaskCategory> masterTaskCategoryObjects = new HashMap<>();
+        taskCategories.forEach(taskCategory -> masterTaskCategoryObjects.put(taskCategory, taskCategory));
+
+        // Rebuild the list of task categories to point to the relevant taskCategories in the master taskCategory list.
+        final Set<TaskCategory> correctTaskCategoryReferences = new HashSet<>();
+        categories.forEach(taskCategory -> correctTaskCategoryReferences.add(
+                masterTaskCategoryObjects.get(taskCategory)));
+        return new Task(task.getTaskName(), task.getTaskPriority(), task.getTaskDescription(), task.getTaskDueDate(),
+                task.getTaskStatus(), correctTaskCategoryReferences);
+    }
+
+    /**
+     * Removes {@code key} from this {@code TaskBook}.
+     * @throws TaskNotFoundException if the {@code key} is not in this {@code TaskBook}.
+     */
+    public boolean removeTask(Task key) throws TaskNotFoundException {
+        if (tasks.remove(key)) {
+            return true;
+        } else {
+            throw new TaskNotFoundException();
+        }
+    }
+
+    /**
+     * Sorts the task list by
+     * (1) status (i.e. undone to done,
+     * (2) due date in ascending order and
+     * (3) priority (i.e. high > medium > low)
+     */
+    public void sortTasksByStatusDueDateAndPriority() {
+        tasks.sortByStatusDueDateAndPriority();
+    }
+
+    //// taskCategory-level operations
+
+    public void addTaskCategory(TaskCategory tc) throws UniqueTaskCategoryList.DuplicateTaskCategoryException {
+        taskCategories.add(tc);
+    }
+
+    //// util methods
+
+    @Override
+    public String toString() {
+        return tasks.asObservableList().size() + " tasks, " + taskCategories.asObservableList().size()
+                + " task categories";
+    }
+
+    @Override
+    public ObservableList<Task> getOriginalTaskList() {
+        return tasks.asObservableList();
+    }
+
+    @Override
+    public ObservableList<Task> getTaskList() {
+        sortTasksByStatusDueDateAndPriority();
+        return tasks.asObservableList();
+    }
+
+    @Override
+    public ObservableList<TaskCategory> getTaskCategoryList() {
+        return taskCategories.asObservableList();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof TaskBook // instanceof handles nulls
+                && this.tasks.equals(((TaskBook) other).tasks)
+                && this.taskCategories.equalsOrderInsensitive(((TaskBook) other).taskCategories));
+    }
+
+    @Override
+    public int hashCode() {
+        // use this method for custom fields hashing instead of implementing your own
+        return Objects.hash(tasks, taskCategories);
+    }
+
+}
+```
+###### \java\seedu\address\model\util\SampleDataUtil.java
+``` java
+
+    public static Task[] getSampleTasks() {
+        return new Task[] {
+            new Task(new TaskName("Programming Project"), new TaskPriority("low"),
+                new TaskDescription("(1) Analyse requirements (2) Write programs (3) Testing (4) Documentation "
+                    + "(5) Submit to boss"), new TaskDueDate("2018-04-10"), new TaskStatus("undone"),
+                getTaskCategorySet("personal", "interest")),
+            new Task(new TaskName("Project meeting with the group and department"), new TaskPriority("high"),
+                new TaskDescription("Finalise on project features"),
+                new TaskDueDate("2018-04-18"), new TaskStatus("undone"),
+                getTaskCategorySet("meeting", "ahighprofileprojectthatcannotbedelayedanymore")),
+            new Task(new TaskName("Follow up with boss"), new TaskPriority("medium"),
+                new TaskDescription("Present proposal to boss regarding project concerns"),
+                new TaskDueDate("2018-04-25"), new TaskStatus("undone"),
+                getTaskCategorySet("business", "work", "meeting", "boss", "proposal")),
+            new Task (new TaskName("Agenda for business meeting"), new TaskPriority("high"),
+                new TaskDescription("Discuss proposal details"),
+                new TaskDueDate("2018-04-27"), new TaskStatus("undone"),
+                getTaskCategorySet("meeting")),
+            new Task(new TaskName("Clarify with client"), new TaskPriority("medium"),
+                new TaskDescription("Clarify client's expectation of the project"),
+                new TaskDueDate("2018-04-28"), new TaskStatus("undone"),
+                getTaskCategorySet("work", "meeting", "client")),
+            new Task(new TaskName("Buy birthday gift"), new TaskPriority("low"),
+                new TaskDescription("Buy a gift for cousin's birthday"),
+                new TaskDueDate("2018-04-30"), new TaskStatus("undone"),
+                getTaskCategorySet("personal")),
+            new Task(new TaskName("Audit department records"), new TaskPriority("high"),
+                new TaskDescription("Preparation for monthly report"),
+                new TaskDueDate("2018-04-30"), new TaskStatus("undone"),
+                getTaskCategorySet("work")),
+            new Task(new TaskName("Submit department report"), new TaskPriority("high"),
+                new TaskDescription("Monthly report from the department"),
+                new TaskDueDate("2018-05-01"), new TaskStatus("undone"),
+                getTaskCategorySet("work")),
+            new Task(new TaskName("Organizing of department cohesion event"), new TaskPriority("medium"),
+                new TaskDescription("Liaising with finance department"),
+                new TaskDueDate("2018-05-01"), new TaskStatus("undone"),
+                getTaskCategorySet("work")),
+            new Task(new TaskName("Collect Taobao Package"), new TaskPriority("low"),
+                new TaskDescription("Taobao delivery on this day"),
+                new TaskDueDate("2018-05-03"), new TaskStatus("undone"),
+                getTaskCategorySet("personal"))
+        };
+    }
+
+    public static ReadOnlyTaskBook getSampleTaskBook() {
+        try {
+            TaskBook sampleTb = new TaskBook();
+            for (Task sampleTask : getSampleTasks()) {
+                sampleTb.addTask(sampleTask);
+            }
+            return sampleTb;
+        } catch (DuplicateTaskException dte) {
+            throw new AssertionError("sample data cannot contain duplicate tasks", dte);
+        }
+    }
+
+    /**
+     * Returns a tag set containing the list of strings given.
+     */
+    public static Set<Tag> getTagSet(String... strings) {
+        HashSet<Tag> tags = new HashSet<>();
+        for (String s : strings) {
+            tags.add(new Tag(s));
+        }
+
+        return tags;
+    }
+
+    /**
+     * Returns a task category set containing the list of strings given.
+     */
+    public static Set<TaskCategory> getTaskCategorySet(String... strings) {
+        HashSet<TaskCategory> taskCategories = new HashSet<>();
+        for (String s : strings) {
+            taskCategories.add(new TaskCategory(s));
+        }
+
+        return taskCategories;
+    }
+}
+```
+###### \java\seedu\address\storage\TaskBookStorage.java
+``` java
+/**
+ * Represents a storage for {@link seedu.address.model.TaskBook}.
+ */
+public interface TaskBookStorage {
+
+    /**
+     * Returns the file path of the data file.
+     */
+    String getTaskBookFilePath();
+
+    /**
+     * Returns TaskBook data as a {@link ReadOnlyTaskBook}.
+     *   Returns {@code Optional.empty()} if storage file is not found.
+     * @throws DataConversionException if the data in storage is not in the expected format.
+     * @throws IOException if there was any problem when reading from the storage.
+     */
+    Optional<ReadOnlyTaskBook> readTaskBook() throws DataConversionException, IOException;
+
+    /**
+     * @see #getTaskBookFilePath()
+     */
+    Optional<ReadOnlyTaskBook> readTaskBook(String filePath)
+            throws DataConversionException, IOException, JAXBException;
+
+    /**
+     * Saves the given {@link ReadOnlyTaskBook} to the storage.
+     * @param taskBook cannot be null.
+     * @throws IOException if there was any problem writing to the file.
+     */
+    void saveTaskBook(ReadOnlyTaskBook taskBook) throws IOException, InvalidFileException;
+
+    /**
+     * @see #saveTaskBook(ReadOnlyTaskBook)
+     */
+    void saveTaskBook(ReadOnlyTaskBook taskBook, String filePath) throws IOException;
+
+    /**
+     * @see #exportTaskBook()
+     */
+    void exportTaskBook() throws ParserConfigurationException, IOException, TransformerException;
+
+    /**
+     * Backups the given {@link ReadOnlyTaskBook} to the storage.
+     * @param taskBook cannot be null.
+     * @throws IOException if there was any problem backing up the file.
+     */
+    void backupTaskBook(ReadOnlyTaskBook taskBook) throws IOException, InvalidFileException;
+
+}
+```
 ###### \java\seedu\address\storage\XmlAdaptedTask.java
 ``` java
 /**
@@ -1906,6 +2197,150 @@ public class XmlAdaptedTaskCategory {
 
 }
 ```
+###### \java\seedu\address\storage\XmlSerializableTaskBook.java
+``` java
+/**
+ * An Immutable TaskBook that is serializable to XML format
+ */
+@XmlRootElement(name = "taskbook")
+public class XmlSerializableTaskBook {
+
+    @XmlElement
+    private List<XmlAdaptedTask> tasks;
+    @XmlElement
+    private List<XmlAdaptedTaskCategory> taskCategories;
+
+    /**
+     * Creates an empty XmlSerializableTaskBook.
+     * This empty constructor is required for marshalling.
+     */
+    public XmlSerializableTaskBook() {
+        tasks = new ArrayList<>();
+        taskCategories = new ArrayList<>();
+    }
+
+    /**
+     * Conversion
+     */
+    public XmlSerializableTaskBook(ReadOnlyTaskBook src) {
+        this();
+        tasks.addAll(src.getTaskList().stream().map(XmlAdaptedTask::new).collect(Collectors.toList()));
+        taskCategories.addAll(src.getTaskCategoryList().stream().map(XmlAdaptedTaskCategory::new)
+                .collect(Collectors.toList()));
+    }
+
+    /**
+     * Converts this taskbook into the model's {@code TaskBook} object.
+     *
+     * @throws IllegalValueException if there were any data constraints violated or duplicates in the
+     * {@code XmlAdaptedTask} or {@code XmlAdaptedTaskCategory}.
+     */
+    public TaskBook toModelType() throws IllegalValueException {
+        TaskBook taskBook = new TaskBook();
+        for (XmlAdaptedTaskCategory c : taskCategories) {
+            taskBook.addTaskCategory(c.toModelType());
+        }
+        for (XmlAdaptedTask task : tasks) {
+            taskBook.addTask(task.toModelType());
+        }
+        return taskBook;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        if (!(other instanceof XmlSerializableTaskBook)) {
+            return false;
+        }
+
+        XmlSerializableTaskBook otherTb = (XmlSerializableTaskBook) other;
+        return tasks.equals(otherTb.tasks) && taskCategories.equals(otherTb.taskCategories);
+    }
+
+}
+```
+###### \java\seedu\address\storage\XmlTaskBookStorage.java
+``` java
+/**
+ * A class to access TaskBook data stored as an xml file on the hard disk.
+ */
+public class XmlTaskBookStorage implements TaskBookStorage {
+
+    private static final Logger logger = LogsCenter.getLogger(XmlTaskBookStorage.class);
+
+    private String filePath;
+
+    public XmlTaskBookStorage(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public String getTaskBookFilePath() {
+        return filePath;
+    }
+
+    @Override
+    public Optional<ReadOnlyTaskBook> readTaskBook() throws DataConversionException, IOException {
+        return readTaskBook(filePath);
+    }
+
+    /**
+     * Similar to {@link #readTaskBook()}
+     * @param filePath location of the data. Cannot be null
+     * @throws DataConversionException if the file is not in the correct format.
+     */
+    public Optional<ReadOnlyTaskBook> readTaskBook(String filePath) throws DataConversionException,
+            FileNotFoundException {
+        requireNonNull(filePath);
+
+        File taskBookFile = new File(filePath);
+
+        if (!taskBookFile.exists()) {
+            logger.info("TaskBook file "  + taskBookFile + " not found");
+            return Optional.empty();
+        }
+
+        XmlSerializableTaskBook xmlTaskBook = XmlFileStorage.loadTaskDataFromSaveFile(new File(filePath));
+        try {
+            return Optional.of(xmlTaskBook.toModelType());
+        } catch (IllegalValueException ive) {
+            logger.info("Illegal values found in " + xmlTaskBook + ": " + ive.getMessage());
+            throw new DataConversionException(ive);
+        }
+    }
+
+    @Override
+    public void saveTaskBook(ReadOnlyTaskBook taskBook) throws IOException {
+        saveTaskBook(taskBook, filePath);
+    }
+
+    /**
+     * Similar to {@link #saveTaskBook(ReadOnlyTaskBook)}
+     * @param filePath location of the data. Cannot be null
+     */
+    public void saveTaskBook(ReadOnlyTaskBook taskBook, String filePath) throws IOException {
+        requireNonNull(taskBook);
+        requireNonNull(filePath);
+
+        File file = new File(filePath);
+        FileUtil.createIfMissing(file);
+        XmlFileStorage.saveDataToFile(file, new XmlSerializableTaskBook(taskBook));
+    }
+
+    @Override
+    public void exportTaskBook() throws ParserConfigurationException, IOException {
+        //TODO BY V2.0
+    }
+
+    @Override
+    public void backupTaskBook(ReadOnlyTaskBook taskBook) throws IOException {
+        saveTaskBook(taskBook, filePath + "-backup");
+    }
+
+}
+```
 ###### \java\seedu\address\ui\TaskCard.java
 ``` java
 /**
@@ -1941,42 +2376,22 @@ public class TaskCard extends UiPart<Region> {
         super(FXML);
         this.task = task;
 
-        setTaskIdStyle(displayedIndex);
-        setTaskNameStyle(task.getTaskName().value);
-        setTaskDescriptionStyle(task.getTaskDescription().value);
+        id.setText(displayedIndex + ". ");
+        setLabelTextStyle(name, task.getTaskName().value);
+        setLabelTextStyle(description, task.getTaskDescription().value);
         setTaskCategoryStyle(task.getTaskCategories());
         setTaskPriorityDueDateAndStatusStyle(task.getTaskPriority().value, task.getTaskDueDate().value,
                 task.getTaskStatus().value);
     }
 
     /**
-     * Set the style for task id field
-     * Ensure that task id does not get truncated
-     * @param taskDisplayedIndex index of displayed task
+     * Set the style for different task fields
+     * @param labelName label to set the style to
+     * @param taskFieldValue value to set
      */
-    private void setTaskIdStyle(int taskDisplayedIndex) {
-        id.setText(taskDisplayedIndex + ". ");
-        id.setWrapText(true);
-    }
-
-    /**
-     * Set the style for task name field
-     * Ensure that longer task name does not get truncated or overlap with other fields
-     * @param taskName name of task
-     */
-    private void setTaskNameStyle(String taskName) {
-        name.setText(task.getTaskName().value);
-        name.setWrapText(true);
-    }
-
-    /**
-     * Set the style for task description field
-     * Ensure that longer task description does not get truncated or overlap with other fields
-     * @param taskDescription description of task
-     */
-    private void setTaskDescriptionStyle(String taskDescription) {
-        description.setText(task.getTaskDescription().value);
-        description.setWrapText(true);
+    private void setLabelTextStyle(Label labelName, String taskFieldValue) {
+        labelName.setText(taskFieldValue);
+        labelName.setWrapText(true);
     }
 
     /**
@@ -2001,9 +2416,9 @@ public class TaskCard extends UiPart<Region> {
      */
     private void setTaskPriorityDueDateAndStatusStyle(String taskPriority, String taskDueDate, String taskStatus) {
         if (taskStatus.equals("done")) {
-            setTaskPriorityLabelText("");
-            setTaskDueDateLabelText("");
-            setTaskStatusImageForDoneTasks("images/taskStatusDone.png", 50, 50);
+            setLabelText(priority, "");
+            setLabelText(dueDate, "");
+            setImage(statusImage, "images/taskStatusDone.png", 50, 50, "status");
         } else { // undone tasks
             setTaskPriorityStyleForUndoneTasks(taskPriority);
             setTaskDueDateStyleForUndoneTasks(taskDueDate);
@@ -2020,16 +2435,19 @@ public class TaskCard extends UiPart<Region> {
     private void setTaskPriorityStyleForUndoneTasks(String taskPriority) {
         if (taskPriority.equals("high")) {
             setTaskPriorityPaneStyle(68, "#FF0000");
-            setTaskPriorityImage("images/taskPriorityHigh.png");
+            setImage(priorityImage, "images/taskPriorityHigh.png", 15, 15,
+                    "priority");
 
         } else if (taskPriority.equals("medium")) {
             setTaskPriorityPaneStyle(88, "#FFC000");
-            setTaskPriorityImage("images/taskPriorityMedium.png");
+            setImage(priorityImage, "images/taskPriorityMedium.png", 15, 15,
+                    "priority");
         } else {
             setTaskPriorityPaneStyle(65, "#00FF00");
-            setTaskPriorityImage("images/taskPriorityLow.png");
+            setImage(priorityImage, "images/taskPriorityLow.png", 15, 15,
+                    "priority");
         }
-        setTaskPriorityLabelText(taskPriority.toUpperCase());
+        setLabelText(priority, taskPriority.toUpperCase());
     }
 
     /**
@@ -2040,26 +2458,6 @@ public class TaskCard extends UiPart<Region> {
     private void setTaskPriorityPaneStyle(int maxWidth, String colorCode) {
         priorityPane.setMaxWidth(maxWidth);
         priorityPane.setStyle("-fx-border-color: " + colorCode + ";");
-    }
-
-    /**
-     * Set the image to be displayed at task priority field
-     * @param imageUrl url of the image to be displayed
-     */
-    private void setTaskPriorityImage(String imageUrl) {
-        try {
-            priorityImage.setImage(new Image(imageUrl, 15, 15, true, true));
-        } catch (IllegalArgumentException iae) {
-            raise(new NewResultAvailableEvent(String.format(MESSAGE_INVALID_ARGUMENT, "priority")));
-        }
-    }
-
-    /**
-     * Set the text to be displayed at task priority label
-     * @param taskPriority text to be displayed
-     */
-    private void setTaskPriorityLabelText(String taskPriority) {
-        priority.setText(taskPriority);
     }
 
     /**
@@ -2077,12 +2475,7 @@ public class TaskCard extends UiPart<Region> {
                 DateUtil.getParsedDate(taskDueDate));
 
         if (remainingDays < 0) { // overdue tasks
-            try {
-                dueDateImage.setImage(new Image("images/taskOverdue.png", 20, 20,
-                        true, true));
-            } catch (IllegalArgumentException iae) {
-                raise(new NewResultAvailableEvent(String.format(MESSAGE_INVALID_ARGUMENT, "due date")));
-            }
+            setImage(dueDateImage, "images/taskOverdue.png", 20, 20, "due date");
             dueDate.setStyle("-fx-text-fill: #FF0000;");
         } else if (remainingDays < 3) {
             dueDate.setStyle("-fx-text-fill: #FF0000;");
@@ -2092,28 +2485,31 @@ public class TaskCard extends UiPart<Region> {
             dueDate.setStyle("-fx-text-fill: #00FF00;");
         }
 
-        setTaskDueDateLabelText(taskDueDate);
+        setLabelText(dueDate, taskDueDate);
     }
 
     /**
-     * Set the text to be displayed at task due date label
-     * @param taskDueDate text to be displayed
+     * Set the text to be display at task field label
+     * @param labelName label to set the text to
+     * @param valueToSet
      */
-    private void setTaskDueDateLabelText(String taskDueDate) {
-        dueDate.setText(taskDueDate);
+    private void setLabelText(Label labelName, String valueToSet) {
+        labelName.setText(valueToSet);
     }
 
     /**
-     * Set the image of the task status field for completed tasks
+     * Set the image of the task field
+     * @param imgViewName image view to set the image to
      * @param taskStatusImageUrl url of the image to be displayed
-     * @param width width of the image
-     * @param height height of the image
+     * @param width width of image
+     * @param height height of image
+     * @param fieldName task field name e.g. priority, status
      */
-    private void setTaskStatusImageForDoneTasks(String taskStatusImageUrl, int width, int height) {
+    private void setImage(ImageView imgViewName, String taskStatusImageUrl, int width, int height, String fieldName) {
         try {
-            statusImage.setImage(new Image(taskStatusImageUrl, width, height, true, true));
+            imgViewName.setImage(new Image(taskStatusImageUrl, width, height, true, true));
         } catch (IllegalArgumentException iae) {
-            raise(new NewResultAvailableEvent(String.format(MESSAGE_INVALID_ARGUMENT, "status")));
+            raise(new NewResultAvailableEvent(String.format(MESSAGE_INVALID_ARGUMENT, fieldName)));
         }
     }
 
@@ -2227,6 +2623,7 @@ public class TaskListPanel extends UiPart<Region> {
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
 <HBox id="cardPane" fx:id="cardPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
@@ -2234,12 +2631,17 @@ public class TaskListPanel extends UiPart<Region> {
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10" prefWidth="150" />
         </columnConstraints>
-        <VBox alignment="CENTER_LEFT" minHeight="105" GridPane.columnIndex="0">
+        <VBox alignment="TOP_LEFT" minHeight="105" GridPane.columnIndex="0">
             <padding>
                 <Insets top="5" right="5" bottom="5" left="15" />
             </padding>
-            <HBox spacing="5" alignment="CENTER_LEFT" maxWidth="225">
-                <Label fx:id="id" styleClass="cell_big_label" />
+            <HBox spacing="5" alignment="TOP_LEFT" maxWidth="225">
+                <Label fx:id="id" styleClass="cell_big_label">
+                    <minWidth>
+                        <!-- Ensures that the label text is never truncated -->
+                        <Region fx:constant="USE_PREF_SIZE" />
+                    </minWidth>
+                </Label>
                 <Label fx:id="name" text="\$first" styleClass="cell_big_label" />
             </HBox>
             <Label fx:id="description" styleClass="cell_small_label" text="\$description" maxWidth="225" />

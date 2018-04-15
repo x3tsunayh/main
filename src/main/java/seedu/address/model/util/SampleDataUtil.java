@@ -8,6 +8,8 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.EventBook;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.ReadOnlyTaskBook;
+import seedu.address.model.TaskBook;
 import seedu.address.model.category.TaskCategory;
 import seedu.address.model.event.Datetime;
 import seedu.address.model.event.Event;
@@ -54,38 +56,43 @@ public class SampleDataUtil {
         };
     }
 
-    public static Task[] getSampleTasks() {
-        return new Task[] {
-            new Task(new TaskName("Task XYZ"), new TaskPriority("medium"),
-                new TaskDescription("Task description XYZ"),
-                new TaskDueDate("2018-04-28"), new TaskStatus("undone"),
-                getTaskCategorySet("work")),
-            new Task(new TaskName("Essay research"), new TaskPriority("low"),
-                new TaskDescription("Google for interesting points on essay topic"),
-                new TaskDueDate("2018-05-29"), new TaskStatus("undone"),
-                getTaskCategorySet("personal")),
-            new Task(new TaskName("Formulate meeting agenda"), new TaskPriority("high"),
-                new TaskDescription("(1) Analyse the project requirements (2) Record meeting agenda"),
-                new TaskDueDate("2018-04-20"), new TaskStatus("undone"),
-                getTaskCategorySet("meeting"))
-        };
-    }
-
     public static ReadOnlyAddressBook getSampleAddressBook() {
         try {
             AddressBook sampleAb = new AddressBook();
             for (Person samplePerson : getSamplePersons()) {
                 sampleAb.addPerson(samplePerson);
             }
-            for (Task sampleTask : getSampleTasks()) {
-                sampleAb.addTask(sampleTask);
-            }
             return sampleAb;
         } catch (DuplicatePersonException e) {
             throw new AssertionError("sample data cannot contain duplicate persons", e);
-        } catch (DuplicateTaskException e) {
-            throw new AssertionError("sample data cannot contain duplicate tasks", e);
         }
+    }
+
+    //@@author x3tsunayh
+
+    public static Event[] getSampleEvents() throws IllegalValueException {
+        return new Event[]{
+            new Event("Company Charity Event", "Annual fund-raising event",
+                "VivoCity", new Datetime("2017-10-31 0930")),
+            new Event("Launch Marketing Campaign", "New products to be released",
+                "-", new Datetime("2018-03-14 1000")),
+            new Event("Class Reunion", "Catchup session with old classmates",
+                "Tampines Hub", new Datetime("2018-04-15 1745")),
+            new Event("CS2103 Demo Presentation", "Flight to London",
+                "COM1-B103", new Datetime("2018-04-19 1500")),
+            new Event("Marketing Department Meeting", "Monthly Meeting",
+                "Company Conference Room 2", new Datetime("2018-04-20 1315")),
+            new Event("Flight to London", "-",
+                "Changi Airport", new Datetime("2018-05-12 2250")),
+            new Event("Company Tour", "Checking out company operations in London",
+                "ABC Company (London)", new Datetime("2018-05-14 0930")),
+            new Event("Overseas Meeting", "Discussion w/ London representatives",
+                "ABC Conference Hall 1", new Datetime("2018-05-18 1300")),
+            new Event("Flight back to Singapore", "-",
+                "Heathrow Airport", new Datetime("2018-05-21 1420")),
+            new Event("Musical Concert", "Friend's performance",
+                "NUS UCC", new Datetime("2018-05-23 1900"))
+        };
     }
 
     public static ReadOnlyEventBook getSampleEventBook() {
@@ -96,9 +103,68 @@ public class SampleDataUtil {
             }
             return sampleEb;
         } catch (CommandException e) {
-            throw new AssertionError("sample data cannot contain duplicate events", e);
+            throw new AssertionError("sample data cannot contain duplicate events ", e);
         } catch (IllegalValueException e) {
             throw new AssertionError("Invalid input given!");
+        }
+    }
+
+    //@@author CYX28
+
+    public static Task[] getSampleTasks() {
+        return new Task[] {
+            new Task(new TaskName("Programming Project"), new TaskPriority("low"),
+                new TaskDescription("(1) Analyse requirements (2) Write programs (3) Testing (4) Documentation "
+                    + "(5) Submit to boss"), new TaskDueDate("2018-04-10"), new TaskStatus("undone"),
+                getTaskCategorySet("personal", "interest")),
+            new Task(new TaskName("Project meeting with the group and department"), new TaskPriority("high"),
+                new TaskDescription("Finalise on project features"),
+                new TaskDueDate("2018-04-18"), new TaskStatus("undone"),
+                getTaskCategorySet("meeting", "ahighprofileprojectthatcannotbedelayedanymore")),
+            new Task(new TaskName("Follow up with boss"), new TaskPriority("medium"),
+                new TaskDescription("Present proposal to boss regarding project concerns"),
+                new TaskDueDate("2018-04-25"), new TaskStatus("undone"),
+                getTaskCategorySet("business", "work", "meeting", "boss", "proposal")),
+            new Task (new TaskName("Agenda for business meeting"), new TaskPriority("high"),
+                new TaskDescription("Discuss proposal details"),
+                new TaskDueDate("2018-04-27"), new TaskStatus("undone"),
+                getTaskCategorySet("meeting")),
+            new Task(new TaskName("Clarify with client"), new TaskPriority("medium"),
+                new TaskDescription("Clarify client's expectation of the project"),
+                new TaskDueDate("2018-04-28"), new TaskStatus("undone"),
+                getTaskCategorySet("work", "meeting", "client")),
+            new Task(new TaskName("Buy birthday gift"), new TaskPriority("low"),
+                new TaskDescription("Buy a gift for cousin's birthday"),
+                new TaskDueDate("2018-04-30"), new TaskStatus("undone"),
+                getTaskCategorySet("personal")),
+            new Task(new TaskName("Audit department records"), new TaskPriority("high"),
+                new TaskDescription("Preparation for monthly report"),
+                new TaskDueDate("2018-04-30"), new TaskStatus("undone"),
+                getTaskCategorySet("work")),
+            new Task(new TaskName("Submit department report"), new TaskPriority("high"),
+                new TaskDescription("Monthly report from the department"),
+                new TaskDueDate("2018-05-01"), new TaskStatus("undone"),
+                getTaskCategorySet("work")),
+            new Task(new TaskName("Organizing of department cohesion event"), new TaskPriority("medium"),
+                new TaskDescription("Liaising with finance department"),
+                new TaskDueDate("2018-05-01"), new TaskStatus("undone"),
+                getTaskCategorySet("work")),
+            new Task(new TaskName("Collect Taobao Package"), new TaskPriority("low"),
+                new TaskDescription("Taobao delivery on this day"),
+                new TaskDueDate("2018-05-03"), new TaskStatus("undone"),
+                getTaskCategorySet("personal"))
+        };
+    }
+
+    public static ReadOnlyTaskBook getSampleTaskBook() {
+        try {
+            TaskBook sampleTb = new TaskBook();
+            for (Task sampleTask : getSampleTasks()) {
+                sampleTb.addTask(sampleTask);
+            }
+            return sampleTb;
+        } catch (DuplicateTaskException dte) {
+            throw new AssertionError("sample data cannot contain duplicate tasks", dte);
         }
     }
 
@@ -124,20 +190,5 @@ public class SampleDataUtil {
         }
 
         return taskCategories;
-    }
-
-    public static Event[] getSampleEvents() throws IllegalValueException {
-        return new Event[]{
-            new Event(new String("Halloween Party"), new String("-"),
-                new String("Andy's House"), new Datetime("31-10-2017 2000")),
-            new Event(new String("School Hall Concert"), new String("Catchup session w/ old classmates"),
-                new String("UCC"), new Datetime("14-03-2018 1900")),
-            new Event(new String("Class Reunion"), new String("Catchup session with old classmates"),
-                new String("Tampines Hub"), new Datetime("15-04-2018 1745")),
-            new Event(new String("Tennis Game"), new String("Playing with friends"),
-                new String("NUS Tennis Court 7"), new Datetime("28-04-2018 0930")),
-            new Event(new String("JB Trip"), new String("Trip to Johor Bahru"),
-                new String("Woodlands"), new Datetime("12-05-2018 0900"))
-        };
     }
 }

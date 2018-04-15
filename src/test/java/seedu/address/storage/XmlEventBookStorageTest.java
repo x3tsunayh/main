@@ -11,7 +11,9 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
 
+import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.FileUtil;
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.EventBook;
 import seedu.address.model.event.ReadOnlyEventBook;
 
@@ -73,10 +75,11 @@ public class XmlEventBookStorageTest {
     }
 
     @Test
-    public void getEventList_modifyList_throwsUnsupportedOperationException() {
+    public void getEventList_modifyList_throwsUnsupportedOperationException()
+            throws IllegalValueException, CommandException {
         XmlSerializableEventBook eventBook = new XmlSerializableEventBook();
         thrown.expect(UnsupportedOperationException.class);
-        eventBook.getEventList().remove(0);
+        eventBook.toModelType().getEventList().remove(0);
     }
 
     /**

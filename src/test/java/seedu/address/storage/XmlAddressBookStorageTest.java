@@ -6,8 +6,6 @@ import static seedu.address.testutil.TypicalAddressBook.getTypicalAddressBook;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.HOON;
 import static seedu.address.testutil.TypicalPersons.IDA;
-import static seedu.address.testutil.TypicalTasks.TASKFOUR;
-import static seedu.address.testutil.TypicalTasks.TASKONE;
 
 import java.io.IOException;
 
@@ -69,28 +67,12 @@ public class XmlAddressBookStorageTest {
         readAddressBook("invalidPersonAddressBook.xml");
     }
 
-    //@@author CYX28
-    @Test
-    public void readAddressBook_invalidTaskAddressBook_throwDataConversionException() throws Exception {
-        thrown.expect(DataConversionException.class);
-        readAddressBook("invalidTaskAddressBook.xml");
-    }
-
-    //@@author
     @Test
     public void readAddressBook_invalidAndValidPersonAddressBook_throwDataConversionException() throws Exception {
         thrown.expect(DataConversionException.class);
         readAddressBook("invalidAndValidPersonAddressBook.xml");
     }
 
-    //@@author CYX28
-    @Test
-    public void readAddressBook_invalidAndValidTaskAddressBook_throwDataConversionException() throws Exception {
-        thrown.expect(DataConversionException.class);
-        readAddressBook("invalidAndValidTaskAddressBook.xml");
-    }
-
-    //@@author
     @Test
     public void readAndSaveAddressBook_allInOrder_success() throws Exception {
         String filePath = testFolder.getRoot().getPath() + "TempAddressBook.xml";
@@ -105,13 +87,6 @@ public class XmlAddressBookStorageTest {
         //Modify person data, overwrite exiting file, and read back
         original.addPerson(HOON);
         original.removePerson(ALICE);
-        xmlAddressBookStorage.saveAddressBook(original, filePath);
-        readBack = xmlAddressBookStorage.readAddressBook(filePath).get();
-        assertEquals(original, new AddressBook(readBack));
-
-        //Modify tast data, overwrite exiting file, and read back
-        original.addTask(TASKFOUR);
-        original.removeTask(TASKONE);
         xmlAddressBookStorage.saveAddressBook(original, filePath);
         readBack = xmlAddressBookStorage.readAddressBook(filePath).get();
         assertEquals(original, new AddressBook(readBack));
@@ -147,6 +122,5 @@ public class XmlAddressBookStorageTest {
         thrown.expect(NullPointerException.class);
         saveAddressBook(new AddressBook(), null);
     }
-
 
 }

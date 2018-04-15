@@ -25,6 +25,8 @@ import seedu.address.model.EventBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.ReadOnlyTaskBook;
+import seedu.address.model.TaskBook;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.event.ReadOnlyEventBook;
 import seedu.address.model.util.SampleDataUtil;
@@ -33,9 +35,11 @@ import seedu.address.storage.EventBookStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
 import seedu.address.storage.Storage;
 import seedu.address.storage.StorageManager;
+import seedu.address.storage.TaskBookStorage;
 import seedu.address.storage.UserPrefsStorage;
 import seedu.address.storage.XmlAddressBookStorage;
 import seedu.address.storage.XmlEventBookStorage;
+import seedu.address.storage.XmlTaskBookStorage;
 import seedu.address.ui.Ui;
 import seedu.address.ui.UiManager;
 
@@ -67,7 +71,8 @@ public class MainApp extends Application {
         userPrefs = initPrefs(userPrefsStorage);
         AddressBookStorage addressBookStorage = new XmlAddressBookStorage(userPrefs.getAddressBookFilePath());
         EventBookStorage eventBookStorage = new XmlEventBookStorage(userPrefs.getEventBookFilePath());
-        storage = new StorageManager(addressBookStorage, eventBookStorage, userPrefsStorage);
+        TaskBookStorage taskBookStorage = new XmlTaskBookStorage(userPrefs.getTaskBookFilePath());
+        storage = new StorageManager(addressBookStorage, eventBookStorage, taskBookStorage, userPrefsStorage);
 
         initLogging(config);
 
@@ -93,27 +98,40 @@ public class MainApp extends Application {
     private Model initModelManager(Storage storage, UserPrefs userPrefs) {
         Optional<ReadOnlyAddressBook> addressBookOptional;
         Optional<ReadOnlyEventBook> eventBookOptional;
+        Optional<ReadOnlyTaskBook> taskBookOptional;
         ReadOnlyAddressBook initialData;
         ReadOnlyEventBook initialEventData;
+        ReadOnlyTaskBook initialTaskData;
+
         try {
             addressBookOptional = storage.readAddressBook();
             eventBookOptional = storage.readEventBook();
+            taskBookOptional = storage.readTaskBook();
             if (!addressBookOptional.isPresent()) {
                 logger.info("Data file not found. Will be starting with a sample AddressBook");
             }
+            if (!eventBookOptional.isPresent()) {
+                logger.info("Event file not found. Will be starting with a sample AddressBook");
+            }
+            if (!taskBookOptional.isPresent()) {
+                logger.info("Task data file not found. Will be starting with a sample TaskBook");
+            }
             initialData = addressBookOptional.orElseGet(SampleDataUtil::getSampleAddressBook);
             initialEventData = eventBookOptional.orElseGet(SampleDataUtil::getSampleEventBook);
+            initialTaskData = taskBookOptional.orElseGet(SampleDataUtil::getSampleTaskBook);
         } catch (DataConversionException e) {
             logger.warning("Data file not in the correct format. Will be starting with an empty AddressBook");
             initialData = new AddressBook();
             initialEventData = new EventBook();
+            initialTaskData = new TaskBook();
         } catch (IOException e) {
             logger.warning("Problem while reading from the file. Will be starting with an empty AddressBook");
             initialData = new AddressBook();
             initialEventData = new EventBook();
+            initialTaskData = new TaskBook();
         }
 
-        return new ModelManager(initialData, initialEventData, userPrefs);
+        return new ModelManager(initialData, initialEventData, initialTaskData, userPrefs);
     }
 
     private void initLogging(Config config) {

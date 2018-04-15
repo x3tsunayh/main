@@ -1,10 +1,16 @@
 # CYX28
 ###### \java\seedu\address\commons\util\DateUtilTest.java
 ``` java
-public class DateUtilTest {
-
     @Rule
     public ExpectedException thrown = ExpectedException.none();
+
+    @Test
+    public void getTodayDate_success() {
+        LocalDate expectedDate = DateUtil.getTodayDate();
+        LocalDate actualDate = LocalDate.now();
+
+        assertEquals(expectedDate, actualDate);
+    }
 
     @Test
     public void getParsedDate_correctFormatDate_success() {
@@ -23,6 +29,25 @@ public class DateUtilTest {
         LocalDate actualParsedDate = DateUtil.getParsedDate(dateToParse);
 
         assertNotEquals(expectedParsedDate, actualParsedDate);
+    }
+
+    @Test
+    public void getParsedDateTime_correctFormatDateTime_success() {
+        String dateTimeToParse = "2018-05-12 1800";
+        LocalDate expectedParsedDateTime = LocalDate.parse(dateTimeToParse.substring(0, 10));
+        LocalDate actualParsedDateTime = DateUtil.getParsedDateTime(dateTimeToParse);
+
+        assertEquals(expectedParsedDateTime, actualParsedDateTime);
+    }
+
+    @Test
+    public void getParsedDateTime_wrongFormatDateTime_fail() {
+        thrown.expect(DateTimeParseException.class);
+        String dateTimeToParse = "2018 05 12 1800";
+        LocalDate expectedParsedDateTime = LocalDate.parse(dateTimeToParse.substring(0, 10));
+        LocalDate actualParsedDateTime = DateUtil.getParsedDateTime(dateTimeToParse);
+
+        assertNotEquals(expectedParsedDateTime, actualParsedDateTime);
     }
 
     @Test
@@ -138,10 +163,41 @@ public class DateUtilTest {
 
     }
 
-}
 ```
 ###### \java\seedu\address\commons\util\XmlUtilTest.java
 ``` java
+    @Test
+    public void geDataFromFile_nullTaskFile_throwsNullPointerException() throws Exception {
+        thrown.expect(NullPointerException.class);
+        XmlUtil.getDataFromFile(null, TaskBook.class);
+    }
+
+    @Test
+    public void getTaskDataFromFile_nullTaskClass_throwsNullPointerException() throws Exception {
+        thrown.expect(NullPointerException.class);
+        XmlUtil.getDataFromFile(VALID_TASKBOOK_FILE, null);
+    }
+
+    @Test
+    public void getDataFromFile_missingTaskFile_fileNotFoundException() throws Exception {
+        thrown.expect(FileNotFoundException.class);
+        XmlUtil.getDataFromFile(MISSING_FILE, TaskBook.class);
+    }
+
+    @Test
+    public void getDataFromFile_emptyTaskFile_dataFormatMismatchException() throws Exception {
+        thrown.expect(JAXBException.class);
+        XmlUtil.getDataFromFile(EMPTY_FILE, TaskBook.class);
+    }
+
+    @Test
+    public void getDataFromFile_validTaskFile_validResult() throws Exception {
+        TaskBook dataFromFile =
+                XmlUtil.getDataFromFile(VALID_TASKBOOK_FILE, XmlSerializableTaskBook.class).toModelType();
+        assertEquals(3, dataFromFile.getTaskList().size());
+        assertEquals(2, dataFromFile.getTaskCategoryList().size());
+    }
+
     @Test
     public void xmlAdaptedTaskFromFile_fileWithMissingTaskField_validResult() throws Exception {
         XmlAdaptedTask actualTask = XmlUtil.getDataFromFile(
@@ -175,6 +231,48 @@ public class DateUtilTest {
         assertEquals(expectedTask, actualTask);
     }
 
+```
+###### \java\seedu\address\commons\util\XmlUtilTest.java
+``` java
+    @Test
+    public void saveDataToFile_nullTaskFile_throwsNullPointerException() throws Exception {
+        thrown.expect(NullPointerException.class);
+        XmlUtil.saveDataToFile(null, new TaskBook());
+    }
+
+    @Test
+    public void saveDataToFile_nullTaskClass_throwsNullPointerException() throws Exception {
+        thrown.expect(NullPointerException.class);
+        XmlUtil.saveDataToFile(VALID_TASKBOOK_FILE, null);
+    }
+
+    @Test
+    public void saveDataToFile_missingTaskFile_fileNotFoundException() throws Exception {
+        thrown.expect(FileNotFoundException.class);
+        XmlUtil.saveDataToFile(MISSING_FILE, new TaskBook());
+    }
+
+    /**
+     * Test class annotated with {@code XmlRootElement} to allow unmarshalling of .xml data to {@code XmlAdaptedPerson}
+     * objects.
+     */
+    @XmlRootElement(name = "person")
+    private static class XmlAdaptedPersonWithRootElement extends XmlAdaptedPerson {}
+
+    /**
+     * Test class annotated with {@code XmlRootElement} to allow unmarshalling of .xml data to {@code XmlAdaptedEvent}
+     * objects.
+     */
+    @XmlRootElement(name = "event")
+    private static class XmlAdaptedEventWithRootElement extends XmlAdaptedEvent {}
+
+    /**
+     * Test class annotated with {@code XmlRootElement} to allow unmarshalling of .xml data to {@code XmlAdaptedTask}
+     * objects.
+     */
+    @XmlRootElement(name = "task")
+    private static class XmlAdaptedTaskWithRootElement extends XmlAdaptedTask {}
+}
 ```
 ###### \java\seedu\address\logic\commands\CommandTestUtil.java
 ``` java
@@ -325,8 +423,9 @@ public class SortCommandTest {
 
     @Before
     public void setUp() throws Exception {
-        model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
-        expectedModel = new ModelManager(model.getAddressBook(), getTypicalEventBook(), new UserPrefs());
+        model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), getTypicalTaskBook(), new UserPrefs());
+        expectedModel =
+                new ModelManager(model.getAddressBook(), getTypicalEventBook(), getTypicalTaskBook(), new UserPrefs());
 
         sortCommand = new SortCommand();
         sortCommand.setData(model, new CommandHistory(), new UndoRedoStack());
@@ -352,14 +451,15 @@ public class TaskAddCommandTest {
 
     @Before
     public void setUp() {
-        model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
+        model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), getTypicalTaskBook(), new UserPrefs());
     }
 
     @Test
     public void execute_newTask_success() throws Exception {
         Task validTask = new TaskBuilder().build();
 
-        Model expectedModel = new ModelManager(model.getAddressBook(), getTypicalEventBook(), new UserPrefs());
+        Model expectedModel =
+                new ModelManager(model.getAddressBook(), getTypicalEventBook(), model.getTaskBook(), new UserPrefs());
         expectedModel.addTask(validTask);
 
         assertCommandSuccess(prepareCommand(validTask, model), model,
@@ -368,7 +468,7 @@ public class TaskAddCommandTest {
 
     @Test
     public void execute_duplicateTask_throwsCommandException() {
-        Task taskInList = model.getAddressBook().getTaskList().get(0);
+        Task taskInList = model.getTaskBook().getTaskList().get(0);
         assertCommandFailure(prepareCommand(taskInList, model), model, TaskAddCommand.MESSAGE_DUPLICATE_TASK);
     }
 
@@ -415,7 +515,8 @@ public class TaskAddCommandTest {
  */
 public class TaskDeleteCommandTest {
 
-    private Model model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
+    private Model model =
+            new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), getTypicalTaskBook(), new UserPrefs());
 
     @Test
     public void execute_validIndexUnfilteredList_success() throws Exception {
@@ -424,7 +525,8 @@ public class TaskDeleteCommandTest {
 
         String expectedMessage = String.format(TaskDeleteCommand.MESSAGE_DELETE_TASK_SUCCESS, taskToDelete);
 
-        ModelManager expectedModel = new ModelManager(model.getAddressBook(), getTypicalEventBook(), new UserPrefs());
+        ModelManager expectedModel =
+                new ModelManager(model.getAddressBook(), getTypicalEventBook(), getTypicalTaskBook(), new UserPrefs());
         expectedModel.deleteTask(taskToDelete);
 
         assertCommandSuccess(taskDeleteCommand, model, expectedMessage, expectedModel);
@@ -447,7 +549,8 @@ public class TaskDeleteCommandTest {
 
         String expectedMessage = String.format(TaskDeleteCommand.MESSAGE_DELETE_TASK_SUCCESS, taskToDelete);
 
-        Model expectedModel = new ModelManager(model.getAddressBook(), getTypicalEventBook(), new UserPrefs());
+        Model expectedModel =
+                new ModelManager(model.getAddressBook(), getTypicalEventBook(), getTypicalTaskBook(), new UserPrefs());
         expectedModel.deleteTask(taskToDelete);
         showNoTask(expectedModel);
 
@@ -460,7 +563,7 @@ public class TaskDeleteCommandTest {
 
         Index outOfBoundIndex = INDEX_SECOND_TASK;
         // ensures that outOfBoundIndex is still in bounds of address book list
-        assertTrue(outOfBoundIndex.getZeroBased() < model.getAddressBook().getTaskList().size());
+        assertTrue(outOfBoundIndex.getZeroBased() < model.getTaskBook().getTaskList().size());
 
         TaskDeleteCommand taskDeleteCommand = prepareCommand(outOfBoundIndex);
 
@@ -516,12 +619,13 @@ public class TaskDeleteCommandTest {
 ###### \java\seedu\address\logic\commands\TaskEditCommandTest.java
 ``` java
 /**
- * Contains integration tests (interaction with the Model, UndoCommand and RedoCommand)
+ * Contains integration tests (interaction with the Model)
  * and unit tests for TaskEditCommand.
  */
 public class TaskEditCommandTest {
 
-    private Model model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
+    private Model model =
+            new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), getTypicalTaskBook(), new UserPrefs());
 
     @Test
     public void execute_allFieldsSpecifiedUnfilteredList_success() throws Exception {
@@ -532,7 +636,7 @@ public class TaskEditCommandTest {
         String expectedMessage = String.format(TaskEditCommand.MESSAGE_EDIT_TASK_SUCCESS, editedTask);
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
-                new EventBook(model.getEventBook()), new UserPrefs());
+                new EventBook(model.getEventBook()), new TaskBook(model.getTaskBook()), new UserPrefs());
         expectedModel.updateTask(model.getFilteredTaskList().get(0), editedTask);
 
         assertCommandSuccess(taskEditCommand, model, expectedMessage, expectedModel);
@@ -554,7 +658,7 @@ public class TaskEditCommandTest {
         String expectedMessage = String.format(TaskEditCommand.MESSAGE_EDIT_TASK_SUCCESS, editedTask);
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
-                new EventBook(model.getEventBook()), new UserPrefs());
+                new EventBook(model.getEventBook()), new TaskBook(model.getTaskBook()), new UserPrefs());
         expectedModel.updateTask(lastTask, editedTask);
 
         assertCommandSuccess(taskEditCommand, model, expectedMessage, expectedModel);
@@ -568,7 +672,7 @@ public class TaskEditCommandTest {
         String expectedMessage = String.format(TaskEditCommand.MESSAGE_EDIT_TASK_SUCCESS, editedTask);
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
-                new EventBook(model.getEventBook()), new UserPrefs());
+                new EventBook(model.getEventBook()), new TaskBook(model.getTaskBook()), new UserPrefs());
 
         assertCommandSuccess(taskEditCommand, model, expectedMessage, expectedModel);
     }
@@ -585,7 +689,7 @@ public class TaskEditCommandTest {
         String expectedMessage = String.format(TaskEditCommand.MESSAGE_EDIT_TASK_SUCCESS, editedTask);
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
-                new EventBook(model.getEventBook()), new UserPrefs());
+                new EventBook(model.getEventBook()), new TaskBook(model.getTaskBook()), new UserPrefs());
         expectedModel.updateTask(model.getFilteredTaskList().get(0), editedTask);
 
         assertCommandSuccess(taskEditCommand, model, expectedMessage, expectedModel);
@@ -605,7 +709,7 @@ public class TaskEditCommandTest {
         showTaskAtIndex(model, INDEX_FIRST_TASK);
 
         // edit task in filtered list into a duplicate in address book
-        Task taskInList = model.getAddressBook().getTaskList().get(INDEX_SECOND_TASK.getZeroBased());
+        Task taskInList = model.getTaskBook().getTaskList().get(INDEX_SECOND_TASK.getZeroBased());
         TaskEditCommand taskEditCommand = prepareCommand(INDEX_FIRST_TASK,
                 new EditTaskDescriptorBuilder(taskInList).build());
 
@@ -630,86 +734,12 @@ public class TaskEditCommandTest {
         showTaskAtIndex(model, INDEX_FIRST_TASK);
         Index outOfBoundIndex = INDEX_SECOND_TASK;
         // ensures that outOfBoundIndex is still in bounds of address book list
-        assertTrue(outOfBoundIndex.getZeroBased() < model.getAddressBook().getTaskList().size());
+        assertTrue(outOfBoundIndex.getZeroBased() < model.getTaskBook().getTaskList().size());
 
         TaskEditCommand taskEditCommand = prepareCommand(outOfBoundIndex, new EditTaskDescriptorBuilder()
                 .withTaskName(VALID_TASK_NAME_TASKFIRST).build());
 
         assertCommandFailure(taskEditCommand, model, Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
-    }
-
-    @Test
-    public void executeUndoRedo_validIndexUnfilteredList_success() throws Exception {
-        UndoRedoStack undoRedoStack = new UndoRedoStack();
-        UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
-        RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
-        Task editedTask = new TaskBuilder().build();
-        Task taskToEdit = model.getFilteredTaskList().get(INDEX_FIRST_TASK.getZeroBased());
-        EditTaskDescriptor descriptor = new EditTaskDescriptorBuilder(editedTask).build();
-        TaskEditCommand taskEditCommand = prepareCommand(INDEX_FIRST_TASK, descriptor);
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
-                new EventBook(model.getEventBook()), new UserPrefs());
-
-        // edit -> first task edited
-        taskEditCommand.execute();
-        undoRedoStack.push(taskEditCommand);
-
-        // undo -> reverts addressbook back to previous state and filtered task list to show all tasks
-        assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
-
-        // redo -> same first task edited again
-        expectedModel.updateTask(taskToEdit, editedTask);
-        assertCommandSuccess(redoCommand, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
-    }
-
-    @Test
-    public void executeUndoRedo_invalidIndexUnfilteredList_failure() {
-        UndoRedoStack undoRedoStack = new UndoRedoStack();
-        UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
-        RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
-        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredTaskList().size() + 1);
-        EditTaskDescriptor descriptor = new EditTaskDescriptorBuilder().withTaskName(VALID_TASK_NAME_TASKFIRST).build();
-        TaskEditCommand taskEditCommand = prepareCommand(outOfBoundIndex, descriptor);
-
-        // execution failed -> taskEditCommand not pushed into undoRedoStack
-        assertCommandFailure(taskEditCommand, model, Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
-
-        // no commands in undoRedoStack -> undoCommand and redoCommand fail
-        assertCommandFailure(undoCommand, model, UndoCommand.MESSAGE_FAILURE);
-        assertCommandFailure(redoCommand, model, RedoCommand.MESSAGE_FAILURE);
-    }
-
-    /**
-     * 1. Edits a {@code Task} from a filtered list.
-     * 2. Undo the edit.
-     * 3. The unfiltered list should be shown now. Verify that the index of the previously edited task in the
-     *    unfiltered list is different from the index at the filtered list.
-     * 4. Redo the edit. This ensures {@code RedoCommand} edits the task object regardless of indexing.
-     */
-    @Test
-    public void executeUndoRedo_validIndexFilteredList_sameTaskEdited() throws Exception {
-        UndoRedoStack undoRedoStack = new UndoRedoStack();
-        UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
-        RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
-        Task editedTask = new TaskBuilder().build();
-        EditTaskDescriptor descriptor = new EditTaskDescriptorBuilder(editedTask).build();
-        TaskEditCommand taskEditCommand = prepareCommand(INDEX_FIRST_TASK, descriptor);
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
-                new EventBook(model.getEventBook()), new UserPrefs());
-
-        showTaskAtIndex(model, INDEX_SECOND_TASK);
-        Task taskToEdit = model.getFilteredTaskList().get(INDEX_FIRST_TASK.getZeroBased());
-        // edit -> edits second task in unfiltered task list / first task in filtered task list
-        taskEditCommand.execute();
-        undoRedoStack.push(taskEditCommand);
-
-        // undo -> reverts addressbook back to previous state and filtered task list to show all tasks
-        assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
-
-        expectedModel.updateTask(taskToEdit, editedTask);
-        assertNotEquals(model.getFilteredTaskList().get(INDEX_FIRST_TASK.getZeroBased()), taskToEdit);
-        // redo -> edits same second task in unfiltered task list
-        assertCommandSuccess(redoCommand, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
     }
 
     @Test
@@ -759,7 +789,8 @@ public class TaskEditCommandTest {
  */
 public class TaskFindCommandTest {
 
-    private Model model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
+    private Model model =
+            new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), getTypicalTaskBook(), new UserPrefs());
 
     @Test
     public void equals() {
@@ -842,8 +873,9 @@ public class TaskListCommandTest {
 
     @Before
     public void setUp() {
-        model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
-        expectedModel = new ModelManager(model.getAddressBook(), model.getEventBook(), new UserPrefs());
+        model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), getTypicalTaskBook(), new UserPrefs());
+        expectedModel =
+                new ModelManager(model.getAddressBook(), model.getEventBook(), model.getTaskBook(), new UserPrefs());
 
         taskListCommand = new TaskListCommand();
         taskListCommand.setData(model, new CommandHistory(), new UndoRedoStack());
@@ -863,6 +895,12 @@ public class TaskListCommandTest {
         Task task = new TaskBuilder().build();
         TaskAddCommand command = (TaskAddCommand) parser.parseCommand(TaskUtil.getTaskAddCommand(task));
         assertEquals(new TaskAddCommand(task), command);
+    }
+
+    @Test
+    public void parseCommand_taskClear() throws Exception {
+        assertTrue(parser.parseCommand(TaskClearCommand.COMMAND_WORD) instanceof TaskClearCommand);
+        assertTrue(parser.parseCommand(TaskClearCommand.COMMAND_WORD + " 5") instanceof TaskClearCommand);
     }
 
     @Test
@@ -1289,37 +1327,6 @@ public class TaskFindCommandParserTest {
 
 }
 ```
-###### \java\seedu\address\model\AddressBookTest.java
-``` java
-    @Test
-    public void resetData_withDuplicateTasks_throwsAssertionError() {
-        List<Person> newPersons = Arrays.asList();
-        List<Tag> newTags = new ArrayList<>();
-        // Repeat TASKONE twice
-        List<Task> newTasks = Arrays.asList(TASKONE, TASKONE);
-        List<TaskCategory> newTaskCategories = new ArrayList<>(TASKONE.getTaskCategories());
-        AddressBookStub newData = new AddressBookStub(newPersons, newTags, newTasks, newTaskCategories);
-
-        thrown.expect(AssertionError.class);
-        addressBook.resetData(newData);
-    }
-
-```
-###### \java\seedu\address\model\AddressBookTest.java
-``` java
-    @Test
-    public void getTaskList_modifyList_throwsUnsupportedOperationException() {
-        thrown.expect(UnsupportedOperationException.class);
-        addressBook.getTaskList().remove(0);
-    }
-
-    @Test
-    public void getTaskCategoryList_modifyList_throwsUnsupportedOperationException() {
-        thrown.expect(UnsupportedOperationException.class);
-        addressBook.getTaskCategoryList().remove(0);
-    }
-
-```
 ###### \java\seedu\address\model\category\TaskCategoryTest.java
 ``` java
 public class TaskCategoryTest {
@@ -1629,6 +1636,90 @@ public class TaskStatusTest {
 }
 
 ```
+###### \java\seedu\address\model\TaskBookTest.java
+``` java
+public class TaskBookTest {
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
+    private final TaskBook taskBook = new TaskBook();
+
+    @Test
+    public void constructor() {
+        assertEquals(Collections.emptyList(), taskBook.getTaskList());
+        assertEquals(Collections.emptyList(), taskBook.getTaskCategoryList());
+    }
+
+    @Test
+    public void resetData_null_throwsNullPointerException() {
+        thrown.expect(NullPointerException.class);
+        taskBook.resetData(null);
+    }
+
+    @Test
+    public void resetData_withDuplicateTasks_throwsAssertionError() {
+        // Repeat TASKONE twice
+        List<Task> newTasks = Arrays.asList(TASKONE, TASKONE);
+        List<TaskCategory> newTaskCategories = new ArrayList<>(TASKONE.getTaskCategories());
+        TaskBookStub newData = new TaskBookStub(newTasks, newTaskCategories);
+
+        thrown.expect(AssertionError.class);
+        taskBook.resetData(newData);
+    }
+
+    @Test
+    public void removeTask_taskNotFound_throwsTaskNotFoundException() throws TaskNotFoundException {
+        List<Task> newTasks = Arrays.asList(TASKONE);
+        List<TaskCategory> newTaskCategories = new ArrayList<>(TASKONE.getTaskCategories());
+        TaskBookStub newData = new TaskBookStub(newTasks, newTaskCategories);
+
+        thrown.expect(TaskNotFoundException.class);
+        taskBook.removeTask(TASKTWO);
+    }
+
+    @Test
+    public void getTaskList_modifyList_throwsUnsupportedOperationException() {
+        thrown.expect(UnsupportedOperationException.class);
+        taskBook.getTaskList().remove(0);
+    }
+
+    @Test
+    public void getTaskCategoryList_modifyList_throwsUnsupportedOperationException() {
+        thrown.expect(UnsupportedOperationException.class);
+        taskBook.getTaskCategoryList().remove(0);
+    }
+
+    /**
+     * A stub ReadOnlyTaskBook whose tasks and categories lists can violate interface constraints.
+     */
+    private static class TaskBookStub implements ReadOnlyTaskBook {
+        private final ObservableList<Task> tasks = FXCollections.observableArrayList();
+        private final ObservableList<TaskCategory> taskCategories = FXCollections.observableArrayList();
+
+        TaskBookStub(Collection<Task> tasks, Collection<? extends TaskCategory> taskCategories) {
+            this.tasks.setAll(tasks);
+            this.taskCategories.setAll(taskCategories);
+        }
+
+        @Override
+        public ObservableList<Task> getOriginalTaskList() {
+            return tasks;
+        }
+
+        @Override
+        public ObservableList<Task> getTaskList() {
+            return tasks;
+        }
+
+        @Override
+        public ObservableList<TaskCategory> getTaskCategoryList() {
+            return taskCategories;
+        }
+    }
+
+}
+```
 ###### \java\seedu\address\model\UniquePersonListTest.java
 ``` java
     @Test
@@ -1694,9 +1785,9 @@ public class UniqueTaskListTest {
     @Test
     public void sortByStatusDueDateAndPriority_undoneToDoneDateInAscOrderAndPriorityHighToLow_success() {
         // Setup actual result
-        AddressBook addressBook = TypicalAddressBook.getTypicalAddressBook();
-        addressBook.sortTasksByStatusDueDateAndPriority();
-        ObservableList<Task> actualTaskList = addressBook.getOriginalTaskList();
+        TaskBook taskBook = TypicalTasks.getTypicalTaskBook();
+        taskBook.sortTasksByStatusDueDateAndPriority();
+        ObservableList<Task> actualTaskList = taskBook.getOriginalTaskList();
 
         // Setup expected result
         List<Task> taskList = TypicalTasks.getTypicalTasks();
@@ -1719,9 +1810,9 @@ public class UniqueTaskListTest {
     @Test
     public void sortByStatusDueDateAndPriority_doneToUndoneDateInAscOrderAndPriorityHighToLow_fail() {
         // Setup actual result
-        AddressBook addressBook = TypicalAddressBook.getTypicalAddressBook();
-        addressBook.sortTasksByStatusDueDateAndPriority();
-        ObservableList<Task> actualTaskList = addressBook.getOriginalTaskList();
+        TaskBook taskBook = TypicalTasks.getTypicalTaskBook();
+        taskBook.sortTasksByStatusDueDateAndPriority();
+        ObservableList<Task> actualTaskList = taskBook.getOriginalTaskList();
 
         // Setup expected result
         List<Task> taskList = TypicalTasks.getTypicalTasks();
@@ -1744,9 +1835,9 @@ public class UniqueTaskListTest {
     @Test
     public void sortByStatusDueDateAndPriority_undoneToDoneDateInDscOrderAndPriorityHighToLow_fail() {
         // Setup actual result
-        AddressBook addressBook = TypicalAddressBook.getTypicalAddressBook();
-        addressBook.sortTasksByStatusDueDateAndPriority();
-        ObservableList<Task> actualTaskList = addressBook.getOriginalTaskList();
+        TaskBook taskBook = TypicalTasks.getTypicalTaskBook();
+        taskBook.sortTasksByStatusDueDateAndPriority();
+        ObservableList<Task> actualTaskList = taskBook.getOriginalTaskList();
 
         // Setup expected result
         List<Task> taskList = TypicalTasks.getTypicalTasks();
@@ -1769,9 +1860,9 @@ public class UniqueTaskListTest {
     @Test
     public void sortByStatusDueDateAndPriority_undoneToDoneDateInAscOrderAndPriorityLowToHigh_fail() {
         // Setup actual result
-        AddressBook addressBook = TypicalAddressBook.getTypicalAddressBook();
-        addressBook.sortTasksByStatusDueDateAndPriority();
-        ObservableList<Task> actualTaskList = addressBook.getOriginalTaskList();
+        TaskBook taskBook = TypicalTasks.getTypicalTaskBook();
+        taskBook.sortTasksByStatusDueDateAndPriority();
+        ObservableList<Task> actualTaskList = taskBook.getOriginalTaskList();
 
         // Setup expected result
         List<Task> taskList = TypicalTasks.getTypicalTasks();
@@ -1793,41 +1884,161 @@ public class UniqueTaskListTest {
 
 }
 ```
-###### \java\seedu\address\storage\XmlAddressBookStorageTest.java
+###### \java\seedu\address\storage\XmlSerializableTaskBookTest.java
 ``` java
+public class XmlSerializableTaskBookTest {
+
+    private static final String TEST_DATA_FOLDER =
+            FileUtil.getPath("src/test/data/XmlSerializableTaskBookTest/");
+    private static final File TYPICAL_TASK_BOOK_FILE = new File(TEST_DATA_FOLDER + "typicalTaskBook.xml");
+    private static final File INVALID_TASK_FILE = new File(TEST_DATA_FOLDER + "invalidTaskBook.xml");
+    private static final File INVALID_TASK_CATEGORY_FILE =
+            new File(TEST_DATA_FOLDER + "invalidTaskCategory.xml");
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
     @Test
-    public void readAddressBook_invalidTaskAddressBook_throwDataConversionException() throws Exception {
-        thrown.expect(DataConversionException.class);
-        readAddressBook("invalidTaskAddressBook.xml");
+    public void toModelType_typicalTaskBookFile_success() throws Exception {
+        XmlSerializableTaskBook dataFromFile = XmlUtil.getDataFromFile(TYPICAL_TASK_BOOK_FILE,
+                XmlSerializableTaskBook.class);
+        TaskBook taskBookFromFile = dataFromFile.toModelType();
+        TaskBook typicalTaskBook = TypicalTasks.getTypicalTaskBook();
+        assertEquals(taskBookFromFile, typicalTaskBook);
     }
 
-```
-###### \java\seedu\address\storage\XmlAddressBookStorageTest.java
-``` java
-    @Test
-    public void readAddressBook_invalidAndValidTaskAddressBook_throwDataConversionException() throws Exception {
-        thrown.expect(DataConversionException.class);
-        readAddressBook("invalidAndValidTaskAddressBook.xml");
-    }
-
-```
-###### \java\seedu\address\storage\XmlSerializableAddressBookTest.java
-``` java
     @Test
     public void toModelType_invalidTaskFile_throwsIllegalValueException() throws Exception {
-        XmlSerializableAddressBook dataFromFile = XmlUtil.getDataFromFile(INVALID_TASK_FILE,
-                XmlSerializableAddressBook.class);
+        XmlSerializableTaskBook dataFromFile = XmlUtil.getDataFromFile(INVALID_TASK_FILE,
+                XmlSerializableTaskBook.class);
         thrown.expect(IllegalValueException.class);
         dataFromFile.toModelType();
     }
 
     @Test
     public void toModelType_invalidTaskCategoryFile_throwsIllegalValueException() throws Exception {
-        XmlSerializableAddressBook dataFromFile = XmlUtil.getDataFromFile(INVALID_TASK_CATEGORY_FILE,
-                XmlSerializableAddressBook.class);
+        XmlSerializableTaskBook dataFromFile = XmlUtil.getDataFromFile(INVALID_TASK_CATEGORY_FILE,
+                XmlSerializableTaskBook.class);
         thrown.expect(IllegalValueException.class);
         dataFromFile.toModelType();
     }
+
+    @Test
+    public void equals() {
+        XmlSerializableTaskBook taskBook = new XmlSerializableTaskBook();
+        XmlSerializableTaskBook taskBookCopy = new XmlSerializableTaskBook();
+        XmlSerializableAddressBook addressbook = new XmlSerializableAddressBook();
+
+        // same object -> returns true
+        assertTrue(taskBook.equals(taskBook));
+
+        // same values -> returns true
+        assertTrue(taskBook.equals(taskBookCopy));
+
+        // different types -> returns false
+        assertFalse(taskBook.equals(addressbook));
+        assertFalse(taskBook.equals(5));
+
+        // null -> returns false
+        assertFalse(taskBook.equals(null));
+    }
+
+}
+```
+###### \java\seedu\address\storage\XmlTaskBookStorageTest.java
+``` java
+public class XmlTaskBookStorageTest {
+
+    private static final String TEST_DATA_FOLDER =
+            FileUtil.getPath("./src/test/data/XmlTaskBookStorageTest/");
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
+    @Rule
+    public TemporaryFolder testFolder = new TemporaryFolder();
+
+    @Test
+    public void readTaskBook_nullFilePath_throwsNullPointerException() throws Exception {
+        thrown.expect(NullPointerException.class);
+        readTaskBook(null);
+    }
+
+    private java.util.Optional<ReadOnlyTaskBook> readTaskBook(String filePath) throws Exception {
+        return new XmlTaskBookStorage(filePath).readTaskBook(addToTestDataPathIfNotNull(filePath));
+    }
+
+    private String addToTestDataPathIfNotNull(String prefsFileInTestDataFolder) {
+        return prefsFileInTestDataFolder != null
+                ? TEST_DATA_FOLDER + prefsFileInTestDataFolder
+                : null;
+    }
+
+    @Test
+    public void read_missingFile_emptyResult() throws Exception {
+        assertFalse(readTaskBook("NonExistentFile.xml").isPresent());
+    }
+
+    @Test
+    public void read_notXmlFormat_exceptionThrown() throws Exception {
+        thrown.expect(DataConversionException.class);
+        readTaskBook("NotXmlFormatTaskBook.xml");
+    }
+
+    @Test
+    public void readTaskBook_invalidTaskBook_throwDataConversionException() throws Exception {
+        thrown.expect(DataConversionException.class);
+        readTaskBook("invalidTaskBook.xml");
+    }
+
+    @Test
+    public void readTaskBook_invalidAndValidTaskBook_throwDataConversionException() throws Exception {
+        thrown.expect(DataConversionException.class);
+        readTaskBook("invalidAndValidTaskBook.xml");
+    }
+
+    @Test
+    public void readAndSaveTaskBook_allInOrder_success() throws Exception {
+        String filePath = testFolder.getRoot().getPath() + "TempTaskBook.xml";
+        TaskBook original = getTypicalTaskBook();
+        XmlTaskBookStorage xmlTaskBookStorage = new XmlTaskBookStorage(filePath);
+
+        //Save in new file and read back
+        xmlTaskBookStorage.saveTaskBook(original, filePath);
+        ReadOnlyTaskBook readBack = xmlTaskBookStorage.readTaskBook(filePath).get();
+        assertEquals(original, new TaskBook(readBack));
+
+        //Modify tast data, overwrite exiting file, and read back
+        original.addTask(TASKFOUR);
+        original.removeTask(TASKONE);
+        xmlTaskBookStorage.saveTaskBook(original, filePath);
+        readBack = xmlTaskBookStorage.readTaskBook(filePath).get();
+        assertEquals(original, new TaskBook(readBack));
+    }
+
+    @Test
+    public void saveTaskBook_nullTaskBook_throwsNullPointerException() throws InvalidFileException {
+        thrown.expect(NullPointerException.class);
+        saveTaskBook(null, "SomeFile.xml");
+    }
+
+    /**
+     * Saves {@code taskBook} at the specified {@code filePath}.
+     */
+    private void saveTaskBook(ReadOnlyTaskBook taskBook, String filePath) throws InvalidFileException {
+        try {
+            new XmlTaskBookStorage(filePath).saveTaskBook(taskBook, addToTestDataPathIfNotNull(filePath));
+        } catch (IOException ioe) {
+            throw new AssertionError("There should not be an error writing to the file.", ioe);
+        }
+    }
+
+    @Test
+    public void saveTaskBook_nullFilePath_throwsNullPointerException() throws IOException, InvalidFileException {
+        thrown.expect(NullPointerException.class);
+        saveTaskBook(new TaskBook(), null);
+    }
+
 }
 ```
 ###### \java\seedu\address\testutil\EditTaskDescriptorBuilder.java
@@ -2045,39 +2256,6 @@ public class TaskUtil {
 
 }
 ```
-###### \java\seedu\address\testutil\TypicalAddressBook.java
-``` java
-/**
- * A utility class containing a list of {@code AddressBook} objects to be used in tests.
- */
-public class TypicalAddressBook {
-
-    private TypicalAddressBook() {} // prevents instantiation
-
-    /**
-     * Returns an {@code AddressBook} with all the typical persons and typical tasks.
-     */
-    public static AddressBook getTypicalAddressBook() {
-        AddressBook ab = new AddressBook();
-        for (Person person : TypicalPersons.getTypicalPersons()) {
-            try {
-                ab.addPerson(person);
-            } catch (DuplicatePersonException e) {
-                throw new AssertionError("not possible");
-            }
-        }
-        for (Task task : TypicalTasks.getTypicalTasks()) {
-            try {
-                ab.addTask(task);
-            } catch (DuplicateTaskException e) {
-                throw new AssertionError("not possible");
-            }
-        }
-        return ab;
-    }
-
-}
-```
 ###### \java\seedu\address\testutil\TypicalTasks.java
 ``` java
 /**
@@ -2122,6 +2300,22 @@ public class TypicalTasks {
             .withTaskStatus("undone").build();
 
     private TypicalTasks() {} // prevents instantiation
+
+    /**
+     * Returns a {@code TaskBook} with all the typical tasks.
+     */
+    public static TaskBook getTypicalTaskBook() {
+        TaskBook tb = new TaskBook();
+        for (Task task : TypicalTasks.getTypicalTasks()) {
+            try {
+                tb.addTask(task);
+            } catch (DuplicateTaskException dte) {
+                throw new AssertionError("not possible");
+            }
+        }
+
+        return tb;
+    }
 
     public static List<Task> getTypicalTasks() {
         return new ArrayList<>(Arrays.asList(TASKONE, TASKTWO, TASKTHREE));

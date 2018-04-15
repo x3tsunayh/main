@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 import seedu.address.logic.commands.AddEventCommand;
 import seedu.address.logic.commands.ClearCommand;
-import seedu.address.logic.commands.ClearEventCommand;
+import seedu.address.logic.commands.ClearEventsCommand;
 import seedu.address.logic.commands.DeleteEventCommand;
 import seedu.address.logic.commands.FindEventCommand;
 import seedu.address.logic.commands.HelpCommand;
@@ -64,7 +64,7 @@ public class CalendarViewStateParser {
                 || commandWord.equals(UndoCommand.COMMAND_ALIAS)
                 || commandWord.equals(RedoCommand.COMMAND_WORD)
                 || commandWord.equals(RedoCommand.COMMAND_ALIAS)
-                || commandWord.equals(ClearEventCommand.COMMAND_WORD)) {
+                || commandWord.equals(ClearEventsCommand.COMMAND_WORD)) {
             CalendarViewUpdate.updateViewState(calendarView);
         } else if (commandWord.equals(FindEventCommand.COMMAND_WORD)) {
             CalendarViewUpdate.updateFindState(calendarView, model);

@@ -2,6 +2,7 @@ package seedu.address.commons.util;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -155,5 +156,12 @@ public class StringUtilTest {
         StringUtil.getDetails(null);
     }
 
-
+    //---------------- Tests for concatenateStringWithSpace --------------------------------------
+    //@@author jill858
+    @Test
+    public void concatenateStringWithSpace_validOutput() {
+        String expectedString = "Apple Pear Orange";
+        String actualString = StringUtil.concatenateStringWithSpace("Apple", "Pear", "Orange");
+        assertEquals(expectedString, actualString);
+    }
 }

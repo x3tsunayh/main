@@ -35,14 +35,14 @@ public class CalendarViewUpdate {
     public static void updateFindState(CalendarView calendarView, Model model) {
         List<ReadOnlyEvent> events = model.getFilteredEventList();
         if (events.size() != 0) {
-            String findYearMonth = events.get(0).getDatetime().value.substring(3, 10);
+            String findYearMonth = events.get(0).getDatetime().value.substring(0, 7);
             // If every event in the filtered list is on the same day, Calendar View jumps to that day.
             boolean changeSelectedYearMonth = events.stream()
-                    .allMatch(e -> e.getDatetime().value.substring(3, 10).equals(findYearMonth));
+                    .allMatch(e -> e.getDatetime().value.substring(0, 7).equals(findYearMonth));
 
             if (changeSelectedYearMonth) {
                 calendarView.setCurrentYearMonth(YearMonth.parse(findYearMonth,
-                        DateTimeFormatter.ofPattern("MM-yyyy")));
+                        DateTimeFormatter.ofPattern("yyyy-MM")));
                 calendarView.populateCalendar(calendarView.getCurrentYearMonth(), null);
             }
         }

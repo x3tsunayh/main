@@ -249,6 +249,46 @@ Selects the 2nd person in the address book.
 `select 1` +
 Selects the 1st person in the results of the `find` command.
 
+// tag::addpicture[]
+=== Adding a profile picture to a person: `addpicture` `[since v1.3]`
+
+Adds a profile picture to a person +
+Format: `addpicture INDEX f/FILENAME`
+
+****
+* Adds a picture at location `FILENAME` to person at the specified `INDEX`. The index refers to the index number shown in the last person listing. The index *must be a positive integer* 1, 2, 3, ...
+* `FILENAME` must point to a valid image file.
+****
+
+Examples:
+
+* `addpicture 1 f/C://pictures/janeDoe.jpg` +
+Edits the profile picture of the 1st person to be the picture at C://pictures/janeDoe.jpg
+// end::addpicture[]
+
+// tag::addtag[]
+=== Adding individual tags to a contact: `addtag` `[since v1.4]`
+
+Adds tag(s) to a person +
+Format: `addtag INDEX t/TAG t/TAG ...`
+
+****
+* Edits the tag of the contact at the specified `INDEX`.
+The index refers to the index number shown in the last task listing. The index *must be a positive integer* 1, 2, 3, ...
+* At least one tag must be provided.
+* All input tags must be new and unique to the contact. For example, if tag `friend` exists for contact
+at index 1, then both `addtag 1 t/friend` and `addtag 1 t/friend t/schoolmate` will not work as all tags must be new
+
+****
+
+Examples:
+
+* `addtag 12 t/newFriend` +
+Adds the tag `newFriend` to the contact at index 12 of the last contact listing
+* `addtag 7 t/buddy t/CS2103 t/NUS` +
+Adds the tags `buddy`, `CS2103` and `NUS` to contact at index 7 of the last contact listing
+// end::addtag[]
+
 === Googling a person's name : `google` `[since v1.5rc]`
 
 Google searches the person's name identified by the index number used in the latest person listing. +
@@ -286,7 +326,7 @@ Format: `export FILEPATH [MORE_KEYWORDS]`
 * Addressbook creates XML or CSV file if valid filepath and filename is given.
 * If filename already exists, a warning message is displayed.
 * If file extension is not .xml nor .csv, a warning message is displayed.
-* If filepath not given, the file is auto-created under main folder.
+* If filepath not given, the file is auto-generated in the same filepath as the JAR file.
 * If filepath is not found, Addressbook creates folders to support the filepath defined by the user.
 ****
 
@@ -297,7 +337,7 @@ Creates XML file in the user-defined filepath
 * `export C:\Users\John Doe\Documents\addressbook.csv` +
 Creates CSV file in the user-defined filepath
 * `export addressbook.xml` +
-Creates XML file in the main folder of the Addressbook
+Creates XML file in the same folder as the JAR file
 // end::export[]
 
 === Listing entered commands : `history`
@@ -360,60 +400,10 @@ The `redo` command fails as there are no `undo` commands executed previously.
 `redo` (reapplies the `clear` command) +
 // end::undoredo[]
 
-=== Clearing all entries : `clear`
+=== Clearing all contacts : `clear`
 
-Clears all entries in contacts list and task list from the address book. +
+Clears all entries in contacts list from the address book. +
 Format: `clear`
-
-=== Exiting the program : `exit`
-
-Exits the program. +
-Format: `exit`
-
-=== Saving the data
-
-Address book data are saved in the hard disk automatically after any command that changes the data. +
-There is no need to save manually.
-
-// tag::addpicture[]
-=== Adding a profile picture to a person: `addpicture` `[since v1.3]`
-
-Adds a profile picture to a person +
-Format: `addpicture INDEX f/FILENAME`
-
-****
-* Adds a picture at location `FILENAME` to person at the specified `INDEX`. The index refers to the index number shown in the last person listing. The index *must be a positive integer* 1, 2, 3, ...
-* `FILENAME` must point to a valid image file.
-****
-
-Examples:
-
-* `addpicture 1 f/C://pictures/janeDoe.jpg` +
-Edits the profile picture of the 1st person to be the picture at C://pictures/janeDoe.jpg
-// end::addpicture[]
-
-// tag::addtag[]
-=== Adding individual tags to a contact: `addtag` `[since v1.4]`
-
-Adds tag(s) to a person +
-Format: `addtag INDEX t/TAG t/TAG ...`
-
-****
-* Edits the tag of the contact at the specified `INDEX`.
-The index refers to the index number shown in the last task listing. The index *must be a positive integer* 1, 2, 3, ...
-* At least one tag must be provided.
-* All input tags must be new and unique to the contact. For example, if tag `friend` exists for contact
-at index 1, then both `addtag 1 t/friend` and `addtag 1 t/friend t/schoolmate` will not work as all tags must be new
-
-****
-
-Examples:
-
-* `addtag 12 t/newFriend` +
-Adds the tag `newFriend` to the contact at index 12 of the last contact listing
-* `addtag 7 t/buddy t/CS2103 t/NUS` +
-Adds the tags `buddy`, `CS2103` and `NUS` to contact at index 7 of the last contact listing
-// end::addtag[]
 
 //tag::convertCurrency[]
 === Converting from one currency to another: `convert` `[since v1.3]`
@@ -479,7 +469,7 @@ Format: `addevent et/NAME ed/DESCRIPTION el/LOCATION edt/DATETIME`
 
 Examples:
 
-* `addevent et/Christmas Party ed/Celebrating Christmas 2018 el/Samuel's House edt/25-12-2018 1830` +
+* `addevent et/Christmas Party ed/Celebrating Christmas 2018 el/Samuel's House edt/2018-12-25 1830` +
 Creates an event with the corresponding details and adds it into the event book; displays it on event list.
 // end::addevent[]
 
@@ -513,6 +503,21 @@ Format: `findevent et/KEYWORD [MORE_KEYWORDS]... for title OR ed/KEYWORD [MORE_K
 Shows a list of all events in the address book. +
 Format: `listallevents`
 // end::listallevents[]
+
+// tag::sortevent[]
+=== Sort all events: `sortevent` `[since v1.5]`
+
+Sorts event list according to the specified parameter. +
+Format: `sortevent PARAMETER`
+
+Examples:
+
+* `sortevent TITLE` +
+Sorts event list according to the event titles in alphabetical order.
+
+* `sortevent DATETIME` +
+Sorts event list according to the event datetimes in chronological order from latest to oldest.
+// end::sortevent[]
 
 // tag::clearevents[]
 === Clears all events: `clearevents` `[since v1.5rc]`
@@ -574,6 +579,9 @@ Behaviour of priority field for undone tasks:
 * high: Red color display
 * medium: Orange color display
 * low: Green color display
+
+image::UG_TaskDisplay.PNG[width="300"]
+The task due dates displayed are computed based on the current date of 2018-04-14.
 // end::TaskDisplay[]
 
 // tag::AddTask[]
@@ -584,8 +592,9 @@ Format: `task-add n/NAME p/PRIORITY d/DESCRIPTION dd/DUE_DATE s/STATUS [c/CATEGO
 
 ****
 * Adds a task if all fields have valid inputs.
-* The valid values of priority are : high, medium and low.
-* The valid values of status are : undone and done.
+* The valid values of priority are : high, medium and low (only lowercase accepted).
+* The valid values of status are : undone and done (only lowercase accepted).
+* Input for category can be in uppercase or lowercase, but it will be displayed in lowercase.
 ****
 
 [TIP]
@@ -594,7 +603,7 @@ A task can have any number of categories (including 0)
 Examples:
 
 * `task-add n/Task 1 p/medium d/Description for task 1 dd/2018-05-10 s/undone`
-* `task-add n/Agenda for meeting p/high d/Discuss proposal details dd/2018-04-29 s/undone c/Meeting`
+* `task-add n/Agenda for meeting p/high d/Discuss proposal details dd/2018-04-29 s/undone c/meeting`
 // end::AddTask[]
 
 // tag::DeleteTask[]
@@ -607,6 +616,7 @@ Format: `task-delete INDEX`
 * Deletes the task at the specified `INDEX`.
 * The index refers to the index number shown in the most recent listing.
 * The index *must be a positive integer* 1, 2, 3, ...
+* The index must not be more than the maximum size of the task list.
 ****
 
 Examples:
@@ -656,10 +666,12 @@ e.g. `Agenda gift` will return `Agenda for meeting`, `Buy gift`
 
 Examples:
 
-* `task-find agenda`
-Returns `Agenda for meeting` and `Project agenda`
-* `task-find email agenda project`
+* `task-find agenda` +
+Returns the tasks `Agenda for meeting` and `Project agenda`
+* `task-find email agenda project` +
 Returns any task having names `email`, `agenda` or `project`
+* `task-find nt` +
+Returns any task having names containing `nt` like `department` or `client`
 // end::FindTask[]
 
 // tag::ListTask[]
@@ -669,8 +681,15 @@ Shows a list of all tasks in the address book. +
 Format: `task-list`
 // end::ListTask[]
 
+// tag::ClearTask[]
+=== Clearing all tasks : `task-clear` `[since v1.5]`
+
+Clears all entries in tasks list from the address book. +
+Format: `task-clear`
+// end::ClearTask[]
+
 // tag::resetpicture[]
-=== Find persons by phone: `find p/` `[since v1.5rc]`
+=== Reset a person's profile picture: `resetpicture INDEX` `[since v1.5rc]`
 
 Reset a contact's picture to the default picture. +
 Format: `resetpicture INDEX`
@@ -685,6 +704,16 @@ Examples:
 * `resetpicture 1` +
 Resets the picture of the person at index 1 to the default picture.
 // end::resetpicture[]
+
+=== Exiting the program : `exit`
+
+Exits the program. +
+Format: `exit`
+
+=== Saving the data
+
+Address book data are saved in the hard disk automatically after any command that changes the data. +
+There is no need to save manually.
 
 === Autocomplete of command `[coming in v2.0]`
 
@@ -735,12 +764,58 @@ Return feedback to ask user to input name +
 * `convert 10 SGD` +
 Returns feedback to input the currency code to be converted to +
 
+// tag::editevent[]
+=== Editing an event `[coming in v2.0]`
+
+Edits an existing event in the event list. +
+Format: `editevent 3 et/NEW_TITLE edt/NEW_DATETIME`
+
+****
+* Edits event is given index and prefix is valid
+* Error message if given index or prefix is invalid
+****
+// end::editevent[]
+
+// tag::eventnotifications[]
+=== Setting event notifications `[coming in v2.0]`
+
+A notification for the indexed event will pop up at the specified datetime. +
+Format: `eventnotify INDEX DATETIME`
+
+****
+* Sets notification for event if given index and datetime is valid
+* Error message if given index or datetime is invalid
+****
+// end::eventnotifications[]
 
 // tag::dataencryption[]
 === Encrypting data files `[coming in v2.0]`
 
-_{explain how the user can enable/disable data encryption}_
+Encrypts all data files until user logs in with correct credentials. +
+Format: `login u/USERNAME p/PASSWORD
+
+****
+* All data files are encrypted until the user logs in
+* Files are decrypted and accessible by the user and the app if the credentials are correct
+* Error message appears if credentials are incorrect
+* Before logging in, user features are restricted
+* User is logged out if the user exits the app
+****
 // end::dataencryption[]
+
+// tag::autoremovecompletedTasks[]
+=== Automatically remove completed tasks `[coming in v2.0]`
+Automatically remove any unmarked completed tasks so that the task list does not get too lengthy.
+It will be merged into the `task-add` and `task-edit` command with additional parameters. +
+
+New format for task-add: `task-add n/NAME p/PRIORITY d/DESCRIPTION dd/DUE_DATE s/STATUS tl/TIME_LIMIT_DAYS ms/MARK_STATUS [c/CATEGORY]...` +
+
+New format for task-edit: `task-edit INDEX [n/NAME] [p/PRIORITY] [d/DESCRIPTION] [dd/DUE_DATE] [s/STATUS] [tl/TIME_LIMIT_DAYS] [ms/MARK_STATUS] [c/CATEGORY]...` +
+
+TIME_LIMIT_DAYS : Number of days to keep a task after its completion +
+MARK_STATUS : Indicate whether the completed task needs to be kept after time limit is over
+// end::autoremovecompletedTasks[]
+
 
 == FAQ
 
@@ -768,6 +843,12 @@ e.g. `find p/96965000`
 * *List all persons* : `list`
 * *Select a person* : `select INDEX` +
 e.g.`select 2`
+* *Add a profile picture to a person* : `addpicture INDEX f/FILENAME` +
+e.g. `addpicture 1 f/C://pictures/janeDoe.jpg`
+* *Reset a contact's picture* : `resetpicture  INDEX` +
+e.g. `resetpicture 1`
+* *Add tag(s) to a person* : `addtag INDEX t/TAG [t/TAG]...` +
+e.g. `addtag 12 t/newFriend`
 * *Google search a person's name* : `google INDEX` +
 e.g.`google 3`
 * *Sort all persons by name* : `sort`
@@ -776,21 +857,17 @@ e.g. `export C:\Users\John Doe\Documents\addressbook.xml`
 * *History* : `history`
 * *Undo* : `undo`
 * *Redo* : `redo`
-* *Clear contacts list and task list* : `clear`
-* *Help* : `help`
-* *Exit program* : `exit`
-* *Add a profile picture to a person* : `addpicture INDEX f/FILENAME` +
-e.g. `addpicture 1 f/C://pictures/janeDoe.jpg`
-* *Add tag(s) to a person* : `addtag INDEX t/TAG [t/TAG]...` +
-e.g. `addtag 12 t/newFriend`
+* *Clear all contacts* : `clear`
 * *Convert currency* : `convert [VALUE] SRC_CURRENCY_CODE DST_CURRENCY_CODE` +
 e.g. `convert 10000 JPY USD`
 * *Add an event* : `addevent et/TITLE ed/DESCRIPTION el/LOCATION edt/DATETIME` +
-e.g. `addevent et/Christmas Party ed/Celebrating Christmas 2018 el/Samuel's House edt/25-12-2018 1830`
+e.g. `addevent et/Christmas Party ed/Celebrating Christmas 2018 el/Samuel's House edt/2018-12-25 1830`
 * *Delete an event* : `deleteevent INDEX` +
 e.g. `deleteevent 2`
 * *Find an event* : `findevent PREFIX/KEYWORD [MORE_KEYWORDS]...` +
 e.g. `findevent et/Christmas CNY Halloween`
+* *Sort event list (case-insensitive)* : `sortevent PARAMETER` +
+e.g. `sortevent DATETIME`
 * *List all events* : `listallevents`
 * *Clear all events* : `clearevents`
 * *Jump to Year-Month* : `jumpto yyyy-mm` +
@@ -806,6 +883,6 @@ e.g. `task-edit 1 p/medium dd/2018-05-10`
 * *Find tasks by name* : `task-find KEYWORD [MORE_KEYWORDS]...` +
 e.g. `task-find project agenda`
 * *List all tasks* : `task-list`
-* *Reset a contact's picture* : `resetpicture  INDEX` +
-e.g. `resetpicture 1`
-
+* *Clear all tasks* : `task-clear`
+* *Help* : `help`
+* *Exit program* : `exit`

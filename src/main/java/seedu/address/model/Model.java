@@ -29,11 +29,17 @@ public interface Model {
     /** Clears existing backing model for event book and replaces with the provided new data. */
     void resetData(ReadOnlyEventBook newData);
 
+    /** Clears existing backing model for task book and replaces with the provided new data. */
+    void resetData(ReadOnlyTaskBook newData);
+
     /** Returns the AddressBook */
     ReadOnlyAddressBook getAddressBook();
 
     /** Returns the Eventbook */
     ReadOnlyEventBook getEventBook();
+
+    /** Returns the TaskBook */
+    ReadOnlyTaskBook getTaskBook();
 
     /** Deletes the given person. */
     void deletePerson(Person target) throws PersonNotFoundException;
@@ -65,11 +71,11 @@ public interface Model {
      */
     void sortPersons();
 
-    /** Deletes the given task. */
-    void deleteTask(Task target) throws TaskNotFoundException;
-
     /** Adds the given task. */
     void addTask(Task task) throws DuplicateTaskException;
+
+    /** Deletes the given task. */
+    void deleteTask(Task target) throws TaskNotFoundException;
 
     /**
      * Replaces the given task {@code target} with {@code editedTask}.
@@ -101,4 +107,6 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredEventList(Predicate<ReadOnlyEvent> predicate);
+
+    void sortEventList(String parameter) throws CommandException;
 }

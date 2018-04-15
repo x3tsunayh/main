@@ -7,10 +7,9 @@ import javax.xml.bind.JAXBException;
 
 import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.commons.util.XmlUtil;
-import seedu.address.model.event.ReadOnlyEventBook;
 
 /**
- * Stores addressbook data in an XML file
+ * Stores addressbook, taskbook data in an XML file
  */
 public class XmlFileStorage {
     /**
@@ -38,6 +37,18 @@ public class XmlFileStorage {
     }
 
     /**
+     * Saves the given taskbook data to the specified file.
+     */
+    public static void saveDataToFile(File file, XmlSerializableTaskBook taskBook)
+            throws FileNotFoundException {
+        try {
+            XmlUtil.saveDataToFile(file, taskBook);
+        } catch (JAXBException e) {
+            throw new AssertionError("Unexpected exception " + e.getMessage());
+        }
+    }
+
+    /**
      * Returns address book in the file or an empty address book
      */
     public static XmlSerializableAddressBook loadDataFromSaveFile(File file) throws DataConversionException,
@@ -52,9 +63,22 @@ public class XmlFileStorage {
     /**
      * Loads the given eventbook data from the specified file.
      */
-    public static ReadOnlyEventBook loadEventDataFromSaveFile(File file)
+    public static XmlSerializableEventBook loadEventDataFromSaveFile(File file)
             throws FileNotFoundException, JAXBException {
 
         return XmlUtil.getDataFromFile(file, XmlSerializableEventBook.class);
     }
+
+    /**
+     * Returns task book in the file or an empty task book.
+     */
+    public static XmlSerializableTaskBook loadTaskDataFromSaveFile(File file) throws DataConversionException,
+            FileNotFoundException {
+        try {
+            return XmlUtil.getDataFromFile(file, XmlSerializableTaskBook.class);
+        } catch (JAXBException e) {
+            throw new DataConversionException(e);
+        }
+    }
+
 }

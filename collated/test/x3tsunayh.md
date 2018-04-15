@@ -1,4 +1,206 @@
 # x3tsunayh
+###### \java\guitests\guihandles\EventCardHandle.java
+``` java
+
+/**
+ * Provides a handle to an event card in the event list panel.
+ */
+public class EventCardHandle extends NodeHandle<Node> {
+    private static final String ID_FIELD_ID = "#id";
+    private static final String TITLE_FIELD_ID = "#title";
+    private static final String DESCRIPTION_FIELD_ID = "#description";
+    private static final String LOCATION_FIELD_ID = "#eventLocation";
+    private static final String DATETIME_FIELD_ID = "#datetime";
+
+    private final Label idLabel;
+    private final Label titleLabel;
+    private final Label descriptionLabel;
+    private final Label locationLabel;
+    private final Label datetimeLabel;
+
+    public EventCardHandle(Node cardNode) {
+        super(cardNode);
+
+        this.idLabel = getChildNode(ID_FIELD_ID);
+        this.titleLabel = getChildNode(TITLE_FIELD_ID);
+        this.descriptionLabel = getChildNode(DESCRIPTION_FIELD_ID);
+        this.locationLabel = getChildNode(LOCATION_FIELD_ID);
+        this.datetimeLabel = getChildNode(DATETIME_FIELD_ID);
+
+    }
+
+    public String getId() {
+        return idLabel.getText();
+    }
+
+    public String getTitle() {
+        return titleLabel.getText();
+    }
+
+    public String getDescription() {
+        return descriptionLabel.getText();
+    }
+
+    public String getLocation() {
+        return locationLabel.getText();
+    }
+
+    public String getDatetime() {
+        return datetimeLabel.getText();
+    }
+
+}
+```
+###### \java\guitests\guihandles\EventListPanelHandle.java
+``` java
+
+/**
+ * Provides a handle for {@code EventListPanel} containing the list of {@code EventCard}.
+ */
+public class EventListPanelHandle extends NodeHandle<ListView<EventCard>> {
+    public static final String EVENT_LIST_VIEW_ID = "#eventListView";
+
+    private Optional<EventCard> lastRememberedSelectedEventCard;
+
+    public EventListPanelHandle(ListView<EventCard> eventListPanelNode) {
+        super(eventListPanelNode);
+    }
+
+    /**
+     * Returns a handle to the selected {@code EventCardHandle}.
+     * A maximum of 1 item can be selected at any time.
+     * @throws AssertionError if no card is selected, or more than 1 card is selected.
+     */
+    public EventCardHandle getHandleToSelectedCard() {
+        List<EventCard> eventList = getRootNode().getSelectionModel().getSelectedItems();
+
+        if (eventList.size() != 1) {
+            throw new AssertionError("Event list size expected 1.");
+        }
+
+        return new EventCardHandle(eventList.get(0).getRoot());
+    }
+
+    /**
+     * Returns the index of the selected card.
+     */
+    public int getSelectedCardIndex() {
+        return getRootNode().getSelectionModel().getSelectedIndex();
+    }
+
+    /**
+     * Returns true if a card is currently selected.
+     */
+    public boolean isAnyCardSelected() {
+        List<EventCard> selectedCardsList = getRootNode().getSelectionModel().getSelectedItems();
+
+        if (selectedCardsList.size() > 1) {
+            throw new AssertionError("Card list size expected 0 or 1.");
+        }
+
+        return !selectedCardsList.isEmpty();
+    }
+
+    /**
+     * Navigates the listview to display and select the event.
+     */
+    public void navigateToCard(Event event) {
+        List<EventCard> cards = getRootNode().getItems();
+        Optional<EventCard> matchingCard = cards.stream().filter(card -> card.event.equals(event)).findFirst();
+
+        if (!matchingCard.isPresent()) {
+            throw new IllegalArgumentException("Event does not exist.");
+        }
+
+        guiRobot.interact(() -> {
+            getRootNode().scrollTo(matchingCard.get());
+            getRootNode().getSelectionModel().select(matchingCard.get());
+        });
+        guiRobot.pauseForHuman();
+    }
+
+    /**
+     * Returns the event card handle of an event associated with the {@code index} in the list.
+     */
+    public EventCardHandle getEventCardHandle(int index) {
+        return getEventCardHandle((Event) getRootNode().getItems().get(index).event);
+    }
+
+    /**
+     * Returns the {@code EventCardHandle} of the specified {@code event} in the list.
+     */
+    public EventCardHandle getEventCardHandle(Event event) {
+        Optional<EventCardHandle> handle = getRootNode().getItems().stream()
+                .filter(card -> card.event.equals(event))
+                .map(card -> new EventCardHandle(card.getRoot()))
+                .findFirst();
+        return handle.orElseThrow(() -> new IllegalArgumentException("Event does not exist."));
+    }
+
+    /**
+     * Selects the {@code EventCard} at {@code index} in the list.
+     */
+    public void select(int index) {
+        getRootNode().getSelectionModel().select(index);
+    }
+
+    /**
+     * Remembers the selected {@code EventCard} in the list.
+     */
+    public void rememberSelectedEventCard() {
+        List<EventCard> selectedItems = getRootNode().getSelectionModel().getSelectedItems();
+
+        if (selectedItems.size() == 0) {
+            lastRememberedSelectedEventCard = Optional.empty();
+        } else {
+            lastRememberedSelectedEventCard = Optional.of(selectedItems.get(0));
+        }
+    }
+
+    /**
+     * Returns true if the selected {@code EventCard} is different from the value remembered by the most recent
+     * {@code rememberSelectedEventCard()} call.
+     */
+    public boolean isSelectedEventCardChanged() {
+        List<EventCard> selectedItems = getRootNode().getSelectionModel().getSelectedItems();
+
+        if (selectedItems.size() == 0) {
+            return lastRememberedSelectedEventCard.isPresent();
+        } else {
+            return !lastRememberedSelectedEventCard.isPresent()
+                    || !lastRememberedSelectedEventCard.get().equals(selectedItems.get(0));
+        }
+    }
+
+    /**
+     * Returns the size of the list.
+     */
+    public int getListSize() {
+        return getRootNode().getItems().size();
+    }
+}
+```
+###### \java\seedu\address\commons\util\XmlUtilTest.java
+``` java
+    @Test
+    public void saveDataToFile_nullEventFile_throwsNullPointerException() throws Exception {
+        thrown.expect(NullPointerException.class);
+        XmlUtil.saveDataToFile(null, new EventBook());
+    }
+
+    @Test
+    public void saveDataToFile_nullEventClass_throwsNullPointerException() throws Exception {
+        thrown.expect(NullPointerException.class);
+        XmlUtil.saveDataToFile(VALID_TASKBOOK_FILE, null);
+    }
+
+    @Test
+    public void saveDataToFile_missingEventFile_fileNotFoundException() throws Exception {
+        thrown.expect(FileNotFoundException.class);
+        XmlUtil.saveDataToFile(MISSING_FILE, new EventBook());
+    }
+
+```
 ###### \java\seedu\address\logic\commands\AddEventCommandTest.java
 ``` java
 
@@ -74,6 +276,11 @@ public class AddEventCommandTest {
         }
 
         @Override
+        public void resetData(ReadOnlyTaskBook newDate) {
+            fail("This method should not be called.");
+        }
+
+        @Override
         public ReadOnlyAddressBook getAddressBook() {
             fail("This method should not be called.");
             return null;
@@ -81,6 +288,11 @@ public class AddEventCommandTest {
 
         @Override
         public ReadOnlyEventBook getEventBook() {
+            return null;
+        }
+
+        @Override
+        public ReadOnlyTaskBook getTaskBook() {
             return null;
         }
 
@@ -155,10 +367,15 @@ public class AddEventCommandTest {
         public void updateFilteredEventList(Predicate<ReadOnlyEvent> predicate) {
             fail("This method should not be called.");
         }
+
+        @Override
+        public void sortEventList(String parameter) throws CommandException {
+            fail("This method should not be called.");
+        }
     }
 
     /**
-     * A Model stub that always accept the event being added.
+     * A Model stub with working addEvent method but fails irrelevant methods.
      */
     private class ModelStubAcceptingEventAdded extends ModelStub {
         final ArrayList<ReadOnlyEvent> eventsAdded = new ArrayList<>();
@@ -178,6 +395,11 @@ public class AddEventCommandTest {
         public ReadOnlyEventBook getEventBook() {
             return new EventBook();
         }
+
+        @Override
+        public ReadOnlyTaskBook getTaskBook() {
+            return new TaskBook();
+        }
     }
 
 }
@@ -196,8 +418,8 @@ public class AddEventCommandTest {
     public static final String VALID_DESCRIPTION_CHRISTMAS = "Christmas Party at SOC";
     public static final String VALID_LOCATION_CNY = "NUS S16 Level 3";
     public static final String VALID_LOCATION_CHRISTMAS = "NUS COM1";
-    public static final String VALID_DATETIME_CNY = "15-02-2018 1000";
-    public static final String VALID_DATETIME_CHRISTMAS = "24-12-2018 1830";
+    public static final String VALID_DATETIME_CNY = "2018-02-15 1000";
+    public static final String VALID_DATETIME_CHRISTMAS = "2018-12-24 1830";
 
     public static final String TITLE_DESC_CNY = " " + PREFIX_EVENT_TITLE + VALID_TITLE_CNY;
     public static final String TITLE_DESC_CHRISTMAS = " " + PREFIX_EVENT_TITLE + VALID_TITLE_CHRISTMAS;
@@ -209,12 +431,12 @@ public class AddEventCommandTest {
     public static final String DATETIME_DESC_CNY = " " + PREFIX_EVENT_DATETIME + VALID_DATETIME_CNY;
     public static final String DATETIME_DESC_CHRISTMAS = " " + PREFIX_EVENT_DATETIME + VALID_DATETIME_CHRISTMAS;
 
-    public static final String VALID_DATETIME_01 = "01-12-2018 2359";
-    public static final String VALID_DATETIME_29 = "29-12-2018 2359";
-    public static final String VALID_DATETIME_30 = "30-12-2018 2359";
-    public static final String VALID_DATETIME_31 = "31-12-2018 2359";
-    public static final String INVALID_DATETIME_00 = "00-12-2018 2359"; //There is no 00 in the date
-    public static final String INVALID_DATETIME_32 = "32-12-2018 2359"; //There is no 32 in the date
+    public static final String VALID_DATETIME_01 = "2018-12-01 2359";
+    public static final String VALID_DATETIME_29 = "2018-12-29 2359";
+    public static final String VALID_DATETIME_30 = "2018-12-30 2359";
+    public static final String VALID_DATETIME_31 = "2018-12-31 2359";
+    public static final String INVALID_DATETIME_00 = "2018-12-00 2359"; //There is no 00 in the date
+    public static final String INVALID_DATETIME_32 = "2018-12-32 2359"; //There is no 32 in the date
 
     public static final String VALID_DATETIME_DESC_01 = " "
             + PREFIX_EVENT_DATETIME + VALID_DATETIME_01;
@@ -238,7 +460,8 @@ public class AddEventCommandTest {
  */
 public class DeleteEventCommandTest {
 
-    private Model model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
+    private Model model =
+            new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), getTypicalTaskBook(), new UserPrefs());
 
     @Test
     public void execute_validIndexUnfilteredList_success() throws Exception {
@@ -247,7 +470,8 @@ public class DeleteEventCommandTest {
 
         String expectedMessage = String.format(DeleteEventCommand.MESSAGE_DELETE_EVENT_SUCCESS, eventToDelete);
 
-        ModelManager expectedModel = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
+        ModelManager expectedModel =
+                new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), getTypicalTaskBook(), new UserPrefs());
         ReadOnlyEvent expectedEventToDelete = expectedModel.getFilteredEventList()
                 .get(Index.fromOneBased(1).getZeroBased());
         expectedModel.deleteEvent(expectedEventToDelete);
@@ -275,7 +499,8 @@ public class DeleteEventCommandTest {
 
         String expectedMessage = String.format(DeleteEventCommand.MESSAGE_DELETE_EVENT_SUCCESS, eventToDelete);
 
-        Model expectedModel = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
+        Model expectedModel =
+                new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), getTypicalTaskBook(), new UserPrefs());
         ReadOnlyEvent expectedEventToDelete = expectedModel.getFilteredEventList()
                 .get(Index.fromOneBased(1).getZeroBased());
         expectedModel.deleteEvent(expectedEventToDelete);
@@ -355,10 +580,11 @@ public class ExportCommandTest {
     public void setUp() {
         AddressBookStorage addressBookStorage = new XmlAddressBookStorage(getFilePath("addressbook.xml"));
         XmlEventBookStorage eventBookStorage = new XmlEventBookStorage(getFilePath("eb.xml"));
+        TaskBookStorage taskBookStorage = new XmlTaskBookStorage(getFilePath("tb.xml"));
         UserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(getFilePath("preferences.json"));
 
-        storage = new StorageManager(addressBookStorage, eventBookStorage, userPrefsStorage);
-        model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
+        storage = new StorageManager(addressBookStorage, eventBookStorage, taskBookStorage, userPrefsStorage);
+        model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), getTypicalTaskBook(), new UserPrefs());
     }
 
     @Test
@@ -481,7 +707,8 @@ public class ExportCommandTest {
  */
 public class FindEventCommandTest {
 
-    private Model model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
+    private Model model =
+            new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), getTypicalTaskBook(), new UserPrefs());
 
     @Test
     public void equals() {
@@ -521,7 +748,7 @@ public class FindEventCommandTest {
     public void execute_multipleKeywords_multiplePersonsFound() {
         String expectedMessage = String.format(MESSAGE_EVENTS_LISTED_OVERVIEW, 3);
         FindEventCommand command = prepareCommand("CNY Christmas Movie");
-        assertCommandSuccess(command, expectedMessage, Arrays.asList(CNY, CHRISTMAS, MOVIE));
+        assertCommandSuccess(command, expectedMessage, Arrays.asList(CHRISTMAS, CNY, MOVIE));
     }
 
     /**
@@ -565,8 +792,9 @@ public class ListAllEventsCommandTest {
 
     @Before
     public void setUp() {
-        model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), new UserPrefs());
-        expectedModel = new ModelManager(model.getAddressBook(), model.getEventBook(), new UserPrefs());
+        model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), getTypicalTaskBook(), new UserPrefs());
+        expectedModel =
+                new ModelManager(model.getAddressBook(), model.getEventBook(), model.getTaskBook(), new UserPrefs());
 
         listEventCommand = new ListAllEventsCommand();
         listEventCommand.setData(model, new CommandHistory(), new UndoRedoStack());
@@ -592,6 +820,173 @@ public class ListAllEventsCommandTest {
         assertCommandSuccess(listEventCommand, model, expectedMessage, expectedModel);
     }
 }
+```
+###### \java\seedu\address\logic\commands\SortEventCommandTest.java
+``` java
+
+public class SortEventCommandTest {
+    private Model model;
+    private Model expectedModel;
+
+    private String firstParameter;
+    private String secondParameter;
+    private String thirdParameter;
+
+    @Before
+    public void setUp() {
+        // all possible parameters declared here
+        firstParameter = "TITLE";
+        secondParameter = "LOCATION";
+        thirdParameter = "DATETIME";
+
+        model = new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), getTypicalTaskBook(), new UserPrefs());
+        expectedModel =
+                new ModelManager(model.getAddressBook(), model.getEventBook(), model.getTaskBook(), new UserPrefs());
+
+    }
+
+    @Test
+    public void execute_listIsOrdered_showsEverything() {
+        SortEventCommand command = prepareCommand(firstParameter);
+        assertCommandSuccess(command, model, SortEventCommand.MESSAGE_SORT_SUCCESS
+                + firstParameter, expectedModel);
+    }
+
+    @Test
+    public void execute_emptyParameter_listNotSorted() throws CommandException {
+        SortEventCommand command = prepareCommand("");
+        assertSortSuccess(command, SortEventCommand.MESSAGE_SORT_WRONG_PARAMETER,
+                Arrays.asList(CHRISTMAS, CNY, MOVIE, REUNION));
+    }
+
+    @Test
+    public void execute_whitespaceParameter_listNotSorted() throws CommandException {
+        SortEventCommand command = prepareCommand(" ");
+        assertSortSuccess(command, SortEventCommand.MESSAGE_SORT_WRONG_PARAMETER,
+                Arrays.asList(CHRISTMAS, CNY, MOVIE, REUNION));
+    }
+
+    @Test
+    public void execute_titleParameter_listSorted() throws CommandException {
+        SortEventCommand command = prepareCommand(firstParameter);
+        assertSortSuccess(command, SortEventCommand.MESSAGE_SORT_SUCCESS + firstParameter,
+                Arrays.asList(CHRISTMAS, CNY, MOVIE, REUNION));
+    }
+
+
+    @Test
+    public void execute_locationParameter_listSorted() throws CommandException {
+        SortEventCommand command = prepareCommand(secondParameter);
+        assertSortSuccess(command, SortEventCommand.MESSAGE_SORT_SUCCESS + secondParameter,
+                Arrays.asList(CHRISTMAS, CNY, MOVIE, REUNION));
+    }
+
+    @Test
+    public void execute_datetimeParameter_listSorted() throws CommandException {
+        SortEventCommand command = prepareCommand(thirdParameter);
+        assertSortSuccess(command, SortEventCommand.MESSAGE_SORT_SUCCESS + thirdParameter,
+                // list order is backwards, from latest event to oldest event
+                Arrays.asList(REUNION, MOVIE, CNY, CHRISTMAS));
+    }
+
+    @Test
+    public void equals() {
+        final SortEventCommand standardCommand = new SortEventCommand(firstParameter);
+
+        // same values -> returns true
+        SortEventCommand commandWithSameValues = new SortEventCommand("TITLE");
+        assertTrue(standardCommand.equals(commandWithSameValues));
+
+        // same object -> returns true
+        assertTrue(standardCommand.equals(standardCommand));
+
+        // null -> returns false
+        assertFalse(standardCommand.equals(null));
+
+        // different parameter -> returns false
+        assertFalse(standardCommand.equals(new SortEventCommand(secondParameter)));
+        assertFalse(standardCommand.equals(new SortEventCommand(thirdParameter)));
+
+    }
+
+    /**
+     * Generates a new OrderCommand
+     */
+    private SortEventCommand prepareCommand(String parameter) {
+        SortEventCommand sortEventCommand = new SortEventCommand(parameter);
+        sortEventCommand.setData(model, new CommandHistory(), new UndoRedoStack());
+        return sortEventCommand;
+    }
+
+    /**
+     * Asserts that {@code command} is successfully executed, and<br>
+     * * - the command feedback is equal to {@code expectedMessage}<br>
+     * - the {@code FilteredList<ReadOnlyEvent>} is equal to {@code expectedList}<br>
+     */
+    private void assertSortSuccess(SortEventCommand command, String expectedMessage,
+                                   List<ReadOnlyEvent> expectedList) throws CommandException {
+        CommandResult commandResult = command.executeUndoableCommand();
+
+        assertEquals(expectedMessage, commandResult.feedbackToUser);
+        assertEquals(expectedList, model.getFilteredEventList());
+    }
+
+}
+```
+###### \java\seedu\address\logic\parser\AddressBookParserTest.java
+``` java
+
+    @Test
+    public void parseCommand_addEvent() throws Exception {
+        Event event = new EventBuilder().build();
+        AddEventCommand command = (AddEventCommand) parser.parseCommand(AddEventCommand.COMMAND_WORD + " "
+                + event.getEventDetails());
+        assertEquals(new AddEventCommand(event), command);
+    }
+
+    @Test
+    public void parseCommand_deleteEvent() throws Exception {
+        DeleteEventCommand command = (DeleteEventCommand) parser.parseCommand(
+                DeleteEventCommand.COMMAND_WORD + " " + Index.fromOneBased(1).getOneBased());
+        assertEquals(new DeleteEventCommand(Index.fromOneBased(1)), command);
+    }
+
+    @Test
+    public void parseCommand_findEvent() throws Exception {
+        List<String> keywords = Arrays.asList("movie", "date", "party");
+        FindEventCommand command = (FindEventCommand) parser.parseCommand(
+                FindEventCommand.COMMAND_WORD + " et/" + keywords.stream().collect(Collectors.joining(" ")));
+        assertEquals(new FindEventCommand(new TitleContainsKeywordsPredicate(keywords)), command);
+    }
+
+    @Test
+    public void parseCommand_sortEvent() throws Exception {
+        assertTrue(parser.parseCommand(SortEventCommand.COMMAND_WORD + " TITLE") instanceof SortEventCommand);
+    }
+
+    @Test
+    public void parseCommand_clearEvents() throws Exception {
+        assertTrue(parser.parseCommand(ClearEventsCommand.COMMAND_WORD) instanceof ClearEventsCommand);
+        assertTrue(parser.parseCommand(ClearEventsCommand.COMMAND_WORD + " 3") instanceof ClearEventsCommand);
+    }
+
+    @Test
+    public void parseCommand_listAllEvents() throws Exception {
+        assertTrue(parser.parseCommand(ListAllEventsCommand.COMMAND_WORD) instanceof ListAllEventsCommand);
+        assertTrue(parser.parseCommand(ListAllEventsCommand.COMMAND_WORD + " 3") instanceof ListAllEventsCommand);
+    }
+
+    @Test
+    public void parseCommand_jumpto() throws Exception {
+        assertTrue(parser.parseCommand(JumpToCommand.COMMAND_WORD + " 2018-05") instanceof JumpToCommand);
+    }
+
+    @Test
+    public void parseCommand_switchtab() throws Exception {
+        assertTrue(parser.parseCommand(SwitchTabCommand.COMMAND_WORD) instanceof SwitchTabCommand);
+        assertTrue(parser.parseCommand(SwitchTabCommand.COMMAND_WORD + " 3") instanceof SwitchTabCommand);
+    }
+
 ```
 ###### \java\seedu\address\logic\parser\DeleteEventCommandParserTest.java
 ``` java
@@ -729,6 +1124,44 @@ public class JumpToCommandParserTest {
 
 }
 ```
+###### \java\seedu\address\logic\parser\SortEventCommandParserTest.java
+``` java
+
+public class SortEventCommandParserTest {
+
+    private SortEventCommandParser parser = new SortEventCommandParser();
+
+    @Test
+    public void parse_emptyArg_throwsParseException() {
+        assertParseFailure(parser, "",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortEventCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_whitespaceArg_throwsParseException() {
+        assertParseFailure(parser, " ",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortEventCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_validArgs_returnsFindCommand() {
+
+        SortEventCommand expectedSortTitleCommand = new SortEventCommand("TITLE");
+        SortEventCommand expectedSortLocationCommand = new SortEventCommand("LOCATION");
+        SortEventCommand expectedSortDatetimeCommand = new SortEventCommand("DATETIME");
+
+        //same value
+        assertParseSuccess(parser, "TITLE", expectedSortTitleCommand);
+        assertParseSuccess(parser, "LOCATION", expectedSortLocationCommand);
+        assertParseSuccess(parser, "DATETIME", expectedSortDatetimeCommand);
+
+        //case insensitive
+        assertParseSuccess(parser, "tITLe", expectedSortTitleCommand);
+        assertParseSuccess(parser, "LOCAtion", expectedSortLocationCommand);
+        assertParseSuccess(parser, "DATetimE", expectedSortDatetimeCommand);
+    }
+}
+```
 ###### \java\seedu\address\model\event\DatetimeTest.java
 ``` java
 
@@ -739,21 +1172,21 @@ public class DatetimeTest {
         // invalid datetimes
         assertFalse(Datetime.isValidDatetime("")); // empty string
         assertFalse(Datetime.isValidDatetime(" ")); // whitespace only
-        assertFalse(Datetime.isValidDatetime("01042018")); // numbers only
+        assertFalse(Datetime.isValidDatetime("20180401")); // numbers only
         assertFalse(Datetime.isValidDatetime("1st April 2018")); // characters only
         assertFalse(Datetime.isValidDatetime("test123")); // numbers and characters
-        assertFalse(Datetime.isValidDatetime("1-09-2018 1845")); // invalid date format
-        assertFalse(Datetime.isValidDatetime("29-02-2018 1915")); // invalid day
-        assertFalse(Datetime.isValidDatetime("02-13-2018 2030")); // invalid month
-        assertFalse(Datetime.isValidDatetime("02-09-18 2030")); // invalid year
-        assertFalse(Datetime.isValidDatetime("02-09-2018 2410")); // invalid hour
-        assertFalse(Datetime.isValidDatetime("02-09-2018 2060")); // invalid minute
+        assertFalse(Datetime.isValidDatetime("2018-09-1 1845")); // invalid date format
+        assertFalse(Datetime.isValidDatetime("2018-02-29 1915")); // invalid day
+        assertFalse(Datetime.isValidDatetime("2018-13-02 2030")); // invalid month
+        assertFalse(Datetime.isValidDatetime("18-09-02 2030")); // invalid year
+        assertFalse(Datetime.isValidDatetime("2018-09-02 2410")); // invalid hour
+        assertFalse(Datetime.isValidDatetime("2018-09-02 2060")); // invalid minute
 
         // valid datetimes
-        assertTrue(Datetime.isValidDatetime("01-02-2018 0800"));
-        assertTrue(Datetime.isValidDatetime("29-05-2018 1030"));
-        assertTrue(Datetime.isValidDatetime("30-10-2018 1345"));
-        assertTrue(Datetime.isValidDatetime("31-12-2018 2015"));
+        assertTrue(Datetime.isValidDatetime("2018-02-01 0800"));
+        assertTrue(Datetime.isValidDatetime("2018-05-29 1030"));
+        assertTrue(Datetime.isValidDatetime("2018-10-30 1345"));
+        assertTrue(Datetime.isValidDatetime("2018-12-31 2015"));
     }
 }
 ```
@@ -933,10 +1366,11 @@ public class XmlEventBookStorageTest {
     }
 
     @Test
-    public void getEventList_modifyList_throwsUnsupportedOperationException() {
+    public void getEventList_modifyList_throwsUnsupportedOperationException()
+            throws IllegalValueException, CommandException {
         XmlSerializableEventBook eventBook = new XmlSerializableEventBook();
         thrown.expect(UnsupportedOperationException.class);
-        eventBook.getEventList().remove(0);
+        eventBook.toModelType().getEventList().remove(0);
     }
 
     /**
@@ -958,6 +1392,81 @@ public class XmlEventBookStorageTest {
     }
 }
 ```
+###### \java\seedu\address\testutil\EventBuilder.java
+``` java
+
+/**
+ * A utility class to help with building Event objects.
+ */
+public class EventBuilder {
+
+    public static final String DEFAULT_TITLE = "Halloween Horror Night";
+    public static final String DEFAULT_DESCRIPTION = "Terrifying Night";
+    public static final String DEFAULT_LOCATION = "Universal Studio";
+    public static final String DEFAULT_DATETIME = "2017-10-13 2359";
+
+    private Event event;
+
+    public EventBuilder() {
+        try {
+            String defaultTitle = new String(DEFAULT_TITLE);
+            String defaultDescription = new String(DEFAULT_DESCRIPTION);
+            String defaultLocation = new String(DEFAULT_LOCATION);
+            Datetime defaultDatetime = new Datetime(DEFAULT_DATETIME);
+            this.event = new Event(defaultTitle, defaultDescription, defaultLocation, defaultDatetime);
+        } catch (IllegalValueException e) {
+            throw new AssertionError("Incorrect input given!");
+        }
+    }
+
+    /**
+     * Initializes the EventBuilder with the data of {@code eventToCopy}.
+     */
+    public EventBuilder(ReadOnlyEvent eventToCopy) {
+        this.event = new Event(eventToCopy);
+    }
+
+    /**
+     * Sets the {@code title} of the {@code Event} that we are building.
+     */
+    public EventBuilder withTitle(String title) {
+        this.event.setTitle(new String(title));
+        return this;
+    }
+
+    /**
+     * Sets the {@code description} of the {@code Event} that we are building.
+     */
+    public EventBuilder withDescription(String description) {
+        this.event.setDescription(new String(description));
+        return this;
+    }
+
+    /**
+     * Sets the {@code location} of the {@code Event} that we are building.
+     */
+    public EventBuilder withLocation(String location) {
+        this.event.setLocation(new String(location));
+        return this;
+    }
+
+    /**
+     * Sets the {@code datetime} of the {@code Event} that we are building.
+     */
+    public EventBuilder withDatetime(String datetime) {
+        try {
+            this.event.setDatetime(new Datetime(datetime));
+        } catch (IllegalValueException e) {
+            throw new AssertionError("Incorrect input given!");
+        }
+        return this;
+    }
+
+    public Event build() {
+        return this.event;
+    }
+}
+```
 ###### \java\seedu\address\testutil\TypicalEvents.java
 ``` java
 
@@ -966,18 +1475,18 @@ public class XmlEventBookStorageTest {
  */
 public class TypicalEvents {
 
-    public static final ReadOnlyEvent CNY = new EventBuilder().withTitle("CNY")
-            .withDescription("CNY Celebration at FOS").withLocation("NUS S16 Level 3")
-            .withDatetime("15-02-2018 1000").build();
     public static final ReadOnlyEvent CHRISTMAS = new EventBuilder().withTitle("Christmas")
             .withDescription("Christmas Party at SOC").withLocation("NUS COM1")
-            .withDatetime("24-12-2018 1830").build();
+            .withDatetime("2017-12-24 1830").build();
+    public static final ReadOnlyEvent CNY = new EventBuilder().withTitle("CNY")
+            .withDescription("CNY Celebration at FOS").withLocation("NUS S16 Level 3")
+            .withDatetime("2018-02-15 1000").build();
     public static final ReadOnlyEvent MOVIE = new EventBuilder().withTitle("Movie Outing")
             .withDescription("Black Panther Movie").withLocation("Suntec GV")
-            .withDatetime("21-04-2018 1500").build();
-    public static final ReadOnlyEvent REUNION = new EventBuilder().withTitle("Class Reunion")
-            .withDescription("With Secondary School Classmates").withLocation("Samantha's House")
-            .withDatetime("06-05-2018 1730").build();
+            .withDatetime("2018-04-21 1500").build();
+    public static final ReadOnlyEvent REUNION = new EventBuilder().withTitle("Secondary School Class Reunion")
+            .withDescription("With Secondary School Classmates").withLocation("Vivian's House")
+            .withDatetime("2018-05-06 1730").build();
 
     private TypicalEvents() {
         // prevents instantiation
@@ -1001,7 +1510,7 @@ public class TypicalEvents {
     }
 
     public static List<ReadOnlyEvent> getTypicalEvents() {
-        return new ArrayList<>(Arrays.asList(CNY, CHRISTMAS, MOVIE, REUNION));
+        return new ArrayList<>(Arrays.asList(CHRISTMAS, CNY, MOVIE, REUNION));
     }
 }
 ```
