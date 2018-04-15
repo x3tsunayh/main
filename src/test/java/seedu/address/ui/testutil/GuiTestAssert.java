@@ -11,6 +11,7 @@ import guitests.guihandles.PersonCardHandle;
 import guitests.guihandles.PersonListPanelHandle;
 import guitests.guihandles.ResultDisplayHandle;
 import seedu.address.model.event.Event;
+import seedu.address.model.event.ReadOnlyEvent;
 import seedu.address.model.person.Person;
 
 /**
@@ -30,6 +31,17 @@ public class GuiTestAssert {
     }
 
     /**
+     * Asserts that {@code actualCard} displays the same values as {@code expectedCard}.
+     */
+    public static void assertCardEquals(EventCardHandle expectedCard, EventCardHandle actualCard) {
+        assertEquals(expectedCard.getId(), actualCard.getId());
+        assertEquals(expectedCard.getTitle(), actualCard.getTitle());
+        assertEquals(expectedCard.getDescription(), actualCard.getDescription());
+        assertEquals(expectedCard.getLocation(), actualCard.getLocation());
+        assertEquals(expectedCard.getDatetime(), actualCard.getDatetime());
+    }
+
+    /**
      * Asserts that {@code actualCard} displays the details of {@code expectedPerson}.
      */
     public static void assertCardDisplaysPerson(Person expectedPerson, PersonCardHandle actualCard) {
@@ -44,7 +56,17 @@ public class GuiTestAssert {
     /**
      * Asserts that {@code actualCard} displays the details of {@code expectedEvent}.
      */
-    public static void assertCardDisplaysEvent(Event expectedEvent, EventCardHandle actualCard) {
+    public static void assertCardDisplaysPerson(Event expectedEvent, EventCardHandle actualCard) {
+        assertEquals(expectedEvent.getTitle(), actualCard.getTitle());
+        assertEquals(expectedEvent.getDescription(), actualCard.getDescription());
+        assertEquals(expectedEvent.getLocation(), actualCard.getLocation());
+        assertEquals(expectedEvent.getDatetime().value, actualCard.getDatetime());
+    }
+
+    /**
+     * Asserts that {@code actualCard} displays the details of {@code expectedEvent}.
+     */
+    public static void assertCardDisplaysEvent(ReadOnlyEvent expectedEvent, EventCardHandle actualCard) {
         assertEquals(expectedEvent.getTitle(), actualCard.getTitle());
         assertEquals(expectedEvent.getDescription(), actualCard.getDescription());
         assertEquals(expectedEvent.getLocation(), actualCard.getLocation());

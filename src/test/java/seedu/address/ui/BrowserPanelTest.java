@@ -8,7 +8,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import guitests.guihandles.BrowserPanelHandle;
-import guitests.guihandles.LinkedInWindowHandle;
 import javafx.stage.Stage;
 import org.junit.Before;
 import org.junit.Test;
