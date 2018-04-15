@@ -112,7 +112,7 @@ Examples:
 
 * `deletebyname john doe` +
 Deletes the contact whose name matches john doe.
-// tag::deletebyname[]
+// end::deletebyname[]
 
 === Editing a person : `edit`
 

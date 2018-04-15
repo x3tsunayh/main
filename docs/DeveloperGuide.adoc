@@ -438,7 +438,7 @@ User can upload any image. +
 **Cons:** +
 App may be unstable if too many large images.
 
-// end::addpicure[]
+// end::addpicture[]
 
 // tag::resetpicture[]
 === Reset Profile Picture feature
@@ -467,8 +467,9 @@ Create a new picture object. +
 **Pros:** +
 Easier if developer decides to change the path of the default picture, or the properties of the Picture class +
 **Cons:** +
-Creating a new object each time may incur some overhead, but probably insignificant on a modern PC.
-// end::resetpicure[]
+Creating a new object each time may incur some overhead, but probably insignificant on a modern PC. +
+
+// end::resetpicture[]
 
 // tag::findFeature[]
 === Find feature
@@ -509,9 +510,11 @@ It is modify such that able to find by name and tag by specifying the type to be
 . The `FindCommandParse` will compare the search type to check if search is by tag and parse the keywords to `FindCommand`
 . The `FindCommand` object is created, and assisted by `PhoneContainsKeywordsPredicate` to obtain the result.
 . The  result is then return and displayed to the user.
-//end::findFeature[]
 
-// tag::addtag[]
+// end::findFeature[]
+
+// tag::addTAG[]
+
 === Add Tag to Contact
 
 The add tag command inherits from `UndoableCommand`.
@@ -530,9 +533,10 @@ image::AddTagSequenceDiagram.PNG[width="800"]
 . The new `Tag` is attached to the `Person` at `INDEX`.
 . `updatePerson` in `ModelManager` updates the person at `INDEX` with a new person with the added tags.
 
-// end::addtag[]
+// end::addTAG[]
 
 // tag::deletebyname[]
+
 === Delete Contact by Name
 ==== Current Implementation
 The Delete Contact by Name command inherits from `UndoableCommand`.
