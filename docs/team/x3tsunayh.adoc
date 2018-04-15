@@ -16,7 +16,7 @@ thus the above features will be useful for them as they can access all of them i
 of a separate application for each individual purpose.
 
 At any point in time, the businessman can refer to the calendar and its event list to keep track of upcoming major events, thereby allowing a clear idea on
-what his current schedule is like. In addition, the task list comes in handy to update the businessman of pending tasks and the tasks’ urgency.
+what his current schedule is like. In addition, the task list comes in handy to update the user of pending tasks and the tasks’ urgency.
 This helps them prioritise what needs to be done first.
 
 Besides that, traveling in foreign countries also involves the hassle of not knowing the appropriate amount of money to change.
@@ -30,10 +30,10 @@ image::Ui.png[width="790"]
 
 == Summary of contributions
 
-* *Major enhancement*: Event feature to facilitate *event management*
+* *Major enhancement*: Event feature to facilitate *event management* (PRs https://github.com/CS2103JAN2018-T15-B4/main/pull/58[#58], https://github.com/CS2103JAN2018-T15-B4/main/pull/61[#61], https://github.com/CS2103JAN2018-T15-B4/main/pull/69[#69], https://github.com/CS2103JAN2018-T15-B4/main/pull/80[#80], https://github.com/CS2103JAN2018-T15-B4/main/pull/139[#139])
 
 ** *What it does*:
-It allows the businessman to add, delete, find, and list all tasks.
+It allows the businessman to add, delete, find, sort and list all events.
 Each event consists of a title, description, location, date and time.
 
 ** *Justification*:
@@ -44,12 +44,20 @@ is able to visually display the days of a month with events. In addition, each l
 ongoing, or already over. This facilitates convenient event management as the user is able to list down all events and gain a brief overview of his schedule.
 With these functionalities, the user does not need to worry about forgetting an event ever again!
 
-** *Highlights*: This enhancements involves an Event Book that works hand-in-hand with the Address Book under a single application for businessmen when it comes
+** *Highlights*: This epic enhancement involves an Event Book that works hand-in-hand with the Address Book under a single application for businessmen when it comes
 to managing contacts and events. The implementation was difficult as a new Event Book system had to be constructed, which compromised of many classes working together.
 
-* *Minor enhancement*: Added an Export Command which exports the contacts on the Address Book into either XML or CSV files.
+* *Minor enhancement*: Added an Export Command which exports the contacts on the Address Book into either XML or CSV files. (PRs https://github.com/CS2103JAN2018-T15-B4/main/pull/12 [#12], https://github.com/CS2103JAN2018-T15-B4/main/pull/93[#93])
 XML files allows for easy exportability across other platforms requiring the use of contacts stored in XML format, while the
 exported CSV file is designed to help the user import contacts from the Address Book into his Google Contacts.
+
+* *Minor enhancement*: Enabled Google searching for contact names. (PR https://github.com/CS2103JAN2018-T15-B4/main/pull/124 [#124])
+Many well-known businessmen often have online media reports and biographies available on the Internet,
+therefore a Google search command was added to ease that process when the user wants to know more about a certain contact in his Address Book.
+
+* *Minor enhancement*: Added hotkeys for LinkedIn and Google Chrome pages. (PR https://github.com/CS2103JAN2018-T15-B4/main/pull/124 [#124])
+LinkedIn is a popular alternative for social networking to the traditional form of exchanging namecards. This functionality allows easy access to the widely-used
+social media for businessmen at the press of a button. A browser has also been added to aid the user when he needs to search for something online.
 
 * *Code contributed*: [https://github.com/CS2103JAN2018-T15-B4/main/tree/master/collated/functional/x3tsunayh.md[Functional code]] [https://github.com/CS2103JAN2018-T15-B4/main/tree/master/collated/test/x3tsunayh.md[Test code]]
 
@@ -57,16 +65,15 @@ exported CSV file is designed to help the user import contacts from the Address 
 
 ** Project management:
 *** Managed releases `v1.3` - `v1.5rc` (3 releases) on GitHub
-*** Set up Travis and Coveralls
+*** Set up Travis and Coveralls (https://github.com/CS2103JAN2018-T15-B4/main/pull/18[#18]
+** Enhancements to existing features:
 ** Documentation:
 *** Wrote use cases for implemented features
 *** Wrote user stories, project description in Project Portfolio with team
 ** Community:
-*** Reported bugs and suggestions for other teams in the class (examples:  https://github.com/CS2103JAN2018-W09-B3/main/issues/115, https://github.com/CS2103JAN2018-W09-B3/main/issues/116, https://github.com/CS2103JAN2018-W09-B3/main/issues/123)
-
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+*** Reported bugs and suggestions for other teams in the class (examples:  https://github.com/CS2103JAN2018-W09-B3/main/issues/115[#115], https://github.com/CS2103JAN2018-W09-B3/main/issues/116[#116], https://github.com/CS2103JAN2018-W09-B3/main/issues/123[#123])
+*** Addressed all bugs collected during the peer review testing session (
 == Contributions to the User Guide
-
 
 |===
 |_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
@@ -88,6 +95,16 @@ include::../UserGuide.adoc[tag=clearevents]
 
 include::../UserGuide.adoc[tag=jumpto]
 
+include::../UserGuide.adoc[tag=linkedinhotkey]
+
+include::../UserGuide.adoc[tag=googlehotkey]
+
+include::../UserGuide.adoc[tag=editevent]
+
+include::../UserGuide.adoc[tag=eventnotifications]
+
+include::../UserGuide.adoc[tag=dataencryption]
+
 == Contributions to the Developer Guide
 
 |===
@@ -101,3 +118,9 @@ include::../DeveloperGuide.adoc[tag=calendarview]
 include::../DeveloperGuide.adoc[tag=addevent]
 
 include::../DeveloperGuide.adoc[tag=deleteevent]
+
+include::../DeveloperGuide.adoc[tag=editevent]
+
+include::../DeveloperGuide.adoc[tag=eventnotifications]
+
+include::../DeveloperGuide.adoc[tag=dataencryption]

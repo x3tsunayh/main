@@ -615,7 +615,7 @@ image::AddEventSequenceDiagram.png[width="800"]
 === Delete Event feature
 ==== Current Implementation
 
-The delete event feature allows user to delete an event in the Event Book by specifying the index of the displayed Event List.
+The delete event feature allows the user to delete an event in the Event Book by specifying the index of the displayed Event List.
 Allows easy deletion of an event according to the event index listed in the Event list.
 
 This sequence diagram shows how the delete event command works under LogicManager.
@@ -633,6 +633,37 @@ The following sequence diagram illustrates how the event is removed under ModelM
 image::DeleteEventSequenceDiagram.png[width="800"]
 
 // end::deleteevent[]
+
+@@@
+// tag::findevent[]
+=== Find Event feature
+==== Current Implementation
+
+The find event feature allows the user to search all events in the Event Book for a particular keyword.
+The user specifies the field to search under (Title, Location, Datetime) and the keyword argument(s).
+
+. User executes `findevent` command with the required arguments.
+. `AddressBookParser` class creates a new `FindEventCommandParser` object to parse the command arguments.
+. This `FindEventCommandParser` object parses the arguments and create a new `FindEventCommand` object.
+. The `findevent` command is then executed and handled by the `ModelManager` class.
+. Events with matching keywords under the specified field will be updated in the displayed event list and shown to the user.
+
+// end::findevent[]
+
+// tag::clearevents[]
+=== Clear Events feature
+==== Current Implementation
+
+The clear events feature allows the user to clear all events in the Event Book.
+It extends UndoableCommand in case the command was unintentionally called.
+
+. User executes `clearevents` command.
+. `AddressBookParser` class creates a new `ClearEventsCommand` object to execute the command.
+. This `ClearEventsCommand` object calls the `resetData` method under the app's `model` to reset the data with a new `EventBook`.
+. The new (empty) Event list is then updated in the app and displayed to the user.
+
+// end::clearevents[]
+@@@
 
 // tag::jumpto[]
 

@@ -6,6 +6,8 @@ import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.testutil.TypicalAddressBook.getTypicalAddressBook;
 import static seedu.address.testutil.TypicalEvents.getTypicalEventBook;
+import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_EVENT;
+import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_EVENT;
 import static seedu.address.testutil.TypicalTasks.getTypicalTaskBook;
 
 import java.util.Arrays;
@@ -34,15 +36,15 @@ public class DeleteEventCommandTest {
 
     @Test
     public void execute_validIndexUnfilteredList_success() throws Exception {
-        ReadOnlyEvent eventToDelete = model.getFilteredEventList().get(Index.fromOneBased(1).getZeroBased());
-        DeleteEventCommand deleteEventCommand = prepareCommand(Index.fromOneBased(1));
+        ReadOnlyEvent eventToDelete = model.getFilteredEventList().get(INDEX_FIRST_EVENT.getZeroBased());
+        DeleteEventCommand deleteEventCommand = prepareCommand(INDEX_FIRST_EVENT);
 
         String expectedMessage = String.format(DeleteEventCommand.MESSAGE_DELETE_EVENT_SUCCESS, eventToDelete);
 
         ModelManager expectedModel =
                 new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), getTypicalTaskBook(), new UserPrefs());
         ReadOnlyEvent expectedEventToDelete = expectedModel.getFilteredEventList()
-                .get(Index.fromOneBased(1).getZeroBased());
+                .get(INDEX_FIRST_EVENT.getZeroBased());
         expectedModel.deleteEvent(expectedEventToDelete);
 
         assertCommandSuccess(deleteEventCommand, model, expectedMessage, expectedModel);
@@ -63,15 +65,15 @@ public class DeleteEventCommandTest {
         // checks if filtered event list only has one event here
         assert model.getFilteredEventList().size() == 1;
 
-        ReadOnlyEvent eventToDelete = model.getFilteredEventList().get(Index.fromOneBased(1).getZeroBased());
-        DeleteEventCommand deleteEventCommand = prepareCommand(Index.fromOneBased(1));
+        ReadOnlyEvent eventToDelete = model.getFilteredEventList().get(INDEX_FIRST_EVENT.getZeroBased());
+        DeleteEventCommand deleteEventCommand = prepareCommand(INDEX_FIRST_EVENT);
 
         String expectedMessage = String.format(DeleteEventCommand.MESSAGE_DELETE_EVENT_SUCCESS, eventToDelete);
 
         Model expectedModel =
                 new ModelManager(getTypicalAddressBook(), getTypicalEventBook(), getTypicalTaskBook(), new UserPrefs());
         ReadOnlyEvent expectedEventToDelete = expectedModel.getFilteredEventList()
-                .get(Index.fromOneBased(1).getZeroBased());
+                .get(INDEX_FIRST_EVENT.getZeroBased());
         expectedModel.deleteEvent(expectedEventToDelete);
         showNoEvent(expectedModel);
 
@@ -96,14 +98,14 @@ public class DeleteEventCommandTest {
 
     @Test
     public void equals() {
-        DeleteEventCommand deleteFirstEventCommand = new DeleteEventCommand(Index.fromOneBased(1));
-        DeleteEventCommand deleteSecondEventCommand = new DeleteEventCommand(Index.fromOneBased(2));
+        DeleteEventCommand deleteFirstEventCommand = new DeleteEventCommand(INDEX_FIRST_EVENT);
+        DeleteEventCommand deleteSecondEventCommand = new DeleteEventCommand(INDEX_SECOND_EVENT);
 
         // same object -> returns true
         assertTrue(deleteFirstEventCommand.equals(deleteFirstEventCommand));
 
         // same values -> returns true
-        DeleteEventCommand deleteFirstEventCommandCopy = new DeleteEventCommand(Index.fromOneBased(1));
+        DeleteEventCommand deleteFirstEventCommandCopy = new DeleteEventCommand(INDEX_FIRST_EVENT);
         assertTrue(deleteFirstEventCommand.equals(deleteFirstEventCommandCopy));
 
         // different types -> returns false

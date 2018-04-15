@@ -10,9 +10,11 @@ import guitests.guihandles.EventListPanelHandle;
 import guitests.guihandles.PersonCardHandle;
 import guitests.guihandles.PersonListPanelHandle;
 import guitests.guihandles.ResultDisplayHandle;
+import guitests.guihandles.TaskCardHandle;
 import seedu.address.model.event.Event;
 import seedu.address.model.event.ReadOnlyEvent;
 import seedu.address.model.person.Person;
+import seedu.address.model.task.Task;
 
 /**
  * A set of assertion methods useful for writing GUI tests.
@@ -39,6 +41,17 @@ public class GuiTestAssert {
         assertEquals(expectedCard.getDescription(), actualCard.getDescription());
         assertEquals(expectedCard.getLocation(), actualCard.getLocation());
         assertEquals(expectedCard.getDatetime(), actualCard.getDatetime());
+    }
+
+    /**
+     * Asserts that {@code actualCard} displays the same values as {@code expectedCard}.
+     */
+    public static void assertCardEquals(TaskCardHandle expectedCard, TaskCardHandle actualCard) {
+        assertEquals(expectedCard.getId(), actualCard.getId());
+        assertEquals(expectedCard.getTaskTitle(), actualCard.getTaskTitle());
+        assertEquals(expectedCard.getTaskDescription(), actualCard.getTaskDescription());
+        assertEquals(expectedCard.getTaskDueDate(), actualCard.getTaskDueDate());
+        assertEquals(expectedCard.getTaskPriority(), actualCard.getTaskPriority());
     }
 
     /**
@@ -71,6 +84,18 @@ public class GuiTestAssert {
         assertEquals(expectedEvent.getDescription(), actualCard.getDescription());
         assertEquals(expectedEvent.getLocation(), actualCard.getLocation());
         assertEquals(expectedEvent.getDatetime().value, actualCard.getDatetime());
+    }
+
+    /**
+     * Asserts that {@code actualCard} displays the details of {@code expectedTask}.
+     */
+    public static void assertCardDisplaysTask(Task expectedTask, TaskCardHandle actualCard) {
+        assertEquals(expectedTask.getTaskName().value, actualCard.getTaskTitle());
+        assertEquals(expectedTask.getTaskDescription().value, actualCard.getTaskDescription());
+        if (expectedTask.getTaskStatus().equals("undone")) {
+            assertEquals(expectedTask.getTaskDueDate().value, actualCard.getTaskDueDate());
+            assertEquals(expectedTask.getTaskPriority().value.toUpperCase(), actualCard.getTaskPriority());
+        }
     }
 
     /**
