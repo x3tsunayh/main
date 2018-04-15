@@ -1,4 +1,33 @@
 # jill858
+###### \data\XmlSerializableAddressBookTest\typicalAddressBook.xml
+``` xml
+    <persons>
+        <name>Harry Styles</name>
+        <phone>84821222</phone>
+        <email>harry@example.com</email>
+        <address>chinatown street</address>
+        <tagged>colleagues</tagged>
+        <tagged>family</tagged>
+    </persons>
+    <persons>
+        <name>Ian Kurz</name>
+        <phone>94839221</phone>
+        <email>ian@example.com</email>
+        <address>cross road 10</address>
+        <tagged>classmates</tagged>
+        <tagged>owesMoney</tagged>
+    </persons>
+    <persons>
+        <name>Keith Loh</name>
+        <phone>84123922</phone>
+        <email>keith@example.com</email>
+        <address>5th avenue</address>
+        <tagged>classmates</tagged>
+    </persons>
+    <tags>friends</tags>
+    <tags>owesMoney</tags>
+</addressbook>
+```
 ###### \java\seedu\address\commons\util\DateUtilTest.java
 ``` java
     @Test
@@ -345,6 +374,9 @@ public class ConvertCommandParserTest {
 ``` java
     @Test
     public void parse_validArgs_returnsFindCommand() {
+
+        //--------------------- Tests for name parameter --------------------------------------
+
         // no leading and trailing whitespaces
         FindCommand expectedFindNameCommand =
                 new FindCommand(new NameContainsKeywordsPredicate(Arrays.asList("Alice", "Bob")));
@@ -352,6 +384,10 @@ public class ConvertCommandParserTest {
 
         // multiple whitespaces between keywords
         assertParseSuccess(parser, "n/Alice \n \t Bob  \t", expectedFindNameCommand);
+        // multiple whitespaces between keywords
+        assertParseSuccess(parser, "n/  Alice \n \t Bob  \t", expectedFindNameCommand);
+
+        //--------------------- Tests for tag parameter --------------------------------------
 
         FindCommand expectedFindTagCommand =
                 new FindCommand(new TagContainsKeywordsPredicate(Arrays.asList("owesMoney", "friends")));
@@ -360,6 +396,10 @@ public class ConvertCommandParserTest {
 
         // multiple whitespaces between keywords
         assertParseSuccess(parser, "t/owesMoney\t friends  \t", expectedFindTagCommand);
+        // multiple whitespaces between keywords
+        assertParseSuccess(parser, "t/   owesMoney\t friends  \t", expectedFindTagCommand);
+
+        //--------------------- Tests for address parameter --------------------------------------
 
         FindCommand expectedFindAddressCommand =
                 new FindCommand(new AddressContainsKeywordsPredicate(Arrays.asList("clementi", "avenue")));
@@ -368,6 +408,10 @@ public class ConvertCommandParserTest {
 
         // multiple whitespaces between keywords
         assertParseSuccess(parser, "a/clementi\t avenue  \t", expectedFindAddressCommand);
+        // multiple whitespaces between keywords
+        assertParseSuccess(parser, "a/  clementi\t avenue  \t", expectedFindAddressCommand);
+
+        //--------------------- Tests for phone parameter --------------------------------------
 
         FindCommand expectedFindPhoneCommand =
                 new FindCommand(new PhoneContainsKeywordsPredicate(Arrays.asList("94945000")));
@@ -376,6 +420,7 @@ public class ConvertCommandParserTest {
 
         // multiple whitespaces between keywords
         assertParseSuccess(parser, "p/94945000 \t", expectedFindPhoneCommand);
+        assertParseSuccess(parser, "p/   94945000 \t", expectedFindPhoneCommand);
     }
 
 }

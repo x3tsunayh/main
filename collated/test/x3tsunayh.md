@@ -1,4 +1,53 @@
 # x3tsunayh
+###### \java\guitests\guihandles\BrowserPanelHandle.java
+``` java
+
+/**
+ * A handler for the {@code BrowserPanel} of the UI.
+ */
+public class BrowserPanelHandle extends StageHandle {
+
+    public static final String GOOGLE_WINDOW_TITLE = "Google";
+    private static final String GOOGLE_WINDOW_BROWSER_ID = "#browser";
+
+    private boolean isWebViewLoaded = true;
+
+    public BrowserPanelHandle(Stage browserPanelStage) {
+        super(browserPanelStage);
+        WebView webView = getChildNode(GOOGLE_WINDOW_BROWSER_ID);
+        WebEngine engine = webView.getEngine();
+        new GuiRobot().interact(() -> engine.getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
+            if (newState == Worker.State.RUNNING) {
+                isWebViewLoaded = false;
+            } else if (newState == Worker.State.SUCCEEDED) {
+                isWebViewLoaded = true;
+            }
+        }));
+    }
+
+    /**
+     * Returns true if a Google window is currently present in the application.
+     */
+    public static boolean isWindowPresent() {
+        return new GuiRobot().isWindowShown(GOOGLE_WINDOW_TITLE);
+    }
+
+    /**
+     * Returns the {@code URL} of the currently loaded page.
+     */
+    public URL getLoadedUrl() {
+        return WebViewUtil.getLoadedUrl(getChildNode(GOOGLE_WINDOW_BROWSER_ID));
+    }
+
+    /**
+     * Returns true if the browser is done loading a page, or if this browser has yet to load any page.
+     * Returns the {@code URL} of the currently loaded page.
+     */
+    public boolean isLoaded() {
+        return isWebViewLoaded;
+    }
+}
+```
 ###### \java\guitests\guihandles\EventCardHandle.java
 ``` java
 
@@ -104,7 +153,7 @@ public class EventListPanelHandle extends NodeHandle<ListView<EventCard>> {
     /**
      * Navigates the listview to display and select the event.
      */
-    public void navigateToCard(Event event) {
+    public void navigateToCard(ReadOnlyEvent event) {
         List<EventCard> cards = getRootNode().getItems();
         Optional<EventCard> matchingCard = cards.stream().filter(card -> card.event.equals(event)).findFirst();
 
@@ -177,6 +226,37 @@ public class EventListPanelHandle extends NodeHandle<ListView<EventCard>> {
      */
     public int getListSize() {
         return getRootNode().getItems().size();
+    }
+}
+```
+###### \java\guitests\guihandles\LinkedInWindowHandle.java
+``` java
+
+/**
+ * A handle to the {@code LinkedInWindow} of the application.
+ */
+public class LinkedInWindowHandle extends StageHandle {
+
+    public static final String LINKEDIN_WINDOW_TITLE = "LinkedIn";
+
+    private static final String LINKEDIN_WINDOW_BROWSER_ID = "#browser";
+
+    public LinkedInWindowHandle(Stage linkedInWindowStage) {
+        super(linkedInWindowStage);
+    }
+
+    /**
+     * Returns true if a LinkedIn window is currently present in the application.
+     */
+    public static boolean isWindowPresent() {
+        return new GuiRobot().isWindowShown(LINKEDIN_WINDOW_TITLE);
+    }
+
+    /**
+     * Returns the {@code URL} of the currently loaded page.
+     */
+    public URL getLoadedUrl() {
+        return WebViewUtil.getLoadedUrl(getChildNode(LINKEDIN_WINDOW_BROWSER_ID));
     }
 }
 ```
@@ -1190,6 +1270,84 @@ public class DatetimeTest {
     }
 }
 ```
+###### \java\seedu\address\model\event\TitleContainsKeywordsPredicateTest.java
+``` java
+
+public class TitleContainsKeywordsPredicateTest {
+
+    @Test
+    public void equals() {
+        List<String> firstPredicateKeywordList = Collections.singletonList("firstEvent");
+        List<String> secondPredicateKeywordList = Arrays.asList("firstEvent", "firstEvent");
+
+        TitleContainsKeywordsPredicate firstPredicate =
+                new TitleContainsKeywordsPredicate(firstPredicateKeywordList);
+        TitleContainsKeywordsPredicate secondPredicate =
+                new TitleContainsKeywordsPredicate(secondPredicateKeywordList);
+
+        // same object -> returns true
+        assertTrue(firstPredicate.equals(firstPredicate));
+
+        // same values -> returns true
+        TitleContainsKeywordsPredicate firstPredicateCopy =
+                new TitleContainsKeywordsPredicate(firstPredicateKeywordList);
+
+        // different types -> returns false
+        assertFalse(firstPredicate.equals(5));
+
+        // null -> returns false
+        assertFalse(firstPredicate.equals(null));
+
+        // different task -> returns false
+        assertFalse(firstPredicate.equals(secondPredicate));
+    }
+
+    @Test
+    public void test_eventNameContainsKeywords_returnsTrue() {
+        // One keyword
+        TitleContainsKeywordsPredicate predicate =
+                new TitleContainsKeywordsPredicate(Collections.singletonList("EventOne"));
+        assertTrue(predicate.test((new EventBuilder().withTitle("EventOne").build())));
+
+        // Multiple keywords
+        predicate = new TitleContainsKeywordsPredicate(Arrays.asList("EventOne", "Project"));
+        assertTrue(predicate.test(new EventBuilder().withTitle("EventOne Project").build()));
+
+        // Only one matching keyword
+        predicate = new TitleContainsKeywordsPredicate(Arrays.asList("EventOne", "NA"));
+        assertTrue(predicate.test(new EventBuilder().withTitle("EventOne is over").build()));
+
+        // Mixed-case keywords
+        predicate = new TitleContainsKeywordsPredicate(Arrays.asList("EvenTONe", "pRojEct"));
+        assertTrue(predicate.test(new EventBuilder().withTitle("EventOne Project").build()));
+
+        // Uppercase keywords
+        predicate = new TitleContainsKeywordsPredicate(Arrays.asList("RANDOMEVENT", "PROJECT"));
+        assertTrue(predicate.test(new EventBuilder().withTitle("TaskRandom Project").build()));
+
+        // Different keywords order
+        predicate = new TitleContainsKeywordsPredicate(Arrays.asList("Project", "EventOne"));
+        assertTrue(predicate.test(new EventBuilder().withTitle("EventOne Project").build()));
+
+        // Partial keywords
+        predicate = new TitleContainsKeywordsPredicate(Arrays.asList("ject", "Event"));
+        assertTrue(predicate.test(new EventBuilder().withTitle("EventOne Project").build()));
+    }
+
+    @Test
+    public void test_taskNameDoesNotContainKeywords_returnsFalse() {
+        // Zero keywords
+        TitleContainsKeywordsPredicate predicate = new TitleContainsKeywordsPredicate(Collections.emptyList());
+        assertFalse(predicate.test(new EventBuilder().withTitle("Event").build()));
+
+        // Non-matching keyword
+        predicate = new TitleContainsKeywordsPredicate(Arrays.asList("unrelated"));
+        assertFalse(predicate.test(new EventBuilder().withTitle("Event Project").build()));
+
+    }
+
+}
+```
 ###### \java\seedu\address\model\event\UniqueEventListTest.java
 ``` java
 
@@ -1511,6 +1669,164 @@ public class TypicalEvents {
 
     public static List<ReadOnlyEvent> getTypicalEvents() {
         return new ArrayList<>(Arrays.asList(CHRISTMAS, CNY, MOVIE, REUNION));
+    }
+}
+```
+###### \java\seedu\address\ui\BrowserPanelTest.java
+``` java
+
+public class BrowserPanelTest extends GuiUnitTest {
+
+    private BrowserPanel browserPanel;
+    private BrowserPanelHandle browserPanelHandle;
+
+    @Before
+    public void setUp() throws Exception {
+        guiRobot.interact(() -> browserPanel = new BrowserPanel(null));
+        Stage browserPanelStage = FxToolkit.setupStage((stage) -> stage.setScene(browserPanel.getRoot().getScene()));
+        FxToolkit.showStage();
+        browserPanelHandle = new BrowserPanelHandle(browserPanelStage);
+    }
+
+    @Test
+    public void display() {
+        URL expectedGooglePage = null;
+        try {
+            expectedGooglePage = new URL(GOOGLE_URL);
+        } catch (MalformedURLException e) {
+            throw new AssertionError("Google URL broken");
+        }
+        assertEquals(expectedGooglePage, browserPanelHandle.getLoadedUrl());
+    }
+}
+```
+###### \java\seedu\address\ui\EventCardTest.java
+``` java
+
+public class EventCardTest extends GuiUnitTest {
+
+    @Test
+    public void display() {
+
+        Event eventToBeDisplayed = new EventBuilder().withTitle("Event Title").build();
+        EventCard eventCard = new EventCard(eventToBeDisplayed, 1);
+        uiPartRule.setUiPart(eventCard);
+        assertCardDisplay(eventCard, eventToBeDisplayed, 1);
+
+    }
+
+    @Test
+    public void equals() {
+        Event event = new EventBuilder().build();
+        EventCard eventCard = new EventCard(event, 0);
+
+        // same event, same index -> returns true
+        EventCard copy = new EventCard(event, 0);
+        assertTrue(eventCard.equals(copy));
+
+        // same object -> returns true
+        assertTrue(eventCard.equals(eventCard));
+
+        // null -> returns false
+        assertFalse(eventCard.equals(null));
+
+        // different types -> returns false
+        assertFalse(eventCard.equals(0));
+
+        // different event, same index -> returns false
+        Event differentEvent = new EventBuilder().withTitle("differentEvent").build();
+        assertFalse(eventCard.equals(new EventCard(differentEvent, 0)));
+
+        // same event, different index -> returns false
+        assertFalse(eventCard.equals(new EventCard(event, 1)));
+    }
+
+    /**
+     * Asserts that {@code eventCard} displays the details of {@code expectedEvent} correctly and matches
+     * {@code expectedId}.
+     */
+    private void assertCardDisplay(EventCard eventCard, Event expectedEvent, int expectedId) {
+        guiRobot.pauseForHuman();
+
+        EventCardHandle eventCardHandle = new EventCardHandle(eventCard.getRoot());
+
+        // verify id is displayed correctly
+        assertEquals(Integer.toString(expectedId) + ". ", eventCardHandle.getId());
+
+        // verify event details are displayed correctly
+        assertCardDisplaysEvent(expectedEvent, eventCardHandle);
+    }
+}
+```
+###### \java\seedu\address\ui\EventListPanelTest.java
+``` java
+
+public class EventListPanelTest extends GuiUnitTest {
+    private static final ObservableList<ReadOnlyEvent> TYPICAL_EVENTS =
+            FXCollections.observableList(getTypicalEvents());
+
+    private static final JumpToListRequestEvent JUMP_TO_SECOND_EVENT = new JumpToListRequestEvent(INDEX_SECOND_PERSON);
+
+    private EventListPanelHandle eventListPanelHandle;
+
+    @Before
+    public void setUp() {
+        EventListPanel eventListPanel = new EventListPanel(TYPICAL_EVENTS);
+        uiPartRule.setUiPart(eventListPanel);
+
+        eventListPanelHandle = new EventListPanelHandle(getChildNode(eventListPanel.getRoot(),
+                EventListPanelHandle.EVENT_LIST_VIEW_ID));
+    }
+
+    @Test
+    public void display() {
+        for (int i = 0; i < TYPICAL_EVENTS.size(); i++) {
+            eventListPanelHandle.navigateToCard(TYPICAL_EVENTS.get(i));
+            ReadOnlyEvent expectedEvent = TYPICAL_EVENTS.get(i);
+            EventCardHandle actualCard = eventListPanelHandle.getEventCardHandle(i);
+
+            assertCardDisplaysEvent(expectedEvent, actualCard);
+            assertEquals(Integer.toString(i + 1) + ". ", actualCard.getId());
+        }
+    }
+
+    @Test
+    public void handleJumpToListRequestEvent() {
+        postNow(JUMP_TO_SECOND_EVENT);
+        guiRobot.pauseForHuman();
+
+        EventCardHandle expectedCard = eventListPanelHandle.getEventCardHandle(INDEX_SECOND_PERSON.getZeroBased());
+        EventCardHandle selectedCard = eventListPanelHandle.getHandleToSelectedCard();
+        assertCardEquals(expectedCard, selectedCard);
+    }
+}
+```
+###### \java\seedu\address\ui\LinkedInWindowTest.java
+``` java
+
+public class LinkedInWindowTest extends GuiUnitTest {
+
+    private LinkedInWindow linkedInWindow;
+    private LinkedInWindowHandle linkedInWindowHandle;
+
+    @Before
+    public void setUp() throws Exception {
+        guiRobot.interact(() -> linkedInWindow = new LinkedInWindow());
+        Stage linkedInWindowStage = FxToolkit.setupStage((stage)
+            -> stage.setScene(linkedInWindow.getRoot().getScene()));
+        FxToolkit.showStage();
+        linkedInWindowHandle = new LinkedInWindowHandle(linkedInWindowStage);
+    }
+
+    @Test
+    public void display() {
+        URL expectedLinkedInPage = null;
+        try {
+            expectedLinkedInPage = new URL(LINKEDIN_URL);
+        } catch (MalformedURLException e) {
+            throw new AssertionError("LinkedIn URL broken");
+        }
+        assertEquals(expectedLinkedInPage, linkedInWindowHandle.getLoadedUrl());
     }
 }
 ```

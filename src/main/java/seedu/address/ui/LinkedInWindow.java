@@ -14,7 +14,7 @@ import seedu.address.commons.core.LogsCenter;
  */
 public class LinkedInWindow extends UiPart<Stage> {
 
-    public static final String LINKEDIN_URL = "https://www.linkedin.com";
+    public static final String LINKEDIN_URL = "https://www.linkedin.com/";
 
     private static final Logger logger = LogsCenter.getLogger(LinkedInWindow.class);
     private static final String FXML = "LinkedInWindow.fxml";
