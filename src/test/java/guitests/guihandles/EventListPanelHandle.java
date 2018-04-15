@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javafx.scene.control.ListView;
 import seedu.address.model.event.Event;
+import seedu.address.model.event.ReadOnlyEvent;
 import seedu.address.ui.EventCard;
 
 //@@author x3tsunayh
@@ -59,7 +60,7 @@ public class EventListPanelHandle extends NodeHandle<ListView<EventCard>> {
     /**
      * Navigates the listview to display and select the event.
      */
-    public void navigateToCard(Event event) {
+    public void navigateToCard(ReadOnlyEvent event) {
         List<EventCard> cards = getRootNode().getItems();
         Optional<EventCard> matchingCard = cards.stream().filter(card -> card.event.equals(event)).findFirst();
 

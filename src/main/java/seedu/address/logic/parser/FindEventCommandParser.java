@@ -23,18 +23,16 @@ public class FindEventCommandParser implements Parser<FindEventCommand> {
      */
     public FindEventCommand parse(String args) throws ParseException {
         String trimmedArgs = args.trim();
-        if (trimmedArgs.isEmpty()) {
+        if (trimmedArgs.isEmpty() || trimmedArgs.length() < 3) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindEventCommand.MESSAGE_USAGE));
         }
-        if (trimmedArgs.substring(0, 2).equals("et")) {
+        if (trimmedArgs.substring(0, 3).equals("et/")) {
             TitleContainsKeywordsPredicate.setPredicateType("et");
-        } else if (trimmedArgs.substring(0, 3).equals("edt")) {
-            TitleContainsKeywordsPredicate.setPredicateType("edt");
-        } else if (trimmedArgs.substring(0, 2).equals("ed")) {
+        } else if (trimmedArgs.substring(0, 3).equals("ed/")) {
             TitleContainsKeywordsPredicate.setPredicateType("ed");
-        } else if (trimmedArgs.substring(0, 2).equals("em")) {
-            TitleContainsKeywordsPredicate.setPredicateType("em");
+        } else if (trimmedArgs.length() > 3 && trimmedArgs.substring(0, 4).equals("edt/")) {
+            TitleContainsKeywordsPredicate.setPredicateType("edt");
         } else {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindEventCommand.MESSAGE_USAGE));
@@ -44,6 +42,11 @@ public class FindEventCommandParser implements Parser<FindEventCommand> {
             trimmedArgs = trimmedArgs.substring(4).trim();
         } else {
             trimmedArgs = trimmedArgs.substring(3).trim();
+        }
+
+        if (trimmedArgs.equals("")) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindEventCommand.MESSAGE_USAGE));
         }
 
         String[] titleKeywords = trimmedArgs.split("\\s+");
