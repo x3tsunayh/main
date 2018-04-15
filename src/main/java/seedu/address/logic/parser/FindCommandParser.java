@@ -7,7 +7,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.Arrays;
-import java.util.List;
 
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -27,7 +26,6 @@ public class FindCommandParser implements Parser<FindCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     public FindCommand parse(String args) throws ParseException {
-        List<Prefix> prefixLists = Arrays.asList(PREFIX_NAME, PREFIX_TAG);
 
         String trimmedArgs = args.trim();
         if (trimmedArgs.isEmpty()) {
@@ -37,6 +35,12 @@ public class FindCommandParser implements Parser<FindCommand> {
 
         //@@author jill858
         String targetPrefix = getPrefix(trimmedArgs);
+
+        if (isEmptyKeywords(trimmedArgs)) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+        }
+
         String[] keywords = getKeywords(trimmedArgs);
 
         if (targetPrefix.equals(PREFIX_NAME.getPrefix())) {
@@ -55,7 +59,7 @@ public class FindCommandParser implements Parser<FindCommand> {
 
     //@@author jill858
     /**
-     * Extract the search type (
+     * Extract the search type
      * @param args command line input
      * @return type of search field
      */
@@ -65,16 +69,26 @@ public class FindCommandParser implements Parser<FindCommand> {
 
     //@@author jill858
     /**
+     * Check if there is keyword input provided by the user
+     * @param keywords keywords input by the user
+     * @return true is there is no keywords entered by the user
+     */
+    private static boolean isEmptyKeywords(String keywords) {
+        return (keywords.substring(2)).length() == 0;
+    }
+
+    //@@author jill858
+    /**
      * Extract keywords out from the command input
      * @param args command line input
      * @return list of keywords
      */
     private static String[] getKeywords(String args) {
-        String[] keywords;
-
         String removePrefixKeywords = args.substring(2);
 
-        return keywords = removePrefixKeywords.split("\\s+");
+        String trimKeywords = removePrefixKeywords.trim();
+
+        return trimKeywords.split("\\s+");
     }
 
 }
