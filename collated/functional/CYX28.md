@@ -1861,7 +1861,6 @@ public class TaskBook implements ReadOnlyTaskBook {
 ```
 ###### \java\seedu\address\model\util\SampleDataUtil.java
 ``` java
-
     public static Task[] getSampleTasks() {
         return new Task[] {
             new Task(new TaskName("Programming Project"), new TaskPriority("low"),
@@ -1870,7 +1869,7 @@ public class TaskBook implements ReadOnlyTaskBook {
                 getTaskCategorySet("personal", "interest")),
             new Task(new TaskName("Project meeting with the group and department"), new TaskPriority("high"),
                 new TaskDescription("Finalise on project features"),
-                new TaskDueDate("2018-04-18"), new TaskStatus("undone"),
+                new TaskDueDate("2018-04-22"), new TaskStatus("undone"),
                 getTaskCategorySet("meeting", "ahighprofileprojectthatcannotbedelayedanymore")),
             new Task(new TaskName("Follow up with boss"), new TaskPriority("medium"),
                 new TaskDescription("Present proposal to boss regarding project concerns"),
@@ -1920,18 +1919,6 @@ public class TaskBook implements ReadOnlyTaskBook {
     }
 
     /**
-     * Returns a tag set containing the list of strings given.
-     */
-    public static Set<Tag> getTagSet(String... strings) {
-        HashSet<Tag> tags = new HashSet<>();
-        for (String s : strings) {
-            tags.add(new Tag(s));
-        }
-
-        return tags;
-    }
-
-    /**
      * Returns a task category set containing the list of strings given.
      */
     public static Set<TaskCategory> getTaskCategorySet(String... strings) {
@@ -1942,7 +1929,7 @@ public class TaskBook implements ReadOnlyTaskBook {
 
         return taskCategories;
     }
-}
+
 ```
 ###### \java\seedu\address\storage\TaskBookStorage.java
 ``` java

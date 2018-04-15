@@ -27,11 +27,11 @@ With all these goals in mind, BizConnect Journal is developed to ease the manage
 * *Major enhancement*: Task feature to facilitate *task management*
 
 ** *What it does*:
-It allows the businessman to add, delete, edit, find tasks by name and list all tasks. Also, the task list is
+It allows the businessman to add, delete, edit, find tasks by name, list and clear tasks. Also, the task list is
 default sorted by status (i.e. undone to done), due date in ascending order and priority level (high > medium > low).
 
 ** *Justification*:
-This feature allows the management of task conveniently. This is especially useful when the businessman needs to quickly
+This feature allows the management of task conveniently. It is especially useful when the businessman needs to quickly
 note down any task, without the worry of missing out important details. Furthermore, edit and delete allows the
 businessman to update any task details and remove any completed task respectively. This helps to keep the task list
 up-to-date with the businessman's current schedule.
@@ -55,8 +55,8 @@ multiple contacts spanning across different alphabets in sequential order.
 *** Wrote project description in Project Portfolio with team
 
 ** Community:
-*** Reported bugs and suggestions for other teams in the class (examples: https://github.com/CS2103JAN2018-T09-B4/main/issues/140,
-https://github.com/CS2103JAN2018-T09-B4/main/issues/143, https://github.com/CS2103JAN2018-T09-B4/main/issues/153)
+*** Reported bugs and suggestions for other teams in the class (examples: https://github.com/CS2103JAN2018-T09-B4/main/issues/140[1],
+https://github.com/CS2103JAN2018-T09-B4/main/issues/143[2], https://github.com/CS2103JAN2018-T09-B4/main/issues/153[3])
 
 == Contributions to the User Guide
 
