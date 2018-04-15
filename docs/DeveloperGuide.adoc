@@ -1774,6 +1774,78 @@ Use case ends.
 +
 Use case ends.
 
+[discrete]
+=== Use case: Find by name
+
+*MSS*
+
+1.  User search a name
+2. Person containing this name is found
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 1a. The list is empty.
+** i. No such name found and error message is displayed
++
+Use case ends.
+
+[discrete]
+=== Use case: Find by tag
+
+*MSS*
+
+1.  User search a tag
+2.  Person containing this tag is found
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 1a. The list is empty.
+** i. No such tag found and error message is displayed
++
+Use case ends.
+
+[discrete]
+=== Use case: Find by address
+
+*MSS*
+
+1.  User search a address
+2.  Person containing this address is found
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 1a. The list is empty.
+** i. No such address found and error message is displayed
++
+Use case ends.
+
+[discrete]
+=== Use case: Find by phone
+
+*MSS*
+
+1.  User search a phone
+2.  Person containing this phone is found
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 1a. The list is empty.
+** i. No such phone found and error message is displayed
++
+Use case ends.
+
 [appendix]
 == Non Functional Requirements
 
