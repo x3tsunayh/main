@@ -1988,7 +1988,7 @@ _{ more test cases ... }_
 
 .. Other correct sort commands: Adding any character or number after the command separated with a whitespace +
    Expected: All contacts in the list are sorted alphabetically by name in ascending order.
-   
+
 === Adding an event
 
 . Adds a new event
@@ -2030,12 +2030,12 @@ _{ more test cases ... }_
 .. Other incorrect deleteevent commands to try: `deleteevent`, `deleteevent x` (where x is larger than the list size) +
    Expected: No event is deleted. Error details shown in the status message. Status bar remains the same.
 .. Test case: `task-delete 0` +
-   Expected: Similar to previous.   
+   Expected: Similar to previous.
 .. Test case: `task-delete -3` +
    Expected: Similar to previous.
 .. Test case: `task-delete 3.0` +
    Expected: Similar to previous.
-   
+
 === Listing all events
 
 . List all events
