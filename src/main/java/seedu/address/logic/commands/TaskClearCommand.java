@@ -12,7 +12,7 @@ public class TaskClearCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "task-clear";
     public static final String COMMAND_ALIAS = "tc";
-    public static final String MESSAGE_SUCCESS = "Task book has been cleared!";
+    public static final String MESSAGE_SUCCESS = "Task list has been cleared!";
 
     @Override
     public CommandResult executeUndoableCommand() {
