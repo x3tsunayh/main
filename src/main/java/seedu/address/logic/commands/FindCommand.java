@@ -5,7 +5,8 @@ import java.util.function.Predicate;
 import seedu.address.model.person.Person;
 
 /**
- * Finds and lists all persons in address book whose name or tags contains any of the keywords or partial keywords.
+ * Finds and lists all persons in address book whose names, tags, addresses, or phones
+ * contains any of the keywords or partial keywords.
  * Keyword matching is case insensitive.
  */
 public class FindCommand extends Command {
@@ -13,7 +14,7 @@ public class FindCommand extends Command {
     public static final String COMMAND_WORD = "find";
     public static final String COMMAND_ALIAS = "f";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds persons whose "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Find persons whose "
             + "Names (n/) or Tags (t/) or Phones (p/) or Addresses (a/) contain any of "
             + "the keywords (case-insensitive) and displays them as a list with index numbers.\n"
             + "Parameters: [PREFIX]/KEYWORD [MORE_KEYWORDS]... \n"

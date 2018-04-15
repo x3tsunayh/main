@@ -34,6 +34,11 @@ public class FindCommandParser implements Parser<FindCommand> {
         }
 
         //@@author jill858
+        if (!isValidPrefixFormat(trimmedArgs)) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+        }
+
         String targetPrefix = getPrefix(trimmedArgs);
 
         if (isEmptyKeywords(trimmedArgs)) {
@@ -55,6 +60,16 @@ public class FindCommandParser implements Parser<FindCommand> {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
         }
+    }
+
+    //@@author jill858
+    /**
+     * Check if valid prefix format is provided by the user
+     * @param args command line input by the user
+     * @return true if it is a valid prefix provided by the user
+     */
+    private static boolean isValidPrefixFormat(String args) {
+        return args.length() > 2;
     }
 
     //@@author jill858
@@ -90,5 +105,7 @@ public class FindCommandParser implements Parser<FindCommand> {
 
         return trimKeywords.split("\\s+");
     }
+
+
 
 }
