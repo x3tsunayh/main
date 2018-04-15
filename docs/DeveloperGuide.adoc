@@ -363,21 +363,12 @@ image::UndoRedoActivityDiagram.png[width="650"]
 ==== Current Implementation
 
 The sort mechanism sorts the persons list alphabetically by name. It currently supports sorting in ascending order.
-
 The internal details of the sort mechanism is handled by the `sort` method in `UniquePersonList` class.
-The sort mechanism is implemented using a custom comparator in JavaFX ObservableList `sort` method as follows:
-
-[source,java]
-----
-public void sort() {
-    internalList.sort((person1, person2) -> person1.getName().toString()
-            .compareToIgnoreCase(person2.getName().toString()));
-}
-----
+The sort mechanism is implemented using a custom comparator in JavaFX ObservableList `sort` method.
 
 The following sequence diagram shows how the sort persons operation works.
 
-image::SortingSequenceDiagram.png[width="800"]
+image::SortingSequenceDiagram.png[width="590"]
 
 . The user executes the `sort` command.
 . The `AddressBookParser` class parses the command and create a new `SortCommand` class.
@@ -434,7 +425,7 @@ Need to ensure that the image is not deleted, or it won't display. +
 **Aspect:** Putting a limit on profile picture size +
 
 **Chosen Implementation:** +
-Set a limit of 5mb for each picture
+Set a limit of 5mb for each picture. +
 **Pros:** +
 Prevents a malicious user from trying to crash the app by putting a large image.
 **Cons:** +
@@ -447,7 +438,7 @@ User can upload any image. +
 **Cons:** +
 App may be unstable if too many large images.
 
-// end::addpicure[]
+// end::addpicture[]
 
 // tag::resetpicture[]
 === Reset Profile Picture feature
@@ -476,8 +467,9 @@ Create a new picture object. +
 **Pros:** +
 Easier if developer decides to change the path of the default picture, or the properties of the Picture class +
 **Cons:** +
-Creating a new object each time may incur some overhead, but probably insignificant on a modern PC.
-// end::resetpicure[]
+Creating a new object each time may incur some overhead, but probably insignificant on a modern PC. +
+
+// end::resetpicture[]
 
 // tag::findFeature[]
 === Find feature
@@ -518,9 +510,11 @@ It is modify such that able to find by name and tag by specifying the type to be
 . The `FindCommandParse` will compare the search type to check if search is by tag and parse the keywords to `FindCommand`
 . The `FindCommand` object is created, and assisted by `PhoneContainsKeywordsPredicate` to obtain the result.
 . The  result is then return and displayed to the user.
-//end::findFeature[]
 
-// tag::addtag[]
+// end::findFeature[]
+
+// tag::addTAG[]
+
 === Add Tag to Contact
 
 The add tag command inherits from `UndoableCommand`.
@@ -539,9 +533,10 @@ image::AddTagSequenceDiagram.PNG[width="800"]
 . The new `Tag` is attached to the `Person` at `INDEX`.
 . `updatePerson` in `ModelManager` updates the person at `INDEX` with a new person with the added tags.
 
-// end::addtag[]
+// end::addTAG[]
 
 // tag::deletebyname[]
+
 === Delete Contact by Name
 ==== Current Implementation
 The Delete Contact by Name command inherits from `UndoableCommand`.
@@ -686,28 +681,22 @@ All of the fields are compulsory except category.
 
 Format: `task-add n/NAME p/PRIORITY d/DESCRIPTION dd/DUE_DATE s/STATUS [c/CATEGORY]...`
 
-Validations are performed for each of the fields to ensure that invalid values will result in appropriate error messages.
-Some examples are as follows:
-
-image::DG_AddTask_1.PNG[width="800"]
-Task with invalid priority value.
-
-image::DG_AddTask_2.PNG[width="800"]
-Task with invalid due date format.
-
-Furthermore, if the task to be added already exist in the Address Book, it will result in the following error message.
-
-image::DG_AddTask_3.PNG[width="800"]
-
 The following sequence diagram shows how the add task operation works.
 
-image::TaskAddSequenceDiagram.png[width="800"]
+image::TaskAddSequenceDiagram.png[width="590"]
 
-. The user executes the `task-add` command and specify the required arguments.
-. The `AddressBookParser` class creates a new `TaskAddCommandParser` class to parse the command arguments.
-. The `TaskAddCommandParser` class parses the arguments and create a new `TaskAddCommand` class.
+. The user executes the `task-add` command and specify the required parameters.
+. The `AddressBookParser` class creates a new `TaskAddCommandParser` class to parse the command parameters.
+. The `TaskAddCommandParser` class parses the parameters and create a new `TaskAddCommand` class.
 . The `task-add` command is executed and handled by the `ModelManager` class.
 . The task is added to the list of tasks in Address Book and displayed to the user.
+
+////
+The following activity diagram summarise what happens when a user executes the `task-add` command:
+
+image::TaskAddActivityDiagram.png[width="400"]
+////
+
 // end::task-add[]
 
 // tag::task-delete[]
@@ -719,18 +708,13 @@ the task's index in the displayed Task List.
 
 Format: `task-delete INDEX`
 
-Similarly, validation is performed on the supplied index to ensure its validity.
-
-image::DG_DeleteTask_1.PNG[width="350"]
-There are 7 tasks in the list for this case.
-
 The following sequence diagram shows how the delete task operation works.
 
-image::TaskDeleteSequenceDiagram.png[width="800"]
+image::TaskDeleteSequenceDiagram.png[width="590"]
 
-. The user executes the `task-delete` command and specify the required argument.
-. The `AddressBookParser` class creates a new `TaskDeleteCommandParser` class to parse the command argument.
-. The `TaskDeleteCommandParser` class parses the argument and create a new `TaskDeleteCommand` class.
+. The user executes the `task-delete` command and specify the required parameter.
+. The `AddressBookParser` class creates a new `TaskDeleteCommandParser` class to parse the command parameter.
+. The `TaskDeleteCommandParser` class parses the parameter and create a new `TaskDeleteCommand` class.
 . The `task-delete` command is executed and handled by the `ModelManager` class.
 . The task is removed from the list of tasks in Address Book and the updated task list is displayed to the user.
 // end::task-delete[]
@@ -746,13 +730,17 @@ Format: `task-edit INDEX [n/NAME] [p/PRIORITY] [d/DESCRIPTION] [dd/DUE_DATE] [s/
 
 The following sequence diagram shows how the edit task operation works.
 
-image::TaskEditSequenceDiagram.png[width="800"]
+image::TaskEditSequenceDiagram.png[width="590"]
 
-. The user executes the `task-edit` command and specify the required arguments.
-. The `AddressBookParser` class creates a new `TaskEditCommandParser` class to parse the command arguments.
-. The `TaskEditCommandParser` class parses the arguments and create a new `TaskEditCommand` class.
+. The user executes the `task-edit` command and specify the required parameters.
+. The `AddressBookParser` class creates a new `TaskEditCommandParser` class to parse the command parameters.
+. The `TaskEditCommandParser` class parses the parameters and create a new `TaskEditCommand` class.
 . The `task-edit` command is executed and handled by the `ModelManager` class.
 . The task is updated with the new values and the updated task list is displayed to the user.
+
+The following activity diagram summarise what happens when a user executes the `task-edit` command:
+
+image::TaskEditActivityDiagram.png[width="410"]
 // end::task-edit[]
 
 // tag::task-find[]
@@ -766,12 +754,23 @@ Format: `task-find KEYWORD [MORE_KEYWORDS]...`
 
 The following sequence diagram shows how the find tasks operation works.
 
-image::TaskFindSequenceDiagram.png[width="800"]
-. The user executes the `task-find` command and specify the required argument(s).
-. The `AddressBookParser` class creates a new `TaskFindCommandParser` class to parse the command argument(s).
-. The `TaskFindCommandParser` class parses the argument(s) and create a new `TaskFindCommand` class.
+image::TaskFindSequenceDiagram.png[width="590"]
+. The user executes the `task-find` command and specify the required parameter(s).
+. The `AddressBookParser` class creates a new `TaskFindCommandParser` class to parse the command parameter(s).
+. The `TaskFindCommandParser` class parses the parameter(s) and create a new `TaskFindCommand` class.
 . The `task-find` command is executed and handled by the `ModelManager` class.
 . The list of tasks in Address Book matching the keywords is returned and displayed to the user.
+
+==== Design Considerations
+
+===== Aspect: Implementation of `FindTasks` feature
+
+* **Alternative 1 (current choice):** Find task by name
+** Pros: Easy to implement and does not need to make changes for every newly added field
+** Cons: Lack flexibility in finding by other fields
+* **Alternative 2:** Find tasks by other fields
+** Pros: Allows flexibility in searching
+** Cons: Might be more difficult to implement as changes need to be made for every newly added field to enable searching using those fields
 // end::task-find[]
 
 // tag::task-list[]
@@ -784,7 +783,7 @@ Format: `task-list`
 
 The following sequence diagram shows how the list tasks operation works.
 
-image::TaskListSequenceDiagram.png[width="800"]
+image::TaskListSequenceDiagram.png[width="590"]
 
 . The user executes the `task-list` command.
 . The `AddressBookParser` class parses the command and creates a new `TaskListCommand` class.
@@ -799,10 +798,9 @@ image::TaskListSequenceDiagram.png[width="800"]
 This feature is implemented as a default behaviour of the task list display, rather than as a command.
 
 The sort mechanism sorts the tasks list based on status (i.e. undone to done), due date in ascending order
-and priority level (i.e. high > medium > low).
-
-The internal details of the sort mechanism is handled by the `sortByStatusDueDateAndPriority` method in `UniqueTaskList` class.
-The sort mechanism is implemented using a custom comparator in JavaFX ObservableList `sort` method as follows:
+and priority level (i.e. high > medium > low). The internal details of the sort mechanism is handled by the
+`sortByStatusDueDateAndPriority` method in `UniqueTaskList` class. The sort mechanism is implemented using a
+custom comparator in JavaFX ObservableList `sort` method as follows:
 
 [source,java]
 ----
@@ -823,8 +821,8 @@ public void sortByStatusDueDateAndPriority() {
 
 ===== Aspect: Implementation of `SortTasks` feature
 
-* **Alternative 1 (current choice):** Sort tasks by status > due date > priority
-** Pros: Incomplete tasks are displayed at the top followed by tasks that are due first and those with higher priority
+* **Alternative 1 (current choice):** Sort tasks by multiple fields (status > due date > priority)
+** Pros: Easy identification of tasks to be done as those at the top are incomplete tasks that are due first and with higher priority
 ** Cons: Lack flexibility in sorting by other fields
 * **Alternative 2:** Sort tasks by individual fields
 ** Pros: Allows flexibility in sorting
@@ -840,7 +838,7 @@ The clear tasks feature allows user to clear all the tasks in the Address Book.
 
 The following sequence diagram shows how the clear tasks operation works.
 
-image::TaskClearSequenceDiagram.png[width="800"]
+image::TaskClearSequenceDiagram.png[width="590"]
 
 . The user executes the `task-clear` command.
 . The `AddressBookParser` class parses the command and creates a new `TaskClearCommand` class.
@@ -903,6 +901,28 @@ Upon correct credential input, data files are decrypted and the user will have f
 . The `ModelManager` class will then check for the validity of the credentials and return the corresponding command message.
 
 // end::dataencryption[]
+
+// tag::autoremovecompletedtasks[]
+=== [Proposed] Automatically Remove Completed Tasks
+This feature allows user to set a time limit to remove the completed tasks, so that the task list does not get too lengthy.
+However, the user can also mark completed tasks to be kept in order to retain them.
+After the specified time, the unmarked completed tasks will be removed permanently from the list.
+
+Three new fields need to be added to the Task class, namely `completionDate`, `timeLimit` and `markStatus`. +
+`completionDate` : Date when the task is completed (i.e. changes status from undone to done), it has a default date when first created
+`timeLimit` : Number of days to keep a task after its completion before it is removed from the task list. +
+`markStatus` : Indicate whether the completed task needs to be kept after time limit is over
+
+This feature can be merged into the current task features (e.g. task-add, task-edit)
+For instance, the user can directly specify the time limit and markStatus during task addition,
+and updates to these fields can be done using task-edit command.
+
+This feature works as follows:
+
+. When a task changes its status from undone to done, the completionDate is updated.
+. Every time the application is opened, it will check the current date and automatically remove any unmarked
+  completed task scheduled for removal on today's date.
+// end::autoremovecompletedtasks[]
 
 === Logging
 
@@ -1326,6 +1346,7 @@ but also loves to travel. The Address Book will allow the businessmen to manage 
 note down the tasks to be done, as well as a calendar for them to record important events and check their schedule.
 
 * has a need to manage a significant number of contacts
+* has a need to manage many events and tasks
 * prefer desktop apps over other types
 * can type fast
 * prefers typing over mouse input
@@ -1333,7 +1354,7 @@ note down the tasks to be done, as well as a calendar for them to record importa
 
 *Value proposition*:
 
-* manage contacts faster than a typical mouse/GUI driven app
+* manage contacts, tasks and events faster than a typical mouse/GUI driven app
 * manage contacts, tasks and events from one place to save time for the businessmen with busy schedule
 
 *Feature contribution*:
@@ -1448,6 +1469,8 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 |`* * *` |traveler and businessman |clear all tasks  | conveniently remove all the tasks at once and start with a new list.
 
 |`* * *` |traveler and businessman |convert a sentence or word from one language to another |understand both language at the same time
+
+|`* *` |traveler and businessman |remove unimportant completed tasks automatically |keep an updated succinct task list without unimportant completed tasks for easy viewing
 
 |`* *` |traveler and businessman |subscribe to event |get more information about the event
 
@@ -1789,23 +1812,6 @@ Windows, Linux, Unix, OS-X
 A contact detail that is not meant to be shared with others
 
 [appendix]
-== Product Survey
-
-*Product Name*
-
-Author: ...
-
-Pros:
-
-* ...
-* ...
-
-Cons:
-
-* ...
-* ...
-
-[appendix]
 == Instructions for Manual Testing
 
 Given below are instructions to test the app manually.
@@ -1819,7 +1825,7 @@ These instructions only provide a starting point for testers to work on; testers
 
 .. Download the jar file and copy into an empty folder
 .. Double-click the jar file +
-   Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+   Expected: Shows the GUI with a set of sample contacts, events and tasks. The window size may not be optimum.
 
 . Saving window preferences
 
@@ -1844,3 +1850,166 @@ These instructions only provide a starting point for testers to work on; testers
 . Dealing with missing/corrupted data files
 
 .. _{explain how to simulate a missing/corrupted file and the expected behavior}_
+
+_{ more test cases ... }_
+
+=== Sorting all persons by name
+
+. Sorting all persons alphabetically by name in ascending order and list them
+
+.. Test case: `sort` +
+   Expected: All contacts in the list are sorted alphabetically by name in ascending order.
+   Listed all persons sorted alphabetically by name is shown in the status message.
+.. Test case: `sort extraString` +
+   Expected: All contacts in the list are sorted alphabetically by name in ascending order.
+.. Test case: `sort 123` +
+   Expected: All contacts in the list are sorted alphabetically by name in ascending order.
+
+.. Other correct sort commands: Adding any character or number after the command separated with a whitespace +
+   Expected: All contacts in the list are sorted alphabetically by name in ascending order.
+
+=== Adding a task
+
+. Adds a new task
+
+.. Test case: `task-add n/Agenda for meeting p/high d/Discuss proposal details dd/2018-04-29 s/undone c/meeting` +
+   Expected: The new task is added to the list. Details of the added contact shown in the status message. Timestamp in the status bar is updated.
+.. Test case: `task-add n/Task 1 p/medium d/Description for task 1 dd/2018-05-10 s/undone` +
+   Expected: The new task is added to the list. Details of the added contact shown in the status message. Timestamp in the status bar is updated.
+
+.. Test case: `task-add n/ p/medium d/Description for task 1 dd/2018-05-10 s/undone` +
+   Expected: No task is added. Error details shown in the status message. Status bar remains the same.
+
+.. Test case: `task-add n/Task 1 p/ d/Description for task 1 dd/2018-05-10 s/undone` +
+   Expected: No task is added. Error details shown in the status message. Status bar remains the same.
+.. Test case: `task-add n/Task 1 p/randomString d/ dd/2018-05-10 s/undone` +
+   Expected: No task is added. Error details shown in the status message. Status bar remains the same.
+.. Test case: `task-add n/Task 1 p/123 d/ dd/2018-05-10 s/undone` +
+   Expected: No task is added. Error details shown in the status message. Status bar remains the same.
+
+.. Test case: `task-add n/Task 1 p/medium d/ dd/2018-05-10 s/undone` +
+   Expected: No task is added. Error details shown in the status message. Status bar remains the same.
+
+.. Test case: `task-add n/Task 1 p/medium d/Description for task 1 dd/ s/undone` +
+   Expected: No task is added. Error details shown in the status message. Status bar remains the same.
+.. Test case: `task-add n/Task 1 p/medium d/Description for task 1 dd/2018 05 10 s/undone` +
+   Expected: No task is added. Error details shown in the status message. Status bar remains the same.
+.. Test case: `task-add n/Task 1 p/medium d/Description for task 1 dd/20180510 s/undone` +
+   Expected: No task is added. Error details shown in the status message. Status bar remains the same.
+.. Test case: `task-add n/Task 1 p/medium d/Description for task 1 dd/randomString s/undone` +
+   Expected: No task is added. Error details shown in the status message. Status bar remains the same.
+.. Test case: `task-add n/Task 1 p/medium d/Description for task 1 dd/123 s/undone` +
+   Expected: No task is added. Error details shown in the status message. Status bar remains the same.
+
+.. Test case: `task-add n/Task 1 p/medium d/Description for task 1 dd/2018-05-10 s/` +
+   Expected: No task is added. Error details shown in the status message. Status bar remains the same.
+.. Test case: `task-add n/Task 1 p/medium d/Description for task 1 dd/2018-05-10 s/randomString` +
+   Expected: No task is added. Error details shown in the status message. Status bar remains the same.
+.. Test case: `task-add n/Task 1 p/medium d/Description for task 1 dd/2018-05-10 s/123` +
+   Expected: No task is added. Error details shown in the status message. Status bar remains the same.
+
+.. Other incorrect task-add commands to try: `task-add` +
+   Expected: No task is added. Error details shown in the status message. Status bar remains the same.
+.. Test case: `task-add p/medium d/Description for task 1 dd/2018-05-10 s/undone` +
+   Expected: Similar to previous
+.. Test case: `task-add n/Task 1 d/Description for task 1 dd/2018-05-10 s/undone` +
+   Expected: Similar to previous
+.. Test case: `task-add n/Task 1 p/medium dd/2018-05-10 s/undone` +
+   Expected: Similar to previous
+.. Test case: `task-add n/Task 1 p/medium d/Description for task 1 s/undone` +
+   Expected: Similar to previous
+.. Test case: `task-add n/Task 1 p/medium d/Description for task 1 dd/2018-05-10` +
+   Expected: Similar to previous
+
+=== Deleting a task
+
+. Deleting a task while all tasks are listed
+
+.. Prerequisites: List all tasks using the `task-list` command. Multiple tasks in the list.
+.. Test case: `task-delete 1` +
+   Expected: First task is deleted from the list. Details of the deleted task shown in the status message. Timestamp in the status bar is updated.
+
+.. Other incorrect task-delete commands to try: `task-delete`, `task-delete x` (where x is larger than the list size) +
+   Expected: No task is deleted. Error details shown in the status message. Status bar remains the same.
+.. Test case: `task-delete 0` +
+   Expected: Similar to previous.
+
+=== Editing a task
+
+. Editing a task while all tasks are listed
+
+.. Prerequisites: List all tasks using the `task-list` command. Multiple tasks in the list.
+.. Test case: `task-edit 1 n/Project meeting` +
+   Expected: Name of first task from the list is edited. Details of the edited task shown in the status message. Timestamp in the status bar is updated.
+
+.. Test case: `task-edit 1 p/high` +
+   Expected: Priority of first task from the list is edited. Details of the edited task shown in the status message. Timestamp in the status bar is updated.
+
+.. Test case: `task-edit 1 d/editedDesc` +
+   Expected: Description of first task from the list is edited. Details of the edited task shown in the status message. Timestamp in the status bar is updated.
+
+.. Test case: `task-edit 1 dd/2018-05-10` +
+   Expected: Due date of first task from the list is edited. Details of the edited task shown in the status message. Timestamp in the status bar is updated.
+
+.. Test case: `task-edit 1 s/done` +
+   Expected: Status of first task from the list is edited. Details of the edited task shown in the status message. Timestamp in the status bar is updated.
+
+.. Test case: `task-edit 1 c/meeting c/boss` +
+   Expected: Category of first task from the list is edited. Details of the edited task shown in the status message. Timestamp in the status bar is updated.
+
+.. Other incorrect task-edit commands to try: `task-edit`, `task-edit x` (where x is larger than the list size) +
+   Expected: No task is edited. Error details shown in the status message. Status bar remains the same.
+.. Test case: `task-edit 0` +
+   Expected: Similar to previous.
+
+=== Finding tasks by name
+
+. Finding tasks whose name contain any of the given keywords
+
+.. Test case: `task-find project` +
+   Expected: Returns any task having names that contain `project`. X tasks listed shown in the status message (where X is the number of tasks found).
+
+.. Test case: `task-find PROJECT` +
+   Expected: Returns any task having names that contain `project` or `PROJECT`. X tasks listed shown in the status message (where X is the number of tasks found).
+
+.. Test case: `task-find pro` +
+   Expected: Returns any task having names that contain `pro` e.g. `project`. X tasks listed shown in the status message (where X is the number of tasks found).
+
+.. Test case: `task-find meet project` +
+   Expected: Returns any task having names that contain `meet` or `project`. X tasks listed shown in the status message (where X is the number of tasks found).
+
+.. Test case: `task-find 123` +
+   Expected: Returns any task having names that contain `123`. X tasks listed shown in the status message (where X is the number of tasks found).
+
+.. Other incorrect task-find commands to try: `task-find` +
+   Expected: No task is found. Error details shown in the status message. Status bar remains the same.
+
+=== Listing all tasks
+
+. Lists all tasks
+
+.. Test case: `task-list` +
+   Expected: All tasks in the list are displayed. Listed all tasks shown in the status message.
+.. Test case: `task-list extraString` +
+   Expected: All tasks in the list are displayed. Listed all tasks shown in the status message.
+.. Test case: `task-list 123` +
+   Expected: All tasks in the list are displayed. Listed all tasks shown in the status message.
+
+.. Other correct task-list commands: Adding any character or number after the command separated with a whitespace +
+   Expected: All tasks in the list are displayed. Listed all tasks shown in the status message.
+
+=== Clearing all tasks
+
+. Clears all tasks
+
+.. Test case: `task-clear` +
+   Expected: All tasks removed from the list. Task book has been cleared! shown in the status message. Timestamp in the status bar is updated.
+
+.. Test case: `task-clear extraString` +
+   Expected: All tasks removed from the list. Task book has been cleared! shown in the status message. Timestamp in the status bar is updated.
+
+.. Test case: `task-clear 123` +
+   Expected: All tasks removed from the list. Task book has been cleared! shown in the status message. Timestamp in the status bar is updated.
+
+.. Other correct task-clear commands: Adding any character or number after the command separated with a whitespace +
+   Expected: All tasks removed from the list. Task book has been cleared! shown in the status message. Timestamp in the status bar is updated.

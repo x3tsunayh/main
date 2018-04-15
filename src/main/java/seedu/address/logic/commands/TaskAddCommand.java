@@ -35,7 +35,7 @@ public class TaskAddCommand extends UndoableCommand {
             + PREFIX_TASK_DESCRIPTION + "Discuss proposal details "
             + PREFIX_TASK_DUE_DATE + "2018-04-29 "
             + PREFIX_TASK_STATUS + "undone "
-            + PREFIX_TASK_CATEGORY + "Meeting";
+            + PREFIX_TASK_CATEGORY + "meeting";
 
     public static final String MESSAGE_SUCCESS = "New task added: %1$s";
     public static final String MESSAGE_DUPLICATE_TASK = "This task already exists in the address book";

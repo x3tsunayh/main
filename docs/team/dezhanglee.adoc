@@ -16,7 +16,7 @@ thus the above features will be useful for them as they can access all of them i
 of a separate application for each individual purpose.
 
 At any point in time, the businessman can refer to the calendar and its event list to keep track of upcoming major events, thereby allowing a clear idea on
-what his current schedule is like. In addition, the task list comes in handy to update the user of pending tasks and the tasks’ urgency.
+what his current schedule is like. In addition, the task list comes in handy to update the businessman of pending tasks and the tasks’ urgency.
 This helps them prioritise what needs to be done first.
 
 Besides that, traveling in foreign countries also involves the hassle of not knowing the appropriate amount of money to change.
@@ -80,7 +80,7 @@ include::../UserGuide.adoc[tag=addtag]
 |_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
 |===
 
-include::../DeveloperGuide.adoc[tag=addtag]
+include::../DeveloperGuide.adoc[tag=addTAG]
 
 include::../DeveloperGuide.adoc[tag=addpicture]
 

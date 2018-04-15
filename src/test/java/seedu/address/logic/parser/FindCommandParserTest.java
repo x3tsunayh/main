@@ -25,6 +25,9 @@ public class FindCommandParserTest {
     //@@author jill858
     @Test
     public void parse_validArgs_returnsFindCommand() {
+
+        //--------------------- Tests for name parameter --------------------------------------
+
         // no leading and trailing whitespaces
         FindCommand expectedFindNameCommand =
                 new FindCommand(new NameContainsKeywordsPredicate(Arrays.asList("Alice", "Bob")));
@@ -32,6 +35,10 @@ public class FindCommandParserTest {
 
         // multiple whitespaces between keywords
         assertParseSuccess(parser, "n/Alice \n \t Bob  \t", expectedFindNameCommand);
+        // multiple whitespaces between keywords
+        assertParseSuccess(parser, "n/  Alice \n \t Bob  \t", expectedFindNameCommand);
+
+        //--------------------- Tests for tag parameter --------------------------------------
 
         FindCommand expectedFindTagCommand =
                 new FindCommand(new TagContainsKeywordsPredicate(Arrays.asList("owesMoney", "friends")));
@@ -40,6 +47,10 @@ public class FindCommandParserTest {
 
         // multiple whitespaces between keywords
         assertParseSuccess(parser, "t/owesMoney\t friends  \t", expectedFindTagCommand);
+        // multiple whitespaces between keywords
+        assertParseSuccess(parser, "t/   owesMoney\t friends  \t", expectedFindTagCommand);
+
+        //--------------------- Tests for address parameter --------------------------------------
 
         FindCommand expectedFindAddressCommand =
                 new FindCommand(new AddressContainsKeywordsPredicate(Arrays.asList("clementi", "avenue")));
@@ -48,6 +59,10 @@ public class FindCommandParserTest {
 
         // multiple whitespaces between keywords
         assertParseSuccess(parser, "a/clementi\t avenue  \t", expectedFindAddressCommand);
+        // multiple whitespaces between keywords
+        assertParseSuccess(parser, "a/  clementi\t avenue  \t", expectedFindAddressCommand);
+
+        //--------------------- Tests for phone parameter --------------------------------------
 
         FindCommand expectedFindPhoneCommand =
                 new FindCommand(new PhoneContainsKeywordsPredicate(Arrays.asList("94945000")));
@@ -56,6 +71,7 @@ public class FindCommandParserTest {
 
         // multiple whitespaces between keywords
         assertParseSuccess(parser, "p/94945000 \t", expectedFindPhoneCommand);
+        assertParseSuccess(parser, "p/   94945000 \t", expectedFindPhoneCommand);
     }
 
 }
